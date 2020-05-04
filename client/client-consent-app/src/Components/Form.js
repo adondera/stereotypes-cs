@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Header from "./Form/Header";
 import Body from "./Form/Body";
 import Footer from "./Form/Footer";
-import './Form/style/Form.css'
+import "./Form/style/Form.css";
 
 class Form extends Component {
   constructor(props) {
@@ -15,12 +15,15 @@ class Form extends Component {
   changeText = (event) => {
     this.setState({ text: event.target.value });
   };
+  onSubmit = (submitData) => () => {
+    console.log(submitData);
+  };
   render() {
     return (
-      <div className='Form'>
+      <div className="Form">
         <Header />
         <Body />
-        <Footer />
+        <Footer onSubmit={this.onSubmit} />
       </div>
     );
   }
