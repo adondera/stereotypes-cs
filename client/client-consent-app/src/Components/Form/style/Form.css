@@ -1,5 +1,14 @@
-.Body {
-    text-align: center;
-    width: 50%;
-  }
+.Form {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+.Signature {
+  margin: auto;
+  width: 35%;
+  height: 50px;
+  border-style: solid;
+  border-width: 2px;
+}
   

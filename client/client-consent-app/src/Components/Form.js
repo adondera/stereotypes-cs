@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "./Form/Header";
 import Body from "./Form/Body";
 import Footer from "./Form/Footer";
+import './Form/style/Form.css'
 
 class Form extends Component {
   constructor(props) {
@@ -16,11 +17,11 @@ class Form extends Component {
   };
   render() {
     return (
-      <React.Fragment>
+      <div className='Form'>
         <Header />
         <Body />
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }
