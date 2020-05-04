@@ -12,15 +12,37 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.props = props;
-    this.state = { signed: false };
+    this.state = { 
+      isSigned: false,
+      firstNameChild: "",
+      lastNameChild: "",
+      firstNameParent: "",
+      lastNameParent: "",
+      isSubmittable: false
+  };
   }
 
   signedChanged = (event) => {
-    if (this.state.signed) {
+    if (this.state.isSigned) {
       this.signatureRef.clear();
+      this.setState({isSubmittable: false})
     }
-    this.setState({ signed: !this.state.signed });
+    this.setState({ isSigned: !this.state.isSigned });
   };
+
+  componentDidUpdate(prevProps) {
+
+    if(this.state.isSubmittable) {
+      if (fields.filter((field) => this.state[field.id].length === 0).length > 0) {
+        this.setState({isSubmittable: false})
+      }
+    } 
+    else {
+      if(this.state.isSigned && fields.filter((field) => this.state[field.id].length === 0).length === 0) {
+        this.setState({isSubmittable: this.state.isSigned})
+      }
+    }
+  }
 
   render() {
     return (
@@ -34,6 +56,7 @@ class Footer extends Component {
                   id={field.id}
                   name={field.name}
                   label={field.label}
+                  value={this.state[field.id]}
                   autoComplete={field.autoComplete}
                   onChange={field.onChange.bind(this)}
                 />
@@ -45,7 +68,7 @@ class Footer extends Component {
               control={
                 <Checkbox color="secondary" name="agree" value="yes" />
               }
-              label="Agree to share data and sign consent"
+              label="Agree to share data and sign"
               onClick={this.signedChanged}
             />
           </Grid>
@@ -64,7 +87,7 @@ class Footer extends Component {
           variant="contained"
           color="primary"
           disableElevation
-          disabled={false}
+          disabled={!this.state.isSubmittable}
           onClick={this.props.onSubmit(this.state)}
         >
           Submit
