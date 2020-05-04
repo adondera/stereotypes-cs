@@ -17,4 +17,4 @@ Related issue(s):
 <!-- Any additional context, questions, or notes for the technical writer. -->
 
 
-/label ~documentation ~"Technical Writing"
+/label ~"Technical Writing"
