@@ -30,4 +30,24 @@
   border-color: grey;
   margin-bottom: 20px;
 }
-  
+
+.Paragraph {
+  padding-bottom: 0px;
+  font-size: 10px;
+  color: dimgrey;
+}
+
+.Information {
+  padding-top:  30px;
+  padding-bottom: 30px;
+}
+
+.Titles {
+  color: grey;
+  font-weight: bold;
+}
+
+.Logo {
+  margin: auto;
+  width: 50%;
+}
