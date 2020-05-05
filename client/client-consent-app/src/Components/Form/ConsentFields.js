@@ -1,5 +1,5 @@
 const ValidateConsentInput = function (input) {
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-z\-\s]+$/;
     if(input.length === 0 || input.match(letters)) return true;
     return false;
 }

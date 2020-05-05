@@ -15,11 +15,13 @@ class Footer extends Component {
     this.props = props;
     this.state = { 
       isSigned: false,
+      hasValidFields: false,
+      isSubmittable: false,
+      isAgreed: false,
       firstNameChild: "",
       lastNameChild: "",
       firstNameParent: "",
-      lastNameParent: "",
-      isSubmittable: false
+      lastNameParent: ""
   };
   }
 
@@ -29,29 +31,33 @@ class Footer extends Component {
     this.signatureRef.getCanvas().height = document.getElementById('sigSize').getBoundingClientRect().height
   }
 
-  signedChanged = (event) => {
-    if (this.state.isSigned) {
+  agreedChanged = (event) => {
+    if (this.state.isAgreed) {
       this.signatureRef.clear();
-      this.setState({isSubmittable: false})
+      this.signatureRef.off();
+      this.setState({isSubmittable: false, isSigned: false})
     } else {
       this.signatureRef.on()
     }
-    this.setState({ isSigned: !this.state.isSigned });
+    this.setState({isAgreed: !this.state.isAgreed });
   };
 
   componentDidUpdate(prevProps) {
 
-
-    if(this.state.isSubmittable) {
-      if (fields.filter((field) => this.state[field.id].length === 0).length > 0) {
-        this.setState({isSubmittable: false})
+      if(!this.state.isSigned && !this.signatureRef.isEmpty()) {
+        this.setState({isSigned: true})
       }
-    } 
-    else {
-      if(this.state.isSigned && fields.filter((field) => this.state[field.id].length === 0).length === 0) {
-        this.setState({isSubmittable: this.state.isSigned})
+      if(this.state.isSubmittable === false) {
+        if(this.state.hasValidFields && this.state.isSigned && this.state.isAgreed) {
+          this.setState({isSubmittable: true})
+        }
       }
-    }
+      if (this.state.hasValidFields === true && fields.filter((field) => this.state[field.id].length === 0).length > 0) {
+        this.setState({hasValidFields: false, isSubmittable: false})
+      }
+      if(this.state.hasValidFields === false && fields.filter((field) => this.state[field.id].length === 0).length === 0) {
+        this.setState({hasValidFields: true})
+      }
   }
 
   render() {
@@ -79,7 +85,7 @@ class Footer extends Component {
                 <Checkbox color="secondary" name="agree" value="yes" />
               }
               label="Agree to share data and sign"
-              onClick={this.signedChanged}
+              onClick={this.agreedChanged}
             />
           </Grid>
           <Grid item xs={12} >
@@ -89,6 +95,7 @@ class Footer extends Component {
                   this.signatureRef = ref;
                 }}
                 canvasProps={{ width: this.signatureDiv.width, height: this.signatureDiv.height}}
+                onEnd = {(() => this.setState({isSigned: true}))}
               ></Signature>
             </div>
           </Grid>
