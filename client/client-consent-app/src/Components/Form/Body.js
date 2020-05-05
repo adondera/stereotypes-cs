@@ -1,10 +1,11 @@
 import React from "react";
 import "./style/Form.css";
+import { Typography } from "@material-ui/core";
 
 const Body = () => {
   return (
     <div className="Body">
-      <p>
+      <Typography variant='body1'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis
         dui ligula. Mauris et auctor augue. Cras in est quis tellus cursus
         molestie. Etiam interdum condimentum massa, eget maximus justo bibendum
@@ -16,13 +17,13 @@ const Body = () => {
         eleifend erat. Praesent aliquet est eget libero fringilla, nec dictum
         lectus blandit. Duis a nunc nulla. Pellentesque feugiat neque ipsum, eu
         hendrerit lectus iaculis sed. Morbi vel sem elit.
-      </p>
-      <p>
+      </Typography>
+      <Typography variant='body1'>
         Fusce et convallis sem. Ut lacus ante, auctor vel nisi quis, consequat
         rutrum est. Interdum et malesuada fames ac ante ipsum primis in
         faucibus. Sed eu cursus nisl. Pellentesque id neque quis nulla feugiat
         tempo{" "}
-      </p>
+      </Typography>
     </div>
   );
 };

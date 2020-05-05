@@ -11,6 +11,7 @@ import "./style/Form.css";
 class Footer extends Component {
   constructor(props) {
     super(props);
+    this.signatureDiv = {width: 300, height: 100}
     this.props = props;
     this.state = { 
       isSigned: false,
@@ -22,15 +23,24 @@ class Footer extends Component {
   };
   }
 
+  componentDidMount = () => {
+    this.signatureRef.off()
+    this.signatureRef.getCanvas().width = document.getElementById('sigSize').getBoundingClientRect().width
+    this.signatureRef.getCanvas().height = document.getElementById('sigSize').getBoundingClientRect().height
+  }
+
   signedChanged = (event) => {
     if (this.state.isSigned) {
       this.signatureRef.clear();
       this.setState({isSubmittable: false})
+    } else {
+      this.signatureRef.on()
     }
     this.setState({ isSigned: !this.state.isSigned });
   };
 
   componentDidUpdate(prevProps) {
+
 
     if(this.state.isSubmittable) {
       if (fields.filter((field) => this.state[field.id].length === 0).length > 0) {
@@ -72,13 +82,13 @@ class Footer extends Component {
               onClick={this.signedChanged}
             />
           </Grid>
-          <Grid item xs={12}>
-            <div className="Signature">
+          <Grid item xs={12} >
+            <div className="Signature" id='sigSize' >
               <Signature
                 ref={(ref) => {
                   this.signatureRef = ref;
                 }}
-                canvasProps={{ width: 500, height: 100 }}
+                canvasProps={{ width: this.signatureDiv.width, height: this.signatureDiv.height}}
               ></Signature>
             </div>
           </Grid>
