@@ -1,1 +1,2 @@
-web: gunicorn api/app:app
+cd api
+web: gunicorn app:app
