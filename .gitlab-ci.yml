@@ -2,7 +2,7 @@ image: python:3.8.2
 
 stages:
   - ver
-  - init
+#  - init
 #  - tests
   - deploy
 
@@ -12,12 +12,12 @@ ver:
     - python --version
     - whoami
 
-init:
-  stage: init
-  script:
+#init:
+#  stage: init
+#  script:
 #    - apk add postgresql-dev --no-cache
 #    - pip install psycopg2-binary
-    - pip install -r requirements.txt
+#    - pip install -r requirements.txt
 
 #run_tests:
 #  stage: tests
@@ -34,8 +34,8 @@ deploy_staging:
     - git config user.name "amanolache"
     - git remote remove stage
     - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
-    - git add .
-    - git commit -m 'deploying to staging server'
+#    - git add .
+#    - git commit -m 'deploying to staging server'
     - git push stage server-side_setup:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
   environment:
