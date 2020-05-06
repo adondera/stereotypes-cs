@@ -1,4 +1,4 @@
-image: rbekker87/build-tools:latest
+image: python:3.8.2
 
 stages:
   - ver
@@ -36,8 +36,9 @@ deploy_staging:
   environment:
     name: staging
     url: https://nemo-live-science-dev.herokuapp.com/
-  only:
-    - dev
+  when: manual
+#   only:
+#     - dev
 
 deploy_production:
   stage: deploy
@@ -49,5 +50,5 @@ deploy_production:
     name: production
     url: https://nemo-live-science.herokuapp.com/
   when: manual
-  only:
-    - master
+#   only:
+#     - master
