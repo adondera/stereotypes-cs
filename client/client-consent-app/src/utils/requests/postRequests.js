@@ -1,7 +1,7 @@
 import axios from "../API";
 
 export function postData(data, callback, errorcallback){
-    axios.post('/posts', data)
+    axios.post('/form', data)
         .then(res => {
             //do something
             console.log(res);

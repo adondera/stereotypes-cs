@@ -4,7 +4,6 @@ import Body from "./FormParts/Body";
 import Footer from "./FormParts/Footer";
 import "./FormParts/style/Form.css";
 import { postData } from "../utils/requests/postRequests";
-import { getData } from "../utils/requests/getRequests";
 import Loader from "../common/Loader";
 
 class Form extends Component {
@@ -22,13 +21,11 @@ class Form extends Component {
     this.setState({ text: event.target.value });
   };
   onSubmit = (submitData) => () => {
+    var str = JSON.stringify(submitData, null, 2); // spacing level = 2
+    console.log(str);
     console.log(submitData);
     this.setState({ isLoading: true });
-    //TODO! remove this
-    // example of GET request to URL specified in API.js
-    getData({}, null, null);
-    //TODO! remove this
-    // example of POST request to URL specified in API.js
+    // save the data.
     postData(
       submitData,
       () => {

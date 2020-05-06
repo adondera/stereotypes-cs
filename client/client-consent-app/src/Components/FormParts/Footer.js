@@ -18,6 +18,7 @@ class Footer extends Component {
       hasValidFields: false,
       isSubmittable: false,
       isAgreed: false,
+      signature: null,
       children: [{ firstName: "", lastName: "", isValid: false }],
       parent: { firstName: "", lastName: "", isValid: false },
     };
@@ -124,7 +125,7 @@ class Footer extends Component {
                 width: this.signatureDiv.width,
                 height: this.signatureDiv.height,
               }}
-              onEnd={() => this.setState({ isSigned: true })}
+              onEnd={() => this.setState({ isSigned: true, signature: this.signatureRef.getTrimmedCanvas().toDataURL('image/png')})}
             ></Signature>
           </div>
         </Grid>
