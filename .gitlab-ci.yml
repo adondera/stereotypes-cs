@@ -1,0 +1,53 @@
+image: rbekker87/build-tools:latest
+
+stages:
+  - ver
+  - init
+#  - tests
+  - deploy
+
+ver:
+  stage: ver
+  script:
+    - python --version
+    - whoami
+
+init:
+  stage: init
+  script:
+#    - apk add postgresql-dev --no-cache
+#    - pip install psycopg2-binary
+    - pip install -r requirements.txt
+
+#run_tests:
+#  stage: tests
+#  script:
+#    - apk add postgresql-dev --no-cache
+#    - pip install psycopg2-binary
+#    - pip install -r requirements.txt
+#    - python tests.py
+
+deploy_staging:
+  stage: deploy
+  script:
+    - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
+    - git push stage master
+    - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
+  environment:
+    name: staging
+    url: https://nemo-live-science-dev.herokuapp.com/
+  only:
+    - dev
+
+deploy_production:
+  stage: deploy
+  script:
+    - git remote add pro https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science.git
+    - git push pro master
+    - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
+  environment:
+    name: production
+    url: https://nemo-live-science.herokuapp.com/
+  when: manual
+  only:
+    - master
