@@ -12,6 +12,10 @@ ver:
     - python --version
     - whoami
 
+before_script:
+  - git config user.email "a.d.manolache@student.tudelft.nl"
+  - git config user.name "amanolache"
+
 init:
   stage: init
   script:
