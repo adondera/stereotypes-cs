@@ -29,6 +29,7 @@
   display: inline-block;
   border-color: grey;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .Paragraph {
@@ -53,7 +54,13 @@
 }
 
 .PlusButton {
-  margin-top: 30px;
+  padding-top: 20px;
   margin: auto;
+  text-align: center;
+}
+
+.Loading {
+  width: 100%;
+  margin-top: 30%;
   text-align: center;
 }
