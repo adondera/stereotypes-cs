@@ -27,8 +27,9 @@ def index():
 
 
 @app.route('/form', methods=['POST'])
-def form():
+def form(obj):
     if request.method == 'POST':
+        print(obj)
         return jsonify(ANSWERS[200]), 200
 
     return jsonify(ANSWERS[400]), 400
