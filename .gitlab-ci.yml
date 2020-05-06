@@ -32,6 +32,7 @@ deploy_staging:
   script:
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
+    - git checkout server-side_setup
     - git remote remove stage
     - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
 #    - git add .
