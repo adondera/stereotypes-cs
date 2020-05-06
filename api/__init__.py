@@ -5,7 +5,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
-cors = CORS(app, resources={r"*": {"origins": "localhost"}})
+cors = CORS(app)
+
 db = SQLAlchemy(app)
 POSTGRES = {
     'user': 'wjyyqbjfvwukln',
