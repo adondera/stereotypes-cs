@@ -37,7 +37,7 @@ deploy_staging:
     - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
 #    - git add .
 #    - git commit -m 'deploying to staging server'
-    - git push stage master
+    - git push stage server-side_setup:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
   environment:
     name: staging
