@@ -1,7 +1,7 @@
 autoenv==1.0.0
 click==7.1.2
 Flask==1.1.2
-Flask-SQLAlchemy==2.4.1he
+Flask-SQLAlchemy==2.4.1
 gunicorn==20.0.4
 itsdangerous==1.1.0
 Jinja2==2.11.2
