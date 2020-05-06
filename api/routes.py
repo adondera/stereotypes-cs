@@ -22,9 +22,8 @@ def read_form_data(request, file_keys: List[str]=[]) -> dict:
     #     data.pop(file_key, None) # should not be there as form val
 
     data.update(request.files.to_dict())
-    # if bool(data):
-    #     log_general_info(data)
-    #     return data
+    if bool(data):
+        return data
     return None
 
 
