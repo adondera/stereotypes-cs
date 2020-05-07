@@ -27,19 +27,20 @@ class Footer extends Component {
   componentDidMount = () => {
     this.signatureRef.off();
     this.signatureRef.getCanvas().width = document
-      .getElementById("signature")
-      .getBoundingClientRect().width;
+        .getElementById("signature")
+        .getBoundingClientRect().width;
     this.signatureRef.getCanvas().height = document
-      .getElementById("signature")
-      .getBoundingClientRect().height;
+        .getElementById("signature")
+        .getBoundingClientRect().height;
   };
 
   componentDidUpdate(prevProps) {
     if (!this.state.isSigned && !this.signatureRef.isEmpty()) {
       this.setState({ isSigned: true });
     }
-    var isSubmittableNow = true
-    isSubmittableNow = (this.state.hasValidFields && this.state.isSigned && this.state.isAgreed);
+    var isSubmittableNow = true;
+    isSubmittableNow =
+        this.state.hasValidFields && this.state.isSigned && this.state.isAgreed;
 
     var hasValidFieldsNow = true;
     hasValidFieldsNow &= this.state.parent.isValid;
@@ -78,68 +79,75 @@ class Footer extends Component {
   render() {
     var parent = this.state.parent;
     return (
-      <div className="Footer">
-        <Grid container spacing={3} className="TextFields">
-          <Parent
-            firstName={parent.firstName}
-            lastName={parent.lastName}
-            component={this}
-          />
-          {this.state.children.map((child, index) => {
-            return (
-              <Child
-                firstName={child.firstName}
-                lastName={child.lastName}
-                id={index}
-                key={index}
+        <div className="Footer">
+          <Grid container spacing={3} className="TextFields">
+            <Parent
+                firstName={parent.firstName}
+                lastName={parent.lastName}
                 component={this}
-              />
-            );
-          })}
-        </Grid>
-        <div className="PlusButton">
-        <Button
-          size="small"
-          variant="contained"
-          color="primary"
-          disableElevation
-          onClick={this.onAddClick}
-        >
-          +
-        </Button>
-        </div>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="agree" value="yes" />}
-            label="Agree to share data and sign"
-            onClick={this.agreedChanged}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <div className="Signature" id="signature">
-            <Signature
-              ref={(ref) => {
-                this.signatureRef = ref;
-              }}
-              canvasProps={{
-                width: this.signatureDiv.width,
-                height: this.signatureDiv.height,
-              }}
-              onEnd={() => this.setState({ isSigned: true, signature: this.signatureRef.getTrimmedCanvas().toDataURL('image/png')})}
-            ></Signature>
+            />
+            {this.state.children.map((child, index) => {
+              return (
+                  <Child
+                      firstName={child.firstName}
+                      lastName={child.lastName}
+                      id={index}
+                      key={index}
+                      component={this}
+                  />
+              );
+            })}
+          </Grid>
+          <div className="PlusButton">
+            <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={this.onAddClick}
+            >
+              +
+            </Button>
           </div>
-        </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          disableElevation={true}
-          disabled={!this.state.isSubmittable}
-          onClick={this.props.onSubmit(this.state)}
-        >
-          Submit
-        </Button>
-      </div>
+          <Grid item xs={12}>
+            <FormControlLabel
+                control={<Checkbox color="secondary" name="agree" value="yes" />}
+                label="Agree to share data and sign"
+                onClick={this.agreedChanged}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <div className="Signature" id="signature">
+              <Signature
+                  ref={(ref) => {
+                    this.signatureRef = ref;
+                  }}
+                  canvasProps={{
+                    width: this.signatureDiv.width,
+                    height: this.signatureDiv.height,
+                  }}
+                  onEnd={() =>
+                      this.setState({
+                        isSigned: true,
+                        signature: this.signatureRef
+                            .getTrimmedCanvas()
+                            .toDataURL("image/png"),
+                      })
+                  }
+              ></Signature>
+            </div>
+          </Grid>
+          <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              disableElevation={true}
+              disabled={!this.state.isSubmittable}
+              onClick={this.props.onSubmit(this.state)}
+          >
+            Submit
+          </Button>
+        </div>
     );
   }
 }

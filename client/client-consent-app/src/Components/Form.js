@@ -6,7 +6,6 @@ import "./FormParts/style/Form.css";
 import { postData } from "../utils/requests/postRequests";
 import Loader from "../common/Loader";
 
-
 const reload_threshold = process.env.REACT_APP_RELOAD_PAGE;
 const alertMessage = process.env.REACT_APP_ERROR_MSG;
 
@@ -31,42 +30,44 @@ class Form extends Component {
     this.setState({ isLoading: true });
     // save the data.
     postData(
-      submitData,
-      () => {
-        this.setState({ isSubmitted: true });
-        setTimeout(function(){window.location.reload();}, reload_threshold);
-      },
-      () => {
-        this.setState({ isLoading: false });
-        alert(alertMessage);
-      }
+        submitData,
+        () => {
+          this.setState({ isSubmitted: true });
+          setTimeout(function () {
+            window.location.reload();
+          }, reload_threshold);
+        },
+        () => {
+          this.setState({ isLoading: false });
+          alert(alertMessage);
+        }
     );
   };
 
   render() {
     return (
-      <div className="Form">
-        {this.state.isSubmitted ? (
-          <React.Fragment>
-            <h1>SUCCESS</h1>
-            <p>You can now proceed with the questionnaire.</p>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {this.state.isLoading ? (
-            <div className="Loading">
-              <Loader size={document.documentElement.clientWidth*0.05}/>
-            </div>
-            ) : (
+        <div className="Form">
+          {this.state.isSubmitted ? (
               <React.Fragment>
-                <Header />
-                <Body />
-                <Footer onSubmit={this.onSubmit} />
+                <h1>SUCCESS</h1>
+                <p>You can now proceed with the questionnaire.</p>
               </React.Fragment>
-            )}
-          </React.Fragment>
-        )}
-      </div>
+          ) : (
+              <React.Fragment>
+                {this.state.isLoading ? (
+                    <div className="Loading">
+                      <Loader size={document.documentElement.clientWidth * 0.05} />
+                    </div>
+                ) : (
+                    <React.Fragment>
+                      <Header />
+                      <Body />
+                      <Footer onSubmit={this.onSubmit} />
+                    </React.Fragment>
+                )}
+              </React.Fragment>
+          )}
+        </div>
     );
   }
 }
