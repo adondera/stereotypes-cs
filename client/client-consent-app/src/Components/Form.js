@@ -6,6 +6,9 @@ import "./FormParts/style/Form.css";
 import { postData } from "../utils/requests/postRequests";
 import Loader from "../common/Loader";
 
+
+const reload_threshold = process.env.REACT_APP_RELOAD_PAGE;
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +33,7 @@ class Form extends Component {
       submitData,
       () => {
         this.setState({ isSubmitted: true });
+        setTimeout(function(){window.location.reload();}, reload_threshold);
       },
       () => {
         this.setState({ isLoading: false });
@@ -41,7 +45,10 @@ class Form extends Component {
     return (
       <div className="Form">
         {this.state.isSubmitted ? (
-          <React.Fragment>SUBMIT OK PAGE</React.Fragment>
+          <React.Fragment>
+            <h1>SUCCESS</h1>
+            <p>You can now proceed with the questionnaire.</p>
+          </React.Fragment>
         ) : (
           <React.Fragment>
             {this.state.isLoading ? (
