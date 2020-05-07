@@ -53,20 +53,12 @@ class Form extends Component {
                 <p>You can now proceed with the questionnaire.</p>
               </React.Fragment>
           ) : (
-              <React.Fragment>
-                {this.state.isLoading ? (
-                    <div className="Loading">
-                      <Loader size={document.documentElement.clientWidth * 0.05} />
-                    </div>
-                ) : (
                     <React.Fragment>
                       <Header />
                       <Body />
-                      <Footer onSubmit={this.onSubmit} />
+                      <Footer isLoading={this.state.isLoading} onSubmit={this.onSubmit} />
                     </React.Fragment>
                 )}
-              </React.Fragment>
-          )}
         </div>
     );
   }

@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import "./style/Form.css";
 import Child from "./ChildField";
 import Parent from "./ParentField";
+import Loader from "../../common/Loader"
 
 class Footer extends Component {
   constructor(props) {
@@ -137,6 +138,9 @@ class Footer extends Component {
               ></Signature>
             </div>
           </Grid>
+          {this.props.isLoading ? (
+              <Loader/>
+          ) : (
           <Button
               variant="contained"
               color="primary"
@@ -146,7 +150,7 @@ class Footer extends Component {
               onClick={this.props.onSubmit(this.state)}
           >
             Submit
-          </Button>
+          </Button>)}
         </div>
     );
   }
