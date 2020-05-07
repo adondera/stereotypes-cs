@@ -7,7 +7,9 @@ import Button from "@material-ui/core/Button";
 import "./style/Form.css";
 import Child from "./ChildField";
 import Parent from "./ParentField";
-import Loader from "../../common/Loader"
+import Loader from "../../common/Loader";
+
+const max_no_children = process.env.REACT_APP_NO_CHILD;
 
 class Footer extends Component {
   constructor(props) {
@@ -28,20 +30,21 @@ class Footer extends Component {
   componentDidMount = () => {
     this.signatureRef.off();
     this.signatureRef.getCanvas().width = document
-        .getElementById("signature")
-        .getBoundingClientRect().width;
+      .getElementById("signature")
+      .getBoundingClientRect().width;
     this.signatureRef.getCanvas().height = document
-        .getElementById("signature")
-        .getBoundingClientRect().height;
+      .getElementById("signature")
+      .getBoundingClientRect().height;
   };
 
   componentDidUpdate(prevProps) {
+    console.log(max_no_children);
     if (!this.state.isSigned && !this.signatureRef.isEmpty()) {
       this.setState({ isSigned: true });
     }
     var isSubmittableNow = true;
     isSubmittableNow =
-        this.state.hasValidFields && this.state.isSigned && this.state.isAgreed;
+      this.state.hasValidFields && this.state.isSigned && this.state.isAgreed;
 
     var hasValidFieldsNow = true;
     hasValidFieldsNow &= this.state.parent.isValid;
@@ -66,6 +69,13 @@ class Footer extends Component {
     });
   };
 
+  onRemoveClick = () => {
+    var newChildren = this.state.children;
+    newChildren.pop();
+    this.setState({
+      children: newChildren,
+    });
+  };
   agreedChanged = (event) => {
     if (this.state.isAgreed) {
       this.signatureRef.clear();
@@ -80,78 +90,97 @@ class Footer extends Component {
   render() {
     var parent = this.state.parent;
     return (
-        <div className="Footer">
-          <Grid container spacing={3} className="TextFields">
-            <Parent
-                firstName={parent.firstName}
-                lastName={parent.lastName}
+      <div className="Footer">
+        <Grid container spacing={3} className="TextFields">
+          <Parent
+            firstName={parent.firstName}
+            lastName={parent.lastName}
+            component={this}
+          />
+          {this.state.children.map((child, index) => {
+            return (
+              <Child
+                firstName={child.firstName}
+                lastName={child.lastName}
+                id={index}
+                key={index}
                 component={this}
-            />
-            {this.state.children.map((child, index) => {
-              return (
-                  <Child
-                      firstName={child.firstName}
-                      lastName={child.lastName}
-                      id={index}
-                      key={index}
-                      component={this}
-                  />
-              );
-            })}
-          </Grid>
-          <div className="PlusButton">
-            <Button
+              />
+            );
+          })}
+        </Grid>
+        <div className="PlusMinusButton">
+          {this.state.children.length > max_no_children ? null : (
+            <div className="Button">
+              <Button
                 size="small"
                 variant="contained"
                 color="primary"
                 disableElevation
                 onClick={this.onAddClick}
-            >
-              +
-            </Button>
-          </div>
-          <Grid item xs={12}>
-            <FormControlLabel
-                control={<Checkbox color="secondary" name="agree" value="yes" />}
-                label="Agree to share data and sign"
-                onClick={this.agreedChanged}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <div className="Signature" id="signature">
-              <Signature
-                  ref={(ref) => {
-                    this.signatureRef = ref;
-                  }}
-                  canvasProps={{
-                    width: this.signatureDiv.width,
-                    height: this.signatureDiv.height,
-                  }}
-                  onEnd={() =>
-                      this.setState({
-                        isSigned: true,
-                        signature: this.signatureRef
-                            .getTrimmedCanvas()
-                            .toDataURL("image/png"),
-                      })
-                  }
-              ></Signature>
+              >
+                +
+              </Button>
             </div>
-          </Grid>
-          {this.props.isLoading ? (
-              <Loader/>
-          ) : (
+          )}
+          {this.state.children.length === 1 ? null : (
+            <div className="Button">
+              <Button
+                className="Button"
+                size="small"
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={this.onRemoveClick}
+              >
+                -
+              </Button>
+            </div>
+          )}
+        </div>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="agree" value="yes" />}
+            label="Agree to share data and sign"
+            onClick={this.agreedChanged}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <div className="Signature" id="signature">
+            <Signature
+              ref={(ref) => {
+                this.signatureRef = ref;
+              }}
+              canvasProps={{
+                width: this.signatureDiv.width,
+                height: this.signatureDiv.height,
+              }}
+              onEnd={() =>
+                this.setState({
+                  isSigned: true,
+                  signature: this.signatureRef
+                    .getTrimmedCanvas()
+                    .toDataURL("image/png"),
+                })
+              }
+            ></Signature>
+          </div>
+        </Grid>
+        {this.props.isLoading ? (
+          <Loader />
+        ) : (
           <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              disableElevation={true}
-              disabled={!this.state.isSubmittable}
-              onClick={this.props.onSubmit(this.state)}
+            variant="contained"
+            color="primary"
+            size="large"
+            disableElevation={true}
+            disabled={!this.state.isSubmittable}
+            onClick={this.props.onSubmit(this.state)}
           >
             Submit
-          </Button>)}
-        </div>
+          </Button>
+        )}
+      </div>
     );
   }
 }

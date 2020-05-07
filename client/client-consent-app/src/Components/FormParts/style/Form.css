@@ -53,10 +53,15 @@
   width: 50%;
 }
 
-.PlusButton {
+.PlusMinusButton {
   padding-top: 20px;
   margin: auto;
   text-align: center;
+}
+
+.Button {
+  padding:10px;
+  display: inline;
 }
 
 .Loading {
