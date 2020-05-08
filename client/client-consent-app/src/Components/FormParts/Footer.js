@@ -83,8 +83,8 @@ class Footer extends Component {
       this.setState({ isSubmittable: false,isAgreed: false, isSigned: false });
     } else {
       this.signatureRef.on();
+      this.setState({ isAgreed: true });
     }
-    this.setState({ isAgreed: !this.state.isAgreed });
   };
 
   render() {
