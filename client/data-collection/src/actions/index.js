@@ -1,17 +1,30 @@
-export const changeText = (event) => {
+import {login} from '../utils/requests/postRequsts';
+
+export const changePassword = (event) => {
     return {
-        type: 'CHANGE_TEXT',
-        text: event.target.value
+        type: 'CHANGE_PASSWORD',
+        password: event.target.value
     }
 }
 
-export const buttonClick = () => {
+export const changeUsername = (event) => {
     return {
-        type: 'BUTTON_CLICK'
+        type: 'CHANGE_USERNAME',
+        username: event.target.value
     }
 }
+
+export const onSubmit = (username, password) => {
+    const response = login(); 
+    return {
+        type: 'ON_SUBMIT',
+        isLoggedIn: true
+    }
+}
+
 
 export const LoginActions = {
-    CHANGE_TEXT: 'CHANGE_TEXT',
-    BUTTON_CLICK: 'BUTTON_CLICK'
+    CHANGE_PASSWORD: 'CHANGE_PASSWORD',
+    CHANGE_USERNAME: 'CHANGE_USERNAME',
+    ON_SUBMIT: 'ON_SUBMIT'
 }

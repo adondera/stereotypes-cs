@@ -1,14 +1,19 @@
 const loginReducer = (state = {}, action) => {
     switch (action.type) {
-        case 'CHANGE_TEXT':
+        case 'CHANGE_USERNAME':
             return {
                 ...state,
-                text: action.text
+                username: action.username
             }
-        case 'BUTTON_CLICK':
-            console.log('CLICKED BUTTON')
+        case 'CHANGE_PASSWORD':
             return {
-                ...state
+                ...state,
+                password: action.password
+            }
+        case 'ON_SUBMIT':
+            return {
+                ...state,
+                isLoggedIn: action.isLoggedIn
             }
         default:
             return state

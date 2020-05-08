@@ -1,13 +1,22 @@
-import React from 'react';
-import './App.css';
-import Login from './components/Login'
+import React from "react";
+import "./App.css";
+import Login from "./containers/Login";
+import MainApp from "./components/MainApp"
+import { connect } from "react-redux";
 
-function App() {
+const App = ({ isLoggedIn = false }) => {
+  console.log(isLoggedIn);
   return (
     <div className="App">
-      <Login/>
+      {isLoggedIn ? <MainApp /> : <Login />}
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.loginReducer.isLoggedIn
+  };
+};
+
+export default connect(mapStateToProps)(App);
