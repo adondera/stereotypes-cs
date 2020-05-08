@@ -140,9 +140,8 @@ class Footer extends Component {
         </div>
         <Grid item xs={12}>
           <FormControlLabel
-            control={<Checkbox color="secondary" name="agree" value="yes" />}
+            control={<Checkbox onClick={this.agreedChanged} color="secondary" name="agree" value="yes" />}
             label="Agree to share data and sign"
-            onClick={this.agreedChanged}
           />
         </Grid>
         <Grid item xs={12}>
