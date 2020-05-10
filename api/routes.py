@@ -4,7 +4,7 @@ from api import db
 from flask.json import jsonify
 from flask import request
 from typing import List
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
+from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, get_jwt_identity
 
 def read_form_data(request, file_keys: List[str]=[]) -> dict:
     """Returns the request's form data as a dictionary, both in `request.form`
