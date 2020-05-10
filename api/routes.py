@@ -63,13 +63,17 @@ def form():
 
 @app.route('/login', methods=['POST'])
 def login():
+    
     data = read_form_data(request)
+
+    print(data)
+
     username = data['username']
     password = data['password']
         
     user = User.query.filter_by(username=username).first()
     if user and bcrypt.check_password_hash(password, user.password):
-        return jsonify("Login succesfull"), 200
+        return jsonify("Login successful"), 200
     
     return jsonify(ANSWERS[403], 403)
 
