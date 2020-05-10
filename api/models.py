@@ -1,4 +1,5 @@
 from api import db
+from flask_bcrypt import generate_password_hash
 
 
 class User(db.Model):
@@ -12,5 +13,14 @@ class User(db.Model):
         self.username = name
         self.password = password
 
+    def create_user(self):
+        print("Enter a username:")
+        username = input()
+        print("Enter a password:")
+        password = input()
+        hashed_pw = generate_password_hash(password)
+        db.session.add(User(username, hashed_pw))
+        db.session.commit()
+        
     def __repr__(self):
         return '<User %r>' % self.username

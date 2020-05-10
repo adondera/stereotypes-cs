@@ -1,4 +1,4 @@
-from api import app
+from api import app, bcrypt
 from api.models import User
 from api import db
 from flask.json import jsonify
@@ -61,10 +61,15 @@ def form():
 
     return jsonify(ANSWERS[400]), 400
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = read_form_data(request)
+    username = data['username']
+    password = data['password']
+        
+    user = User.query.filter_by(username=username).first()
+    if user and bcrypt.check_password_hash(password, user.password):
+        return jsonify("Login succesfull"), 200
+    
+    return jsonify(ANSWERS[403], 403)
 
-@app.route('/test/<first>/<second>')
-def database_test(first=None, second=None):
-    me = User(first, second)
-    db.session.add(me)
-    db.session.commit()
-    return "Hello %s %s" % (first, second)
