@@ -72,7 +72,7 @@ def login():
     password = data['password']
         
     user = User.query.filter_by(username=username).first()
-    if user and bcrypt.check_password_hash(password, user.password):
+    if user and bcrypt.check_password_hash(user.password, password):
         return jsonify("Login successful"), 200
     
     return jsonify(ANSWERS[403], 403)
