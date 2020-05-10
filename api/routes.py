@@ -4,7 +4,7 @@ from api import db
 from flask.json import jsonify
 from flask import request
 from typing import List
-
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
 
 def read_form_data(request, file_keys: List[str]=[]) -> dict:
     """Returns the request's form data as a dictionary, both in `request.form`
@@ -61,19 +61,48 @@ def form():
 
     return jsonify(ANSWERS[400]), 400
 
+
 @app.route('/login', methods=['POST'])
 def login():
-    
     data = read_form_data(request)
-
-    print(data)
 
     username = data['username']
     password = data['password']
-        
-    user = User.query.filter_by(username=username).first()
-    if user and bcrypt.check_password_hash(user.password, password):
-        return jsonify("Login successful"), 200
     
-    return jsonify(ANSWERS[403], 403)
+    if username and password:
+        user = User.query.filter_by(username=username).first()
+        if not (user and bcrypt.check_password_hash(user.password, password)):
+            return jsonify(ANSWERS[403]), 403
+
+        # Use create_access_token() and create_refresh_token() to create our
+        # access and refresh tokens
+        ret = {
+            'access_token': create_access_token(identity=username),
+            'refresh_token': create_refresh_token(identity=username)
+        }
+        return jsonify(ret), 200
+
+    
+    return jsonify(ANSWERS[403]), 403
+    
+
+@app.route('/protected', methods=['GET'])
+@jwt_required
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+
+@app.route('/refresh', methods=['POST'])
+@jwt_refresh_token_required
+def refresh():
+    current_user = get_jwt_identity()
+    ret = {
+        'access_token': create_access_token(identity=current_user)
+    }
+    return jsonify(ret), 200
+
+
+
 

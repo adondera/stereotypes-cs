@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -11,8 +12,8 @@ cors = CORS(app)
 bcrypt = Bcrypt(app)
 
 
-# app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
-# jwt = JWTManager(app)
+app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
+jwt = JWTManager(app)
 
 db = SQLAlchemy(app)
 POSTGRES = {
