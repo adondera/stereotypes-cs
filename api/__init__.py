@@ -5,8 +5,8 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
-app = Flask(__name__, static_url_path='',
-            static_folder='build',
+app = Flask(__name__,
+            static_folder='build/static/',
             template_folder='build')
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SECRET_KEY'] = 'some-random-key'
