@@ -7,7 +7,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(512), nullable=False)
+    password = db.Column(db.String(80), nullable=False)
 
     def __init__(self, name=None, password=None):
         self.username = name
@@ -18,7 +18,7 @@ class User(db.Model):
         username = input()
         print("Enter a password:")
         password = input()
-        hashed_pw = generate_password_hash(password)
+        hashed_pw = generate_password_hash(password).decode('utf-8')
         db.session.add(User(username, hashed_pw))
         db.session.commit()
         
