@@ -5,12 +5,13 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='',
+            static_folder='build',
+            template_folder='build')
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SECRET_KEY'] = 'some-random-key'
 cors = CORS(app)
 bcrypt = Bcrypt(app)
-
 
 app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
 jwt = JWTManager(app)
@@ -26,7 +27,6 @@ POSTGRES = {
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
-
 
 print(os.environ['APP_SETTINGS'])
 from api import routes
