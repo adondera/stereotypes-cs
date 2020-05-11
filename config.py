@@ -20,7 +20,20 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-
+    POSTGRES = {
+        'user': 'wjyyqbjfvwukln',
+        'pw': 'd9194e1d96f48b0ccc04e6e26d63d4c170191e34e836f87caa3f1d4441c153e7',
+        'db': 'd815qem5n7vf7a',
+        'host': 'ec2-46-137-84-173.eu-west-1.compute.amazonaws.com',
+        'port': '5432',
+    }
 
 class TestingConfig(Config):
     TESTING = True
+    POSTGRES = {
+        'user': 'test',
+        'pw': 'test',
+        'db': 'test',
+        'host': 'localhost',
+        'port': '5432',
+    }
