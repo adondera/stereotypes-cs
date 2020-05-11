@@ -31,15 +31,15 @@ export const onSubmit = (username, password, dispatch) => {
   };
 };
 
-export const getQuizData = () => {
-  var questions = {text: "Hello World"}; //getQuiz();
-  console.log(questions);
-  console.log('I got here');
-  return {
-    type: "GET_DATA",
-    questions: questions
-  };
+export const getQuizData = (accessToken, dispatch) => {
+  getQuiz(accessToken, () => dispatch(dataLoaded()));
 };
+
+export const dataLoaded = () => {
+  return {
+    type: "DATA_IS_LOADED"
+  }
+}
 
 export const onLoggedIn = (accessToken) => {
   return {

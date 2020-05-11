@@ -24,7 +24,6 @@ const loginReducer = (state = {}, action) => {
         isLoggedIn: true,
       };
     case "LOG_IN_FAILED":
-      console.log("dispatched");
       return {
         ...state,
         isLoading: false,

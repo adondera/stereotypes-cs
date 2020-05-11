@@ -8,16 +8,21 @@ import { getQuizData } from "../actions/index";
 import PropTypes from "prop-types";
 
 
-const MainApp = ({ questionIndex = 0, onQuestionChange , loadData }) => {
+const MainApp = ({ questionIndex = 0, onQuestionChange , loadData, isDataLoaded = false, accessToken = "" }) => {
 
   return (
     <div>
       <Switch>
+        <Route path="/load">
+          <button onClick={() => loadData(accessToken)}>LOAD DATA</button>
+          {isDataLoaded ? (
+            <Redirect to="/app"/>
+          ) : (null) }
+        </Route>
         <Route path="/app">
           <h1>LOGGED IN</h1>
           <h1>You can start the quiz!</h1>
           <p> pula mea: {questionIndex} </p>
-          <button onClick={() => console.log(loadData())}>LOAD DATA</button>
           <button onClick={() => onQuestionChange(questionIndex).questions}>START</button>
           {questionIndex === 0 ? null : <Redirect to="/questions" />}
         </Route>
@@ -34,17 +39,17 @@ const MainApp = ({ questionIndex = 0, onQuestionChange , loadData }) => {
 };
 
 const mapStateToProps = (state) => {
-  const questionIndex = state.mainAppReducer.questionIndex;
-  const questions = state.mainAppReducer.questions;
   return {
-    questionIndex: questionIndex,
-    questions: questions,
+    accessToken: state.loginReducer.accessToken,
+    questionIndex: state.mainAppReducer.questionIndex,
+    questions: state.mainAppReducer.questions,
+    isDataLoaded: state.mainAppReducer.isDataLoaded
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onQuestionChange: (questionIndex) => dispatch(changeQuestion(questionIndex)),
-  loadData: () => dispatch(getQuizData()),
+  loadData: (accessToken) => getQuizData(accessToken, dispatch),
 });
 
 MainApp.propTypes = {

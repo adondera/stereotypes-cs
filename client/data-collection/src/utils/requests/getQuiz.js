@@ -1,6 +1,6 @@
-import axios from "../API";
-
-export function getQuiz(callback, errorcallback) {
+import axios, {withToken} from "../API";
+export function getQuiz(accessToken, callback, errorcallback) {
+    withToken(accessToken)
     axios
         .get("/protected")
         .then((res) => {

@@ -5,10 +5,10 @@ const mainAppReducer = (state = {}, action) => {
         ...state,
         questionIndex: action.questionIndex,
       };
-    case "GET_DATA":
+    case "DATA_IS_LOADED":
       return {
         ...state,
-        questions: action.questions,
+        isDataLoaded: true,
       };
     default:
       return state;

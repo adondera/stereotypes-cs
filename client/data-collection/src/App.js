@@ -11,7 +11,7 @@ const App = ({ isLoggedIn = false }) => {
     <div className="App">
       {isLoggedIn ? (
         <BrowserRouter>
-          <Redirect exact to="/app" />
+          <Redirect exact to="/load" />
           <MainApp />
         </BrowserRouter>
       ) : (
