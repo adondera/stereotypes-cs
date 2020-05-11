@@ -15,17 +15,34 @@ export const changeUsername = (event) => {
 };
 
 export const onSubmit = (username, password, dispatch) => {
-  const response = login();
+  var data = {
+    username: username,
+    password: password,
+  };
+  login(
+    data,
+    (res) => dispatch(onLoggedIn(res.data.access_token)),
+    () => dispatch(onLoginFailed())
+  );
   return {
     type: "ON_LOG_IN",
     isLoading: true,
   };
 };
 
-export const onLoggedIn = () => {
+export const onLoggedIn = (accessToken) => {
   return {
     type: "ON_LOGGED_IN",
     isLoggedIn: true,
+    isLoading: false,
+    accessToken: accessToken,
+  };
+};
+
+export const onLoginFailed = () => {
+  return {
+    type: "LOG_IN_FAILED",
+    errorMessage: "Log in failed",
   };
 };
 
@@ -33,6 +50,12 @@ export const changeQuestion = (questionIndex) => {
   return {
     type: "CHANGE_QUESTION",
     questionIndex: questionIndex + 1,
+  };
+};
+
+export const closeErrorBar = () => {
+  return {
+    type: "CLOSE_ERROR_BAR",
   };
 };
 

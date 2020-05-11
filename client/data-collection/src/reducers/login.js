@@ -14,13 +14,28 @@ const loginReducer = (state = {}, action) => {
       return {
         ...state,
         isLoading: true,
+        errorMessage: "",
       };
     case "ON_LOGGED_IN":
       return {
-          ...state,
-          isLoading: false,
-          isLoggedIn: true
-      }
+        ...state,
+        accessToken: action.accessToken,
+        isLoading: false,
+        isLoggedIn: true,
+      };
+    case "LOG_IN_FAILED":
+      console.log("dispatched");
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        errorMessage: action.errorMessage,
+      };
+    case "CLOSE_ERROR_BAR":
+      return {
+        ...state,
+        errorMessage: "",
+      };
     default:
       return state;
   }

@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Switch, Route } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,15 +32,17 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   root: {
-    marginTop: theme.spacing(5)
-  }
+    marginTop: theme.spacing(5),
+  },
 }));
 const Login = ({
   onSubmit,
   onUsernameChange,
   onPasswordChange,
+  onClose,
   username = "",
   password = "",
+  errorMessage = "",
   isLoading = false,
 }) => {
   const classes = useStyles();
@@ -84,6 +88,17 @@ const Login = ({
                 id="password"
                 autoComplete="current-password"
               />
+              {/* {errorMessage == "" ? null : ( */}
+              {errorMessage === "" ? null : (
+                <Alert
+                  open={errorMessage !== ""}
+                  onClose={onClose}
+                  severity="error"
+                >
+                  {errorMessage}
+                </Alert>
+              )}
+              {/* )} */}
               {isLoading ? (
                 <LinearProgress className={classes.root} />
               ) : (
