@@ -13,14 +13,17 @@ class User(db.Model):
         self.username = name
         self.password = password
 
-    def create_user(self):
-        print("Enter a username:")
-        username = input()
-        print("Enter a password:")
-        password = input()
+    @staticmethod
+    def create_user(username, password):
         hashed_pw = generate_password_hash(password).decode('utf-8')
-        db.session.add(User(username, hashed_pw))
-        db.session.commit()
-        
+        try:
+            db.session.add(User(username, hashed_pw))
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+        finally:
+            db.session.close()
+
     def __repr__(self):
         return '<User %r>' % self.username
