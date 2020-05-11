@@ -5,6 +5,11 @@ const mainAppReducer = (state = {}, action) => {
         ...state,
         questionIndex: action.questionIndex,
       };
+    case "GET_DATA":
+      return {
+        ...state,
+        questions: action.questions,
+      };
     default:
       return state;
   }

@@ -1,4 +1,5 @@
 import { login } from "../utils/requests/postRequsts";
+import { getQuiz } from "../utils/requests/getQuiz";
 
 export const changePassword = (event) => {
   return {
@@ -27,6 +28,16 @@ export const onSubmit = (username, password, dispatch) => {
   return {
     type: "ON_LOG_IN",
     isLoading: true,
+  };
+};
+
+export const getQuizData = () => {
+  var questions = {text: "Hello World"}; //getQuiz();
+  console.log(questions);
+  console.log('I got here');
+  return {
+    type: "GET_DATA",
+    questions: questions
   };
 };
 
