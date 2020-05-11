@@ -10,11 +10,17 @@ const loginReducer = (state = {}, action) => {
         ...state,
         password: action.password,
       };
-    case "ON_SUBMIT":
+    case "ON_LOG_IN":
       return {
         ...state,
-        isLoggedIn: action.isLoggedIn,
+        isLoading: true,
       };
+    case "ON_LOGGED_IN":
+      return {
+          ...state,
+          isLoading: false,
+          isLoggedIn: true
+      }
     default:
       return state;
   }

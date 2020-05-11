@@ -4,8 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,14 +29,17 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  root: {
+    marginTop: theme.spacing(5)
+  }
 }));
-const dummyF = () => {};
 const Login = ({
   onSubmit,
   onUsernameChange,
   onPasswordChange,
   username = "",
   password = "",
+  isLoading = false,
 }) => {
   const classes = useStyles();
 
@@ -58,6 +60,7 @@ const Login = ({
                 variant="outlined"
                 margin="normal"
                 required
+                disabled={isLoading}
                 fullWidth
                 value={username}
                 onChange={onUsernameChange}
@@ -72,6 +75,7 @@ const Login = ({
                 margin="normal"
                 required
                 fullWidth
+                disabled={isLoading}
                 onChange={onPasswordChange}
                 value={password}
                 name="password"
@@ -80,16 +84,20 @@ const Login = ({
                 id="password"
                 autoComplete="current-password"
               />
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={() => onSubmit(username, password)}
-                className={classes.submit}
-              >
-                Sign In
-              </Button>
+              {isLoading ? (
+                <LinearProgress className={classes.root} />
+              ) : (
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={() => onSubmit(username, password)}
+                  className={classes.submit}
+                >
+                  Sign In
+                </Button>
+              )}
             </form>
           </div>
         </Container>
@@ -104,6 +112,7 @@ Login.propTypes = {
   onSubmit: PropTypes.func,
   username: PropTypes.string,
   password: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default Login;

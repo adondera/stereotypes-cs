@@ -5,11 +5,12 @@ import Login from '../components/Login'
 const mapStateToProps = (state) => ({
   password: state.loginReducer.password,
   username: state.loginReducer.username,
+  isLoading: state.loginReducer.isLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onUsernameChange: (event) => dispatch(changeUsername(event)),
   onPasswordChange: (event) => dispatch(changePassword(event)),
-  onSubmit: (username, password) => dispatch(onSubmit(username, password))
+  onSubmit: (username, password) => dispatch(onSubmit(username, password, dispatch))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

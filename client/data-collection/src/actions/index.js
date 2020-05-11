@@ -14,10 +14,17 @@ export const changeUsername = (event) => {
   };
 };
 
-export const onSubmit = (username, password) => {
+export const onSubmit = (username, password, dispatch) => {
   const response = login();
   return {
-    type: "ON_SUBMIT",
+    type: "ON_LOG_IN",
+    isLoading: true,
+  };
+};
+
+export const onLoggedIn = () => {
+  return {
+    type: "ON_LOGGED_IN",
     isLoggedIn: true,
   };
 };
@@ -32,5 +39,6 @@ export const changeQuestion = (questionIndex) => {
 export const LoginActions = {
   CHANGE_PASSWORD: "CHANGE_PASSWORD",
   CHANGE_USERNAME: "CHANGE_USERNAME",
-  ON_SUBMIT: "ON_SUBMIT",
+  ON_SUBMIT: "ON_LOG_IN",
+  ON_LOGGED_IN: "ON_LOGGED_IN",
 };
