@@ -1,7 +1,9 @@
+import os
+
 from api import app, bcrypt
 from api.models import User
 from api import db
-from flask import render_template
+from flask import render_template, send_from_directory
 from flask.json import jsonify
 from flask import request
 from typing import List
@@ -44,10 +46,13 @@ ANSWERS = { 200: "200 OK",
             502: "502 Bad gateway"
           }
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template("index.html")
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/form', methods=['POST'])
