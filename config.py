@@ -37,3 +37,13 @@ class TestingConfig(Config):
         'host': 'localhost',
         'port': '5432',
     }
+
+class CITestingConfig(Config):
+    Testing = True
+    POSTGRES = {
+        'user': 'test',
+        'pw': 'test',
+        'db': 'test',
+        'host': 'postgres',
+        'port': '5432',
+    }
