@@ -2,32 +2,9 @@ from api import app, bcrypt
 from api.models import User
 from flask.json import jsonify
 from flask import request
-from typing import List
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, \
-    get_jwt_identity
+    get_jwt_identity, fresh_jwt_required
 from api.validation import *
-
-
-def read_form_data(request, file_keys: List[str] = []) -> dict:
-    """Returns the request's form data as a dictionary, both in `request.form`
-       and `request.files`. Importantly, it also ensures through the file_keys
-       list that form data expected to be sent as a file, does not appear as
-       a form key-value pair.
-    """
-    data = {}
-    if request.json:
-        data.update(request.json)
-    if request.form.to_dict():
-        data.update(request.form.to_dict())
-
-    # for file_key in file_keys:
-    #     data.pop(file_key, None) # should not be there as form val
-
-    data.update(request.files.to_dict())
-    if bool(data):
-        return data
-    return None
-
 
 # Define error messages
 ANSWERS = {200: "200 OK",
@@ -81,7 +58,7 @@ def login():
 
     # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
     ret = {
-        'access_token': create_access_token(identity=username),
+        'access_token': create_access_token(identity=username, fresh=True),
         'refresh_token': create_refresh_token(identity=username)
     }
     return jsonify(ret), 200
@@ -95,11 +72,45 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 
-@app.route('/refresh', methods=['GET'])
+@app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
+    new_token = create_access_token(identity=current_user, fresh=False)
     ret = {
-        'access_token': create_access_token(identity=current_user)
+        'access_token': new_token
     }
     return jsonify(ret), 200
+
+
+@app.route('/fresh-login', methods=['POST'])
+@jwt_refresh_token_required
+def fresh_login():
+    validators = {
+        'username': validate_string,
+        'password': validate_string
+    }
+
+    data = validate(read_form_data(request), validators)
+    if not data or not data['username'] or not data['password']:
+        return jsonify(ANSWERS[400]), 400
+
+    username = data['username']
+    password = data['password']
+
+    user = User.query.filter_by(username=username).first()
+    if not (user and bcrypt.check_password_hash(user.password, password)):
+        return jsonify(ANSWERS[403]), 403
+
+    new_token = create_access_token(identity=username, fresh=True)
+    ret = {
+        'access_token': new_token
+    }
+    return jsonify(ret), 200
+
+
+@app.route('/protected-fresh', methods=['GET'])
+@fresh_jwt_required
+def protected_fresh():
+    username = get_jwt_identity()
+    return jsonify(fresh_logged_in_as=username), 200
