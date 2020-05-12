@@ -1,5 +1,4 @@
 import pytest
-import os
 from api import app, db
 from api.models import User
 
