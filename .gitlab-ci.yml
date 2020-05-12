@@ -23,6 +23,8 @@ test:
   - apt-get update -qy
   - pip3 install -r requirements.txt
   - pytest
+  - coverage run --source api --branch -m pytest
+  - coverage report
 
 
 deploy_staging:
