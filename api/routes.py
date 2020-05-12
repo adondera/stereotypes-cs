@@ -1,6 +1,9 @@
+import os
+
 from api import app, bcrypt
 from api.models import User
 from api import db
+from flask import render_template, send_from_directory
 from flask.json import jsonify
 from flask import request
 from typing import List
@@ -45,10 +48,13 @@ ANSWERS = {200: "200 OK",
            }
 
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hello, World!"
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/form', methods=['POST'])
@@ -97,7 +103,7 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 
-@app.route('/refresh', methods=['POST'])
+@app.route('/refresh', methods=['GET'])
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
