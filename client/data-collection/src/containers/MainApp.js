@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import MainApp from '../components/MainApp';
-import {changeQuestion, getQuizData} from "../actions/mainApp"
+import {changeQuestion, getQuizData, finishQuiz} from "../actions/mainApp"
 
 
 const mapStateToProps = (state) => {
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) => ({
     onQuestionChange: (questionIndex) => dispatch(changeQuestion(questionIndex)),
     loadData: (accessToken) => getQuizData(accessToken, dispatch),
+    finishQuiz: () => dispatch(finishQuiz())
   });
 
   export default connect(mapStateToProps, mapDispatchToProps)(MainApp)
