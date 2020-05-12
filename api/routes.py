@@ -4,10 +4,13 @@ from api import db
 from flask.json import jsonify
 from flask import request
 from typing import List
-from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, get_jwt_identity
+from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, \
+    get_jwt_identity
 from api.validation import *
+import pytest
 
-def read_form_data(request, file_keys: List[str]=[]) -> dict:
+
+def read_form_data(request, file_keys: List[str] = []) -> dict:
     """Returns the request's form data as a dictionary, both in `request.form`
        and `request.files`. Importantly, it also ensures through the file_keys
        list that form data expected to be sent as a file, does not appear as
@@ -29,17 +32,18 @@ def read_form_data(request, file_keys: List[str]=[]) -> dict:
 
 
 # Define error messages
-ANSWERS = { 200: "200 OK",
-            201: "201 Created",
-            204: "204 No Content",
-            400: "400 Bad Request",
-            401: "401 Unauthorized",
-            403: "403 Forbidden",
-            404: "404 Not found",
-            500: "500 An internal server error occurred",
-            501: "501 Not implemented",
-            502: "502 Bad gateway"
-          }
+ANSWERS = {200: "200 OK",
+           201: "201 Created",
+           204: "204 No Content",
+           400: "400 Bad Request",
+           401: "401 Unauthorized",
+           403: "403 Forbidden",
+           404: "404 Not found",
+           500: "500 An internal server error occurred",
+           501: "501 Not implemented",
+           502: "502 Bad gateway"
+           }
+
 
 @app.route('/')
 @app.route('/index')
@@ -66,30 +70,24 @@ def login():
         'username': validate_string,
         'password': validate_string
     }
-    
     data = validate(read_form_data(request), validators)
-    print(data)
     if not data or not data['username'] or not data['password']:
         return jsonify(ANSWERS[400]), 400
 
     username = data['username']
     password = data['password']
 
-    if username and password:
-        user = User.query.filter_by(username=username).first()
-        if not (user and bcrypt.check_password_hash(user.password, password)):
-            return jsonify(ANSWERS[403]), 403
+    user = User.query.filter_by(username=username).first()
+    if not (user and bcrypt.check_password_hash(user.password, password)):
+        return jsonify(ANSWERS[403]), 403
 
-        # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
-        ret = {
-            'access_token': create_access_token(identity=username),
-            'refresh_token': create_refresh_token(identity=username)
-        }
-        return jsonify(ret), 200
+    # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
+    ret = {
+        'access_token': create_access_token(identity=username),
+        'refresh_token': create_refresh_token(identity=username)
+    }
+    return jsonify(ret), 200
 
-    
-    return jsonify(ANSWERS[403]), 403
-    
 
 @app.route('/protected', methods=['GET'])
 @jwt_required
@@ -107,7 +105,3 @@ def refresh():
         'access_token': create_access_token(identity=current_user)
     }
     return jsonify(ret), 200
-
-
-
-

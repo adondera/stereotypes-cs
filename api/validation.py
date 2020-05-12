@@ -1,7 +1,6 @@
 def validate_accept(value):
     return True
 
-
 def validate_boolean(value):
     return isinstance(value, bool)
 

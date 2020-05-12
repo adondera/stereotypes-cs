@@ -2,6 +2,7 @@ image: python:3.8.2
 
 stages:
   - ver
+  - test
   - deploy
 
 ver:
@@ -9,6 +10,21 @@ ver:
   script:
     - python --version
     - whoami
+
+test:
+  services:
+  - postgres:alpine
+  variables:
+    POSTGRES_DB: test
+    POSTGRES_USER: test
+    POSTGRES_PASSWORD: test
+  script:
+  - export APP_SETTINGS=config.CITestingConfig
+  - apt-get update -qy
+  - pip3 install -r requirements.txt
+  - coverage run --source api --branch -m pytest api
+  - coverage report
+
 
 deploy_staging:
   stage: deploy
