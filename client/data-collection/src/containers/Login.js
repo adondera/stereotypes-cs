@@ -3,7 +3,7 @@ import {
   changeUsername,
   onSubmit,
   closeErrorBar,
-} from "./../actions";
+} from "./../actions/login";
 import { connect } from "react-redux";
 import Login from "../components/Login";
 

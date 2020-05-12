@@ -1,12 +1,11 @@
 import React from "react";
 import "./App.css";
 import Login from "./containers/Login";
-import MainApp from "./components/MainApp";
+import MainApp from "./containers/MainApp";
 import { connect } from "react-redux";
 import { BrowserRouter, Redirect } from "react-router-dom";
 
 const App = ({ isLoggedIn = false }) => {
-  console.log(isLoggedIn);
   return (
     <div className="App">
       {isLoggedIn ? (

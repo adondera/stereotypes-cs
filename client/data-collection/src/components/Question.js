@@ -1,14 +1,21 @@
-import React from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
-const Question = (props) => {
+class Question extends Component {
+  constructor (props) {
+    super(props)
+  }
+  render() {  
     
+    const questionIndex = this.props.questionIndex;
+    const quizStarted = this.props.quizStarted;
+
     return (
       <React.Fragment>
-      { props.quizStarted ? (
+      { quizStarted ? (
         <React.Fragment>
-            <h1> QUESTION: {props.questionIndex}</h1>
-            <button onClick={() => props.onQuestionChange(props.questionIndex)}>Next</button>
+            <h1> QUESTION: {questionIndex}</h1>
+            <button onClick={() => this.props.onQuestionChange(questionIndex)}>Next</button>
           </React.Fragment>
       ) : (
           <div>
@@ -16,7 +23,8 @@ const Question = (props) => {
         </div>
       )}
       </React.Fragment>)
-  };
+  }
+}
   
   Question.propTypes = {
     questionIndex: PropTypes.number,

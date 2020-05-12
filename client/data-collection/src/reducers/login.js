@@ -20,6 +20,8 @@ const loginReducer = (state = {}, action) => {
       return {
         ...state,
         accessToken: action.accessToken,
+        username: "",
+        password: "",
         isLoading: false,
         isLoggedIn: true,
       };

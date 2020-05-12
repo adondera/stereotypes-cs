@@ -1,10 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router";
 import { Switch } from "react-router";
-import { connect } from "react-redux";
-import { changeQuestion } from "../actions/index";
 import Question from "./Question";
-import { getQuizData } from "../actions/index";
 import PropTypes from "prop-types";
 
 
@@ -38,22 +35,8 @@ const MainApp = ({ questionIndex = 0, onQuestionChange , loadData, isDataLoaded 
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    accessToken: state.loginReducer.accessToken,
-    questionIndex: state.mainAppReducer.questionIndex,
-    questions: state.mainAppReducer.questions,
-    isDataLoaded: state.mainAppReducer.isDataLoaded
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onQuestionChange: (questionIndex) => dispatch(changeQuestion(questionIndex)),
-  loadData: (accessToken) => getQuizData(accessToken, dispatch),
-});
-
 MainApp.propTypes = {
   questions: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainApp);
+export default MainApp;

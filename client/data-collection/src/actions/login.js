@@ -1,6 +1,8 @@
 import { login } from "../utils/requests/postRequsts";
-import { getQuiz } from "../utils/requests/getQuiz";
 
+/*
+  User's password is updated in the store.
+*/
 export const changePassword = (event) => {
   return {
     type: "CHANGE_PASSWORD",
@@ -8,6 +10,9 @@ export const changePassword = (event) => {
   };
 };
 
+/*
+  User name is updated in the store.
+*/
 export const changeUsername = (event) => {
   return {
     type: "CHANGE_USERNAME",
@@ -15,6 +20,9 @@ export const changeUsername = (event) => {
   };
 };
 
+/*
+  Action of submitting the data to the server.
+*/
 export const onSubmit = (username, password, dispatch) => {
   var data = {
     username: username,
@@ -31,15 +39,11 @@ export const onSubmit = (username, password, dispatch) => {
   };
 };
 
-export const getQuizData = (accessToken, dispatch) => {
-  getQuiz(accessToken, () => dispatch(dataLoaded()));
-};
-
-export const dataLoaded = () => {
+export const closeErrorBar = () => {
   return {
-    type: "DATA_IS_LOADED"
-  }
-}
+    type: "CLOSE_ERROR_BAR",
+  };
+};
 
 export const onLoggedIn = (accessToken) => {
   return {
@@ -55,24 +59,4 @@ export const onLoginFailed = () => {
     type: "LOG_IN_FAILED",
     errorMessage: "Log in failed",
   };
-};
-
-export const changeQuestion = (questionIndex) => {
-  return {
-    type: "CHANGE_QUESTION",
-    questionIndex: questionIndex + 1,
-  };
-};
-
-export const closeErrorBar = () => {
-  return {
-    type: "CLOSE_ERROR_BAR",
-  };
-};
-
-export const LoginActions = {
-  CHANGE_PASSWORD: "CHANGE_PASSWORD",
-  CHANGE_USERNAME: "CHANGE_USERNAME",
-  ON_SUBMIT: "ON_LOG_IN",
-  ON_LOGGED_IN: "ON_LOGGED_IN",
 };
