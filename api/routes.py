@@ -1,10 +1,11 @@
-from api import app, bcrypt
-from api.models import User
+"""Server routes"""
 from flask.json import jsonify
 from flask import request
-from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, \
-    get_jwt_identity, fresh_jwt_required
-from api.validation import *
+from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, \
+    create_refresh_token, get_jwt_identity, fresh_jwt_required
+from api import app, bcrypt
+from api.models import User
+import api.validation as valid
 
 # Define error messages
 ANSWERS = {200: "200 OK",
@@ -23,13 +24,15 @@ ANSWERS = {200: "200 OK",
 @app.route('/')
 @app.route('/index')
 def index():
+    """Home route."""
     return "Hello, World!"
 
 
 @app.route('/form', methods=['POST'])
 def form():
+    """Route for posting consent form data."""
     if request.method == 'POST':
-        data = read_form_data(request)
+        data = valid.read_form_data(request)
 
         print("GOT DATA:")
         print(data)
@@ -41,11 +44,12 @@ def form():
 
 @app.route('/login', methods=['POST'])
 def login():
+    """Route for application login."""
     validators = {
-        'username': validate_string,
-        'password': validate_string
+        'username': valid.validate_string,
+        'password': valid.validate_string
     }
-    data = validate(read_form_data(request), validators)
+    data = valid.validate(valid.read_form_data(request), validators)
     if not data or not data['username'] or not data['password']:
         return jsonify(ANSWERS[400]), 400
 
@@ -67,6 +71,7 @@ def login():
 @app.route('/protected', methods=['GET'])
 @jwt_required
 def protected():
+    """Route that requires authentication with token."""
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
@@ -75,6 +80,7 @@ def protected():
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
+    """Route to automatically get a refresh token."""
     current_user = get_jwt_identity()
     new_token = create_access_token(identity=current_user, fresh=False)
     ret = {
@@ -86,12 +92,13 @@ def refresh():
 @app.route('/fresh-login', methods=['POST'])
 @jwt_refresh_token_required
 def fresh_login():
+    """Route to get a refresh token by entering credentials again."""
     validators = {
-        'username': validate_string,
-        'password': validate_string
+        'username': valid.validate_string,
+        'password': valid.validate_string
     }
 
-    data = validate(read_form_data(request), validators)
+    data = valid.validate(valid.read_form_data(request), validators)
     if not data or not data['username'] or not data['password']:
         return jsonify(ANSWERS[400]), 400
 
@@ -112,5 +119,6 @@ def fresh_login():
 @app.route('/protected-fresh', methods=['GET'])
 @fresh_jwt_required
 def protected_fresh():
+    """Route that requires authentication with a fresh token."""
     username = get_jwt_identity()
     return jsonify(fresh_logged_in_as=username), 200

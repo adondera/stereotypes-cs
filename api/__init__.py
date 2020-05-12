@@ -1,3 +1,4 @@
+"""Init file for server."""
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -25,5 +26,3 @@ migrate = Migrate(app, db)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % app.config['POSTGRES']
-
-from api import routes

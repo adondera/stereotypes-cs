@@ -1,51 +1,52 @@
-from api.validation import *
+"""Tests for validation module."""
+import api.validation as valid
 
 def test_validate_none():
     validators = None
     data = None
-    assert validate(data, validators) == None
+    assert valid.validate(data, validators) is None
 
 def test_validate_missingkey():
     validators = {
-        'username': validate_string,
-        'password': validate_string
+        'username': valid.validate_string,
+        'password': valid.validate_string
     }
     data = {
         'username': 'user'
     }
-    
-    res = validate(data, validators)
-    assert res['password'] == None
+
+    res = valid.validate(data, validators)
+    assert res['password'] is None
 
 def test_keynotinvalidators():
     validators = {
-        'year': validate_int,
+        'year': valid.validate_int,
     }
     data = {
         'year': 2020,
         'month': 'May'
     }
-    res = validate(data, validators)
+    res = valid.validate(data, validators)
     assert 'month' not in res
 
 
 def test_mismatch():
     validators = {
-        'year': validate_int,
+        'year': valid.validate_int,
     }
     data = {
         'year': '2020'
     }
-    res = validate(data, validators)
-    assert res == None
+    res = valid.validate(data, validators)
+    assert res is None
 
 def test_validators():
     validators = {
-        'accept': validate_accept,
-        'boolean': validate_boolean,
-        'float': validate_float,
-        'email': validate_email,
-        'list': validate_list
+        'accept': valid.validate_accept,
+        'boolean': valid.validate_boolean,
+        'float': valid.validate_float,
+        'email': valid.validate_email,
+        'list': valid.validate_list
     }
     anytype = any
     data = {
@@ -55,5 +56,5 @@ def test_validators():
         'email': "test@test.com",
         'list': [1, 2, 3, 4]
     }
-    res = validate(data, validators)
+    res = valid.validate(data, validators)
     assert res == data
