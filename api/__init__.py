@@ -13,14 +13,10 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 cors = CORS(app)
 
 ### Bcrypt setup
-# app.config.from_object(os.environ['SECRET_KEY'])
-app.config['SECRET_KEY'] = 'some-random-key' # Change this!
 bcrypt = Bcrypt(app)
 
 
 ### JSON Access Token setup
-# app.config.from_object(os.environ['JWT_SECRET_KEY'])
-app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
 jwt = JWTManager(app)
 
 
