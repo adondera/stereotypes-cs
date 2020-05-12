@@ -1,3 +1,4 @@
+# pylint: disable=unused-argument
 from flask_jwt_extended import create_access_token, decode_token
 
 
