@@ -77,19 +77,16 @@ def login():
     username = data['username']
     password = data['password']
 
-    if username and password:
-        user = User.query.filter_by(username=username).first()
-        if not (user and bcrypt.check_password_hash(user.password, password)):
-            return jsonify(ANSWERS[403]), 403
+    user = User.query.filter_by(username=username).first()
+    if not (user and bcrypt.check_password_hash(user.password, password)):
+        return jsonify(ANSWERS[403]), 403
 
-        # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
-        ret = {
-            'access_token': create_access_token(identity=username),
-            'refresh_token': create_refresh_token(identity=username)
-        }
-        return jsonify(ret), 200
-
-    return jsonify(ANSWERS[403]), 403
+    # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
+    ret = {
+        'access_token': create_access_token(identity=username),
+        'refresh_token': create_refresh_token(identity=username)
+    }
+    return jsonify(ret), 200
 
 
 @app.route('/protected', methods=['GET'])

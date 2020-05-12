@@ -15,7 +15,7 @@ def client():
 @pytest.fixture
 def init_db():
     db.create_all()
-    User.create_user("alin", "bandera")
+    User.create_user("username", "password")
     yield db
     db.session.close()
     db.drop_all()
