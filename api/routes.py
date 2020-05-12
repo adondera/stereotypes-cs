@@ -1,16 +1,11 @@
-import os
-
 from api import app, bcrypt
 from api.models import User
-from api import db
-from flask import render_template, send_from_directory
 from flask.json import jsonify
 from flask import request
 from typing import List
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, create_refresh_token, \
     get_jwt_identity
 from api.validation import *
-import pytest
 
 
 def read_form_data(request, file_keys: List[str] = []) -> dict:
@@ -48,13 +43,10 @@ ANSWERS = {200: "200 OK",
            }
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def serve(path):
-    if path != "" and os.path.exists(app.static_folder + '/' + path):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Hello, World!"
 
 
 @app.route('/form', methods=['POST'])
