@@ -29,4 +29,5 @@ test:
   stage: test
   script:
     - cd client/data-collection
-    - npm run-script test 
+    - npm test 
+    - a
