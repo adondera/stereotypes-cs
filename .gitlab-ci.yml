@@ -21,6 +21,10 @@ build:
     - rm -rf node_modules package-lock.json
     - npm install
     - npm run-script build
+  artifacts:
+      expire_in: 1 hour
+      paths:
+        - client/data-collection/build
 test:
   stage: test
   script:
