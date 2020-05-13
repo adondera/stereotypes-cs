@@ -39,10 +39,12 @@ linting:
     # - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > codeclimate.json
     # - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > public/lint/index.html
 
-    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/$CI_JOB_NAME.svg 4=red 6=orange 8=yellow 10=green
+    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/pylint.svg 4=red 6=orange 8=yellow 10=green
     - |
       echo "Your score is: $(cat public/badges/$CI_JOB_NAME.score)"
-    
+  artifacts:
+    paths:
+      - public/badges/pylint.svg
 
 
 deploy_staging:
