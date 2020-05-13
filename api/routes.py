@@ -44,7 +44,8 @@ def form():
 
 @app.route('/login', methods=['POST'])
 def login():
-    """Route for application login."""
+    """Route for application login.
+    Sends back a JSON with an access and a refresh token"""
     validators = {
         'username': valid.validate_string,
         'password': valid.validate_string
@@ -71,7 +72,8 @@ def login():
 @app.route('/protected', methods=['GET'])
 @jwt_required
 def protected():
-    """Route that requires authentication with token."""
+    """Route that requires authentication with token.
+    Can be accessed with both fresh/non-fresh tokens"""
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
@@ -80,7 +82,8 @@ def protected():
 @app.route('/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
-    """Route to automatically get a refresh token."""
+    """Route for getting an access token with a refresh token.
+    Returns a json with a new access token which is not fresh"""
     current_user = get_jwt_identity()
     new_token = create_access_token(identity=current_user, fresh=False)
     ret = {
@@ -92,7 +95,8 @@ def refresh():
 @app.route('/fresh-login', methods=['POST'])
 @jwt_refresh_token_required
 def fresh_login():
-    """Route to get a refresh token by entering credentials again."""
+    """Route to get a fresh access token by entering credentials again
+    Returns a json with a fresh access token"""
     validators = {
         'username': valid.validate_string,
         'password': valid.validate_string
@@ -119,6 +123,7 @@ def fresh_login():
 @app.route('/protected-fresh', methods=['GET'])
 @fresh_jwt_required
 def protected_fresh():
-    """Route that requires authentication with a fresh token."""
+    """Route that requires authentication with a fresh token.
+    If the token is non fresh, the response status code will be 401"""
     username = get_jwt_identity()
     return jsonify(fresh_logged_in_as=username), 200
