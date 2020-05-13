@@ -29,4 +29,8 @@ const mapStateToProps = (state) => {
   };
 };
 
+App.propTypes = {
+  isLoggedIn: PropTypes.bool
+}
+
 export default connect(mapStateToProps)(App);

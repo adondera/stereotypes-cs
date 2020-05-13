@@ -8,11 +8,22 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 #This declares the pipeline stages  
 stages:
+  - lint
   - build
   - test
 cache:
   paths:
-  - node_modules/
+  - client/data-collection/node_modules/
+
+lint:
+  stage: lint
+  script:
+    - cd client/data-collection/src
+    - npm cache clean --force
+    - rm -rf node_modules package-lock.json
+    - npm install
+    - npx eslint .
+
 build:
   stage: build
   script:
@@ -33,3 +44,4 @@ test:
     - rm -rf node_modules package-lock.json
     - npm install
     - npm run test
+

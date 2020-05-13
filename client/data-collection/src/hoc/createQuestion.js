@@ -14,7 +14,7 @@ const mapTypeToComponent = {
 };
 
 export function createQuestion(Question) {
-  return class extends React.Component {
+  return class QuestionHoc extends React.Component {
     render() {
       return (
         <React.Fragment>
