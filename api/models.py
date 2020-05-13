@@ -2,6 +2,7 @@
 from flask_bcrypt import generate_password_hash
 from api import db
 
+
 class User(db.Model):
     """Class that contains database schema for User table."""
     __tablename__ = 'user'

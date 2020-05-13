@@ -2,11 +2,19 @@
 import api.validation as valid
 
 def test_validate_none():
+    """
+    Test None type for both validators and data
+    :return:
+    """
     validators = None
     data = None
     assert valid.validate(data, validators) is None
 
 def test_validate_missingkey():
+    """
+    Test validate incoming data containing fewer keys than expected
+    :return:
+    """
     validators = {
         'username': valid.validate_string,
         'password': valid.validate_string
@@ -19,6 +27,10 @@ def test_validate_missingkey():
     assert res['password'] is None
 
 def test_keynotinvalidators():
+    """
+    Test validate incoming data containing more keys than expected
+    :return:
+    """
     validators = {
         'year': valid.validate_int,
     }
@@ -31,6 +43,10 @@ def test_keynotinvalidators():
 
 
 def test_mismatch():
+    """
+    Test validate incoming data containing a different type of value than expected
+    :return:
+    """
     validators = {
         'year': valid.validate_int,
     }
@@ -41,6 +57,10 @@ def test_mismatch():
     assert res is None
 
 def test_validators():
+    """
+    Test validate accept, boolean, float, email, list types
+    :return:
+    """
     validators = {
         'accept': valid.validate_accept,
         'boolean': valid.validate_boolean,
