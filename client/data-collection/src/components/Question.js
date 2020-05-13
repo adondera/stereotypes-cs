@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import { createQuestion } from "../hoc/createQuestion";
 
 class Question extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   getType() {
     console.log(this.props);

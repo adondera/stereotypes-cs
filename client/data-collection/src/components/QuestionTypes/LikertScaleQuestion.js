@@ -20,7 +20,7 @@ const LikertScaleQuestion = (props) => {
             <p>
                 {props.text}
             </p>
-            <img src={props.image} alt="image"/>
+            <img  alt="" src={props.image}/>
             <Likert {...likertOptions}/>
             <button onClick={props.onNext}>NEXT</button>
         </div>

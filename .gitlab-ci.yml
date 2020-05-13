@@ -20,7 +20,7 @@ build:
     - npm cache clean --force
     - rm -rf node_modules package-lock.json
     - npm install
-    - npm run-script build
+    - npm build
   artifacts:
       expire_in: 1 hour
       paths:
