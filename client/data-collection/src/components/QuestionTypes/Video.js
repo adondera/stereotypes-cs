@@ -6,11 +6,13 @@ const onReady = (event) => {
 };
 const Video = (props) => {
   return (
-    <YoutubeVideo
-      videoId={props.videoId}
-      onReady={onReady}
-      onEnd={props.onNext}
-    />
+      <div  style = {{"pointer-events": "none"}}>
+        <YoutubeVideo
+          videoId={props.videoId}
+          onReady={onReady}
+          onEnd={props.onNext}
+        />
+      </div>
   );
 };
 
