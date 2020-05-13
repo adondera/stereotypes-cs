@@ -30,4 +30,3 @@ test:
   script:
     - cd client/data-collection
     - npm test 
-    - a
