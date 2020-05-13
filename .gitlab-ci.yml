@@ -18,10 +18,11 @@ cache:
 lint:
   stage: lint
   script:
-    - cd client/data-collection/src
+    - cd client/data-collection/
     - npm cache clean --force
     - rm -rf node_modules package-lock.json
     - npm install
+    - cd src
     - npx eslint .
 
 build:
