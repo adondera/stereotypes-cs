@@ -5,7 +5,7 @@ from api import db
 
 class User(db.Model):
     """Class that contains database schema for User table."""
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False, unique=True)
