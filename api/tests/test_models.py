@@ -10,6 +10,7 @@ from api import bcrypt
 class TestUserModel(unittest.TestCase):
     """Class that contains tests for User model."""
     def test_create_existing_user(self):
+        """ Asserts if IntegrityError is raised when creating a user"""
         self.assertRaises(IntegrityError, User.create_user, 'username', 'password')
 
 
@@ -21,6 +22,8 @@ def test_constructor():
 
 
 def test_create_user(init_db):
+    # pylint: disable=unused-argument
+    # init_db fixture is run automatically, therefore we need it
     """Test creation of a new user instance in the database."""
     User.create_user('test', 'test')
     user = User.query.filter_by(username='test').first()

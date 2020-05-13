@@ -1,8 +1,7 @@
 """Collection of methods used for input validation."""
-from typing import List
 
 
-def validate_accept(value):
+def validate_accept(_value):
     """
     Validate any input.
 
@@ -94,6 +93,13 @@ def validate_list(value):
 
 
 def validate(data, validators):
+    """
+    Validates data object based on types (methods) specified in validators.
+    Removes redundant keys. Sets value to none for keys present in validators but not in data
+    :param data: incoming data
+    :param validators: key value dict specifying data type of values
+    :return: None if there was an error, else data.
+    """
     not_required_keys = []
     if not data:
         return None
@@ -114,7 +120,7 @@ def validate(data, validators):
     return data
 
 
-def read_form_data(request, file_keys: List[str] = []) -> dict:
+def read_form_data(request):
     """
     Returns the request's form data as a dictionary, both in `request.form`
     and `request.files`. Importantly, it also ensures through the file_keys
@@ -127,10 +133,8 @@ def read_form_data(request, file_keys: List[str] = []) -> dict:
     if request.form.to_dict():
         data.update(request.form.to_dict())
 
-    # for file_key in file_keys:
-    #     data.pop(file_key, None) # should not be there as form val
-
     data.update(request.files.to_dict())
     if bool(data):
         return data
+
     return None
