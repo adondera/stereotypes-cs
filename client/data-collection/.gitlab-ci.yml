@@ -1,0 +1,24 @@
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+#AWS access keys stored as secret variables 
+variables:
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID 
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+#This declares the pipeline stages  
+stages:
+  - build
+  - test
+cache:
+  paths:
+  - node_modules/
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run-script build
+test:
+  stage: test
+  script:
+    - npm run-script test a
