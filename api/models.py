@@ -40,3 +40,35 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+class Consent(db.Model):
+    """Class that contains information from the consent forms"""
+    id = db.Column(db.Integer, primary_key=True)
+    childFirstName = db.Column(db.String(80), nullable=False)
+    childLastName = db.Column(db.String(80), nullable=False)
+    parentFirstName = db.Column(db.String(80), nullable=False)
+    parentLastName = db.Column(db.String(80), nullable=False)
+    signature = db.Column(db.Text(), nullable=False)
+
+    def __init__(self, child_first_name, child_last_name, parent_first_name, parent_last_name, signature):
+        self.childFirstName = child_first_name
+        self.childLastName = child_last_name
+        self.parentFirstName = parent_first_name
+        self.parentLastName = parent_last_name
+        self.signature = signature
+
+    @staticmethod
+    def create_consent(child_first_name, child_last_name, parent_first_name, parent_last_name, signature):
+        consent = Consent(child_first_name, child_last_name, parent_first_name, parent_last_name, signature)
+        try:
+            db.session.add(consent)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+        finally:
+            db.session.close()
+
+    def __repr__(self):
+        return '<Consent form id: %r>' % self.id

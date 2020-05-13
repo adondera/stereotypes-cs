@@ -1,6 +1,7 @@
 """Tests for validation module."""
 import api.validation as valid
 
+
 def test_validate_none():
     """
     Test None type for both validators and data
@@ -9,6 +10,7 @@ def test_validate_none():
     validators = None
     data = None
     assert valid.validate(data, validators) is None
+
 
 def test_validate_missingkey():
     """
@@ -24,7 +26,8 @@ def test_validate_missingkey():
     }
 
     res = valid.validate(data, validators)
-    assert res['password'] is None
+    assert res is None
+
 
 def test_keynotinvalidators():
     """
@@ -55,6 +58,7 @@ def test_mismatch():
     }
     res = valid.validate(data, validators)
     assert res is None
+
 
 def test_validators():
     """

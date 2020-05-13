@@ -1,4 +1,33 @@
 """Collection of methods used for input validation."""
+import base64
+
+
+def validate_person_data(value):
+    validators = {
+        'firstName': validate_string,
+        'lastName': validate_string,
+    }
+
+    return validate(value, validators)
+
+
+def validate_children_data(value):
+    if not validate_list(value):
+        return False
+
+    for child in value:
+        if not validate_person_data(child):
+            return False
+
+    return True
+
+
+def validate_signature(value):
+    try:
+        return base64.b64encode(base64.b64decode(value.split(',')[1])) == bytes(value.split(',')[1], encoding=ascii)
+    except:
+        print("Expected base64, got something else")
+        return False
 
 
 def validate_accept(_value):
@@ -105,7 +134,7 @@ def validate(data, validators):
         return None
     for key in validators.keys():
         if key not in data:
-            data.update({key: None})
+            return None
     for key, value in data.items():
         if key not in validators.keys():
             print("(WARNING) key:{} not in validators, "

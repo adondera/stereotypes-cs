@@ -2,7 +2,7 @@
 import unittest
 import pytest
 from sqlalchemy.exc import IntegrityError
-from api.models import User
+from api.models import User, Consent
 from api import bcrypt
 
 
@@ -31,3 +31,9 @@ def test_create_user(init_db):
     assert user.id == 2
     assert user.username == 'test'
     assert bcrypt.check_password_hash(user.password, 'test')
+
+
+def test_create_form_result(init_db):
+    Consent.create_consent('alin', 'bandera', 'pantera', 'bandera', 'signature')
+    result = Consent.query.filter_by(childFirstName='alin').first()
+    assert result.childFirstName == 'alin'

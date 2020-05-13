@@ -4,7 +4,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, create_access_token, \
     create_refresh_token, get_jwt_identity, fresh_jwt_required
 from api import app, bcrypt
-from api.models import User
+from api.models import User, Consent
 import api.validation as valid
 
 # Define error messages
@@ -34,8 +34,24 @@ def form():
     if request.method == 'POST':
         data = valid.read_form_data(request)
 
-        print("GOT DATA:")
+        validators = {
+            'parent': valid.validate_person_data,
+            'children': valid.validate_children_data,
+            'signature': valid.validate_signature
+        }
+        if not data:
+             return jsonify(ANSWERS[400]), 400
+
+        print("GOT DATA")
         print(data)
+
+        parent = data['parent']
+        signature = data['signature']
+
+        for child in data['children']:
+            
+            Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'], parent['lastName'], signature)
+
 
         return jsonify(ANSWERS[200]), 200
 
@@ -51,7 +67,7 @@ def login():
         'password': valid.validate_string
     }
     data = valid.validate(valid.read_form_data(request), validators)
-    if not data or not data['username'] or not data['password']:
+    if not data:
         return jsonify(ANSWERS[400]), 400
 
     username = data['username']
@@ -103,7 +119,7 @@ def fresh_login():
     }
 
     data = valid.validate(valid.read_form_data(request), validators)
-    if not data or not data['username'] or not data['password']:
+    if not data:
         return jsonify(ANSWERS[400]), 400
 
     username = data['username']
