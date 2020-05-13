@@ -17,6 +17,8 @@ build:
   stage: build
   script:
     - cd client/data-collection
+    - npm cache clean --force
+    - rm -rf node_modules package-lock.json
     - npm install
     - npm run-script build
 test:
