@@ -3,7 +3,7 @@ image: python:3.8.2
 stages:
   - ver
   - test
-  - linting
+  - pylint
   - deploy
 
 ver:
@@ -26,7 +26,7 @@ test:
   - coverage run --source api --branch -m pytest api
   - coverage report
 
-linting:
+pylint:
   script:
     - export APP_SETTINGS=config.CITestingConfig
     - apt-get update -qy
