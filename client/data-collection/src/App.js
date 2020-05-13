@@ -4,6 +4,7 @@ import Login from "./containers/Login";
 import MainApp from "./containers/MainApp";
 import { connect } from "react-redux";
 import { BrowserRouter, Redirect } from "react-router-dom";
+import PropTypes from 'prop-types'
 
 const App = ({ isLoggedIn = false }) => {
   return (
