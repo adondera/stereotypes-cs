@@ -1,5 +1,5 @@
 import React from 'react'
-import Liker from 'react-likert-scale'
+import Likert from 'react-likert-scale'
 
 const LikertScaleQuestion = (props) => {
     const likertOptions = {
