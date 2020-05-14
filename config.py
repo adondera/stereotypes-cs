@@ -7,6 +7,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
+    PROPAGATE_EXCEPTIONS = True
     POSTGRES = {
         'user': 'wjyyqbjfvwukln',
         'pw': 'd9194e1d96f48b0ccc04e6e26d63d4c170191e34e836f87caa3f1d4441c153e7',
@@ -44,7 +45,7 @@ class TestingConfig(Config):
 
 
 class CITestingConfig(Config):
-    Testing = True
+    TESTING = True
     POSTGRES = {
         'user': 'test',
         'pw': 'test',
@@ -52,4 +53,3 @@ class CITestingConfig(Config):
         'host': 'postgres',
         'port': '5432',
     }
-    PROPAGATE_EXCEPTIONS = True
