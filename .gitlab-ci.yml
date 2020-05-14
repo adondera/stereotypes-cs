@@ -22,16 +22,13 @@ lint:
     - npm cache clean --force
     - rm -rf node_modules package-lock.json
     - npm install
-    - cd src
     - npx eslint .
 
 build:
   stage: build
   script:
     - cd client/data-collection
-    - npm cache clean --force
-    - rm -rf node_modules package-lock.json
-    - npm install
+    - npm install JayDew/react-likert-scale
     - npm build
   artifacts:
       expire_in: 1 hour
@@ -41,8 +38,7 @@ test:
   stage: test
   script:
     - cd client/data-collection
-    - npm cache clean --force
-    - rm -rf node_modules package-lock.json
-    - npm install
+    - npm install 
+    - npm install JayDew/react-likert-scale
     - npm run test
 
