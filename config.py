@@ -52,3 +52,4 @@ class CITestingConfig(Config):
         'host': 'postgres',
         'port': '5432',
     }
+    PROPAGATE_EXCEPTIONS = True
