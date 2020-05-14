@@ -34,6 +34,7 @@ def test_create_user(init_db):
 
 
 def test_create_form_result(init_db):
+    # pylint: disable=unused-argument
     Consent.create_consent('alin', 'bandera', 'pantera', 'bandera', 'signature')
     result = Consent.query.filter_by(childFirstName='alin').first()
     assert result.childFirstName == 'alin'

@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name, too-many-arguments
 """ Models for the database schema."""
 from flask_bcrypt import generate_password_hash
 from api import db
@@ -51,7 +52,8 @@ class Consent(db.Model):
     parentLastName = db.Column(db.String(80), nullable=False)
     signature = db.Column(db.Text(), nullable=False)
 
-    def __init__(self, child_first_name, child_last_name, parent_first_name, parent_last_name, signature):
+    def __init__(self, child_first_name, child_last_name,
+                 parent_first_name, parent_last_name, signature):
         self.childFirstName = child_first_name
         self.childLastName = child_last_name
         self.parentFirstName = parent_first_name
@@ -59,8 +61,11 @@ class Consent(db.Model):
         self.signature = signature
 
     @staticmethod
-    def create_consent(child_first_name, child_last_name, parent_first_name, parent_last_name, signature):
-        consent = Consent(child_first_name, child_last_name, parent_first_name, parent_last_name, signature)
+    def create_consent(child_first_name, child_last_name,
+                       parent_first_name, parent_last_name, signature):
+        """Creates a consent form row in the database"""
+        consent = Consent(child_first_name, child_last_name,
+                          parent_first_name, parent_last_name, signature)
         try:
             db.session.add(consent)
             db.session.commit()
