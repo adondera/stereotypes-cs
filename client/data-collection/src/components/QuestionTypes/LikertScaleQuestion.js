@@ -1,31 +1,53 @@
-import React from 'react'
-import Likert from 'react-likert-scale'
+import React, { useState } from "react";
+import Likert from "react-likert-scale";
+import { likertScaleText } from "../../utils/constants/LikertScale";
+import { saveQuestionAction } from "../../actions/question";
+import { connect } from "react-redux";
+
 
 const LikertScaleQuestion = (props) => {
-    const likertOptions = {
-        question: props.text,
-        responses: [
-          { value: 1, text: "Abysmal" },
-          { value: 2, text: "Poor" },
-          { value: 3, text: "Average" },
-          { value: 4, text: "Good" },
-          { value: 5, text: "Most Excellent, Ted" }
-        ],
-        picked: val => {
-          console.log(val);
-        }
-      };
-    return (
-        <div>
-            {/* LIKERT SCALE QUESTION */}
-            <p>
-                {props.text}
-            </p>
-            <img  alt="" src={props.image}/>
-            <Likert {...likertOptions}/>
-            <button onClick={props.onNext}>NEXT</button>
-        </div>
-    )
-}
+  const [state, setQuestionAnswer] = useState({ answer: 0 });
+  const onClick = () => {
+    props.submitSelectedScale(state.answer, props.type)
+    props.onNext();
+  };
 
-export default LikertScaleQuestion 
+  const likertOptions = {
+    question: props.text,
+    responses: likertScaleText.map((scaleText, index) => {
+      return { value: index + 1, text: scaleText };
+    }),
+    picked: (val) => {
+      setQuestionAnswer({ answer: val });
+    },
+  };
+  return (
+    <div>
+      {/* LIKERT SCALE QUESTION */}
+      <p>{props.text}</p>
+      <img alt="" src={props.image} />
+      <Likert {...likertOptions} />
+      <button disabled={state.answer === 0} onClick={onClick}>
+        NEXT
+      </button>
+    </div>
+  );
+};
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitSelectedScale: (answer, questionType) =>
+      dispatch(saveQuestionAction(answer, questionType)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LikertScaleQuestion);

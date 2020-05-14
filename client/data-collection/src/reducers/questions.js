@@ -10,6 +10,8 @@ const questionsReducer = (state = { answers: [] }, action) => {
         ...state,
         answers: newAnswers,
       };
+    case "CLEAR_QUESTIONS":
+      return { ...state, answers: [] };
     default:
       return state;
   }

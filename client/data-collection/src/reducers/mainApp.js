@@ -31,31 +31,31 @@ const mainAppReducer = (state = {}, action) => {
             image2:
               "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
           },
-          {
-            type: 1,
-            title: "Which one is the nice mom?",
-            text: "Only one of them is a nice girl...",
-            image1:
-              "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-            image2:
-              "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          },
-          {
-            type: 1,
-            title: "Which one is the nice curva?",
-            text: "Only one of them is a nice girl...",
-            image1:
-              "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-            image2:
-              "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          },
           // {
-          //   type: 2,
-          //   title: "Question 2",
-          //   text: "How much do you like pizza?",
-          //   image:
-          //     "https://app.jerryspizza.ro/admin/uploads/website_products/pizza_Rustic.png",
+          //   type: 1,
+          //   title: "Which one is the nice mom?",
+          //   text: "Only one of them is a nice girl...",
+          //   image1:
+          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
+          //   image2:
+          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
           // },
+          // {
+          //   type: 1,
+          //   title: "Which one is the nice curva?",
+          //   text: "Only one of them is a nice girl...",
+          //   image1:
+          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
+          //   image2:
+          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
+          // },
+          {
+            type: 2,
+            title: "Question 2",
+            text: "How much do you like pizza?",
+            image:
+              "https://app.jerryspizza.ro/admin/uploads/website_products/pizza_Rustic.png",
+          },
           // {
           //   type: 3,
           //   title: "Watch the following video",

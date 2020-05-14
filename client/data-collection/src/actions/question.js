@@ -5,3 +5,9 @@ export const saveQuestionAction = (answer, questionType) => {
     questionType: questionType,
   };
 };
+
+export const clearQuestionsStore = () => {
+    return {
+        type: "CLEAR_QUESTIONS"
+    }
+}
