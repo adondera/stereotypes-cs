@@ -1,5 +1,5 @@
 """Tests for validation module."""
-import api.validation as valid
+import api.endpoints.validation as valid
 
 
 def test_validate_none():
