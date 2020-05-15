@@ -4,6 +4,7 @@ import React from "react";
 import Video from "../components/QuestionTypes/Video";
 import Information from "../components/QuestionTypes/Information";
 import Finish from "../components/QuestionTypes/Finish";
+import MultipleChoice from "../components/QuestionTypes/MultipleChoice"
 import { Redirect } from "react-router";
 const mapTypeToComponent = {
   1: BinaryQuestion,
@@ -11,6 +12,7 @@ const mapTypeToComponent = {
   3: Video,
   4: Information,
   5: Finish,
+  6: MultipleChoice
 };
 
 export function createQuestion(Question) {

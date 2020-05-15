@@ -62,9 +62,13 @@ const mainAppReducer = (state = {}, action) => {
           //   videoId: "7CVtTOpgSyY",
           // },
           {
+            type: 6,
+            title: "Multiple Choice"
+          },
+          {
             type: 5,
             title: "THE QUIZ HAS ENDED!",
-          },
+          }
         ],
       };
       return {
