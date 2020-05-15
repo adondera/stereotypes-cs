@@ -18,7 +18,7 @@ const MultipleChoice = (props) => {
           }
         >
           <QuestionGroup questionNumber={"selected-answer"}>
-            <Question>What's your favorite food?</Question>
+            <Question>What is your favorite food?</Question>
             <Option value="1">Mac n Cheese</Option>
             <Option value="2">Steak</Option>
             <Option value="3">Sushi</Option>
