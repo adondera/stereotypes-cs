@@ -11,7 +11,7 @@ const mainAppReducer = (state = {}, action) => {
         questions: [
           {
             type: 4,
-            title: "THE QUIZ STARTS NOW!",
+            title: "We will first get to know each other!",
           },
           {
             type: 1,
