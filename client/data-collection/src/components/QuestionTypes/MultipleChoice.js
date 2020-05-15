@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { saveQuestionAction } from "../../actions/question";
 import { connect } from "react-redux";
-import { Test, QuestionGroup, Question, Option } from "react-multiple-choice";
+import { Test, QuestionGroup, Option } from "react-multiple-choice";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import "../../styles/Question.css"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 345,
   },
+  nextButton: {
+    margin: 20
+}
 }));
 
 const MultipleChoice = (props) => {
@@ -58,19 +62,19 @@ const MultipleChoice = (props) => {
                         </QuestionGroup>
                       </Test>
                     </div>
-                    <Button
-                        variant="contained"
-                        disabled={state.answer === 0}
-                        onClick={onClick}
-                    >
-                      NEXT
-                    </Button>
                   </Typography>
                 </CardContent>
               </Card>
             </Grid>
             <Grid item xs={12} sm={2}></Grid>
           </Grid>
+                    <Button className={classes.nextButton}
+                        variant="contained"
+                        disabled={state.answer === 0}
+                        onClick={onClick}
+                    >
+                      NEXT
+                    </Button>
         </div>
       </React.Fragment>
   );

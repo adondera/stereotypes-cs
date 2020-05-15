@@ -5,7 +5,6 @@ import { saveQuestionAction } from "../../actions/question";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     maxWidth: 345,
+  },
+  nextButton: {
+    margin: 20,
   },
 }));
 
@@ -43,40 +45,34 @@ const LikertScaleQuestion = (props) => {
     },
   };
   return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={2}></Grid>
-            <Grid item xs={12} sm={8}>
-              <Card className={classes.root}>
-                <CardMedia
-                    component="img"
-                    alt=""
-                    height="500"
-                    image={props.image}
-                    title="image1"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {props.text}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    <Likert {...likertOptions} />
-                    <Button
-                        variant="contained"
-                        disabled={state.answer === 0}
-                        onClick={onClick}
-                    >
-                      NEXT
-                    </Button>
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={2}></Grid>
+    <React.Fragment>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={2}></Grid>
+          <Grid item xs={12} sm={8}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {props.text}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <Likert {...likertOptions} />
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
-        </div>
-      </React.Fragment>
+          <Grid item xs={12} sm={2}></Grid>
+        </Grid>
+        <Button
+          className={classes.nextButton}
+          variant="contained"
+          disabled={state.answer === 0}
+          onClick={onClick}
+        >
+          NEXT
+        </Button>
+      </div>
+    </React.Fragment>
   );
 };
 
@@ -89,11 +85,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSelectedScale: (answer, questionType) =>
-        dispatch(saveQuestionAction(answer, questionType)),
+      dispatch(saveQuestionAction(answer, questionType)),
   };
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(LikertScaleQuestion);
