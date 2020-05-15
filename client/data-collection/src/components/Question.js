@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { createQuestion } from "../hoc/createQuestion";
+import "../styles/Question.css"
 
 class Question extends Component {
   getType() {
@@ -15,14 +16,14 @@ class Question extends Component {
     return (
       <React.Fragment>
         {quizStarted ? (
-          <React.Fragment>
+          <div className="Question">
             <h1>{this.props.questionData.title}</h1>
             <this.props.questionType
               {...this.props.questionData}
               onNext={() => this.props.onQuestionChange(questionIndex)}
               onFinish={() => this.props.onQuizFinished()}
             ></this.props.questionType>
-          </React.Fragment>
+          </div>
         ) : (
           <div>QUIZ NOT STARTED</div>
         )}

@@ -18,18 +18,18 @@ const mainAppReducer = (state = {}, action) => {
             title: "Which one is the nice girl?",
             text: "Only one of them is a nice girl...",
             image1:
-              "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
+              "https://i.imgur.com/9GIFW9f.jpg",
             image2:
-              "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
+              "https://i.imgur.com/9GIFW9f.jpg",
           },
           {
             type: 1,
             title: "Which one is the nice boy?",
             text: "Only one of them is a nice girl...",
             image1:
-              "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
+              "https://i.imgur.com/9GIFW9f.jpg",
             image2:
-              "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
+              "https://i.imgur.com/9GIFW9f.jpg",
           },
           // {
           //   type: 1,
@@ -54,7 +54,7 @@ const mainAppReducer = (state = {}, action) => {
             title: "Question 2",
             text: "How much do you like pizza?",
             image:
-              "https://app.jerryspizza.ro/admin/uploads/website_products/pizza_Rustic.png",
+              "https://i.imgur.com/9GIFW9f.jpg",
           },
           // {
           //   type: 3,
