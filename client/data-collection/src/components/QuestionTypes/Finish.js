@@ -1,6 +1,7 @@
 import React from "react";
 import { clearQuestionsStore } from "../../actions/question";
 import {connect} from "react-redux"
+import Button from "@material-ui/core/Button";
 const Finish = (props) => {
   const onClick = () => {
     props.clearQuestionsStore();
@@ -8,7 +9,9 @@ const Finish = (props) => {
   };
   return (
     <div>
-      <button onClick={onClick}>END</button>
+      <Button variant="contained" onClick={onClick}>
+        END
+      </Button>
     </div>
   );
 };
