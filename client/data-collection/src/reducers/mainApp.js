@@ -31,24 +31,6 @@ const mainAppReducer = (state = {}, action) => {
             image2:
               "https://www.ixxiyourworld.com/media/1676571/Mickey-Mouse-2.jpg?mode=crop&width=562&height=613",
           },
-          // {
-          //   type: 1,
-          //   title: "Which one is the nice mom?",
-          //   text: "Only one of them is a nice girl...",
-          //   image1:
-          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-          //   image2:
-          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          // },
-          // {
-          //   type: 1,
-          //   title: "Which one is the nice curva?",
-          //   text: "Only one of them is a nice girl...",
-          //   image1:
-          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-          //   image2:
-          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          // },
           {
             type: 2,
             title: "Question 2",
@@ -56,11 +38,11 @@ const mainAppReducer = (state = {}, action) => {
             image:
               "https://i.imgur.com/9GIFW9f.jpg",
           },
-          // {
-          //   type: 3,
-          //   title: "Watch the following video",
-          //   videoId: "7CVtTOpgSyY",
-          // },
+          {
+            type: 3,
+            title: "Watch the following video",
+            videoId: "7CVtTOpgSyY",
+          },
           {
             type: 6,
             title: "Multiple Choice"
