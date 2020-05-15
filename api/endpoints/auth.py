@@ -6,22 +6,9 @@ from flask_restful import Resource
 from flask import request
 from flask_jwt_extended import create_refresh_token, create_access_token, jwt_refresh_token_required
 from api import bcrypt
+from api.endpoints.constants import ANSWERS
 from api.models import User
 import api.endpoints.validation as valid
-
-
-# Define error messages
-ANSWERS = {200: "200 OK",
-           201: "201 Created",
-           204: "204 No Content",
-           400: "400 Bad Request",
-           401: "401 Unauthorized",
-           403: "403 Forbidden",
-           404: "404 Not found",
-           500: "500 An internal server error occurred",
-           501: "501 Not implemented",
-           502: "502 Bad gateway"
-           }
 
 
 class Login(Resource):
