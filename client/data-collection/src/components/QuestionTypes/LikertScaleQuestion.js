@@ -39,7 +39,6 @@ const LikertScaleQuestion = (props) => {
   };
 
   const likertOptions = {
-    question: props.text,
     responses: likertScaleText.map((scaleText, index) => {
       return { value: index + 1, text: scaleText };
     }),

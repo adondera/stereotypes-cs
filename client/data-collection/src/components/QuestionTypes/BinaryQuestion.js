@@ -5,6 +5,7 @@ import answers from "../../utils/constants/Answers";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ImageCard from "./ImageCard"
+import {useEffect, useState} from "react"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const BinaryQuestion = (props) => {
 
   const classes = useStyles();
@@ -33,6 +35,41 @@ const BinaryQuestion = (props) => {
     props.onRight(answers.RIGHT, props.type);
   };
 
+  const onKeyUp = (event) => {
+    if(event.key === "e") {
+      setTimeout(onClickLeft, 300)
+    }
+    if(event.key === "i") {
+      setTimeout(onClickRight, 300) 
+      }
+    }
+  
+  const onKeyDown = (event) => {
+    if(event.key === "e") {
+      setstate({...state, isLeftSelected: true})
+    }
+    if(event.key === "i") {
+      setstate({...state, isRightSelected: true})
+      }
+    }
+
+  const [state, setstate] = useState({questionIndex: props.questionIndex, isLeftSelected: false, isRightSelected: false})
+
+  useEffect(() => {
+    setstate({questionIndex: props.questionIndex, isLeftSelected: false, isRightSelected: false})
+  }, [props.questionIndex])
+
+  useEffect(() => {
+    window.addEventListener("keyup", onKeyUp, true)
+    window.addEventListener("keydown", onKeyDown, true)
+    return () => {
+      window.removeEventListener("keyup", onKeyUp, true)
+      window.removeEventListener("keydown", onKeyDown, true)
+    }
+  })
+
+
+
   return (
       <React.Fragment>
         <div className={classes.root}>
@@ -41,10 +78,10 @@ const BinaryQuestion = (props) => {
               <h3>{props.text}</h3>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ImageCard image={props.image1} onClick={onClickLeft} />
+              <ImageCard image={props.image1} onClick={onClickLeft} isSelected={state.isLeftSelected}/>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ImageCard image={props.image2} onClick={onClickRight}/>
+              <ImageCard image={props.image2} onClick={onClickRight} isSelected={state.isRightSelected}/>
             </Grid>
           </Grid>
         </div>

@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useState } from "react";
-import Spinner from "@material-ui/core/CircularProgress"
+import Spinner from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
   video: {
     marginTop: 10,
     pointerEvents: "none",
-    width: "100%",
+    width: "90%",
+  },
+  videoHide: {
+    display: "none",
   },
   playButton: {
     marginBottom: 10,
@@ -32,7 +35,11 @@ const useStyles = makeStyles((theme) => ({
 const Video = (props) => {
   const classes = useStyles();
   const videoRef = React.createRef();
-  const [state, setstate] = useState({ isPlayed: false, isLoading: true });
+  const [state, setstate] = useState({
+    isPlayedOnce: false,
+    isLoading: true,
+    isPlayed: false,
+  });
   const onReady = (event) => {
     // access to player in all event handlers via event.target
     //event.target.playVideo();
@@ -51,38 +58,61 @@ const Video = (props) => {
         <Grid item xs={12} className={classes.card}>
           <Card>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {props.text}
-              </Typography>
-                <YoutubeVideo
-                  style={{display: state.isLoading ? "none" : "block"}}
-                  ref={videoRef}
-                  className={classes.video}
-                  videoId={props.videoId}
-                  onReady={onReady}
-                  opts={opts}
-                  onEnd={() => setstate({ ...state, isPlayed: true })}
-                />
-                {state.isLoading ? (<Spinner/>) : (null)}
+              {state.isPlayed ? null : (
+                <Typography gutterBottom variant="h5" component="h2">
+                  {props.text}
+                </Typography>
+              )}
+              <YoutubeVideo
+                ref={videoRef}
+                className={
+                  !state.isPlayed || state.isLoading
+                    ? classes.videoHide
+                    : classes.video
+                }
+                videoId={props.videoId}
+                onReady={onReady}
+                opts={opts}
+                onEnd={() => setstate({ ...state, isPlayedOnce: true })}
+              />
+              {state.isLoading ? <Spinner /> : null}
             </CardContent>
-            <Button
-              variant="contained"
-              size="medium"
-              className={classes.playButton}
-              onClick={() => videoRef.current.internalPlayer.playVideo()}
-            >
-              {state.isPlayed ? <span>Replay</span> : <span>Play</span>}
-            </Button>
+            {state.isPlayed ? null : (
+              <Button
+                variant="contained"
+                size="medium"
+                className={classes.playButton}
+                onClick={() => {
+                  setstate({ ...state, isPlayed: true });
+                  videoRef.current.internalPlayer.playVideo();
+                }}
+              >
+                Play
+              </Button>
+            )}
+            {state.isPlayedOnce ? (
+              <Button
+                variant="contained"
+                size="medium"
+                className={classes.playButton}
+                onClick={() => {
+                  setstate({ ...state, isPlayed: true });
+                  videoRef.current.internalPlayer.playVideo();
+                }}
+              >
+                Replay
+              </Button>
+            ) : null}
           </Card>
         </Grid>
       </Grid>
-      {state.isPlayed ? (
+      {state.isPlayedOnce ? (
         <Button
           className={classes.nextButton}
           onClick={props.onNext}
           variant="contained"
-          disabled={!state.isPlayed}
-          hidden={!state.isPlayed}
+          disabled={!state.isPlayedOnce}
+          hidden={!state.isPlayedOnce}
         >
           Next
         </Button>
