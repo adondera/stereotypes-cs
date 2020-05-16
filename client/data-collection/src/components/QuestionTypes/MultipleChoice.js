@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import "../../styles/Question.css"
+import "../../styles/Question.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +23,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   nextButton: {
-    margin: 20
-}
+      marginTop: 20
+  },
+  choices: {
+      margin: "auto"
+  }
 }));
 
 const MultipleChoice = (props) => {
@@ -34,49 +37,52 @@ const MultipleChoice = (props) => {
     props.submitSelectedChoice(state.answer, props.type);
     props.onNext();
   };
+  const onSelectedOption = (selectedOptions) => {
+    setQuestionAnswer({
+      answer: selectedOptions["selected-answer"],
+    });
+  };
   return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={2}></Grid>
-            <Grid item xs={12} sm={8}>
-              <Card className={classes.root}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {props.text}
-                </Typography>
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    <div>
-                      <Test
-                          onOptionSelect={(selectedOptions) =>
-                              setQuestionAnswer({
-                                answer: selectedOptions["selected-answer"],
-                              })
-                          }
-                      >
-                        <QuestionGroup questionNumber={"selected-answer"}>
-                          <Option value="1">Mac n Cheese</Option>
-                          <Option value="2">Steak</Option>
-                          <Option value="3">Sushi</Option>
-                          <Option value="4">Pad Thai</Option>
-                        </QuestionGroup>
-                      </Test>
-                    </div>
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={2}></Grid>
+    <React.Fragment>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Card className={classes.root}>
+              <Typography gutterBottom variant="h5" component="h2">
+                {props.text}
+              </Typography>
+              <CardContent>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                ></Typography>
+                <Test
+                className={classes.choices}
+                  onOptionSelect={onSelectedOption}
+                >
+                  <QuestionGroup questionNumber={"selected-answer"}>
+                      {props.options.map((option, index) => {
+                          return (
+                          <Option key={index} value={(index+1).toString()}>{option}</Option>
+                          )
+                      })}
+                  </QuestionGroup>
+                </Test>
+              </CardContent>
+            </Card>
           </Grid>
-                    <Button className={classes.nextButton}
-                        variant="contained"
-                        disabled={state.answer === 0}
-                        onClick={onClick}
-                    >
-                      NEXT
-                    </Button>
-        </div>
-      </React.Fragment>
+        </Grid>
+        <Button
+          className={classes.nextButton}
+          variant="contained"
+          disabled={state.answer === 0}
+          onClick={onClick}
+        >
+          NEXT
+        </Button>
+      </div>
+    </React.Fragment>
   );
 };
 
@@ -89,7 +95,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSelectedChoice: (answer, questionType) =>
-        dispatch(saveQuestionAction(answer, questionType)),
+      dispatch(saveQuestionAction(answer, questionType)),
   };
 };
 

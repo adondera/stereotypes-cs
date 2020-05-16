@@ -9,7 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-
+import "../../styles/Question.css"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   nextButton: {
     margin: 20,
   },
+  likert: {
+    marginTop: 40
+  }
 }));
 
 const LikertScaleQuestion = (props) => {
@@ -48,20 +51,16 @@ const LikertScaleQuestion = (props) => {
     <React.Fragment>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={2}></Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} >
             <Card className={classes.root}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   {props.text}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <Likert {...likertOptions} />
-                </Typography>
+                  <Likert {...likertOptions} className="likertScale" />
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={2}></Grid>
         </Grid>
         <Button
           className={classes.nextButton}
