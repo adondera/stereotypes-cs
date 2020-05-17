@@ -4,13 +4,13 @@ import { createQuestion } from "../hoc/createQuestion";
 import "../styles/Question.css"
 
 class Question extends Component {
+
   getType() {
     console.log(this.props);
     return this.props.questionData.type;
   }
 
   render() {
-    const questionIndex = this.props.questionIndex;
     const quizStarted = this.props.quizStarted;
 
     return (
@@ -18,11 +18,7 @@ class Question extends Component {
         {quizStarted ? (
           <div className="Question">
             <h1>{this.props.questionData.title}</h1>
-            <this.props.questionType
-              {...this.props.questionData}
-              onNext={() => this.props.onQuestionChange(questionIndex)}
-              onFinish={() => this.props.onQuizFinished()}
-            ></this.props.questionType>
+            {this.props.children}
           </div>
         ) : (
           <div>QUIZ NOT STARTED</div>
@@ -35,6 +31,8 @@ class Question extends Component {
 Question.propTypes = {
   questionIndex: PropTypes.number,
   quizStarted: PropTypes.bool,
+  questionData: PropTypes.object,
+  children: PropTypes.any
 };
 
 export default createQuestion(Question);

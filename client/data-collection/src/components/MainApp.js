@@ -3,6 +3,8 @@ import { Route, Redirect } from "react-router";
 import { Switch } from "react-router";
 import Question from "../containers/Question";
 import PropTypes from "prop-types";
+import Start from "./Start";
+import Load from "./Load"
 
 const MainApp = ({
   questionIndex = 0,
@@ -16,19 +18,16 @@ const MainApp = ({
     <div>
       <Switch>
         <Route path="/load">
-          <button onClick={() => loadData(accessToken)}>LOAD DATA</button>
+          <Load onClick={() => loadData(accessToken)}/>
           {isDataLoaded ? <Redirect to="/app" /> : null}
         </Route>
         <Route path="/app">
-          <h1>LOGGED IN</h1>
-          <h1>You can start the quiz!</h1>
-          <p> index: {questionIndex} </p>
-          <button onClick={() => onQuestionChange(questionIndex).questions}>
-            START
-          </button>
+          <Start onClick={() => onQuestionChange(questionIndex).questions} />
           {questionIndex === 0 ? null : <Redirect to="/questions" />}
         </Route>
-        <Route path="/questions">
+        <Route
+          path="/questions"
+        >
           <Question
             onQuizFinished={finishQuiz}
             onQuestionChange={onQuestionChange}
@@ -43,6 +42,12 @@ const MainApp = ({
 
 MainApp.propTypes = {
   questions: PropTypes.object,
+  questionIndex: PropTypes.number,
+  onQuestionChange: PropTypes.func,
+  loadData: PropTypes.func,
+  isDataLoaded: PropTypes.bool,
+  accessToken: PropTypes.string,
+  finishQuiz: PropTypes.func,
 };
 
 export default MainApp;

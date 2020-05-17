@@ -11,64 +11,48 @@ const mainAppReducer = (state = {}, action) => {
         questions: [
           {
             type: 4,
-            title: "THE QUIZ STARTS NOW!",
+            title: "We will first get to know each other!",
+            text:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin at magna lobortis lobortis. In et odio velit. Cras tincidunt, lacus vitae scelerisque maximus, ex risus placerat magna, ut pellentesque turpis risus in ante. Vestibulum vulputate eu lacus vel euismod. Etiam id nisi eleifend risus hendrerit sagittis. In hac habitasse platea dictumst. Mauris ut dolor non nibh varius vulputate",
           },
           {
             type: 1,
-            title: "Which one is the nice girl?",
-            text: "Only one of them is a nice girl...",
-            image1:
-              "https://i.imgur.com/9GIFW9f.jpg",
-            image2:
-              "https://i.imgur.com/9GIFW9f.jpg",
+            title: "Binary question",
+            text: "Which one is a keyboard",
+            image1: "https://i.imgur.com/9GIFW9f.jpg",
+            image2: "https://i.imgur.com/9GIFW9f.jpg",
           },
           {
             type: 1,
-            title: "Which one is the nice boy?",
-            text: "Only one of them is a nice girl...",
+            title: "Binary question",
+            text: "Which one is Donald duck",
             image1:
-              "https://i.imgur.com/9GIFW9f.jpg",
+              "https://s12emagst.akamaized.net/products/2427/2426628/images/res_ec174d50b8395d32dfa933a7fa538e5d_full.jpg",
             image2:
-              "https://i.imgur.com/9GIFW9f.jpg",
+              "https://www.ixxiyourworld.com/media/1676571/Mickey-Mouse-2.jpg?mode=crop&width=562&height=613",
           },
-          // {
-          //   type: 1,
-          //   title: "Which one is the nice mom?",
-          //   text: "Only one of them is a nice girl...",
-          //   image1:
-          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-          //   image2:
-          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          // },
-          // {
-          //   type: 1,
-          //   title: "Which one is the nice curva?",
-          //   text: "Only one of them is a nice girl...",
-          //   image1:
-          //     "https://image.shutterstock.com/image-photo/cute-little-indianasian-girl-holding-260nw-1138447115.jpg",
-          //   image2:
-          //     "https://4.imimg.com/data4/UW/NP/MY-2403504/img_0166-250x250.jpg",
-          // },
           {
             type: 2,
-            title: "Question 2",
+            title: "Question Likert Scale",
             text: "How much do you like pizza?",
-            image:
-              "https://i.imgur.com/9GIFW9f.jpg",
+            image: "https://i.imgur.com/9GIFW9f.jpg",
           },
-          // {
-          //   type: 3,
-          //   title: "Watch the following video",
-          //   videoId: "7CVtTOpgSyY",
-          // },
+          {
+            type: 3,
+            title: "Role models video",
+            text:
+              "You are going to watch a video about stereotypes in Computer Science. Click play when ready",
+            videoId: "7CVtTOpgSyY",
+          },
           {
             type: 6,
-            title: "Multiple Choice"
+            title: "Multiple Choice",
+            options: ["Option 1", "Option 2"],
           },
           {
             type: 5,
             title: "THE QUIZ HAS ENDED!",
-          }
+          },
         ],
       };
       return {
@@ -83,7 +67,7 @@ const mainAppReducer = (state = {}, action) => {
       };
     default:
       return state;
-  }
+  }  
 };
 
 export default mainAppReducer;

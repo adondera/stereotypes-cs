@@ -4,3 +4,29 @@
     margin: auto;
     margin-top: 50px;
 }
+
+.nextButton {
+    margin-top: 20px
+}
+
+.likertScale {
+    margin-top: 30px;
+    
+}
+
+.likertScale legend {
+    display: none;
+}
+
+.likertScale div label span.likertIndicator {
+    background-color: #3f51b5;
+    border: solid #002984
+}
+
+.likertResponse>input:checked+.likertIndicator {
+    background-color: azure;
+}
+
+.Option span{
+    color: #3f51b5;
+}
