@@ -5,6 +5,7 @@ import answers from "../../utils/constants/Answers";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ImageCard from "./ImageCard"
+import TextCard from "./TextCard"
 import {useEffect, useState} from "react"
 
 const useStyles = makeStyles((theme) => ({
@@ -73,15 +74,15 @@ const BinaryQuestion = (props) => {
   return (
       <React.Fragment>
         <div className={classes.root}>
-          <Grid container spacing={5}>
+          <Grid container spacing={8}>
             <Grid item xs={12}>
-              <h3>{props.text}</h3>
+              <ImageCard image={props.image} onClick={onClickLeft} isSelected={state.isLeftSelected}/>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ImageCard image={props.image1} onClick={onClickLeft} isSelected={state.isLeftSelected}/>
+              <TextCard onClick={onClickLeft} text={props.textLeft} isSelected={state.isLeftSelected}/>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ImageCard image={props.image2} onClick={onClickRight} isSelected={state.isRightSelected}/>
+              <TextCard onClick={onClickRight} text={props.textRight} isSelected={state.isRightSelected}/>
             </Grid>
           </Grid>
         </div>
