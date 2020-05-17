@@ -121,8 +121,10 @@ const Login = ({
 };
 
 Login.propTypes = {
-  onPassowrdChange: PropTypes.func,
   onUsernameChange: PropTypes.func,
+  onPasswordChange: PropTypes.any,
+  errorMessage: PropTypes.string,
+  onClose: PropTypes.func,
   onSubmit: PropTypes.func,
   username: PropTypes.string,
   password: PropTypes.string,

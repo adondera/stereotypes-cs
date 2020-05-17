@@ -42,6 +42,12 @@ const MainApp = ({
 
 MainApp.propTypes = {
   questions: PropTypes.object,
+  questionIndex: PropTypes.number,
+  onQuestionChange: PropTypes.func,
+  loadData: PropTypes.func,
+  isDataLoaded: PropTypes.bool,
+  accessToken: PropTypes.string,
+  finishQuiz: PropTypes.func,
 };
 
 export default MainApp;

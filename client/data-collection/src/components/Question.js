@@ -31,6 +31,8 @@ class Question extends Component {
 Question.propTypes = {
   questionIndex: PropTypes.number,
   quizStarted: PropTypes.bool,
+  questionData: PropTypes.object,
+  children: PropTypes.any
 };
 
 export default createQuestion(Question);
