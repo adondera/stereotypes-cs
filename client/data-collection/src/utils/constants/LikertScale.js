@@ -1,0 +1,1 @@
+export const likertScaleText = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"] 

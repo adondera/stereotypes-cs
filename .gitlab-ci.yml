@@ -1,0 +1,44 @@
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+#AWS access keys stored as secret variables 
+variables:
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID 
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+#This declares the pipeline stages  
+stages:
+  - lint
+  - build
+  - test
+cache:
+  paths:
+  - client/data-collection/node_modules/
+
+lint:
+  stage: lint
+  script:
+    - cd client/data-collection/
+    - npm cache clean --force
+    - rm -rf node_modules package-lock.json
+    - npm install
+    - npx eslint .
+
+build:
+  stage: build
+  script:
+    - cd client/data-collection
+    - npm install JayDew/react-likert-scale
+    - npm build
+  artifacts:
+      expire_in: 1 hour
+      paths:
+        - client/data-collection/build
+test:
+  stage: test
+  script:
+    - cd client/data-collection
+    - npm install 
+    - npm install JayDew/react-likert-scale
+    - npm run test
+
