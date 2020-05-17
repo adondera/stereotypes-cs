@@ -8,8 +8,11 @@ const Information = (props) => {
         <div>
             <Card>
                 <CardContent>
-                    <Typography variant="body1">
-                        {props.text}
+                    <Typography style={{marginTop: 20}} variant="h3">
+                        {props.header}
+                    </Typography>
+                    <Typography style={{marginTop: 20, textAlign: "justify"}} variant="h6">
+                        {props.body}
                     </Typography>
                 </CardContent>
             </Card>
