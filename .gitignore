@@ -14,7 +14,7 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
-
+node_modules
 # Coverage reports
 htmlcov/
 .coverage
