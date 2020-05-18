@@ -1,5 +1,4 @@
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 #AWS access keys stored as secret variables 
@@ -11,11 +10,13 @@ stages:
   - lint
   - build
   - test
+  - deploy
 cache:
   paths:
   - client/data-collection/node_modules/
 
-lint:
+lintJS:
+  image: node:latest
   stage: lint
   script:
     - cd client/data-collection/
@@ -24,7 +25,31 @@ lint:
     - npm install
     - npx eslint .
 
-build:
+pylint:
+  stage: lint
+  image: python:3.8.2
+  script:
+    - export APP_SETTINGS=config.CITestingConfig
+    - apt-get update -qy
+    - pip3 install -r requirements.txt
+    - pip3 install pylint_gitlab
+    - mkdir -p public/badges public/lint
+    - echo undefined > public/badges/$CI_JOB_NAME.score
+    - pylint --exit-zero --output-format=text --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api | tee /tmp/pylint.txt
+    - sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > public/badges/$CI_JOB_NAME.score
+    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > codeclimate.json
+    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > public/lint/index.html
+
+    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/pylint.svg 4=red 6=orange 8=yellow 10=green
+    - |
+      echo "Your score is: $(cat public/badges/$CI_JOB_NAME.score)"
+  artifacts:
+    paths:
+      - public/badges/pylint.svg
+
+
+buildJS:
+  image: node:latest
   stage: build
   script:
     - cd client/data-collection
@@ -34,11 +59,65 @@ build:
       expire_in: 1 hour
       paths:
         - client/data-collection/build
-test:
+
+testJS:
+  image: node:latest
   stage: test
   script:
     - cd client/data-collection
     - npm install 
     - npm install JayDew/react-likert-scale
     - npm run test
+
+pytest:
+  stage: test
+  image: python:3.8.2
+  services:
+  - postgres:alpine
+  variables:
+    POSTGRES_DB: test
+    POSTGRES_USER: test
+    POSTGRES_PASSWORD: test
+  script:
+  - export APP_SETTINGS=config.CITestingConfig
+  - apt-get update -qy
+  - pip3 install -r requirements.txt
+  - coverage run --source api --branch -m pytest api
+  - coverage report
+
+
+deploy_staging:
+  stage: deploy
+  script:
+    - git config user.email "a.d.manolache@student.tudelft.nl"
+    - git config user.name "amanolache"
+    - git checkout dev
+    - git remote remove stage
+    - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
+    - git push stage dev:master
+    - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
+  environment:
+    name: staging
+    url: https://nemo-live-science-dev.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+deploy_production:
+  stage: deploy
+  script:
+    - git config user.email "a.d.manolache@student.tudelft.nl"
+    - git config user.name "amanolache"
+    - git checkout master
+    - git remote remove pro
+    - git remote add pro https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science.git
+    - git push pro master:master
+    - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
+  environment:
+    name: production
+    url: https://nemo-live-science.herokuapp.com/
+  when: manual
+  only:
+    - master
+
 

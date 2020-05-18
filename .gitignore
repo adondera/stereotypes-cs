@@ -1,7 +1,9 @@
 .DS_Store
+.env
 .flaskenv
 *.pyc
 *.pyo
+env/
 dist/
 build/
 *.egg
@@ -13,7 +15,7 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
-
+node_modules
 # Coverage reports
 htmlcov/
 .coverage
