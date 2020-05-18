@@ -120,4 +120,3 @@ deploy_production:
   only:
     - master
 
-
