@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import Question from "../components/Question";
+import {clearQuestionsStore} from "../actions/question"
 
 const mapStateToProps = (state, ownProps) => {
     const questionIndex = state.mainAppReducer.questionIndex
@@ -11,4 +12,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(Question)
+const mapDispatchToProps = dispatch => ({
+    clearQuestions: () => dispatch(clearQuestionsStore())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question)

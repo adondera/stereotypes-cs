@@ -7,8 +7,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Slide from "@material-ui/core/Slide"
 import { makeStyles } from "@material-ui/core/styles";
-import { useEffect } from "react"
 import "../../styles/Question.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +35,7 @@ const MultipleChoice = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answer: 0 });
   const onClick = () => {
+    setQuestionAnswer({answer: 0})
     props.submitSelectedChoice(state.answer, props.type);
     props.onNext();
   };
@@ -44,14 +45,12 @@ const MultipleChoice = (props) => {
     });
   };
 
-  useEffect(() => {
-    setQuestionAnswer({answer: 0})
-  }, [props.questionIndex])
   return (
     <React.Fragment>
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
+            <Slide direction="down" in={true} key={props.questionIndex} mountOnEnter>
             <Card className={classes.root}>
               <Typography gutterBottom variant="h5" component="h2">
                 {props.text}
@@ -76,6 +75,7 @@ const MultipleChoice = (props) => {
                 </Test>
               </CardContent>
             </Card>
+            </Slide>
           </Grid>
         </Grid>
         <Button

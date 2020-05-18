@@ -94,5 +94,6 @@ export const questions = [
         //final one -- just the information
         type: 5,
         title: "Ending",
+        text: "Thank you for participating. Morbi elementum libero sem, vel rhoncus justo porta a. Proin ultricies sem urna, in iaculis massa pharetra a. Praesent suscipit arcu neque, et sollicitudin lacus interdum vel. Ut sagittis est non turpis ullamcorper, id laoreet dui scelerisque. Fusce mattis odio augue, vel iaculis odio porta et. Phasellus ullamcorper pellentesque magna, non placerat purus"
       },
 ]

@@ -75,7 +75,7 @@ const Video = (props) => {
                 opts={opts}
                 onEnd={() => setstate({ ...state, isPlayedOnce: true })}
               />
-              {state.isLoading ? <Spinner /> : null}
+              {state.isLoading ? <Spinner className={classes.nextButton} /> : null}
             </CardContent>
             {state.isPlayed ? null : (
               <React.Fragment>

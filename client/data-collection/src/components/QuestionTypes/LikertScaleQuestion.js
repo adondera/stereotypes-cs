@@ -11,7 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import "../../styles/Question.css"
 import Slide from "@material-ui/core/Slide"
-import { useEffect } from "react"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -36,6 +35,7 @@ const LikertScaleQuestion = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answer: 0 });
   const onClick = () => {
+    setQuestionAnswer({answer: 0})
     props.submitSelectedScale(state.answer, props.type);
     props.onNext();
   };
@@ -49,13 +49,6 @@ const LikertScaleQuestion = (props) => {
     },
   };
   
-
-    /*eslint-disable */
-    useEffect(() => {
-      setQuestionAnswer({answer: 0})
-    }, [state.questionIndex]);
-    /*eslint-enable */
-
 
   return (
     <React.Fragment>
