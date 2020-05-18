@@ -86,7 +86,7 @@ const BinaryQuestion = (props) => {
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <ImageCard image={props.image} onClick={onClickLeft} />
+            <ImageCard {...props} image={props.image} onClick={onClickLeft} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextCard

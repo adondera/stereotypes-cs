@@ -17,7 +17,6 @@ class Question extends Component {
       <React.Fragment>
         {quizStarted ? (
           <div className="Question">
-            <h1>{this.props.questionData.title}</h1>
             {this.props.children}
           </div>
         ) : (

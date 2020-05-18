@@ -1,3 +1,4 @@
+import {sendData} from "../utils/requests/postRequsts"
 const questionsReducer = (state = { answers: [] }, action) => {
   switch (action.type) {
     case "SAVE_QUESTION_ANSWER":
@@ -13,7 +14,7 @@ const questionsReducer = (state = { answers: [] }, action) => {
     case "CLEAR_QUESTIONS":
       return { ...state, answers: [] };
     case "SEND_QUESTIONS_ANSWERS":
-      console.log(state.answers);
+      sendData(state.answers)
       return null;
     default:
       return state;
