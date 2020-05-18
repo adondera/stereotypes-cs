@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react"
 import "../../styles/Question.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,9 @@ const MultipleChoice = (props) => {
     });
   };
 
+  useEffect(() => {
+    setQuestionAnswer({answer: 0})
+  }, [props.questionIndex])
   return (
     <React.Fragment>
       <div className={classes.root}>

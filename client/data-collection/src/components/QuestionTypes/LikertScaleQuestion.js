@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import "../../styles/Question.css"
+import { useEffect } from "react"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -46,6 +47,11 @@ const LikertScaleQuestion = (props) => {
       setQuestionAnswer({ answer: val });
     },
   };
+
+  useEffect(() => {
+    setQuestionAnswer({answer: 0})
+  }, [props.questionIndex])
+  
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -56,7 +62,7 @@ const LikertScaleQuestion = (props) => {
                 <Typography gutterBottom variant="h5" component="h2">
                   {props.text}
                 </Typography>
-                  <Likert {...likertOptions} className="likertScale" />
+                  <Likert key={props.questionIndex} {...likertOptions} className="likertScale" />
               </CardContent>
             </Card>
           </Grid>

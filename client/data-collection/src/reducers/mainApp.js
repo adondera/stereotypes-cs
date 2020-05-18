@@ -38,6 +38,12 @@ const mainAppReducer = (state = {}, action) => {
             image: "https://i.imgur.com/9GIFW9f.jpg",
           },
           {
+            type: 2,
+            title: "Likert Scale 2",
+            text: "Dogs are better than cats",
+            image: "https://i.imgur.com/9GIFW9f.jpg",
+          },
+          {
             type: 3,
             title: "Video",
             text:
