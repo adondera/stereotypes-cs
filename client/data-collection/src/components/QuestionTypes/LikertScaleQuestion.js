@@ -83,7 +83,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSelectedScale: (answer, questionType) =>
-      dispatch(saveQuestionAction(answer, questionType)),
+    {
+      const data = {answer: answer}
+      dispatch(saveQuestionAction(data, questionType))
+
+    }
   };
 };
 

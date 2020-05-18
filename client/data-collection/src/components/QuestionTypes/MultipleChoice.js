@@ -42,6 +42,7 @@ const MultipleChoice = (props) => {
       answer: selectedOptions["selected-answer"],
     });
   };
+
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -61,7 +62,7 @@ const MultipleChoice = (props) => {
                 className={classes.choices}
                   onOptionSelect={onSelectedOption}
                 >
-                  <QuestionGroup questionNumber={"selected-answer"}>
+                  <QuestionGroup key={props.questionIndex} questionNumber={"selected-answer"}>
                       {props.options.map((option, index) => {
                           return (
                           <Option key={index} value={(index+1).toString()}>{option}</Option>
@@ -95,7 +96,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSelectedChoice: (answer, questionType) =>
-      dispatch(saveQuestionAction(answer, questionType)),
+    {
+      const data = {answer: answer}
+      dispatch(saveQuestionAction(data, questionType))
+    }
   };
 };
 

@@ -1,9 +1,10 @@
 import React from "react";
-import { clearQuestionsStore } from "../../actions/question";
+import { clearQuestionsStore, sendQuestionsAnswers } from "../../actions/question";
 import {connect} from "react-redux"
 import Button from "@material-ui/core/Button";
 const Finish = (props) => {
   const onClick = () => {
+    props.sendQuestionsAnswers();
     props.clearQuestionsStore();
     props.onFinish();
   };
@@ -24,6 +25,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    sendQuestionsAnswers: () => dispatch(sendQuestionsAnswers()),
     clearQuestionsStore: () => dispatch(clearQuestionsStore()),
   };
 };

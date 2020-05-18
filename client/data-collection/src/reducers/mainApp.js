@@ -45,10 +45,22 @@ const mainAppReducer = (state = {}, action) => {
             videoId: "7CVtTOpgSyY",
           },
           {
+            type: 4,
+            title: "Thank you for watching the movie!",
+            header: "We will now do some multiple choise questions",
+            body: ""
+          },
+          {
             type: 6,
             title: "Multiple Choice",
             text: "What do you preffer",
             options: ["Pasta", "Pizza", "Burger"],
+          },
+          {
+            type: 6,
+            title: "Choose your favourite color",
+            text: "What do you preffer",
+            options: ["Red", "Green", "Pink"],
           },
           {
             type: 5,

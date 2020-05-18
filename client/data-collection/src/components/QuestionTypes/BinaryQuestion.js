@@ -27,21 +27,23 @@ const BinaryQuestion = (props) => {
 
   const classes = useStyles();
 
-  const onClickLeft = () => {
+  const onClickLeft = (questionTime) => () => {
     props.onNext();
-    props.onLeft(answers.LEFT, props.type);
+    props.onLeft(answers.LEFT, answers.TIME(questionTime), props.type);
   };
-  const onClickRight = () => {
+  const onClickRight = (questionTime) => () => {
     props.onNext();
-    props.onRight(answers.RIGHT, props.type);
+    props.onRight(answers.RIGHT, answers.TIME(questionTime), props.type);
   };
 
   const onKeyUp = (event) => {
     if(event.key === "e") {
-      setTimeout(onClickLeft, 300)
+      const questionTime = Date.now() - timer
+      setTimeout(onClickLeft(questionTime), 300)
     }
     if(event.key === "i") {
-      setTimeout(onClickRight, 300) 
+      const questionTime = Date.now() - timer
+      setTimeout(onClickRight(questionTime), 300)
       }
     }
   
@@ -56,10 +58,13 @@ const BinaryQuestion = (props) => {
 
   const [state, setstate] = useState({questionIndex: props.questionIndex, isLeftSelected: false, isRightSelected: false})
 
+  const [timer, setTime] = useState(Date.now())
   useEffect(() => {
+    setTime(Date.now())
     setstate({questionIndex: props.questionIndex, isLeftSelected: false, isRightSelected: false})
   }, [props.questionIndex])
 
+/*eslint-disable */
   useEffect(() => {
     window.addEventListener("keyup", onKeyUp, true)
     window.addEventListener("keydown", onKeyDown, true)
@@ -67,8 +72,8 @@ const BinaryQuestion = (props) => {
       window.removeEventListener("keyup", onKeyUp, true)
       window.removeEventListener("keydown", onKeyDown, true)
     }
-  })
-
+  }, [state.questionIndex])
+/*eslint-enable */
 
 
   return (
@@ -76,7 +81,7 @@ const BinaryQuestion = (props) => {
         <div className={classes.root}>
           <Grid container spacing={8}>
             <Grid item xs={12}>
-              <ImageCard image={props.image} onClick={onClickLeft} isSelected={state.isLeftSelected}/>
+              <ImageCard image={props.image} onClick={onClickLeft}/>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextCard onClick={onClickLeft} text={props.textLeft} isSelected={state.isLeftSelected}/>
@@ -98,10 +103,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLeft: (answer, questionType) =>
-        dispatch(saveQuestionAction(answer, questionType)),
-    onRight: (answer, questionType) =>
-        dispatch(saveQuestionAction(answer, questionType)),
+    onLeft: (answer, time, questionType) => {
+      const data = {answer: answer, time: time}
+      dispatch(saveQuestionAction(data, questionType))
+    },
+    onRight: (answer, time, questionType) =>
+    {
+      const data = {answer: answer, time: time}
+      dispatch(saveQuestionAction(data, questionType, time))
+    }
   };
 };
 
