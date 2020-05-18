@@ -1,32 +1,11 @@
-image: python:3.8.2
-
 stages:
-  - ver
+  - lint
   - test
-  - pylint
   - deploy
 
-ver:
-  stage: ver
-  script:
-    - python --version
-    - whoami
-
-test:
-  services:
-  - postgres:alpine
-  variables:
-    POSTGRES_DB: test
-    POSTGRES_USER: test
-    POSTGRES_PASSWORD: test
-  script:
-  - export APP_SETTINGS=config.CITestingConfig
-  - apt-get update -qy
-  - pip3 install -r requirements.txt
-  - coverage run --source api --branch -m pytest api
-  - coverage report
-
 pylint:
+  stage: lint
+  image: python:3.8.2
   script:
     - export APP_SETTINGS=config.CITestingConfig
     - apt-get update -qy
@@ -45,6 +24,22 @@ pylint:
   artifacts:
     paths:
       - public/badges/pylint.svg
+
+pytest:
+  stage: test
+  image: python:3.8.2
+  services:
+  - postgres:alpine
+  variables:
+    POSTGRES_DB: test
+    POSTGRES_USER: test
+    POSTGRES_PASSWORD: test
+  script:
+  - export APP_SETTINGS=config.CITestingConfig
+  - apt-get update -qy
+  - pip3 install -r requirements.txt
+  - coverage run --source api --branch -m pytest api
+  - coverage report
 
 
 deploy_staging:
