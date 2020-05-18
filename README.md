@@ -1,4 +1,6 @@
 # Stereotypes in Computer Science
+![coverage](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/badges/server-side-setup/coverage.svg?job=test)
+![pylint](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/jobs/artifacts/server-side_setup/raw/public/badges/pylint.svg?job=pylint)
 
 ## GitLab issue board
 
