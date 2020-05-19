@@ -25,7 +25,7 @@ Send quiz data to the server at the end of quiz
 */
 export function sendData(data, callback, errorcallback) {
   axios
-    .post("/submit", {...data})
+    .post("/submit", { ...data })
     .then((res) => {
       console.log(res);
       if (callback != null && res.status === 200) {
