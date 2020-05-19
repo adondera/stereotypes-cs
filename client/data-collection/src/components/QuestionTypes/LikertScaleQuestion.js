@@ -1,5 +1,6 @@
+import "../../styles/Question.css"
 import React, { useState } from "react";
-import Likert from "react-likert-scale";
+import Likert from "react-likert-scale"
 import { likertScaleText } from "../../utils/constants/LikertScale";
 import { saveQuestionAction } from "../../actions/question";
 import { connect } from "react-redux";
@@ -9,7 +10,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import "../../styles/Question.css"
+import Slide from "@material-ui/core/Slide"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,6 +35,7 @@ const LikertScaleQuestion = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answer: 0 });
   const onClick = () => {
+    setQuestionAnswer({answer: 0})
     props.submitSelectedScale(state.answer, props.type);
     props.onNext();
   };
@@ -46,19 +48,23 @@ const LikertScaleQuestion = (props) => {
       setQuestionAnswer({ answer: val });
     },
   };
+  
+
   return (
     <React.Fragment>
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12} >
+            <Slide direction="down" in={true} key={props.questionIndex} mountOnEnter>
             <Card className={classes.root}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   {props.text}
                 </Typography>
-                  <Likert {...likertOptions} className="likertScale" />
+                  <Likert key={props.questionIndex} {...likertOptions} className="likertScale" />
               </CardContent>
             </Card>
+            </Slide>
           </Grid>
         </Grid>
         <Button
@@ -83,7 +89,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSelectedScale: (answer, questionType) =>
-      dispatch(saveQuestionAction(answer, questionType)),
+    {
+      const data = {answer: answer}
+      dispatch(saveQuestionAction(data, questionType))
+
+    }
   };
 };
 

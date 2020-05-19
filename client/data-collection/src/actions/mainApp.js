@@ -12,9 +12,10 @@ export const getQuizData = (accessToken, dispatch) => {
   Change boolan field as soon as all data has arrived.
 */
 export const dataLoaded = (res) => {
+  console.log(res)
   return {
     type: "DATA_IS_LOADED",
-    questions: res.data,
+    questions: res.data.questions,
   };
 };
 

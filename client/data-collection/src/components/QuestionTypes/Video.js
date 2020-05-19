@@ -75,12 +75,17 @@ const Video = (props) => {
                 opts={opts}
                 onEnd={() => setstate({ ...state, isPlayedOnce: true })}
               />
-              {state.isLoading ? <Spinner /> : null}
+              {state.isLoading ? <Spinner className={classes.nextButton} /> : null}
             </CardContent>
             {state.isPlayed ? null : (
-              <Button
+              <React.Fragment>
+              {state.isLoading ? (
+                null
+              ) : (
+                <Button
                 variant="contained"
-                size="medium"
+                size="large"
+                color="primary"
                 className={classes.playButton}
                 onClick={() => {
                   setstate({ ...state, isPlayed: true });
@@ -89,11 +94,14 @@ const Video = (props) => {
               >
                 Play
               </Button>
+              )}
+              </React.Fragment>
             )}
             {state.isPlayedOnce ? (
               <Button
+              color="primary"
                 variant="contained"
-                size="medium"
+                size="small"
                 className={classes.playButton}
                 onClick={() => {
                   setstate({ ...state, isPlayed: true });
