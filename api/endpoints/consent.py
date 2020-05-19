@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required
 from .constants import ANSWERS
 from api.models import Consent
 import api.endpoints.validation as valid
+from cloudinary.uploader import upload
 
 
 class ConsentResource(Resource):
@@ -31,8 +32,12 @@ class ConsentForm(Resource):
         parent = data['parent']
         signature = data['signature']
 
+        upload_result = upload(signature)
+
+        print("response from cloudinary: %s", upload_result)
+
         for child in data['children']:
             Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'], parent['lastName'],
-                                   signature)
+                                   upload_result["secure_url"])
 
         return ANSWERS[200], 200

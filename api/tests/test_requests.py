@@ -108,7 +108,7 @@ def test_protected_with_nonfresh_token(client, init_db):
     token = response.get_json()['access_token']
     response = client.get("/protected", headers={'Authorization': 'Bearer ' + token})
     assert response.status_code == 200
-    assert response.get_json()['logged_in_as'] == 'username'
+    assert 'questions' in response.get_json()
 
 
 def test_create_nonfresh_token(client, init_db):

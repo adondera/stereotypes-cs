@@ -3,6 +3,7 @@
 Here we use different endpoints protected by tokens
 """
 from flask_restful import Resource
+from .constants import resp
 from flask_jwt_extended import jwt_required, get_jwt_identity,\
     jwt_refresh_token_required, create_access_token, \
     fresh_jwt_required
@@ -18,7 +19,8 @@ class Protected(Resource):
         Can be accessed with both fresh/non-fresh tokens"""
         # Access the identity of the current user with get_jwt_identity
         current_user = get_jwt_identity()
-        return dict(logged_in_as=current_user), 200
+        # return dict(logged_in_as=current_user), 200
+        return resp, 200
 
 
 class Refresh(Resource):
