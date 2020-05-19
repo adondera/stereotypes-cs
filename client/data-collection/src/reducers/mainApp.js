@@ -1,4 +1,3 @@
-import {questions} from "../utils/constants/Test"
 const mainAppReducer = (state = {}, action) => {
   switch (action.type) {
     case "CHANGE_QUESTION":
@@ -9,7 +8,7 @@ const mainAppReducer = (state = {}, action) => {
     case "DATA_IS_LOADED":
       console.log(action.questions);
       action.questions = {
-        questions: questions
+        questions: action.questions
       };
       return {
         ...state,
