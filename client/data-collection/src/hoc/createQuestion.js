@@ -7,6 +7,10 @@ import Finish from "../components/QuestionTypes/Finish";
 import MultipleChoice from "../components/QuestionTypes/MultipleChoice";
 import FinishModal from "../components/FinishModal";
 import { Redirect } from "react-router";
+
+/*
+Create mapping between type and Component to be rendered
+*/
 const mapTypeToComponent = {
   1: BinaryQuestion,
   2: LikertScaleQuestion,
@@ -16,6 +20,11 @@ const mapTypeToComponent = {
   6: MultipleChoice,
 };
 
+
+/*
+HOC Component to Wrap question types for injecting type and 
+add Modal for exiting quiz prematurely
+*/
 export function createQuestion(Question) {
   return class QuestionHoc extends React.Component {
     constructor(props) {

@@ -1,3 +1,7 @@
+
+/*
+Define answer types for questions
+*/
 const answerTypes = {
   LEFT: "left",
   RIGHT: "right",
