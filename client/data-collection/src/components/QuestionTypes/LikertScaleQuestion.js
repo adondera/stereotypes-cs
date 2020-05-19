@@ -1,3 +1,4 @@
+import "../../styles/Question.css"
 import React, { useState } from "react";
 import Likert from "react-likert-scale"
 import { likertScaleText } from "../../utils/constants/LikertScale";
@@ -9,7 +10,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import "../../styles/Question.css"
 import Slide from "@material-ui/core/Slide"
 const useStyles = makeStyles((theme) => ({
   root: {
