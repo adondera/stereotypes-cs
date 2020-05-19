@@ -24,7 +24,7 @@ def validate_children_data(value):
 
 def validate_signature(value):
     try:
-        return base64.b64encode(base64.b64decode(value.split(',')[1])) == bytes(value.split(',')[1], encoding=ascii)
+        return base64.b64encode(base64.b64decode(value.split(',')[1])) == bytes(value.split(',')[1], encoding='ascii')
     except:
         print("Expected base64, got something else")
         return False
