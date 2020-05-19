@@ -82,9 +82,8 @@ class Category(db.Model):
 
     __tablename__ = 'category'
 
-    db.UniqueConstraint("name")
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
+    name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.String(40), nullable=False)
 
     def __init__(self, id, name, metacategory):
