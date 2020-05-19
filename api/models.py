@@ -45,6 +45,9 @@ class User(db.Model):
 
 class Consent(db.Model):
     """Class that contains information from the consent forms"""
+
+    __tablename__ = 'consent'
+
     id = db.Column(db.Integer, primary_key=True)
     childFirstName = db.Column(db.String(80), nullable=False)
     childLastName = db.Column(db.String(80), nullable=False)
@@ -117,6 +120,37 @@ class Image(db.Model):
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
+
+class QuestionType(enum.Enum):
+    mc_single_answer = 1
+    mc_multiple_answer = 2
+    likert = 3
+    binary = 4
+
+class Question(db.Model):
+
+    __tablename__ = 'questions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
+    text = db.Column(db.Text, nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False)
+    type = db.Column(db.Enum(QuestionType), nullable=False)
+
+    def __init__(self, id, img_id, text, is_active, type):
+        self.id = id
+        self.img_id = img_id
+        self.text = text
+        self.is_active = is_active
+        self.type = type
+
+    def __repr__(self):
+        return '<Consent form id: %r>' % self.id
+
+class QuestionChoice(db.Model):
+
+    __tablename__ = 'question_choices'
+
 
 
 # class Question(db.Model):
