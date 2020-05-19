@@ -14,13 +14,6 @@ ANSWERS = {200: "200 OK",
            502: "502 Bad gateway"
            }
 
-x = {
-        "type": 4,
-        "title": "Information",
-        "header": "Gender profession IAT",
-        "body":
-            "In the following minutes you will see several images with two words each. One on the right, and the other on the left. Please choose the word you consider aproppriate: Left word (key E), Right word (key I). Please click on Next when ready",
-    }
 
 resp = {"questions": [
     {
