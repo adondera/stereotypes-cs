@@ -2,7 +2,7 @@
 """ Models for the database schema."""
 from flask_bcrypt import generate_password_hash
 from api import db
-
+import enum
 
 class User(db.Model):
     """Class that contains database schema for User table."""
@@ -80,11 +80,11 @@ class Consent(db.Model):
 
 class Category(db.Model):
 
-    __tablename__ = 'category'
+    __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
-    metacategory = db.Column(db.String(40), nullable=False)
+    metacategory = db.Column(db.String(40), nullable=False, unique=True)
 
     def __init__(self, id, name, metacategory):
         self.id = id
@@ -93,6 +93,31 @@ class Category(db.Model):
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
+
+class ImageAttribute(enum.Enum):
+    pen = 1
+    book = 2
+
+class Image(db.Model):
+
+    __tablename__ = 'images'
+
+    id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
+    link = db.Column(db.Text, nullable=False, unique=True)
+    description = db.Column(db.Text, nullable=False)
+    attribute = db.Column(db.Enum(ImageAttribute), default=ImageAttribute.pen, nullable=False)
+
+    def __init__(self, id, category_id, link, description, attribute):
+        self.id = id
+        self.category_id = category_id
+        self.link = link
+        self.description = description
+        self.attribute = attribute
+
+    def __repr__(self):
+        return '<Consent form id: %r>' % self.id
+
 
 # class Question(db.Model):
 #
