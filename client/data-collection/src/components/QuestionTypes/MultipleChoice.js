@@ -7,7 +7,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Slide from "@material-ui/core/Slide"
+import Slide from "@material-ui/core/Slide";
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Question.css";
 
@@ -24,18 +24,18 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   nextButton: {
-      marginTop: 20
+    marginTop: 20,
   },
   choices: {
-      margin: "auto"
-  }
+    margin: "auto",
+  },
 }));
 
 const MultipleChoice = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answer: 0 });
   const onClick = () => {
-    setQuestionAnswer({answer: 0})
+    setQuestionAnswer({ answer: 0 });
     props.submitSelectedChoice(state.answer, props.type);
     props.onNext();
   };
@@ -50,31 +50,41 @@ const MultipleChoice = (props) => {
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Slide direction="down" in={true} key={props.questionIndex} mountOnEnter>
-            <Card className={classes.root}>
-              <Typography gutterBottom variant="h5" component="h2">
-                {props.text}
-              </Typography>
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                ></Typography>
-                <Test
-                className={classes.choices}
-                  onOptionSelect={onSelectedOption}
-                >
-                  <QuestionGroup key={props.questionIndex} questionNumber={"selected-answer"}>
+            <Slide
+              direction="down"
+              in={true}
+              key={props.questionIndex}
+              mountOnEnter
+            >
+              <Card className={classes.root}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {props.text}
+                </Typography>
+                <CardContent>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  ></Typography>
+                  <Test
+                    className={classes.choices}
+                    onOptionSelect={onSelectedOption}
+                  >
+                    <QuestionGroup
+                      key={props.questionIndex}
+                      questionNumber={"selected-answer"}
+                    >
                       {props.options.map((option, index) => {
-                          return (
-                          <Option key={index} value={(index+1).toString()}>{option}</Option>
-                          )
+                        return (
+                          <Option key={index} value={(index + 1).toString()}>
+                            {option}
+                          </Option>
+                        );
                       })}
-                  </QuestionGroup>
-                </Test>
-              </CardContent>
-            </Card>
+                    </QuestionGroup>
+                  </Test>
+                </CardContent>
+              </Card>
             </Slide>
           </Grid>
         </Grid>
@@ -99,11 +109,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSelectedChoice: (answer, questionType) =>
-    {
-      const data = {answer: answer}
-      dispatch(saveQuestionAction(data, questionType))
-    }
+    submitSelectedChoice: (answer, questionType) => {
+      const data = { answer: answer };
+      dispatch(saveQuestionAction(data, questionType));
+    },
   };
 };
 
