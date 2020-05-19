@@ -77,3 +77,28 @@ class Consent(db.Model):
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
+
+class Category(db.Model):
+
+    __tablename__ = 'category'
+
+    db.UniqueConstraint("name")
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    metacategory = db.Column(db.String(40), nullable=False)
+
+    def __init__(self, id, name, metacategory):
+        self.id = id
+        self.name = name
+        self.metacategory =metacategory
+
+    def __repr__(self):
+        return '<Consent form id: %r>' % self.id
+
+# class Question(db.Model):
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     img_id = db.Column(db.Integer, ForeignKey("user.user_id"))
+#     text
+#     is_active
+#     type
