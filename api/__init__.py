@@ -39,7 +39,7 @@ def index():
 def before_request():
     if not request.is_secure and 'DYNO' in os.environ:
         url = request.url.replace('http://', 'https://', 1)
-        code = 301
+        code = 308
         return redirect(url, code=code)
 
 
