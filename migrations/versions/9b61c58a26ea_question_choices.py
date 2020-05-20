@@ -1,8 +1,8 @@
-"""new table image
+"""question_choices
 
-Revision ID: 3bc9417bce3a
+Revision ID: 9b61c58a26ea
 Revises: 3e7c677c1097
-Create Date: 2020-05-20 00:30:24.352732
+Create Date: 2020-05-20 20:22:36.631395
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3bc9417bce3a'
+revision = '9b61c58a26ea'
 down_revision = '3e7c677c1097'
 branch_labels = None
 depends_on = None
@@ -21,9 +21,8 @@ def upgrade():
     op.create_table('categories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=40), nullable=False),
-    sa.Column('metacategory', sa.String(length=40), nullable=False),
+    sa.Column('metacategory', sa.Enum('profession', 'gender', 'hobby', 'social', name='metacategory'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('metacategory'),
     sa.UniqueConstraint('name')
     )
     op.create_table('images',
@@ -31,10 +30,29 @@ def upgrade():
     sa.Column('category_id', sa.Integer(), nullable=False),
     sa.Column('link', sa.Text(), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
-    sa.Column('attribute', sa.Enum('pen', 'book', name='imageattribute'), nullable=False),
+    sa.Column('attribute', sa.String(length=40), nullable=False),
     sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('link')
+    )
+    op.create_table('questions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('img_id', sa.Integer(), nullable=True),
+    sa.Column('text', sa.Text(), nullable=False),
+    sa.Column('type', sa.Enum('mc_single_answer', 'mc_multiple_answer', 'likert', 'binary', name='questiontype'), nullable=False),
+    sa.Column('is_active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
+    sa.ForeignKeyConstraint(['img_id'], ['images.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('question_choices',
+    sa.Column('choice_num', sa.Integer(), nullable=False),
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.Column('img_id', sa.Integer(), nullable=True),
+    sa.Column('text', sa.Text(), nullable=False),
+    sa.Column('is_active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
+    sa.ForeignKeyConstraint(['img_id'], ['images.id'], ),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.PrimaryKeyConstraint('choice_num', 'question_id')
     )
     op.drop_table('category')
     # ### end Alembic commands ###
@@ -49,6 +67,8 @@ def downgrade():
     sa.PrimaryKeyConstraint('id', name='category_pkey'),
     sa.UniqueConstraint('name', name='category_name_key')
     )
+    op.drop_table('question_choices')
+    op.drop_table('questions')
     op.drop_table('images')
     op.drop_table('categories')
     # ### end Alembic commands ###

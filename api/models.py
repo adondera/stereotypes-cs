@@ -1,6 +1,8 @@
 # pylint: disable=invalid-name, too-many-arguments
 """ Models for the database schema."""
 from flask_bcrypt import generate_password_hash
+from sqlalchemy.sql import expression
+
 from api import db
 import enum
 
@@ -116,8 +118,8 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
     text = db.Column(db.Text, nullable=False)
-    is_active = db.Column(db.Boolean, default='true')
     type = db.Column(db.Enum(QuestionType), nullable=False)
+    is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
 
     def __repr__(self):
         return '<Question id: %r>' % self.id
@@ -130,7 +132,7 @@ class QuestionChoice(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
     text = db.Column(db.Text, nullable=False)
-    is_active = db.Column(db.Boolean, default='true')
+    is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
 
     def __repr__(self):
         return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
