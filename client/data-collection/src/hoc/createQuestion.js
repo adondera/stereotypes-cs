@@ -30,9 +30,17 @@ export function createQuestion(Question) {
     constructor(props) {
       super(props);
       this.state = { show: false };
-      window.addEventListener("keyup", (event) => {
-        if(event.key === "q") this.setState({ show: true });
-      });
+      this.addQListener()
+
+    }
+    updateState = (event) => {
+      if(event.key === "q") this.setState({ show: true });
+    }
+    addQListener = () => {
+      window.addEventListener("keyup", this.updateState)
+    }
+    componentWillUnmount() {
+      window.removeEventListener("keyup", this.updateState)
     }
     render() {
       var QuestionType = React.Fragment;

@@ -1,9 +1,7 @@
 import "../styles/Question.css";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Fade from "@material-ui/core/Fade";
-import { Button } from "@material-ui/core";
+import { Button, TextField, Modal, Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -22,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
   const classes = useStyles();
+  const textRef = React.createRef()
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -38,11 +37,15 @@ const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
             If you finish the quiz now, all the answers so far will be removed.
             Click Confirm if you want to close
           </h6>
+          <TextField inputRef={textRef}/>
           <Button
             style={{ margin: "auto" }}
             onClick={() => {
-              handleCloseModal();
-              handleCloseQuiz();
+              console.log(textRef.current.value)
+              if(textRef.current.value === "NEMO"){
+                handleCloseModal();
+                handleCloseQuiz();
+              }
             }}
           >
             Confirm
