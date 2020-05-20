@@ -6,10 +6,12 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from flask_socketio import SocketIO, emit
 
 # Flask setup
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
+socketio = SocketIO(app)
 
 # Enables CORS
 cors = CORS(app)
@@ -34,6 +36,9 @@ def index():
     """Home route."""
     return "Hello, World!"
 
+@socketio.on('message')
+def handle_message(message):
+    print('received message: ' + message)
 
 from .endpoints import bp
 
