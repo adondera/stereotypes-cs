@@ -9,6 +9,8 @@ cffi==1.14.0
 click==7.1.2
 cloudinary==1.20.0
 coverage==5.1
+dnspython==1.16.0
+eventlet==0.25.2
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.8
@@ -17,6 +19,7 @@ Flask-Migrate==2.5.3
 Flask-RESTful==0.3.8
 Flask-SocketIO==4.3.0
 Flask-SQLAlchemy==2.4.1
+greenlet==0.4.15
 gunicorn==20.0.4
 isort==4.3.21
 itsdangerous==1.1.0
@@ -25,6 +28,7 @@ lazy-object-proxy==1.4.3
 Mako==1.1.2
 MarkupSafe==1.1.1
 mccabe==0.6.1
+monotonic==1.5
 more-itertools==8.2.0
 packaging==20.3
 pluggy==0.13.1
