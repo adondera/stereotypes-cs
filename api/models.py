@@ -12,10 +12,6 @@ class User(db.Model):
     username = db.Column(db.String(80), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
-    def __init__(self, name=None, password=None):
-        self.username = name
-        self.password = password
-
     @staticmethod
     def create_user(username, password):
         """
@@ -55,13 +51,6 @@ class Consent(db.Model):
     parentLastName = db.Column(db.String(80), nullable=False)
     signature = db.Column(db.Text(), nullable=False)
 
-    def __init__(self, child_first_name, child_last_name,
-                 parent_first_name, parent_last_name, signature):
-        self.childFirstName = child_first_name
-        self.childLastName = child_last_name
-        self.parentFirstName = parent_first_name
-        self.parentLastName = parent_last_name
-        self.signature = signature
 
     @staticmethod
     def create_consent(child_first_name, child_last_name,
@@ -89,10 +78,6 @@ class Category(db.Model):
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.String(40), nullable=False, unique=True)
 
-    def __init__(self, id, name, metacategory):
-        self.id = id
-        self.name = name
-        self.metacategory =metacategory
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
@@ -110,13 +95,6 @@ class Image(db.Model):
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.Enum(ImageAttribute), default=ImageAttribute.pen, nullable=False)
-
-    def __init__(self, id, category_id, link, description, attribute):
-        self.id = id
-        self.category_id = category_id
-        self.link = link
-        self.description = description
-        self.attribute = attribute
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
@@ -136,13 +114,6 @@ class Question(db.Model):
     text = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, nullable=False)
     type = db.Column(db.Enum(QuestionType), nullable=False)
-
-    def __init__(self, id, img_id, text, is_active, type):
-        self.id = id
-        self.img_id = img_id
-        self.text = text
-        self.is_active = is_active
-        self.type = type
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
