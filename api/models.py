@@ -1,6 +1,9 @@
 # pylint: disable=invalid-name, too-many-arguments
 """ Models for the database schema."""
+import datetime
+
 from flask_bcrypt import generate_password_hash
+from sqlalchemy import func
 from sqlalchemy.sql import expression
 
 from api import db
@@ -47,11 +50,9 @@ class Consent(db.Model):
     __tablename__ = 'consent'
 
     id = db.Column(db.Integer, primary_key=True)
-    childFirstName = db.Column(db.String(40), nullable=False)
-    childLastName = db.Column(db.String(40), nullable=False)
-    parentFirstName = db.Column(db.String(40), nullable=False)
-    parentLastName = db.Column(db.String(40), nullable=False)
-    signature = db.Column(db.Text(), nullable=False)
+    parent_first_name = db.Column(db.String(40), nullable=False)
+    parent_last_name = db.Column(db.String(40), nullable=False)
+    signature = db.Column(db.Text(), nullable=False, unique=True)
 
 
     @staticmethod
@@ -71,6 +72,28 @@ class Consent(db.Model):
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
+
+class Gender(enum.Enum):
+    male = 1
+    female = 2
+    other = 3
+
+class Participant(db.Model):
+
+    __tablename__ = 'participants'
+
+    id = db.Column(db.Integer, primary_key=True)
+    consent_id = db.Column(db.Integer, db.ForeignKey("consent.id"), nullable=False)
+    first_name = db.Column(db.String(40), nullable=False)
+    last_name = db.Column(db.String(40), nullable=False)
+    age = db.Column(db.Integer, db.CheckConstraint('age > 5 and age < 19'), nullable=False)
+    gender = db.Column(db.Enum(Gender), nullable=False)
+    ethnicity = db.Column(db.ARRAY(db.String), nullable=False)
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+    def __repr__(self):
+        return '<Participant id: %r>' % self.id
+
 
 class Metacategory(enum.Enum):
     profession = 1
@@ -136,3 +159,5 @@ class QuestionChoice(db.Model):
 
     def __repr__(self):
         return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
+
+class
