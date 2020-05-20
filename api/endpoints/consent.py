@@ -3,6 +3,7 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from .constants import ANSWERS
 from api.models import Consent
+from . import sockets
 import api.endpoints.validation as valid
 
 

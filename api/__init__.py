@@ -38,9 +38,6 @@ def index():
     """Home route."""
     return "Hello, World!"
 
-from .sockets import bp as sockets_bp
-app.register_blueprint(sockets_bp)
-
 from .endpoints import bp as endpoints_bp
 app.register_blueprint(endpoints_bp)
 
