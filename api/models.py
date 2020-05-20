@@ -55,11 +55,9 @@ class Consent(db.Model):
     signature = db.Column(db.Text(), nullable=False, unique=True)
 
     @staticmethod
-    def create_consent(child_first_name, child_last_name,
-                       parent_first_name, parent_last_name, signature):
+    def create_consent(parent_first_name, parent_last_name, signature):
         """Creates a consent form row in the database"""
-        consent = Consent(child_first_name, child_last_name,
-                          parent_first_name, parent_last_name, signature)
+        consent = Consent(parent_first_name, parent_last_name, signature)
         try:
             db.session.add(consent)
             db.session.commit()
@@ -86,7 +84,7 @@ class Participant(db.Model):
         db.CheckConstraint('age >= 6 and age <= 18', name='check_age_requirements'), {})
 
     id = db.Column(db.Integer, primary_key=True)
-    consent_id = db.Column(db.Integer, db.ForeignKey("consent.id"), nullable=False)
+    consent_id = db.Column(db.Integer, db.ForeignKey(Consent.id), nullable=False)
     first_name = db.Column(db.String(40), nullable=False)
     last_name = db.Column(db.String(40), nullable=False)
     age = db.Column(db.Integer, nullable=False)
@@ -120,7 +118,7 @@ class Image(db.Model):
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=False)
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.String(40), nullable=False)
@@ -140,7 +138,7 @@ class Question(db.Model):
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True)
-    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
+    img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
     text = db.Column(db.Text, nullable=False)
     type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
@@ -153,8 +151,8 @@ class QuestionChoice(db.Model):
     __tablename__ = 'question_choices'
 
     choice_num = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), primary_key=True)
-    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
+    question_id = db.Column(db.Integer, db.ForeignKey(Question.id), primary_key=True)
+    img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
     text = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
 
@@ -165,9 +163,12 @@ class QuestionChoice(db.Model):
 class ParticipantEATAnswer(db.Model):
     __tablename__ = 'participant_EAT_answers'
 
-    participant_id = db.Column(db.Integer, db.ForeignKey("participants.id"), primary_key=True)
-    choice_num = db.Column(db.Integer, db.ForeignKey("question_choices.choice_num"), primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey("question_choices.question_id"), primary_key=True)
+    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), primary_key=True)
+    choice_num = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, primary_key=True)
+
+    __table_args__ = (db.ForeignKeyConstraint([choice_num, question_id],
+                                              [QuestionChoice.choice_num, QuestionChoice.question_id]), {})
 
     def __repr__(self):
         return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id) + str(self.choice_num))
@@ -180,10 +181,10 @@ class ParticipantIATAnswer(db.Model):
         db.CheckConstraint('assigned_category != unassigned_category', name='check_different_categories'), {})
 
     id = db.Column(db.Integer, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey("participants.id"), nullable=False)
-    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=False)
-    assigned_category = db.Column(db.String(40), db.ForeignKey("categories.name"), nullable=False)
-    unassigned_category = db.Column(db.String(40), db.ForeignKey("categories.name"), nullable=False)
+    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
+    img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=False)
+    assigned_category = db.Column(db.String(40), db.ForeignKey(Category.name), nullable=False)
+    unassigned_category = db.Column(db.String(40), db.ForeignKey(Category.name), nullable=False)
     response_time = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):

@@ -27,7 +27,7 @@ def upgrade():
     sa.Column('gender', sa.Enum('male', 'female', 'other', name='gender'), nullable=False),
     sa.Column('ethnicity', sa.ARRAY(sa.String()), nullable=False),
     sa.Column('date', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
-    sa.CheckConstraint('age >= 5 ', name='check_age_positive'),
+    sa.CheckConstraint('age >= 6 and age <= 18 ', name='check_age_requirements'),
     sa.ForeignKeyConstraint(['consent_id'], ['consent.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
