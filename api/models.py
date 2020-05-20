@@ -45,10 +45,10 @@ class Consent(db.Model):
     __tablename__ = 'consent'
 
     id = db.Column(db.Integer, primary_key=True)
-    childFirstName = db.Column(db.String(80), nullable=False)
-    childLastName = db.Column(db.String(80), nullable=False)
-    parentFirstName = db.Column(db.String(80), nullable=False)
-    parentLastName = db.Column(db.String(80), nullable=False)
+    childFirstName = db.Column(db.String(40), nullable=False)
+    childLastName = db.Column(db.String(40), nullable=False)
+    parentFirstName = db.Column(db.String(40), nullable=False)
+    parentLastName = db.Column(db.String(40), nullable=False)
     signature = db.Column(db.Text(), nullable=False)
 
 
@@ -70,21 +70,25 @@ class Consent(db.Model):
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
 
+class Metacategory(enum.Enum):
+    profession = 1
+    gender = 2
+    hobby = 3
+    social = 4
+
+
 class Category(db.Model):
 
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
-    metacategory = db.Column(db.String(40), nullable=False, unique=True)
+    metacategory = db.Column(db.Enum(Metacategory), nullable=False)
 
 
     def __repr__(self):
-        return '<Consent form id: %r>' % self.id
+        return '<Category id: %r>' % self.id
 
-class ImageAttribute(enum.Enum):
-    pen = 1
-    book = 2
 
 class Image(db.Model):
 
@@ -94,7 +98,7 @@ class Image(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
-    attribute = db.Column(db.Enum(ImageAttribute), default=ImageAttribute.pen, nullable=False)
+    attribute = db.Column(db.String(40), nullable=False)
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
@@ -112,22 +116,21 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
     text = db.Column(db.Text, nullable=False)
-    is_active = db.Column(db.Boolean, nullable=False)
+    is_active = db.Column(db.Boolean, default='true')
     type = db.Column(db.Enum(QuestionType), nullable=False)
 
     def __repr__(self):
-        return '<Consent form id: %r>' % self.id
+        return '<Question id: %r>' % self.id
 
 class QuestionChoice(db.Model):
 
     __tablename__ = 'question_choices'
 
+    choice_num = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), primary_key=True)
+    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=True)
+    text = db.Column(db.Text, nullable=False)
+    is_active = db.Column(db.Boolean, default='true')
 
-
-# class Question(db.Model):
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     img_id = db.Column(db.Integer, ForeignKey("user.user_id"))
-#     text
-#     is_active
-#     type
+    def __repr__(self):
+        return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
