@@ -1,6 +1,5 @@
 # pylint: disable=invalid-name, too-many-arguments
 """ Models for the database schema."""
-import datetime
 
 from flask_bcrypt import generate_password_hash
 from sqlalchemy import func
@@ -8,6 +7,7 @@ from sqlalchemy.sql import expression
 
 from api import db
 import enum
+
 
 class User(db.Model):
     """Class that contains database schema for User table."""
@@ -54,7 +54,6 @@ class Consent(db.Model):
     parent_last_name = db.Column(db.String(40), nullable=False)
     signature = db.Column(db.Text(), nullable=False, unique=True)
 
-
     @staticmethod
     def create_consent(child_first_name, child_last_name,
                        parent_first_name, parent_last_name, signature):
@@ -73,22 +72,26 @@ class Consent(db.Model):
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
 
+
 class Gender(enum.Enum):
     male = 1
     female = 2
     other = 3
 
-class Participant(db.Model):
 
+class Participant(db.Model):
     __tablename__ = 'participants'
+
+    __table_args__ = (
+        db.CheckConstraint('age >= 6 and age <= 18', name='check_age_requirements'), {})
 
     id = db.Column(db.Integer, primary_key=True)
     consent_id = db.Column(db.Integer, db.ForeignKey("consent.id"), nullable=False)
     first_name = db.Column(db.String(40), nullable=False)
     last_name = db.Column(db.String(40), nullable=False)
-    age = db.Column(db.Integer, db.CheckConstraint('age > 5 and age < 19'), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
-    ethnicity = db.Column(db.ARRAY(db.String), nullable=False)
+    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=False)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __repr__(self):
@@ -103,20 +106,17 @@ class Metacategory(enum.Enum):
 
 
 class Category(db.Model):
-
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
 
-
     def __repr__(self):
         return '<Category id: %r>' % self.id
 
 
 class Image(db.Model):
-
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -128,14 +128,15 @@ class Image(db.Model):
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
 
+
 class QuestionType(enum.Enum):
     mc_single_answer = 1
     mc_multiple_answer = 2
     likert = 3
     binary = 4
 
-class Question(db.Model):
 
+class Question(db.Model):
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -147,8 +148,8 @@ class Question(db.Model):
     def __repr__(self):
         return '<Question id: %r>' % self.id
 
-class QuestionChoice(db.Model):
 
+class QuestionChoice(db.Model):
     __tablename__ = 'question_choices'
 
     choice_num = db.Column(db.Integer, primary_key=True)
@@ -160,4 +161,30 @@ class QuestionChoice(db.Model):
     def __repr__(self):
         return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
 
-class
+
+class ParticipantEATAnswer(db.Model):
+    __tablename__ = 'participant_EAT_answers'
+
+    participant_id = db.Column(db.Integer, db.ForeignKey("participants.id"), primary_key=True)
+    choice_num = db.Column(db.Integer, db.ForeignKey("question_choices.choice_num"), primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey("question_choices.question_id"), primary_key=True)
+
+    def __repr__(self):
+        return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id) + str(self.choice_num))
+
+
+class ParticipantIATAnswer(db.Model):
+    __tablename__ = 'participant_IAT_answers'
+
+    __table_args__ = (
+        db.CheckConstraint('assigned_category != unassigned_category', name='check_different_categories'), {})
+
+    id = db.Column(db.Integer, primary_key=True)
+    participant_id = db.Column(db.Integer, db.ForeignKey("participants.id"), nullable=False)
+    img_id = db.Column(db.Integer, db.ForeignKey("images.id"), nullable=False)
+    assigned_category = db.Column(db.String(40), db.ForeignKey("categories.name"), nullable=False)
+    unassigned_category = db.Column(db.String(40), db.ForeignKey("categories.name"), nullable=False)
+    response_time = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return '<Answer id: %r>' % self.id
