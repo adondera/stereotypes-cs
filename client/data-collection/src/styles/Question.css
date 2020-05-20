@@ -1,5 +1,5 @@
 .likertResponse>input:checked+.likertIndicator {
-    background-color: azure !important;
+    background-color:  #3f51b5 !important;
 }
 
 .Question {
@@ -18,12 +18,16 @@
     
 }
 
+.likertLine {
+    border-top: none !important;
+}
+
 .likertScale legend {
     display: none;
 }
 
 .likertScale div label span.likertIndicator {
-    background-color: #3f51b5;
+    background-color: white;
     border: solid #002984
 }
 
