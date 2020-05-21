@@ -4,6 +4,7 @@ import redis
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
+from cloudinary.uploader import upload
 
 import api.endpoints.validation as valid
 from api.models import Consent
@@ -40,10 +41,15 @@ class ConsentForm(Resource):
         parent = data['parent']
         signature = data['signature']
 
+        upload_result = upload(signature)
+
+        print("response from cloudinary: %s", upload_result)
+
         for child in data['children']:
             cons = Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
                                           parent['lastName'],
                                           signature)
             red.lpush("queue", cons.id)
+
 
         return ANSWERS[200], 200
