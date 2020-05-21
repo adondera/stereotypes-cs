@@ -1,10 +1,18 @@
-from flask_restful import Resource
+import os
+import redis
+
 from flask import request
 from flask_jwt_extended import jwt_required
-from .constants import ANSWERS
-from api.models import Consent
-from . import sockets
+from flask_restful import Resource
+
 import api.endpoints.validation as valid
+from api.models import Consent
+from .constants import ANSWERS
+
+if os.environ["APP_SETTINGS"] == "config.StagingConfig":
+    red = redis.from_url(os.environ["REDIS_URL"])
+else:
+    red = redis.Redis()
 
 
 class ConsentResource(Resource):
@@ -33,7 +41,9 @@ class ConsentForm(Resource):
         signature = data['signature']
 
         for child in data['children']:
-            Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'], parent['lastName'],
-                                   signature)
+            cons = Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
+                                          parent['lastName'],
+                                          signature)
+            red.lpush("queue", cons.id)
 
         return ANSWERS[200], 200
