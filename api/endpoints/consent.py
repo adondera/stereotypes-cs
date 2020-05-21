@@ -47,9 +47,8 @@ class ConsentForm(Resource):
 
         for child in data['children']:
             Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
-                                          parent['lastName'],
-                                          signature)
+                                   parent['lastName'],
+                                   signature)
             red.lpush("queue", child['firstName'])
-
 
         return ANSWERS[200], 200

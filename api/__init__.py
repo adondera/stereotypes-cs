@@ -38,8 +38,11 @@ def index():
     """Home route."""
     return "Hello, World!"
 
+
 from .endpoints import bp as endpoints_bp
+
 app.register_blueprint(endpoints_bp)
+
 
 @app.before_request
 def before_request():
@@ -50,4 +53,3 @@ def before_request():
 
 
 from .endpoints import bp
-
