@@ -1,11 +1,19 @@
-import React from 'react';
+import React from "react";
 import Login from "../containers/Login";
-import {mount, configure} from 'enzyme';
+import { mount, configure } from "enzyme";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
-import Adapter from 'enzyme-adapter-react-16';
-import {BrowserRouter} from "react-router-dom";
+import Adapter from "enzyme-adapter-react-16";
+import { BrowserRouter } from "react-router-dom";
+import api from "../utils/API";
+import { onSubmit, onLoggedIn } from "../actions/login";
+const postRequests = require.requireMock("../utils/requests/postRequsts");
 
+jest.mock("../utils/API", () => {
+  return {
+    post: jest.fn(),
+  };
+});
 
 /**
  * Test for Login page.
@@ -28,43 +36,54 @@ import {BrowserRouter} from "react-router-dom";
 
 // configure the Enzyme adapter
 //https://stackoverflow.com/questions/55344422/what-is-adapter-in-enzyme
-configure({adapter: new Adapter()});
+configure({ adapter: new Adapter() });
 
 //create a mock store
-const defaultStore =  {
-    loginReducer: {
-        username: 'alin',
-        password: 'bandera'
-    },
-    mainAppReducer: {},
-    questionsReducer: {
-        answers: []
-    }
+const defaultStore = {
+  loginReducer: {
+    username: "alin",
+    password: "bandera",
+  },
+  mainAppReducer: {},
+  questionsReducer: {
+    answers: [],
+  },
 };
 
 const mockedStore = configureMockStore()(defaultStore);
 
 //render the full page (also router, provider)
-export const mountWithProvider = children => (store = mockedStore) =>
-    mount(<BrowserRouter><Provider store={store}>{children}</Provider></BrowserRouter>);
-
+export const mountWithProvider = (children) => (store = mockedStore) =>
+  mount(
+    <BrowserRouter>
+      <Provider store={store}>{children}</Provider>
+    </BrowserRouter>
+  );
 
 describe("works", () => {
-    it("should render without throwing an error", () => {
-
-        const props = {};
-        const wrapper = mountWithProvider(<Login {...props} />)();
-        expect(wrapper.exists()).toBe(true);
-        console.log(wrapper.debug())
-    });
+  it("should render without throwing an error", () => {
+    const props = {};
+    const wrapper = mountWithProvider(<Login {...props} />)();
+    expect(wrapper.exists()).toBe(true);
+    console.log(wrapper.debug());
+  });
 });
 
-
-
 describe("basic structure test", () => {
-    it("has a Login component", () => {
-        const props = {};
-        const wrapper = mountWithProvider(<Login {...props} />)();
-        expect(wrapper.contains(<Login />)).toBe(true);
-    });
+  it("has a Login component", () => {
+    const props = {};
+    const wrapper = mountWithProvider(<Login {...props} />)();
+    expect(wrapper.contains(<Login />)).toBe(true);
+  });
+});
+
+it("Correct action number dispatched when login success", async () => {
+  api.post.mockResolvedValue(
+    Promise.resolve({ data: { access_token: "access" }, status: 200 })
+  );
+  await mockedStore.dispatch(
+    onSubmit("username", "password", mockedStore.dispatch)
+  );
+  mockedStore.dispatch(onLoggedIn())
+  expect(mockedStore.getActions().length).toBe(2)
 });
