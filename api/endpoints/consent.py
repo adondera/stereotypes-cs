@@ -46,10 +46,10 @@ class ConsentForm(Resource):
         print("response from cloudinary: %s", upload_result)
 
         for child in data['children']:
-            cons = Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
+            Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
                                           parent['lastName'],
                                           signature)
-            red.lpush("queue", cons.id)
+            red.lpush("queue", child['firstName'])
 
 
         return ANSWERS[200], 200
