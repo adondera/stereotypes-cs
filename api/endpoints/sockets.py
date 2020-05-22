@@ -9,6 +9,8 @@ from .. import socketio
 
 if os.environ["APP_SETTINGS"] == "config.StagingConfig":
     red = redis.from_url(os.environ["REDIS_URL"])
+elif os.environ["APP_SETTINGS"] == "config.CITestingConfig":
+    red = redis.Redis(host="redis")
 else:
     red = redis.Redis()
 

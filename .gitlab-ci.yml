@@ -80,11 +80,9 @@ pytest:
     POSTGRES_USER: test
     POSTGRES_PASSWORD: test
   script:
-  - sudo apt-get install redis-server
   - export APP_SETTINGS=config.CITestingConfig
   - apt-get update -qy
   - pip3 install -r requirements.txt
-  - redis-server
   - coverage run --source api --branch -m pytest api
   - coverage report
 
