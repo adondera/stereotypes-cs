@@ -16,7 +16,7 @@ def connect():
 @socketio.on('message')
 def handle_message(message):
     print('received message: ' + message)
-    return {"message": "muie ba"}
+    return {"message": "here's a message"}
 
 
 @socketio.on('free')
