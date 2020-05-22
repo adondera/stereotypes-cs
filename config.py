@@ -15,7 +15,7 @@ class Config(object):
         'host': 'ec2-46-137-84-173.eu-west-1.compute.amazonaws.com',
         'port': '5432',
     }
-    CLOUDINARY_URL=os.environ.get('CLOUDINARY_URL')
+    CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
     SECRET_KEY = 'some random key'
     JWT_SECRET_KEY = 'super-secret'
 

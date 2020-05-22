@@ -34,8 +34,6 @@ class ConsentForm(Resource):
         if not data:
             return ANSWERS[400], 400
 
-
-
         parent = data['parent']
         signature = data['signature']
 

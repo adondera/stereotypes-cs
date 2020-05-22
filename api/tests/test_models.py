@@ -9,6 +9,7 @@ from api import bcrypt
 @pytest.mark.usefixtures("init_db")
 class TestUserModel(unittest.TestCase):
     """Class that contains tests for User model."""
+
     def test_create_existing_user(self):
         """ Asserts if IntegrityError is raised when creating a user"""
         self.assertRaises(IntegrityError, User.create_user, 'username', 'password')

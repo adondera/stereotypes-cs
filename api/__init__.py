@@ -50,6 +50,3 @@ def before_request():
         url = request.url.replace('http://', 'https://', 1)
         code = 308
         return redirect(url, code=code)
-
-
-from .endpoints import bp

@@ -12,10 +12,12 @@ if os.environ["APP_SETTINGS"] == "config.StagingConfig":
 else:
     red = redis.Redis()
 
+
 @socketio.on('connect')
 @jwt_required
 def connect():
     print("Authenticated")
+
 
 @socketio.on('message')
 def handle_message(message):
