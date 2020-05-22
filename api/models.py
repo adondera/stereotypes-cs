@@ -32,7 +32,7 @@ class User(db.Model):
         """
         hashed_pw = generate_password_hash(password).decode('utf-8')
         try:
-            db.session.add(User(username, hashed_pw))
+            db.session.add(User(username=username, password=hashed_pw))
             db.session.commit()
         except:
             db.session.rollback()
@@ -57,7 +57,7 @@ class Consent(db.Model):
     @staticmethod
     def create_consent(parent_first_name, parent_last_name, signature):
         """Creates a consent form row in the database"""
-        consent = Consent(parent_first_name, parent_last_name, signature)
+        consent = Consent(parent_first_name=parent_first_name, parent_last_name=parent_last_name, signature=signature)
         try:
             db.session.add(consent)
             db.session.commit()
