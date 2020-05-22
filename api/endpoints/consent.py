@@ -1,6 +1,3 @@
-import os
-import redis
-
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
@@ -9,11 +6,8 @@ from cloudinary.uploader import upload
 import api.endpoints.validation as valid
 from api.models import Consent
 from .constants import ANSWERS
-
-if os.environ["APP_SETTINGS"] == "config.StagingConfig":
-    red = redis.from_url(os.environ["REDIS_URL"])
-else:
-    red = redis.Redis()
+from .sockets import red
+from .. import socketio
 
 
 class ConsentResource(Resource):
@@ -35,20 +29,23 @@ class ConsentForm(Resource):
         if not data:
             return ANSWERS[400], 400
 
-        print("GOT DATA")
-        print(data)
+        # print("GOT DATA")
+        # print(data)
 
         parent = data['parent']
         signature = data['signature']
 
-        upload_result = upload(signature)
+        ### Commented for testing 
+        # upload_result = upload(signature)
 
-        print("response from cloudinary: %s", upload_result)
+        # print("response from cloudinary: %s", upload_result)
 
         for child in data['children']:
-            Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
-                                   parent['lastName'],
-                                   signature)
-            red.lpush("queue", child['firstName'])
+            # Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
+            #                        parent['lastName'],
+            #                        signature)
+            red.rpush("queue", child['firstName'])
+        
+        socketio.emit("free-laptops")
 
         return ANSWERS[200], 200

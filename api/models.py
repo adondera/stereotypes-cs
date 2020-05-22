@@ -75,5 +75,7 @@ class Consent(db.Model):
         finally:
             db.session.close()
 
+        return {"id": consent.id, "firstName": consent.childFirstName, "lastName":consent.childLastName}
+
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
