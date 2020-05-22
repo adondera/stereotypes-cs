@@ -1,10 +1,10 @@
-from flask import request
+from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from cloudinary.uploader import upload
 
 import api.endpoints.validation as valid
-from api.models import Consent
+from api.models import Consent, add_to_db, Participant
 from .constants import ANSWERS
 from .sockets import red
 from .. import socketio
@@ -39,13 +39,17 @@ class ConsentForm(Resource):
         # upload_result = upload(signature)
 
         # print("response from cloudinary: %s", upload_result)
-
+        cons = Consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
+                       signature=signature)
+        add_to_db(cons)
         for child in data['children']:
-            # Consent.create_consent(child['firstName'], child['lastName'], parent['firstName'],
-            #                        parent['lastName'],
-            #                        signature)
-            red.rpush("queue", child['firstName'])
-        
+            participant = Participant(first_name=child['firstName'], last_name=child['lastName'], consent_id=cons.id)
+            add_to_db(participant)
+            obj = {"firstName": participant.first_name,
+                   "lastName": participant.last_name,
+                   "id": participant.id}
+            red.rpush("queue", str(obj))
+
         socketio.emit("free-laptops")
 
         return ANSWERS[200], 200

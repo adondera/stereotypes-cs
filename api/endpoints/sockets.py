@@ -13,6 +13,7 @@ def handle_message(message):
     print('received message: ' + message)
     return {"message": "muie ba"}
 
+
 @socketio.on('free')
 def check_queue(message):
     obj = red.lpop("queue")

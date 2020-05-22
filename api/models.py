@@ -9,6 +9,19 @@ from api import db
 import enum
 
 
+def add_to_db(obj):
+    try:
+        db.session.add(obj)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+    # commented this so that we can use object attributes after adding them to database
+    # if it's not commented you get an error because the object must have a session
+    # finally:
+    #     db.session.close()
+
+
 class User(db.Model):
     """Class that contains database schema for User table."""
     __tablename__ = 'users'
@@ -31,14 +44,7 @@ class User(db.Model):
 
         """
         hashed_pw = generate_password_hash(password).decode('utf-8')
-        try:
-            db.session.add(User(username=username, password=hashed_pw))
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
-        finally:
-            db.session.close()
+        add_to_db(User(username=username, password=hashed_pw))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -52,22 +58,13 @@ class Consent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     parent_first_name = db.Column(db.String(40), nullable=False)
     parent_last_name = db.Column(db.String(40), nullable=False)
-    signature = db.Column(db.Text(), nullable=False, unique=True)
+    signature = db.Column(db.Text(), nullable=False)
 
     @staticmethod
     def create_consent(parent_first_name, parent_last_name, signature):
         """Creates a consent form row in the database"""
         consent = Consent(parent_first_name=parent_first_name, parent_last_name=parent_last_name, signature=signature)
-        try:
-            db.session.add(consent)
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
-        finally:
-            db.session.close()
-
-        return {"id": consent.id, "firstName": consent.childFirstName, "lastName":consent.childLastName}
+        add_to_db(consent)
 
     def __repr__(self):
         return '<Consent form id: %r>' % self.id
@@ -87,11 +84,11 @@ class Participant(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     consent_id = db.Column(db.Integer, db.ForeignKey(Consent.id), nullable=False)
-    first_name = db.Column(db.String(40), nullable=False)
-    last_name = db.Column(db.String(40), nullable=False)
-    age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.Enum(Gender), nullable=False)
-    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=False)
+    first_name = db.Column(db.String(40), nullable=True)
+    last_name = db.Column(db.String(40), nullable=True)
+    age = db.Column(db.Integer, nullable=True)
+    gender = db.Column(db.Enum(Gender), nullable=True)
+    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __repr__(self):
