@@ -25,12 +25,16 @@ class ConsentForm(Resource):
             'children': valid.validate_children_data,
             'signature': valid.validate_signature
         }
+
+        # print("GOT DATA")
+        # print(request.json)
+        # print(request.form)
+
         data = valid.validate(valid.read_form_data(request), validators)
         if not data:
             return ANSWERS[400], 400
 
-        # print("GOT DATA")
-        # print(data)
+
 
         parent = data['parent']
         signature = data['signature']

@@ -1,5 +1,9 @@
+"""
+Class that deals with socket communication for the queue management
+"""
 import os
 import redis
+import json
 from flask_jwt_extended import jwt_required
 from .. import socketio
 
@@ -22,6 +26,7 @@ def handle_message(message):
 @socketio.on('free')
 def check_queue(message):
     obj = red.lpop("queue")
-    print(obj)
     if obj:
-        return {"child": obj.decode("utf-8")}
+        decoded_string = obj.decode("utf-8").replace("\'", "\"")
+        ret = json.loads(decoded_string)
+        return ret
