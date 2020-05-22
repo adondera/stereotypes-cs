@@ -1,4 +1,9 @@
-let socket = require("socket.io-client")("http://localhost:5000");
+
+
+let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTAxNjE4MzgsIm5iZiI6MTU5MDE2MTgzOCwianRpIjoiN2Q4OWZhM2ItZWU1YS00MmM0LTk1YTYtNGUxMjAzMDk0OWRiIiwiZXhwIjoxNTkwMTYyNzM4LCJpZGVudGl0eSI6ImFkbWluIiwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MifQ.6bj4aLgjXjcnq_BKOoN9IMaX8tNo55YnzVFtoG1kbNg'
+const io = require('socket.io-client');
+
+let socket = io("http://localhost:5000", {extraHeaders: { 'Authorization': `Bearer ${token}` }});
 let free = true
 let readline = require('readline').createInterface({
   input: process.stdin,
@@ -6,10 +11,6 @@ let readline = require('readline').createInterface({
 });
 
 
-// getInput();
-// socket.on('connect', function(){});
-// socket.on('event', function(data){});
-// socket.on('disconnect', function(){});
 socket.emit("message", "hello", (data) => {
   console.log(data); // data will be 'woot'
 });
