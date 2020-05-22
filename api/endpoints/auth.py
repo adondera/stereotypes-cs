@@ -8,7 +8,7 @@ from flask_jwt_extended import create_refresh_token, create_access_token, jwt_re
 from api import bcrypt
 from api.endpoints.constants import ANSWERS
 from api.models import User
-import api.endpoints.validation as valid
+from api.endpoints import validation as valid
 
 
 class Login(Resource):
