@@ -7,6 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { BrowserRouter } from "react-router-dom";
 import api from "../utils/API";
 import { onSubmit, onLoggedIn } from "../actions/login";
+import SelectInput from "@material-ui/core/Select/SelectInput";
 const postRequests = require.requireMock("../utils/requests/postRequsts");
 
 jest.mock("../utils/API", () => {
@@ -77,13 +78,14 @@ describe("basic structure test", () => {
   });
 });
 
-it("Correct action number dispatched when login success", async () => {
-  api.post.mockResolvedValue(
+it("Correct actions dispatched when login success", async () => {
+  await api.post.mockResolvedValue(
     Promise.resolve({ data: { access_token: "access" }, status: 200 })
   );
-  await mockedStore.dispatch(
+  mockedStore.dispatch(
     onSubmit("username", "password", mockedStore.dispatch)
   );
-  mockedStore.dispatch(onLoggedIn())
-  expect(mockedStore.getActions().length).toBe(2)
+  await new Promise(r => setTimeout(r, 200))
+  expect(mockedStore.getActions()[0].type === "ON_LOG_IN")
+  expect(mockedStore.getActions()[1].type === "ON_LOGGED_IN")
 });
