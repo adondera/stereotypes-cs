@@ -15,59 +15,59 @@ cache:
   paths:
   - client/data-collection/node_modules/
 
-lintJS:
-  image: node:latest
-  stage: lint
-  script:
-    - cd client/data-collection/
-    - npm cache clean --force
-    - rm -rf node_modules package-lock.json
-    - npm install
-    - npx eslint .
+# lintJS:
+#   image: node:latest
+#   stage: lint
+#   script:
+#     - cd client/data-collection/
+#     - npm cache clean --force
+#     - rm -rf node_modules package-lock.json
+#     - npm install
+#     - npx eslint .
 
-pylint:
-  stage: lint
-  image: python:3.8.2
-  script:
-    - export APP_SETTINGS=config.CITestingConfig
-    - apt-get update -qy
-    - pip3 install -r requirements.txt
-    - pip3 install pylint_gitlab
-    - mkdir -p public/badges public/lint
-    - echo undefined > public/badges/$CI_JOB_NAME.score
-    - pylint --exit-zero --output-format=text --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api | tee /tmp/pylint.txt
-    - sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > public/badges/$CI_JOB_NAME.score
-    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > codeclimate.json
-    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > public/lint/index.html
+# pylint:
+#   stage: lint
+#   image: python:3.8.2
+#   script:
+#     - export APP_SETTINGS=config.CITestingConfig
+#     - apt-get update -qy
+#     - pip3 install -r requirements.txt
+#     - pip3 install pylint_gitlab
+#     - mkdir -p public/badges public/lint
+#     - echo undefined > public/badges/$CI_JOB_NAME.score
+#     - pylint --exit-zero --output-format=text --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api | tee /tmp/pylint.txt
+#     - sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > public/badges/$CI_JOB_NAME.score
+#     # - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > codeclimate.json
+#     # - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > public/lint/index.html
 
-    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/pylint.svg 4=red 6=orange 8=yellow 10=green
-    - |
-      echo "Your score is: $(cat public/badges/$CI_JOB_NAME.score)"
-  artifacts:
-    paths:
-      - public/badges/pylint.svg
+#     - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/pylint.svg 4=red 6=orange 8=yellow 10=green
+#     - |
+#       echo "Your score is: $(cat public/badges/$CI_JOB_NAME.score)"
+#   artifacts:
+#     paths:
+#       - public/badges/pylint.svg
 
 
-buildJS:
-  image: node:latest
-  stage: build
-  script:
-    - cd client/data-collection
-    - npm install JayDew/react-likert-scale
-    - npm build
-  artifacts:
-      expire_in: 1 hour
-      paths:
-        - client/data-collection/build
+# buildJS:
+#   image: node:latest
+#   stage: build
+#   script:
+#     - cd client/data-collection
+#     - npm install JayDew/react-likert-scale
+#     - npm build
+#   artifacts:
+#       expire_in: 1 hour
+#       paths:
+#         - client/data-collection/build
 
-testJS:
-  image: node:latest
-  stage: test
-  script:
-    - cd client/data-collection
-    - npm install 
-    - npm install JayDew/react-likert-scale
-    - npm run test
+# testJS:
+#   image: node:latest
+#   stage: test
+#   script:
+#     - cd client/data-collection
+#     - npm install 
+#     - npm install JayDew/react-likert-scale
+#     - npm run test
 
 pytest:
   stage: test
@@ -80,9 +80,11 @@ pytest:
     POSTGRES_USER: test
     POSTGRES_PASSWORD: test
   script:
+  - sudo apt-get install redis-server
   - export APP_SETTINGS=config.CITestingConfig
   - apt-get update -qy
   - pip3 install -r requirements.txt
+  - redis-server
   - coverage run --source api --branch -m pytest api
   - coverage report
 
