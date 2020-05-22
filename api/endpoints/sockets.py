@@ -16,9 +16,9 @@ else:
 
 
 @socketio.on('connect')
-# @jwt_required
+@jwt_required
 def connect():
-    print("Authenticated")
+    print("Authenticated", flush=True)
 
 
 @socketio.on('message')
