@@ -4,6 +4,7 @@ from flask_restful import Resource
 from cloudinary.uploader import upload
 
 import api.endpoints.validation as valid
+import os
 from api.models import Consent, add_to_db, Participant
 from .constants import ANSWERS
 from .sockets import red
@@ -37,8 +38,10 @@ class ConsentForm(Resource):
         parent = data['parent']
         signature = data['signature']
 
-        ### Commented for testing 
-        # upload_result = upload(signature)
+        ### Commented for testing
+        if os.environ['APP_SETTINGS'] != "config.TestingConfig" and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
+            upload_result = upload(signature)
+            signature = upload_result["secure_url"]
 
         # print("response from cloudinary: %s", upload_result)
         cons = Consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
