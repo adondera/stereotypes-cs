@@ -1,10 +1,8 @@
 
-
-let token = 
-""
+let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTAyNTIxNjksIm5iZiI6MTU5MDI1MjE2OSwianRpIjoiNTU1OGIyMTMtOGVmYy00NDliLWFjMWQtNjAxYTE1MWRkMmFhIiwiZXhwIjoxNTkwMjUzMDY5LCJpZGVudGl0eSI6ImFkbWluIiwiZnJlc2giOnRydWUsInR5cGUiOiJhY2Nlc3MifQ.1hxXTVX2QgYtWY9OSFXZrj1WeYUhad1V5pwW2eQGnrU"
 const io = require('socket.io-client');
 
-let socket = io("ws://localhost:8000", {extraHeaders: { 'Authorization': `Bearer ${token}` }});
+let socket = io("wss://nemo-live-science-dev.herokuapp.com", {extraHeaders: { 'Authorization': `Bearer ${token}` }});
 let free = true
 let readline = require('readline').createInterface({
   input: process.stdin,
