@@ -3,10 +3,11 @@
 Here we use different endpoints protected by tokens
 """
 from flask_restful import Resource
-from .constants import resp
 from flask_jwt_extended import jwt_required, get_jwt_identity,\
     jwt_refresh_token_required, create_access_token, \
     fresh_jwt_required
+from .constants import resp
+
 
 
 class Protected(Resource):

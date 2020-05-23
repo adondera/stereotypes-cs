@@ -4,6 +4,7 @@ from api import app, db
 from api.models import User
 from api.endpoints.sockets import red
 
+
 @pytest.fixture
 def client():
     """
