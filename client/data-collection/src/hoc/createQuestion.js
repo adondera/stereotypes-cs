@@ -32,13 +32,13 @@ export function createQuestion(Question) {
       this.state = { show: false };
       this.addQListener()
 
-    }
-    updateState = (event) => {
+    };
+    updateState = function (event) {
       if(event.key === "q") this.setState({ show: true });
     }
     addQListener = () => {
       window.addEventListener("keyup", this.updateState)
-    }
+    } 
     componentWillUnmount() {
       window.removeEventListener("keyup", this.updateState)
     }
