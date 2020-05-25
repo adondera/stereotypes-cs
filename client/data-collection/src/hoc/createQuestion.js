@@ -33,7 +33,7 @@ export function createQuestion(Question) {
       this.addQListener()
 
     };
-    updateState = function (event) {
+    updateState = (event) => {
       if(event.key === "q") this.setState({ show: true });
     }
     addQListener = () => {
