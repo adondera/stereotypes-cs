@@ -2,6 +2,7 @@
 import pytest
 from api import app, db
 from api.models import User
+from api.endpoints.sockets import red
 
 
 @pytest.fixture
@@ -27,3 +28,4 @@ def init_db():
     yield db
     db.session.close()
     db.drop_all()
+    red.flushall()
