@@ -25,6 +25,7 @@
     "react-scripts": "3.4.1",
     "react-youtube": "^7.11.2",
     "redux": "^4.0.5",
+    "socket.io-client": "^2.3.0",
     "thunk": "0.0.1"
   },
   "scripts": {
