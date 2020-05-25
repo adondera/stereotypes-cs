@@ -1,3 +1,5 @@
+import {withToken, startSocket} from "../utils/sockets/queue";
+
 const loginReducer = (state = {}, action) => {
   switch (action.type) {
     case "CHANGE_USERNAME":
@@ -17,6 +19,8 @@ const loginReducer = (state = {}, action) => {
         errorMessage: "",
       };
     case "ON_LOGGED_IN":
+      withToken(action.accessToken)
+      startSocket()
       return {
         ...state,
         accessToken: action.accessToken,

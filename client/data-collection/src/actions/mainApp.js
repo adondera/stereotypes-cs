@@ -1,5 +1,5 @@
 import { getQuiz } from "../utils/requests/getQuiz";
-
+import { getChild } from "../utils/sockets/queue";
 /*
   Get all the data from the server.
 */
@@ -12,7 +12,7 @@ export const getQuizData = (accessToken, dispatch) => {
   Change boolan field as soon as all data has arrived.
 */
 export const dataLoaded = (res) => {
-  console.log(res)
+  console.log(res);
   return {
     type: "DATA_IS_LOADED",
     questions: res.data.questions,
@@ -24,9 +24,9 @@ export const dataLoaded = (res) => {
 */
 export const dataIsLoading = () => {
   return {
-    type: "DATA_IS_LOADING"
-  }
-}
+    type: "DATA_IS_LOADING",
+  };
+};
 
 /*
   Change active quiz question
@@ -39,7 +39,20 @@ export const changeQuestion = (questionIndex, questionsLength) => {
 };
 
 export const finishQuiz = () => {
-    return {
-        type: "FINISH_QUIZ"
-    }
-}
+  return {
+    type: "FINISH_QUIZ",
+  };
+};
+
+export const registerChild = (dispatch) => {
+  getChild(dispatch);
+  return {
+    type: "LOADING_NEW_CHILD",
+  };
+};
+
+export const removeActiveChild = () => {
+  return {
+    type: "REMOVE_ACTIVE_CHILD",
+  };
+};
