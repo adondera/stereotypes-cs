@@ -10,6 +10,15 @@ import enum
 
 
 def add_to_db(obj):
+    """
+    Method to add an object in the database.
+
+    Parameters:
+    obj (object's type must be a class from models.py): the object to be added in the database
+
+    Raise exception and rollback transaction if failed to add a new user to the database.
+    Close connection if insertion is successful.
+    """
     try:
         db.session.add(obj)
         db.session.commit()
@@ -23,7 +32,8 @@ def add_to_db(obj):
 
 
 class User(db.Model):
-    """Class that contains database schema for User table."""
+    """Class that maps the User object to the corresponding database table ('users' table)."""
+
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -51,7 +61,7 @@ class User(db.Model):
 
 
 class Consent(db.Model):
-    """Class that contains information from the consent forms"""
+    """Class that maps the Consent object to the corresponding database table ('consents' table)."""
 
     __tablename__ = 'consent'
 
@@ -71,12 +81,16 @@ class Consent(db.Model):
 
 
 class Gender(enum.Enum):
+    """Enum choices for gender types"""
+
     male = 1
     female = 2
     other = 3
 
 
 class Participant(db.Model):
+    """Class that maps the Participant object to the corresponding database table ('participants' table)."""
+
     __tablename__ = 'participants'
 
     __table_args__ = (
@@ -96,6 +110,8 @@ class Participant(db.Model):
 
 
 class Metacategory(enum.Enum):
+    """Enum choices for metacategories"""
+
     profession = 1
     gender = 2
     hobby = 3
@@ -103,6 +119,8 @@ class Metacategory(enum.Enum):
 
 
 class Category(db.Model):
+    """Class that maps the Category object to the corresponding database table ('categories' table)."""
+
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -114,6 +132,8 @@ class Category(db.Model):
 
 
 class Image(db.Model):
+    """Class that maps the Image object to the corresponding database table ('images' table)."""
+
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -127,6 +147,8 @@ class Image(db.Model):
 
 
 class QuestionType(enum.Enum):
+    """Enum choices for question types"""
+
     mc_single_answer = 1
     mc_multiple_answer = 2
     likert = 3
@@ -134,6 +156,8 @@ class QuestionType(enum.Enum):
 
 
 class Question(db.Model):
+    """Class that maps the Question object to the corresponding database table ('questions' table)."""
+
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True)
