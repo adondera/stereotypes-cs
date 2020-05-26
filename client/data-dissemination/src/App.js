@@ -3,7 +3,6 @@ import { Route} from 'react-router';
 import { Switch } from 'react-router';
 import Home from './components/Home'
 import './App.css';
-import BinaryQuestion from './components/quizComponents/BinaryQuestion'
 import Quiz from './components/Quiz'
 
 function App() {

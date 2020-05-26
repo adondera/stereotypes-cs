@@ -3,17 +3,19 @@ import React from "react";
 // import { saveQuestionAction } from "../../actions/question";
 // import answers from "../../utils/constants/Answers";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Typography} from "@material-ui/core";
 import ImageCard from "./ImageCard";
 import TextCard from "./TextCard";
-import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: '95%',
+    margin: 'auto',
     flexGrow: 1,
+    marginTop: '200px'
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(0.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
@@ -29,6 +31,13 @@ const BinaryQuestion = (props) => {
     <React.Fragment>
       <div className={classes.root}>
         <Grid container spacing={0}>
+          <Grid className={classes.paper} item xs={4}>
+            <Typography variant='h6'>Cat</Typography>
+          </Grid>
+          <Grid item xs={4}/>
+          <Grid className={classes.paper} item xs={4}>
+          <Typography variant='h6'>Dog</Typography>
+          </Grid>
           <Grid item xs={4}>
             <TextCard
               onClick={() => {console.log('left click')}}

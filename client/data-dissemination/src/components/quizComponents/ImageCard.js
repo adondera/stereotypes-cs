@@ -8,9 +8,11 @@ import Slide from "@material-ui/core/Slide";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: '95%',
+    marginTop: '10%',
+    margin: "auto",
   },
   image: {
-    margin: "auto",
     height: "100%",
     width:"100%",
     transform: "scale(1.05)",

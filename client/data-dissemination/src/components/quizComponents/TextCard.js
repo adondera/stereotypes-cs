@@ -1,17 +1,23 @@
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    height: "120%"
   },
   image: {
     margin: "auto",
     transform: "scale(1.5)",
+  },
+  textContent: {
+    textAlign: "center",
+    height: '100%'
+  },
+  cardContent: {
+    height: '100%'
   }
 }))
 
@@ -20,14 +26,14 @@ const TextCard = (props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={props.onClick}>
-        <CardContent
+        <CardActionArea
           component="div"
-          className={classes.image}
+          className={classes.textContent}
         >
-          <Typography variant="h5"> {props.text} </Typography>
-        </CardContent>
-      </CardActionArea>
+          <Card className={classes.cardContent}>
+
+          </Card>
+        </CardActionArea>
     </Card>
   );
 };

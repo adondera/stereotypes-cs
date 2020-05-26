@@ -1,6 +1,5 @@
 import BinaryQuestion from "../components/quizComponents/BinaryQuestion";
 import React from "react";
-import { Redirect } from "react-router";
 
 /*
 Create mapping between type and Component to be rendered
@@ -16,9 +15,6 @@ add Modal for exiting quiz prematurely
 */
 export function createQuizComponent(Quiz) {
   return class QuizHoc extends React.Component {
-    constructor(props) {
-      super(props);
-    }
     render() {
       var QuizContentType = React.Fragment;
     QuizContentType = mapTypeToComponent[1];
