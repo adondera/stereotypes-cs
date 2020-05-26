@@ -3,7 +3,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +25,6 @@ const ImageCard = (props) => {
   const classes = useStyles();
 
   return (
-    <Slide direction="down" key={props.questionIndex} in={true} mountOnEnter>
       <Card className={classes.root}>
         <CardActionArea onClick={props.onClick}>
           <CardMedia
@@ -37,7 +35,6 @@ const ImageCard = (props) => {
           />
         </CardActionArea>
       </Card>
-    </Slide>
   );
 };
 

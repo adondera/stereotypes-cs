@@ -30,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </Grid>
         </div>
-        <div questionindex={1}>    
             {props.children}
-        </div>
       </React.Fragment>
         )
 };

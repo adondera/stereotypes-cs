@@ -20,8 +20,8 @@ export function createQuizComponent(Quiz) {
     QuizContentType = mapTypeToComponent[1];
       return (
         <React.Fragment>
-            <Quiz {...this.props}>
-              <QuizContentType>
+            <Quiz>
+              <QuizContentType {...this.props}> 
               </QuizContentType>
             </Quiz>
         </React.Fragment>

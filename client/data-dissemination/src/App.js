@@ -12,7 +12,7 @@ function App() {
         <Home/>
       </Route>
       <Route exact path='/quiz'>
-        <Quiz/>
+        <Quiz questionindex={1} correctAnswer='right'/>
       </Route>
       <Route exact path='/results'>
         Results

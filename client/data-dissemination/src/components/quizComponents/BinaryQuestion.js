@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 // import { connect } from "react-redux";
 // import { saveQuestionAction } from "../../actions/question";
 // import answers from "../../utils/constants/Answers";
 import { makeStyles } from "@material-ui/core/styles";
-import {Grid, Typography} from "@material-ui/core";
+import { Grid, Typography, Slide } from "@material-ui/core";
 import ImageCard from "./ImageCard";
-import TextCard from "./TextCard";
+import ChoiceCard from "./ChoiceCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '95%',
-    margin: 'auto',
+    width: "95%",
+    margin: "auto",
     flexGrow: 1,
-    marginTop: '200px'
+    marginTop: "20%",
   },
   paper: {
     padding: theme.spacing(0.5),
     textAlign: "center",
     color: theme.palette.text.secondary,
+  },
+  rootBeforeChoice: {
+    padding: theme.spacing(0.5),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    pointerEvents: 'none'
   },
   card: {
     maxWidth: 345,
@@ -26,31 +32,51 @@ const useStyles = makeStyles((theme) => ({
 
 const BinaryQuestion = (props) => {
   const classes = useStyles();
+  const [state, setState] = useState({ choice: null });
+
+  const onClickLeft = () => {
+    console.log(props.correctAnswer)
+    if(props.correctAnswer === 'left') {
+      setState({ choice: 'right' })
+    }
+  }
+  const onClickRight = () => {
+    if(props.correctAnswer === 'right') {
+      setState({ choice:'left'})
+    } 
+  }
 
   return (
     <React.Fragment>
       <div className={classes.root}>
         <Grid container spacing={0}>
           <Grid className={classes.paper} item xs={4}>
-            <Typography variant='h6'>Cat</Typography>
+            <Typography variant="h5">Cat</Typography>
           </Grid>
-          <Grid item xs={4}/>
+          <Grid item xs={4} />
           <Grid className={classes.paper} item xs={4}>
-          <Typography variant='h6'>Dog</Typography>
+            <Typography variant="h5">Dog</Typography>
           </Grid>
           <Grid item xs={4}>
-            <TextCard
-              onClick={() => {console.log('left click')}}
-              text= "Stanga"
+            <ChoiceCard
+              correct={props.correctAnswer === 'left'}
+              onClick={onClickLeft}
+              text="Stanga"
               isSelected={true}
             />
           </Grid>
+          <Slide in={state.choice === null} direction={state.choice}>
+            <Grid item xs={4}>
+              <ImageCard
+                {...props}
+                image="https://perol.ro/wp-content/uploads/2019/10/caine-1-768x400.jpg"
+              />
+            </Grid>
+          </Slide>
           <Grid item xs={4}>
-            <ImageCard {...props} image="https://perol.ro/wp-content/uploads/2019/10/caine-1-768x400.jpg"/>
-          </Grid>
-          <Grid item xs={4}>
-            <TextCard
-              onClick={() => {console.log('right clikc')}}
+            <ChoiceCard
+              correct={props.correctAnswer === 'right'}
+              onClick={onClickRight}
               text="Dreapta"
               isSelected={true}
             />
