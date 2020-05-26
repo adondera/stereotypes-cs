@@ -3,7 +3,7 @@ import { Route} from 'react-router';
 import { Switch } from 'react-router';
 import Home from './components/Home'
 import './App.css';
-import Information from "./components/quizComponents/Information";
+import MultipleChoice from "./components/quizComponents/MultipleChoise";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Home/>
       </Route>
       <Route exact path='/quiz'>
-        <Information/>
+        <MultipleChoice/>
       </Route>
       <Route exact path='/results'>
         Results
