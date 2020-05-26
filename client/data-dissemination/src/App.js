@@ -3,6 +3,8 @@ import { Route} from 'react-router';
 import { Switch } from 'react-router';
 import Home from './components/Home'
 import './App.css';
+import BinaryQuestion from './components/quizComponents/BinaryQuestion'
+import Quiz from './components/Quiz'
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
         <Home/>
       </Route>
       <Route exact path='/quiz'>
-        Quiz
+        <Quiz/>
       </Route>
       <Route exact path='/results'>
         Results
