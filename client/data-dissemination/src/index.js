@@ -12,7 +12,7 @@ import thunk from 'redux-thunk';
 
 const middlewareEnhancer = applyMiddleware(thunk)
 const composedEnhancers = composeWithDevTools(middlewareEnhancer)
-const initialStore = {appReducer: {quizIndex: 0, quizData: [{type: 1, correctAnswer: 'right'}, {type: 1, correctAnswer: 'right'}], quizIsLoaded: false, quizIsLoading: true}}
+const initialStore = {appReducer: {quizIndex: 0, quizData: [{type: 1, correctAnswer: 'right'}, {type: 1, correctAnswer: 'right'}], quizIsLoaded: true, quizIsLoading: true}}
 const store = createStore(rootReducer, initialStore,composedEnhancers);
 ReactDOM.render(
   <BrowserRouter>

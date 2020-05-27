@@ -17,6 +17,7 @@ function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded }) {
         <Quiz
           quizIndex={quizIndex}
           quizData={quizData}
+          quizIsLoaded={quizIsLoaded}
           incrementQuizIndex={incrementQuizIndex}
         />
       </Route>

@@ -1,6 +1,7 @@
 import BinaryQuestion from "../components/quizComponents/BinaryQuestion";
 import LikertScaleQuestion from "../components/quizComponents/Likert";
 import React from "react";
+import withProps from '../hoc/withProps'
 import { Redirect } from "react-router";
 
 /*
@@ -19,18 +20,15 @@ add Modal for exiting quiz prematurely
 export function createQuizComponent(Quiz) {
   return class QuizHoc extends React.Component {
     render() {
-      console.log(this.props.quizData)
-      var QuizContentType = React.Fragment;
-      QuizContentType = this.props.quizIsLoaded ? mapTypeToComponent[this.props.quizData[this.props.quizIndex].type] : React.Fragment;
-      var contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {};
+      console.log(this.props.quizIsLoaded)
+      const redirectProps = {to: '/'}
+      const contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {}
+      const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData}
+      const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].type]) : withProps(redirectProps, Redirect)
       return (
         <React.Fragment>
             <Quiz {...this.props}>
-              {this.props.quizIsLoaded ? (
-              <QuizContentType onNext={this.props.incrementQuizIndex} key={this.props.quizIndex} {...contentData}/> 
-              ) : (
-                <Redirect to='/'/>
-              )}
+              <QuizContentType/> 
             </Quiz>
         </React.Fragment>
       );
