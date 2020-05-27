@@ -7,7 +7,7 @@ import "./App.css";
 import { incrementQuizIndex } from "./actions/app";
 import { connect } from "react-redux";
 
-function App({ quizIndex, quizData, incrementQuizIndex }) {
+function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded }) {
   return (
     <Switch>
       <Route exact path="/">
@@ -32,6 +32,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     quizIndex: state.appReducer.quizIndex,
     quizData: state.appReducer.quizData,
+    quizIsLoaded: state.appReducer.quizIsLoaded
+
   };
 };
 

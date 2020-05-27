@@ -5,11 +5,15 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
 import rootReducer from "./reducers";
-import { devToolsEnhancer } from "redux-devtools-extension";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { applyMiddleware, createStore} from 'redux'
+import thunk from 'redux-thunk';
 
-const store = createStore(rootReducer, devToolsEnhancer());
+const middlewareEnhancer = applyMiddleware(thunk)
+const composedEnhancers = composeWithDevTools(middlewareEnhancer)
+const initialStore = {appReducer: {quizIndex: 0, quizData: [{type: 1, correctAnswer: 'right'}, {type: 1, correctAnswer: 'right'}], quizIsLoaded: false, quizIsLoading: true}}
+const store = createStore(rootReducer, initialStore,composedEnhancers);
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>

@@ -1,6 +1,7 @@
 import BinaryQuestion from "../components/quizComponents/BinaryQuestion";
 import LikertScaleQuestion from "../components/quizComponents/Likert";
 import React from "react";
+import { Redirect } from "react-router";
 
 /*
 Create mapping between type and Component to be rendered
@@ -20,13 +21,16 @@ export function createQuizComponent(Quiz) {
     render() {
       console.log(this.props.quizData)
       var QuizContentType = React.Fragment;
-      QuizContentType = this.props.quizData.length > 0 ? mapTypeToComponent[this.props.quizData[this.props.quizIndex].type] : React.Fragment;
-      var contentData = this.props.quizData.length > 0 ? this.props.quizData[this.props.quizIndex] : {};
+      QuizContentType = this.props.quizIsLoaded ? mapTypeToComponent[this.props.quizData[this.props.quizIndex].type] : React.Fragment;
+      var contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {};
       return (
         <React.Fragment>
             <Quiz {...this.props}>
-              <QuizContentType onNext={this.props.incrementQuizIndex} key={this.props.quizIndex} {...contentData}> 
-              </QuizContentType>
+              {this.props.quizIsLoaded ? (
+              <QuizContentType onNext={this.props.incrementQuizIndex} key={this.props.quizIndex} {...contentData}/> 
+              ) : (
+                <Redirect to='/'/>
+              )}
             </Quiz>
         </React.Fragment>
       );
