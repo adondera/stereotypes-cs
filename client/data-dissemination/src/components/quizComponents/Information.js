@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         width: '95%',
         margin: 'auto',
         flexGrow: 1,
-        marginTop: '20%',
+        marginTop: '20px',
     },
     paper: {
         padding: theme.spacing(2),
@@ -29,16 +29,13 @@ const Information = (props) => {
             <Grid container spacing={3} alignItems='center' justify='center'>
                 <Grid item xs={12} sm={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant='h3'>Information title</Typography>
+                        <Typography variant='h3'>{props.title}</Typography>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Paper className={classes.paper} elevation={0}>
                         <Typography style={{textAlign: 'justify'}} variant='h6'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ultrices tincidunt arcu non sodales neque sodales. Ut diam quam
-                            nulla.
+                            {props.body}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -48,7 +45,8 @@ const Information = (props) => {
                             <Button
                                 style={{margin: 'auto'}}
                                 variant='contained'
-                                color='primary'>
+                                color='primary'
+                                onClick={props.onNext}>
                                 NEXT
                             </Button>
                         </Link>

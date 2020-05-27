@@ -1,8 +1,11 @@
 import BinaryQuestion from '../components/quizComponents/BinaryQuestion';
 import LikertScaleQuestion from '../components/quizComponents/Likert';
-import Finish from '../components/quizComponents/Finish'
+import Finish from '../components/quizComponents/Finish';
+import Information from '../components/quizComponents/Information';
+import Video from '../components/quizComponents/Video';
+import MultipleChoise from '../components/quizComponents/MultipleChoise';
 import React from 'react';
-import withProps from '../hoc/withProps'
+import withProps from '../hoc/withProps';
 import { Redirect } from 'react-router';
 
 /*
@@ -11,7 +14,10 @@ Create mapping between type and Component to be rendered
 const mapTypeToComponent = {
   1: BinaryQuestion,
   2: LikertScaleQuestion,
-  5: Finish
+  3: Video,
+  4: Information,
+  5: Finish,
+  6: MultipleChoise
 };
 
 

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   },
   card: {
     maxWidth: 345,
@@ -32,56 +32,52 @@ const BinaryQuestion = (props) => {
   const [state, setState] = useState({ choice: null });
 
   const onClickLeft = () => {
-    console.log(props.correctAnswer)
-    if(props.correctAnswer === 'left') {
-      setState({ choice: 'right' })
-      props.onNext()
+    console.log(props.correctAnswer);
+    if (props.correctAnswer === 'left') {
+      setState({ choice: 'right' });
+      props.registerAnswer({});
+      setTimeout(props.onNext, 200)
     }
-  }
+  };
   const onClickRight = () => {
-    if(props.correctAnswer === 'right') {
-      setState({ choice:'left'})
-      props.registerAnswer({})
-      props.onNext()
-    } 
-  }
+    if (props.correctAnswer === 'right') {
+      setState({ choice: 'left' });
+      props.registerAnswer({});
+      setTimeout(props.onNext, 200)
+    }
+  };
 
-  return ( 
-      <div className={classes.root}>
-        <Grid container spacing={0}>
-          <Grid className={classes.paper} item xs={4}>
-            <Typography variant='h5'>Cat</Typography>
-          </Grid>
-          <Grid item xs={4} />
-          <Grid className={classes.paper} item xs={4}>
-            <Typography variant='h5'>Dog</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <ChoiceCard
-              correct={props.correctAnswer === 'left'}
-              onClick={onClickLeft}
-              text='Stanga'
-              isSelected={true}
-            />
-          </Grid>
-          <Slide in={state.choice === null} direction={state.choice}>
-            <Grid item xs={4}>
-              <ImageCard
-                {...props}
-                image='https://perol.ro/wp-content/uploads/2019/10/caine-1-768x400.jpg'
-              />
-            </Grid>
-          </Slide>
-          <Grid item xs={4}>
-            <ChoiceCard
-              correct={props.correctAnswer === 'right'}
-              onClick={onClickRight}
-              text='Dreapta'
-              isSelected={true}
-            />
-          </Grid>
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={0}>
+        <Grid className={classes.paper} item xs={4}>
+          <Typography variant='h5'>{props.textLeft}</Typography>
         </Grid>
-      </div>
+        <Grid item xs={4} />
+        <Grid className={classes.paper} item xs={4}>
+          <Typography variant='h5'>{props.textRight}</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <ChoiceCard
+            correct={props.correctAnswer === 'left'}
+            onClick={onClickLeft}
+            isSelected={true}
+          />
+        </Grid>
+        <Slide in={state.choice === null} direction={state.choice}>
+          <Grid item xs={4}>
+            <ImageCard {...props} image={props.image} />
+          </Grid>
+        </Slide>
+        <Grid item xs={4}>
+          <ChoiceCard
+            correct={props.correctAnswer === 'right'}
+            onClick={onClickRight}
+            isSelected={true}
+          />
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

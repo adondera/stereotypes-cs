@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         width: '95%',
         margin: 'auto',
         flexGrow: 1,
-        marginTop: '20%',
+        marginTop: '20px',
     },
     paper: {
         padding: theme.spacing(2),
@@ -59,7 +59,8 @@ const LikertScaleQuestion = (props) => {
                                 <Button
                                     style={{margin: 'auto'}}
                                     variant='contained'
-                                    color='primary'>
+                                    color='primary'
+                                    onClick={props.onNext}>
                                     NEXT
                                 </Button>
                             </Link>

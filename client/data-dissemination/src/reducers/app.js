@@ -12,6 +12,11 @@ const appReducer = (state = {}, action) => {
         quizIndex: 0,
         quizIsFinished: true,
       };
+    case 'QUIZ_LOADED':
+        return {
+            ...state,
+            //quizData: action.quizData
+        }
     default:
       return state;
   }
