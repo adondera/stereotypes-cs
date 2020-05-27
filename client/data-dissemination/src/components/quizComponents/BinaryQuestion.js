@@ -38,11 +38,13 @@ const BinaryQuestion = (props) => {
     console.log(props.correctAnswer)
     if(props.correctAnswer === 'left') {
       setState({ choice: 'right' })
+      props.onNext()
     }
   }
   const onClickRight = () => {
     if(props.correctAnswer === 'right') {
       setState({ choice:'left'})
+      props.onNext()
     } 
   }
 

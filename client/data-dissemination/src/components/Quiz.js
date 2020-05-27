@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         <div className={classes.root}>
           <Grid container spacing={0}>
             <Grid className={classes.paper} item xs={12}>
-              <Typography variant='h2'>Question 2</Typography>
+            <Typography variant='h2'>{props.quizIndex}</Typography>
             </Grid>
           </Grid>
         </div>
