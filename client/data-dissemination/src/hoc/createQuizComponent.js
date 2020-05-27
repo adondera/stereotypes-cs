@@ -20,10 +20,10 @@ add Modal for exiting quiz prematurely
 export function createQuizComponent(Quiz) {
   return class QuizHoc extends React.Component {
     render() {
-      console.log(this.props.quizIsLoaded)
+      console.log(this.props.registerAnswer)
       const redirectProps = {to: '/'}
       const contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {}
-      const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData}
+      const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData, registerAnswer: this.props.registerAnswer}
       const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].type]) : withProps(redirectProps, Redirect)
       return (
         <React.Fragment>
