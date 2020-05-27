@@ -29,7 +29,7 @@ def add_to_db(obj):
     # if it's not commented you get an error because the object must have a session
     # finally:
     #     db.session.close()
-
+    
 
 class User(db.Model):
     """Class that maps the User object to the corresponding database table ('users' table)."""
@@ -126,7 +126,9 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
-
+    questions = db.relationship("Question", secondary="questions_to_categories", lazy=False)
+    images = db.relationship("Image", backref=db.backref('category', lazy='joined'), lazy='joined')
+    
     def __repr__(self):
         return '<Category id: %r>' % self.id
 
@@ -141,9 +143,11 @@ class Image(db.Model):
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.String(40), nullable=False)
+    questions = db.relationship("Question", backref=db.backref('image', lazy='joined'), lazy='joined')
 
     def __repr__(self):
-        return '<Consent form id: %r>' % self.id
+        # return '<Image id: %r>' % self.id
+        return self.link
 
 
 class QuestionType(enum.Enum):
@@ -153,6 +157,11 @@ class QuestionType(enum.Enum):
     mc_multiple_answer = 2
     likert = 3
     binary = 4
+    video = 5
+
+    def __repr__(self):
+        # return '<QuestionType id: %r>' % self.id
+        return str(self.value)
 
 
 class Question(db.Model):
@@ -162,12 +171,47 @@ class Question(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
-    text = db.Column(db.Text, nullable=False)
-    type = db.Column(db.Enum(QuestionType), nullable=False)
+    text = db.Column(db.Text, nullable=True)
+    q_type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
 
     def __repr__(self):
         return '<Question id: %r>' % self.id
+
+    def as_dict(self):
+        # {c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
+    
+        dictionary = self.__dict__.copy()
+        dictionary['q_type'] = self.q_type.value
+
+        if (dictionary['q_type'] == QuestionType.binary.value):
+            dictionary['image'] = self.image.link
+            dictionary['image_category'] = self.image.category.name
+            dictionary['categories_left'] = list(map(lambda x: x.category.name, filter(lambda x: x.is_left, self.questions_to_categories)))
+            dictionary['categories_right'] = list(map(lambda x: x.category.name, filter(lambda x: not x.is_left, self.questions_to_categories)))
+        # else:
+
+        
+        # Remove useless attributes
+        dictionary.pop('_sa_instance_state')
+        dictionary.pop('categories')
+        dictionary.pop('questions_to_categories')
+        dictionary.pop('img_id')
+        return dictionary
+
+
+
+class Question_to_Category(db.Model):
+
+    __tablename__ = 'questions_to_categories'
+    
+    q_id = db.Column('question_id',  db.Integer, db.ForeignKey(Question.id), primary_key=True)
+    c_id = db.Column('category_id', db.Integer, db.ForeignKey(Category.id), primary_key=True)
+    is_left = db.Column('is_left', db.Boolean, nullable=False)
+    question = db.relationship(Question, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
+    category = db.relationship(Category, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
+
 
 
 class QuestionChoice(db.Model):
@@ -183,32 +227,36 @@ class QuestionChoice(db.Model):
         return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
 
 
-class ParticipantEATAnswer(db.Model):
-    __tablename__ = 'participant_EAT_answers'
+class ParticipantAnswer(db.Model):
+    __tablename__ = 'participant_answers'
 
+    id = db.Column(db.Integer, primary_key=True)
     participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), primary_key=True)
-    choice_num = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, primary_key=True)
+    answer = db.Column(db.Text)
+    response_time = db.Column(db.Float)
 
-    __table_args__ = (db.ForeignKeyConstraint([choice_num, question_id],
-                                              [QuestionChoice.choice_num, QuestionChoice.question_id]), {})
 
     def __repr__(self):
         return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id) + str(self.choice_num))
 
 
-class ParticipantIATAnswer(db.Model):
-    __tablename__ = 'participant_IAT_answers'
 
-    __table_args__ = (
-        db.CheckConstraint('assigned_category != unassigned_category', name='check_different_categories'), {})
+def populate_db():
 
-    id = db.Column(db.Integer, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
-    img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=False)
-    assigned_category = db.Column(db.String(40), db.ForeignKey(Category.name), nullable=False)
-    unassigned_category = db.Column(db.String(40), db.ForeignKey(Category.name), nullable=False)
-    response_time = db.Column(db.Integer, nullable=False)
+    c = Category(name='writer', metacategory=Metacategory.profession)
+    add_to_db(c)
 
-    def __repr__(self):
-        return '<Answer id: %r>' % self.id
+    img = Image(category_id=c.id, link='google.com', description='description', attribute='attr')
+    add_to_db(img)
+
+    q = Question(img_id=img.id, text='teeeext', q_type=QuestionType.binary)
+    add_to_db(q)
+    
+    q_to_c = Question_to_Category(q_id=q.id, c_id=c.id, is_left=True)
+
+    add_to_db(q_to_c)
+
+
+
+    
