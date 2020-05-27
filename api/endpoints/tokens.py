@@ -23,6 +23,10 @@ class Protected(Resource):
         # return dict(logged_in_as=current_user), 200
         return resp, 200
 
+class Unprotected(Resource):
+    def get(self):
+        return resp, 200
+
 
 class Refresh(Resource):
     """
