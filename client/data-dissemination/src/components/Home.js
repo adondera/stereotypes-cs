@@ -1,20 +1,20 @@
-import React from "react";
-import { Typography, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Typography, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "20px",
-    margin: "auto",
-    width: "90%",
+    marginTop: '20px',
+    margin: 'auto',
+    width: '90%',
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.primary,
   },
 }));
@@ -27,12 +27,12 @@ const Home = (props) => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
           <Paper className={classes.paper}>
-            <Typography variant="h3">Stereotypes in CS</Typography>
+            <Typography variant='h3'>Stereotypes in CS</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
-            <Typography style={{ textAlign: "justify" }} variant="h6">
+            <Typography style={{ textAlign: 'justify' }} variant='h6'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
               Ultrices tincidunt arcu non sodales neque sodales. Ut diam quam
@@ -42,7 +42,7 @@ const Home = (props) => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
-            <Typography style={{ textAlign: "justify" }} variant="h6">
+            <Typography style={{ textAlign: 'justify' }} variant='h6'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
               Ultrices tincidunt arcu non sodales neque sodales. Ut diam quam
@@ -52,11 +52,11 @@ const Home = (props) => {
         </Grid>
         <Grid item xs={12} sm={12}>
           <Paper className={classes.paper}>
-            <Link to="/quiz" style={{textDecoration: 'none'}}>
+            <Link to='/quiz' style={{textDecoration: 'none'}}>
             <Button
-              style={{ margin: "auto" }}
-              variant="contained"
-              color="secondary">
+              style={{ margin: 'auto' }}
+              variant='contained'
+              color='secondary'>
                   Start
             </Button>
             </Link>

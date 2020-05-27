@@ -1,27 +1,24 @@
-import React, { useState } from "react";
-// import { connect } from "react-redux";
-// import { saveQuestionAction } from "../../actions/question";
-// import answers from "../../utils/constants/Answers";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Slide } from "@material-ui/core";
-import ImageCard from "./ImageCard";
-import ChoiceCard from "./ChoiceCard";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Typography, Slide } from '@material-ui/core';
+import ImageCard from './ImageCard';
+import ChoiceCard from './ChoiceCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "95%",
-    margin: "auto",
+    width: '95%',
+    margin: 'auto',
     flexGrow: 1,
-    marginTop: "20%",
+    marginTop: '20%',
   },
   paper: {
     padding: theme.spacing(0.5),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
   rootBeforeChoice: {
     padding: theme.spacing(0.5),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
     pointerEvents: 'none'
   },
@@ -49,22 +46,21 @@ const BinaryQuestion = (props) => {
     } 
   }
 
-  return (
-    <React.Fragment>
+  return ( 
       <div className={classes.root}>
         <Grid container spacing={0}>
           <Grid className={classes.paper} item xs={4}>
-            <Typography variant="h5">Cat</Typography>
+            <Typography variant='h5'>Cat</Typography>
           </Grid>
           <Grid item xs={4} />
           <Grid className={classes.paper} item xs={4}>
-            <Typography variant="h5">Dog</Typography>
+            <Typography variant='h5'>Dog</Typography>
           </Grid>
           <Grid item xs={4}>
             <ChoiceCard
               correct={props.correctAnswer === 'left'}
               onClick={onClickLeft}
-              text="Stanga"
+              text='Stanga'
               isSelected={true}
             />
           </Grid>
@@ -72,7 +68,7 @@ const BinaryQuestion = (props) => {
             <Grid item xs={4}>
               <ImageCard
                 {...props}
-                image="https://perol.ro/wp-content/uploads/2019/10/caine-1-768x400.jpg"
+                image='https://perol.ro/wp-content/uploads/2019/10/caine-1-768x400.jpg'
               />
             </Grid>
           </Slide>
@@ -80,13 +76,12 @@ const BinaryQuestion = (props) => {
             <ChoiceCard
               correct={props.correctAnswer === 'right'}
               onClick={onClickRight}
-              text="Dreapta"
+              text='Dreapta'
               isSelected={true}
             />
           </Grid>
         </Grid>
       </div>
-    </React.Fragment>
   );
 };
 

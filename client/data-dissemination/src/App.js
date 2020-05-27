@@ -8,7 +8,7 @@ import './App.css';
 import { incrementQuizIndex, finishQuiz } from './actions/app';
 import { connect } from 'react-redux';
 
-function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFinished }) {
+function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFinished, finishQuiz }) {
   return (
     <Switch>
       <Route exact path='/'>
@@ -20,6 +20,7 @@ function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFini
           quizData={quizData}
           quizIsLoaded={quizIsLoaded}
           incrementQuizIndex={incrementQuizIndex}
+          finishQuiz={finishQuiz}
         />
       </Route>
       <Route exact path='/results'>

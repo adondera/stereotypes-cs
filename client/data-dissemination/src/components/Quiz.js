@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { createQuizComponent } from '../hoc/createQuizComponent'
 import {Grid, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
       padding: theme.spacing(0.5),
-      textAlign: "center",
+      textAlign: 'center',
       color: theme.palette.text.secondary,
     },
     card: {

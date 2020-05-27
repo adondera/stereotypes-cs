@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Results = (props) => {
-  console.log("results_available:" + props.resultsAvailable.toString());
+  console.log('results_available:' + props.resultsAvailable.toString());
 
   return (
     <div>
