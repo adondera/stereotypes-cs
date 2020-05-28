@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Test, QuestionGroup, Option } from 'react-multiple-choice';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
+import '../../styles/MultipleChoice.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +22,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const MultipleChoice = (props) => {
   const classes = useStyles();
+  const [picked, setpicked] = useState(false)
+
+  const onClick = () => {
+    const answer = { value: picked, id: props.id };
+    props.registerAnswer(answer);
+    props.onNext();
+  };
 
   return (
     <div>
@@ -44,25 +54,19 @@ const MultipleChoice = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={3} alignItems='center' justify='center'>
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper} elevation={0}>
-            <Test className={classes.choices} onOptionSelect={1}>
-              <QuestionGroup
+        <Grid className='Test' item xs={12} sm={6} style={{textAlign: 'center'}}>
+            <Test style={{width: '70%'}} onOptionSelect={(answers) => setpicked(answers['question'])}>
+              <QuestionGroup className='Options'
                 key={props.questionIndex}
-                questionNumber={'selected-answer'}
+                questionNumber={'question'}
               >
-                <Option key={1} value='1'>
-                  'hello kitty'
+                {props.options.map((option, key) => (
+                <Option key={key} style={{color: '#3F51B5'}}value={key+1}>
+                  {option.toString()}
                 </Option>
-                <Option key={2} value='2'>
-                  'hello kitty'
-                </Option>
-                <Option key={2} value='2'>
-                  'hello kitty'
-                </Option>
+                ))}
               </QuestionGroup>
             </Test>
-          </Paper>
         </Grid>
         <Grid item xs={12} sm={12}>
           <Paper className={classes.paper} elevation={0}>
@@ -71,7 +75,8 @@ const MultipleChoice = (props) => {
                 style={{ margin: 'auto' }}
                 variant='contained'
                 color='primary'
-                onClick={props.onNext}
+                onClick={onClick}
+                disabled={!picked}
               >
                 NEXT
               </Button>

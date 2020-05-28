@@ -30,14 +30,15 @@ const initialStore = {
       //   body:
       //     'In the following minutes you will see several images with two words each. One on the right, and the other on the left. Please choose the word you consider aproppriate: Left word (key E), Right word (key I). Please click on Next when ready',
       // },
+      // {
+      //   id: 96,
+      //   type: 2,
+      //   title: 'Likert Scale',
+      //   text: 'Programming is a profession for men',
+      //   image: 'https://i.imgur.com/9GIFW9f.jpg',
+      // },
       {
-        id: 96,
-        type: 2,
-        title: 'Likert Scale',
-        text: 'Programming is a profession for men',
-        image: 'https://i.imgur.com/9GIFW9f.jpg',
-      },
-      {
+        id: 420,
         "type": 6,
         "title": "Multiple Choice",
         "text": "What is your age",
