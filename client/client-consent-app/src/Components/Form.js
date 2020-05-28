@@ -50,7 +50,7 @@ class Form extends Component {
           {this.state.isSubmitted ? (
               <React.Fragment>
                 <h1>SUCCESS</h1>
-                <p>You can now proceed with the questionnaire.</p>
+                <p>U kunt nu verdergaan met de vragenlijst.</p>
               </React.Fragment>
           ) : (
                     <React.Fragment>

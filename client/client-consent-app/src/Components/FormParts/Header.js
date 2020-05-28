@@ -6,7 +6,7 @@ const Header = () => {
         <div className="Header">
             <Typography component="div" variant="h4" gutterBottom>
                 <img src="/nemo.jpg" alt="image" className="Logo"/>
-                <Typography component="div" variant="h4">Informed Consent</Typography>
+                <Typography component="div" variant="h4">Toestemmingsformulier minderjarigen</Typography>
             </Typography>
         </div>
     );

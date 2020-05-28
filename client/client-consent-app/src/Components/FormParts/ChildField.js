@@ -33,7 +33,7 @@ const Child = (props) => {
                 <TextField
                     fullWidth
                     name={props.firstName}
-                    label="Child's first name"
+                    label="Voornaam van het kind"
                     value={props.firstName}
                     autoComplete="fname"
                     onChange={onChangeFirstName(props.id)}
@@ -43,7 +43,7 @@ const Child = (props) => {
                 <TextField
                     fullWidth
                     name={props.lastName}
-                    label="Child's last name"
+                    label="Achternaam van het kind"
                     value={props.lastName}
                     autoComplete="lname"
                     onChange={onChangeLastName(props.id)}

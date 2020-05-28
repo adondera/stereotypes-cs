@@ -141,7 +141,7 @@ class Footer extends Component {
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox onClick={this.agreedChanged} color="secondary" name="agree" value="yes" />}
-            label="Agree to share data and sign"
+            label="Ga akkoord om gegevens te delen en te ondertekenen"
           />
         </Grid>
         <Grid item xs={12}>
@@ -176,7 +176,7 @@ class Footer extends Component {
             disabled={!this.state.isSubmittable}
             onClick={this.props.onSubmit(this.state)}
           >
-            Submit
+            Verzenden
           </Button>
         )}
       </div>
