@@ -29,21 +29,21 @@ const Child = (props) => {
 
     return (
         <React.Fragment>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6} sm={6}>
                 <TextField
                     fullWidth
                     name={props.firstName}
-                    label="Voornaam van het kind"
+                    label="Voornaam kind"
                     value={props.firstName}
                     autoComplete="fname"
                     onChange={onChangeFirstName(props.id)}
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={6} sm={6}>
                 <TextField
                     fullWidth
                     name={props.lastName}
-                    label="Achternaam van het kind"
+                    label="Achternaam kind"
                     value={props.lastName}
                     autoComplete="lname"
                     onChange={onChangeLastName(props.id)}
