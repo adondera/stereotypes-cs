@@ -1,0 +1,20 @@
+{
+    "gender_profession": 
+        [
+            {
+                "left_categ": [2], 
+                "right_categ": [3]
+            }
+        ]
+    ,
+    "social_profession": {
+
+    },
+    "hobby_profession": {
+
+    },
+    "eat": [8],
+
+    "video": [10],
+    "demographics": [9]
+}

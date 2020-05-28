@@ -1,0 +1,53 @@
+{
+    "1": {
+      "type": "intro-text (1)",
+      "title": "Introduction"
+    },
+    "2": {
+      "type": "gender-profession-iat",
+      "title": "Introduction",
+      "phases": [
+        {
+          "iatQuestionId": 100,
+          "categoriesLeft": ["writer"],
+          "categoriesRight": ["programmer"],
+          "images": [1, 2, 3, 4, 5]
+        },
+        {
+          "categoriesLeft": ["writer", "male"],
+          "categoriesRight": ["programmer", "female"],
+          "images": [1, 2, 10, 4, 12]
+        },
+        {
+          "categoriesLeft": ["male"],
+          "categoriesRight": ["female"],
+          "images": [1, 2, 4, 10, 12]
+        }
+      ]
+    },
+    "3": {
+      "type": "EAT",
+      "title": "matancur",
+      "questions": [
+        {
+          "type": "likert-scale"
+        }
+      ]
+    },
+    "4": {
+      "type": "video",
+      "link": "https://asdfghjkl.com/"
+    },
+    "5": {
+      "type": "demographics",
+      "questions": [
+        {
+          "type": "multiple-choice-multiple-answers",
+          "text": "matancur"
+        },
+        {
+          "type": "multiple-choice-one-answer"
+        }
+      ]
+    }
+  }

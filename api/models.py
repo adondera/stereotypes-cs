@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlalchemy.sql import expression
 
 from api import db
-import enum
+import json, random, enum
 
 
 def add_to_db(obj):
@@ -29,7 +29,7 @@ def add_to_db(obj):
     # if it's not commented you get an error because the object must have a session
     # finally:
     #     db.session.close()
-    
+
 
 class User(db.Model):
     """Class that maps the User object to the corresponding database table ('users' table)."""
@@ -128,7 +128,7 @@ class Category(db.Model):
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
     questions = db.relationship("Question", secondary="questions_to_categories", lazy=False)
     images = db.relationship("Image", backref=db.backref('category', lazy='joined'), lazy='joined')
-    
+
     def __repr__(self):
         return '<Category id: %r>' % self.id
 
@@ -139,11 +139,10 @@ class Image(db.Model):
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=True)
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.String(40), nullable=False)
-    questions = db.relationship("Question", backref=db.backref('image', lazy='joined'), lazy='joined')
 
     def __repr__(self):
         # return '<Image id: %r>' % self.id
@@ -158,10 +157,19 @@ class QuestionType(enum.Enum):
     likert = 3
     binary = 4
     video = 5
+    information = 6
 
     def __repr__(self):
         # return '<QuestionType id: %r>' % self.id
         return str(self.value)
+
+
+def is_jsonable(x):
+    try:
+        json.dumps(x)
+        return True
+    except:
+        return False
 
 
 class Question(db.Model):
@@ -170,53 +178,97 @@ class Question(db.Model):
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True)
-    img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
     text = db.Column(db.Text, nullable=True)
     q_type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    to_dict = None
+
     categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
+    choices = db.relationship('QuestionChoice', backref=db.backref('question', lazy=False), lazy=False)
+    images = db.relationship(Image, secondary="questions_to_images", lazy=False)
 
     def __repr__(self):
         return '<Question id: %r>' % self.id
 
     def as_dict(self):
-        # {c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
-    
+        if self.to_dict:
+            return self.to_dict
         dictionary = self.__dict__.copy()
         dictionary['q_type'] = self.q_type.value
 
-        if (dictionary['q_type'] == QuestionType.binary.value):
-            dictionary['image'] = self.image.link
-            dictionary['image_category'] = self.image.category.name
-            dictionary['categories_left'] = list(map(lambda x: x.category.name, filter(lambda x: x.is_left, self.questions_to_categories)))
-            dictionary['categories_right'] = list(map(lambda x: x.category.name, filter(lambda x: not x.is_left, self.questions_to_categories)))
-        # else:
+        if dictionary['q_type'] == QuestionType.binary.value:
+            dictionary['images'] = list(map(lambda x: {"link": x.link, "category": x.category.name}, self.images))
+            dictionary['categories_left'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
+                                                     filter(lambda x: x.is_left, self.questions_to_categories)))
+            dictionary['categories_right'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
+                                                      filter(lambda x: not x.is_left, self.questions_to_categories)))
 
-        
-        # Remove useless attributes
-        dictionary.pop('_sa_instance_state')
-        dictionary.pop('categories')
-        dictionary.pop('questions_to_categories')
-        dictionary.pop('img_id')
-        return dictionary
+        elif dictionary['q_type'] == QuestionType.video.value:
+            dictionary['video'] = dictionary['images'][0].link
+
+        elif (dictionary['q_type'] == QuestionType.mc_single_answer.value
+              or dictionary['q_type'] == QuestionType.mc_multiple_answer.value
+              or dictionary['q_type'] == QuestionType.likert.value):
+            dictionary['choices'] = sorted(
+                list(map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
+                key=lambda x: x['choice_num'])
+        else:
+            print("Invalid question type")
+
+        self.to_dict = dictionary
+        return self.to_dict
+
+    def make_response(self):
+        if not self.to_dict:
+            self.as_dict()
+        response = []
+        try:
+            images = self.to_dict['images']
+            images = [x for x in images for _ in range(2)]
+            random.shuffle(images)
+        except KeyError:
+            images = []
+        for img in images:
+            new_dict = self.to_dict.copy()
+            new_dict.pop('images')
+            new_dict['image'] = img
+            response.append(new_dict)
+        if len(response) == 0:
+            response = [self.to_dict]
+
+        for dictionary in response:
+            to_remove = []
+            for key in dictionary:
+                if not is_jsonable(dictionary[key]):
+                    print(dictionary[key])
+                    to_remove.append(key)
+
+            for key in to_remove:
+                dictionary.pop(key)
+
+        return response
 
 
-
-class Question_to_Category(db.Model):
-
+class Question_to_category(db.Model):
     __tablename__ = 'questions_to_categories'
-    
-    q_id = db.Column('question_id',  db.Integer, db.ForeignKey(Question.id), primary_key=True)
+
+    q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
     c_id = db.Column('category_id', db.Integer, db.ForeignKey(Category.id), primary_key=True)
     is_left = db.Column('is_left', db.Boolean, nullable=False)
+
     question = db.relationship(Question, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
     category = db.relationship(Category, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
 
 
+class Question_to_image(db.Model):
+    __tablename__ = 'questions_to_images'
+
+    q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
+    img_id = db.Column('category_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
+
 
 class QuestionChoice(db.Model):
     __tablename__ = 'question_choices'
-
     choice_num = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
@@ -233,30 +285,35 @@ class ParticipantAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), primary_key=True)
     question_id = db.Column(db.Integer, primary_key=True)
-    answer = db.Column(db.Text)
+    answers = db.Column(db.ARRAY(db.String))
     response_time = db.Column(db.Float)
-
+    before_video = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id) + str(self.choice_num))
-
+        return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id))
 
 
 def populate_db():
+    db.drop_all()
+    db.create_all()
 
+    ### IAT ###
     c = Category(name='writer', metacategory=Metacategory.profession)
     add_to_db(c)
 
     img = Image(category_id=c.id, link='google.com', description='description', attribute='attr')
     add_to_db(img)
 
-    q = Question(img_id=img.id, text='teeeext', q_type=QuestionType.binary)
+    q = Question(text='teeeext', q_type=QuestionType.binary, images=[img])
     add_to_db(q)
-    
-    q_to_c = Question_to_Category(q_id=q.id, c_id=c.id, is_left=True)
+
+    q_to_c = Question_to_category(q_id=q.id, c_id=c.id, is_left=True)
 
     add_to_db(q_to_c)
 
-
-
-    
+    eat = Question(text="How big yo mamma's reaction time", q_type=QuestionType.mc_multiple_answer)
+    add_to_db(eat)
+    choice1 = QuestionChoice(choice_num=1, question=eat, text="so fast")
+    choice2 = QuestionChoice(choice_num=2, question=eat, text="not so fast")
+    add_to_db(choice1)
+    add_to_db(choice2)

@@ -22,6 +22,5 @@ class QuizQuestions(Resource):
 
     @jwt_required
     def get(self):
-
         questions = []
         return questions, 200
