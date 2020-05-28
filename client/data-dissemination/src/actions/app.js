@@ -29,7 +29,6 @@ export const quizLoadFailed = () => {
 }
 export const loadQuiz = () => {
     return function(dispatch) {
-        console.log(' METHOD TO GET DATA CALLED');
         return getQuiz().then(res => dispatch(quizLoaded(res.data.questions))).catch(dispatch(quizLoadFailed()))
     }
 }
