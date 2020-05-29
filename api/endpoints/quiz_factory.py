@@ -26,7 +26,7 @@ class QuizFactory:
         self.response.append({
             "q_type": QuestionType.finish.name,
             "title": "Ending",
-            "text": "Thank you for participating",
+            "text": "Thank you for participating"
         })
         return self.response
 
