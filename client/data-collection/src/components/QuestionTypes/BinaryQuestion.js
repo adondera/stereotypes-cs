@@ -49,21 +49,21 @@ const BinaryQuestion = (props) => {
   };
 
   const onKeyUp = (event) => {
-    if (event.key === 'e') {
+    if (event.key === 'e' || event.key === 'E') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickLeft(questionTime), 300);
     }
-    if (event.key === 'i') {
+    if (event.key === 'i' || event.key === 'I') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickRight(questionTime), 300);
     }
   };
 
   const onKeyDown = (event) => {
-    if (event.key === 'e') {
+    if (event.key === 'e' || event.key === 'E') {
       setstate({ ...state, isLeftSelected: true });
     }
-    if (event.key === 'i') {
+    if (event.key === 'i' || event.key === 'I') {
       setstate({ ...state, isRightSelected: true });
     }
   };
