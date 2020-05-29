@@ -4,7 +4,7 @@ Module that separates resources for different endpoints
 from flask import Blueprint
 from flask_restful import Api
 from .auth import Login, FreshLogin
-from .tokens import Protected, Refresh, ProtectedFresh, Unprotected
+from .tokens import Protected, Refresh, ProtectedFresh, Unprotected, ProtectedSecond
 from .consent import ConsentResource, ConsentForm
 
 bp = Blueprint("endpoint", __name__)
@@ -19,3 +19,4 @@ api.add_resource(ProtectedFresh, '/protected-fresh')
 api.add_resource(ConsentResource, '/submit')
 api.add_resource(ConsentForm, '/form')
 api.add_resource(Unprotected, '/unprotected')
+api.add_resource(ProtectedSecond, '/protected2')

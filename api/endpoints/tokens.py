@@ -2,18 +2,21 @@
 """
 Here we use different endpoints protected by tokens
 """
+import os
+from flask import current_app
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity,\
+from flask_jwt_extended import jwt_required, get_jwt_identity, \
     jwt_refresh_token_required, create_access_token, \
     fresh_jwt_required
 from .constants import resp
-
+from .quiz_factory import QuizFactory
 
 
 class Protected(Resource):
     """
     Defines the handlers for the /protected route
     """
+
     @jwt_required
     def get(self):
         """Route that requires authentication with token.
@@ -22,6 +25,15 @@ class Protected(Resource):
         current_user = get_jwt_identity()
         # return dict(logged_in_as=current_user), 200
         return resp, 200
+
+
+class ProtectedSecond(Resource):
+    @jwt_required
+    def get(self):
+        filename = os.path.join(current_app.static_folder, "IATs/gender-profession.json")
+        # return current_app.static_folder
+        return QuizFactory(filename).create_quiz()
+
 
 class Unprotected(Resource):
     def get(self):
@@ -32,6 +44,7 @@ class Refresh(Resource):
     """
     Defines the handlers for the /refresh route
     """
+
     @jwt_refresh_token_required
     def post(self):
         """Route for getting an access token with a refresh token.
@@ -48,6 +61,7 @@ class ProtectedFresh(Resource):
     """
     Defines the handlers for the /protected-fresh route
     """
+
     @fresh_jwt_required
     def get(self):
         """Route that requires authentication with a fresh token.
