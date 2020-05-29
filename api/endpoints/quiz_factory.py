@@ -23,11 +23,11 @@ class QuizFactory:
         self.response.extend(self.video)
         # self.response.extend(self.eat)
         self.response.extend(self.demographics)
-        self.response.append({
-            "q_type": QuestionType.finish.name,
-            "title": "Ending",
-            "text": "Thank you for participating"
-        })
+        # self.response.append({
+        #     "q_type": QuestionType.finish.name,
+        #     "title": "Ending",
+        #     "text": "Thank you for participating"
+        # })
         return self.response
 
 
