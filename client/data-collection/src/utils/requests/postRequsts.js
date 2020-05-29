@@ -23,9 +23,9 @@ export function login(data, callback, errorcallback) {
 /*
 Send quiz data to the server at the end of quiz
 */
-export function sendData(data, callback, errorcallback) {
+export function sendData(data, childId, callback, errorcallback) {
   axios
-    .post("/submit", { ...data })
+    .post("/submit", { ...data, id: childId })
     .then((res) => {
       console.log(res);
       if (callback != null && res.status === 200) {

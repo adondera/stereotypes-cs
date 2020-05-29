@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 const Finish = (props) => {
   const onClick = () => {
-    props.sendQuestionsAnswers();
+    props.sendQuestionsAnswers(props.childId);
     props.clearQuestionsStore();
     props.onFinish();
   };
@@ -24,12 +24,13 @@ const Finish = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
+    childId: state.mainAppReducer.activeChild.id
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendQuestionsAnswers: () => dispatch(sendQuestionsAnswers()),
+    sendQuestionsAnswers: (childId) => dispatch(sendQuestionsAnswers(childId)),
     clearQuestionsStore: () => dispatch(clearQuestionsStore()),
   };
 };

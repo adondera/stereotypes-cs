@@ -5,6 +5,7 @@ import {changeQuestion, getQuizData, finishQuiz} from "../actions/mainApp"
 
 const mapStateToProps = (state) => {
     return {
+      hasActiveChild: state.mainAppReducer.hasActiveChild,
       accessToken: state.loginReducer.accessToken,
       questionIndex: state.mainAppReducer.questionIndex,
       questions: state.mainAppReducer.questions,

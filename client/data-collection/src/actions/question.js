@@ -12,8 +12,9 @@ export const clearQuestionsStore = () => {
     }
 }
 
-export const sendQuestionsAnswers = () => {
+export const sendQuestionsAnswers = (childId) => {
   return {
+    childId: childId,
     type: "SEND_QUESTIONS_ANSWERS"
   }
 }

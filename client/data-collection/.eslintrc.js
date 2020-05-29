@@ -23,4 +23,5 @@ module.exports = {
   'rules': {
     "react/prop-types": [1, { skipUndeclared: true}]
   },
+  "parser": "babel-eslint"
 };

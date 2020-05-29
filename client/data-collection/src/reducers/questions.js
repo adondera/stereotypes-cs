@@ -26,7 +26,7 @@ const questionsReducer = (state = { answers: [] }, action) => {
     Send question results to server
     */
     case "SEND_QUESTIONS_ANSWERS":
-      sendData(state.answers)
+      sendData(state.answers, action.childId)
       return { ...state, answers: [] };
       
     default:
