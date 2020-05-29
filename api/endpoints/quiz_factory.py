@@ -54,6 +54,14 @@ class EATFactory:
         self.response = []
 
     def create_eat(self):
+        iat_explanation = {
+            "q_type": QuestionType.information.name,
+            "title": "Information",
+            "header": "Explicit IAT",
+            "text":
+            "In the following minutes you will be shown several statements. Please indicate how much you agree with the statement",
+        }
+        self.response.append(iat_explanation)
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -73,10 +81,10 @@ class IATFactory:
 
     def load_phase(self, phase):
         self.response.append({
-            "type": QuestionType.information.value,
+            "q_type": QuestionType.information.name,
             "title": "Information",
             "header": "Gender profession IAT",
-            "body": self.create_guide_text(phase)
+            "text": self.create_guide_text(phase)
         })
 
         questions = list((map(lambda x: {
@@ -91,7 +99,8 @@ class IATFactory:
         assert len(questions) <= 1, "Should have at most one result"
 
         if (len(questions) == 0):
-            return self.create_new_phase(phase)
+            self.response.extend(self.create_new_phase(phase).make_response())
+            return
 
         self.response.extend(Question.query.filter_by(id=questions[0]['id']).first().make_response())
 
@@ -108,12 +117,14 @@ class IATFactory:
         for cr in phase['right_categ']:
             q_to_c = Question_to_category(q_id=q.id, c_id=cr, is_left=False)
             add_to_db(q_to_c)
+        
+        return q
 
     def create_guide_text(self, phase):
         left = map(lambda x: x.name, Category.query.filter(Category.id.in_(phase['left_categ'])).all())
         string_left = '&'.join(left)
         right = map(lambda x: x.name, Category.query.filter(Category.id.in_(phase['right_categ'])).all())
         string_right = '&'.join(right)
-        return """Press the E key for the images that belong to the categories ({left}), or press the I key for the 
-        images that belong to the categories ({right})""" \
+        return """Press the E key for the images that belong to the categories ({left}), or press the I key for the \
+images that belong to the categories ({right})""" \
             .format(left=string_left, right=string_right)

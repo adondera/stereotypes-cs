@@ -2,8 +2,8 @@
     "gender_profession": 
         [
             {
-                "left_categ": [2], 
-                "right_categ": [3]
+                "left_categ": [1], 
+                "right_categ": [2]
             }
         ]
     ,
@@ -13,8 +13,8 @@
     "hobby_profession": {
 
     },
-    "eat": [8],
+    "eat": [1,2],
 
-    "video": [10],
-    "demographics": [9]
+    "video": [3],
+    "demographics": [4,5,6]
 }

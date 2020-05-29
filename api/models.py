@@ -87,6 +87,13 @@ class Gender(enum.Enum):
     female = 2
     other = 3
 
+class Ethnicity(enum.Enum):
+    """Enum choices for ethnicity types"""
+
+    White = 1
+    Hispanic = 2
+    Black = 3 
+    Asian = 4
 
 class Participant(db.Model):
     """Class that maps the Participant object to the corresponding database table ('participants' table)."""
@@ -129,6 +136,12 @@ class Category(db.Model):
     questions = db.relationship("Question", secondary="questions_to_categories", lazy=False)
     images = db.relationship("Image", backref=db.backref('category', lazy='joined'), lazy='joined')
 
+    @staticmethod
+    def create_category(name, metacategory):
+        c = Category(name=name, metacategory=metacategory)
+        add_to_db(c)
+        return c
+        
     def __repr__(self):
         return '<Category id: %r>' % self.id
 
@@ -144,6 +157,12 @@ class Image(db.Model):
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.String(40), nullable=False)
 
+    @staticmethod
+    def create_image(link, description="", attribute="", c_id=None):
+        img = Image(category_id=c_id, link=link, description=description, attribute=attribute)
+        add_to_db(img)
+        return img
+
     def __repr__(self):
         # return '<Image id: %r>' % self.id
         return self.link
@@ -158,6 +177,7 @@ class QuestionType(enum.Enum):
     binary = 4
     video = 5
     information = 6
+    likert_demographics = 7
 
     def __repr__(self):
         # return '<QuestionType id: %r>' % self.id
@@ -187,6 +207,12 @@ class Question(db.Model):
     choices = db.relationship('QuestionChoice', backref=db.backref('question', lazy=False), lazy=False)
     images = db.relationship(Image, secondary="questions_to_images", lazy=False)
 
+    @staticmethod
+    def create_question(q_type, is_active=True, text="", categories=[], choices=[], images=[]):
+        q = Question(q_type=q_type, is_active=is_active, text=text, categories=categories, choices=choices, images=images)
+        add_to_db(q)
+        return q
+
     def __repr__(self):
         return '<Question id: %r>' % self.id
 
@@ -194,21 +220,22 @@ class Question(db.Model):
         if self.to_dict:
             return self.to_dict
         dictionary = self.__dict__.copy()
-        dictionary['q_type'] = self.q_type.value
+        dictionary['q_type'] = self.q_type.name
 
-        if dictionary['q_type'] == QuestionType.binary.value:
+        if dictionary['q_type'] == QuestionType.binary.name:
             dictionary['images'] = list(map(lambda x: {"link": x.link, "category": x.category.name}, self.images))
             dictionary['categories_left'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
                                                      filter(lambda x: x.is_left, self.questions_to_categories)))
             dictionary['categories_right'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
                                                       filter(lambda x: not x.is_left, self.questions_to_categories)))
 
-        elif dictionary['q_type'] == QuestionType.video.value:
+        elif dictionary['q_type'] == QuestionType.video.name:
             dictionary['video'] = dictionary['images'][0].link
+            dictionary.pop('images')
 
-        elif (dictionary['q_type'] == QuestionType.mc_single_answer.value
-              or dictionary['q_type'] == QuestionType.mc_multiple_answer.value
-              or dictionary['q_type'] == QuestionType.likert.value):
+        elif (dictionary['q_type'] == QuestionType.mc_single_answer.name
+              or dictionary['q_type'] == QuestionType.mc_multiple_answer.name
+              or dictionary['q_type'] == QuestionType.likert.name):
             dictionary['choices'] = sorted(
                 list(map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
                 key=lambda x: x['choice_num'])
@@ -240,7 +267,6 @@ class Question(db.Model):
             to_remove = []
             for key in dictionary:
                 if not is_jsonable(dictionary[key]):
-                    print(dictionary[key])
                     to_remove.append(key)
 
             for key in to_remove:
@@ -274,6 +300,11 @@ class QuestionChoice(db.Model):
     img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
     text = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+
+    def create_choice(choice_num, q_id, text, img_id=None, is_active=True):
+        choice = QuestionChoice(choice_num=choice_num, question_id=q_id, img_id=img_id, text=text, is_active=is_active)
+        add_to_db(choice)
+        return choice
 
     def __repr__(self):
         return '<Question choice id: %r>' % (str(self.question_id) + str(self.choice_num))
