@@ -33,17 +33,18 @@ const useStyles = makeStyles((theme) => ({
 
 const MultipleChoice = (props) => {
   const classes = useStyles();
-  const [state, setQuestionAnswer] = useState({ answer: 0 });
+  const [state, setQuestionAnswer] = useState({ answers: [] });
   const onClick = () => {
-    setQuestionAnswer({ answer: 0 });
-    props.submitSelectedChoice(state.answer, props.type);
+    props.submitSelectedChoice(state);
     props.onNext();
+    setQuestionAnswer({ answers: [] });
   };
-  const onSelectedOption = (selectedOptions) => {
+  const onSelectedOption = (selectedOption) => {
     setQuestionAnswer({
-      answer: selectedOptions["selected-answer"],
+      answers: [parseInt(selectedOption["selected-answer"])],
     });
   };
+  console.log(props)
 
   return (
     <React.Fragment>
@@ -74,10 +75,10 @@ const MultipleChoice = (props) => {
                       key={props.questionIndex}
                       questionNumber={"selected-answer"}
                     >
-                      {props.options.map((option, index) => {
+                      {props.choices.map((option, index) => {
                         return (
-                          <Option key={index} value={(index + 1).toString()}>
-                            {option}
+                          <Option key={index} value={(option.choice_num).toString()}>
+                            {option.text}
                           </Option>
                         );
                       })}
@@ -109,9 +110,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSelectedChoice: (answer, questionType) => {
-      const data = { answer: answer };
-      dispatch(saveQuestionAction(data, questionType));
+    submitSelectedChoice: (answer) => {
+      dispatch(saveQuestionAction(answer));
     },
   };
 };

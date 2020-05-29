@@ -1,23 +1,23 @@
-import BinaryQuestion from "../components/QuestionTypes/BinaryQuestion";
-import LikertScaleQuestion from "../components/QuestionTypes/LikertScaleQuestion.js";
-import React from "react";
-import Video from "../components/QuestionTypes/Video";
-import Information from "../components/QuestionTypes/Information";
-import Finish from "../components/QuestionTypes/Finish";
-import MultipleChoice from "../components/QuestionTypes/MultipleChoice";
-import FinishModal from "../components/FinishModal";
-import { Redirect } from "react-router";
+import BinaryQuestion from '../components/QuestionTypes/BinaryQuestion';
+import LikertScaleQuestion from '../components/QuestionTypes/LikertScaleQuestion.js';
+import React from 'react';
+import Video from '../components/QuestionTypes/Video';
+import Information from '../components/QuestionTypes/Information';
+import Finish from '../components/QuestionTypes/Finish';
+import MultipleChoice from '../components/QuestionTypes/MultipleChoice';
+import FinishModal from '../components/FinishModal';
+import { Redirect } from 'react-router';
 
 /*
 Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
-  1: BinaryQuestion,
-  2: LikertScaleQuestion,
-  3: Video,
-  4: Information,
-  5: Finish,
-  6: MultipleChoice,
+  'binary': BinaryQuestion,
+  'likert': LikertScaleQuestion,
+  'video': Video,
+  'information': Information,
+    5: Finish,
+  'mc_single_answer': MultipleChoice,
 };
 
 
@@ -34,23 +34,23 @@ export function createQuestion(Question) {
 
     };
     updateState = (event) => {
-      if(event.key === "q") this.setState({ show: true });
+      if(event.key === 'q') this.setState({ show: true });
     }
     addQListener = () => {
-      window.addEventListener("keyup", this.updateState)
+      window.addEventListener('keyup', this.updateState)
     } 
     componentWillUnmount() {
-      window.removeEventListener("keyup", this.updateState)
+      window.removeEventListener('keyup', this.updateState)
     }
     render() {
       var QuestionType = React.Fragment;
       if (this.props.questionIndex > 0) {
-        QuestionType = mapTypeToComponent[this.props.questionData.type];
+        QuestionType = mapTypeToComponent[this.props.questionData.q_type];
       }
       return (
         <React.Fragment>
           {this.props.questionIndex === 0 ? (
-            <Redirect to="/app" />
+            <Redirect to='/app' />
           ) : (
             <Question {...this.props}>
               <FinishModal show={this.state.show} handleCloseModal={() => this.setState({show: false})} handleCloseQuiz={() => {this.props.onQuizFinished(); this.props.clearQuestions()}}/>

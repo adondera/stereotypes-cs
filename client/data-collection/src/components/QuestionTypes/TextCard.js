@@ -29,7 +29,10 @@ const TextCard = (props) => {
           component="div"
           className={props.isSelected ? classes.imageFocus : classes.image}
         >
-          <Typography variant="h5"> {props.text} </Typography>
+          {props.categories.map(category => (
+            <Typography variant="h5"> {category.name} </Typography>
+
+          ))}
         </CardContent>
       </CardActionArea>
     </Card>

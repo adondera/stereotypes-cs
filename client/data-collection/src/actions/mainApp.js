@@ -15,7 +15,7 @@ export const dataLoaded = (res) => {
   console.log(res);
   return {
     type: "DATA_IS_LOADED",
-    questions: res.data.questions,
+    questions: res.data,
   };
 };
 

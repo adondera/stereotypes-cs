@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
 
 const LikertScaleQuestion = (props) => {
   const classes = useStyles();
-  const [state, setQuestionAnswer] = useState({ answer: 0 });
+  const [state, setQuestionAnswer] = useState({ answers: [] });
   const onClick = () => {
-    setQuestionAnswer({answer: 0})
-    props.submitSelectedScale(state.answer, props.type);
+    props.submitSelectedScale(state);
     props.onNext();
+    setQuestionAnswer({answers: []})
   };
 
   const likertOptions = {
@@ -45,7 +45,7 @@ const LikertScaleQuestion = (props) => {
       return { value: index + 1, text: scaleText };
     }),
     picked: (val) => {
-      setQuestionAnswer({ answer: val });
+      setQuestionAnswer({ answers: [parseInt(val)] });
     },
   };
   
@@ -88,11 +88,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSelectedScale: (answer, questionType) =>
+    submitSelectedScale: (answer) =>
     {
-      const data = {answer: answer}
-      dispatch(saveQuestionAction(data, questionType))
-
+      dispatch(saveQuestionAction(answer))
     }
   };
 };
