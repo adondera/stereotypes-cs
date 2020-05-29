@@ -1,7 +1,9 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
+import Images from '../utils/preloaders/images'
 const Start = (props) => {
+  console.log(Images)
   return (
     <div style={{ width: "80%", margin: "auto", paddingTop: 30 }}>
       <Typography variant="h1">{/* Stereotypes in CS */}</Typography>

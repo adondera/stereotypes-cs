@@ -31,8 +31,9 @@ const ImageCard = (props) => {
         <CardActionArea onClick={props.onClick}>
           <CardMedia
             className={classes.image}
-            component="img"
+            component='img'
             alt=""
+            onLoad={props.onLoadImage}
             image={props.image}
           />
         </CardActionArea>
