@@ -178,6 +178,7 @@ class QuestionType(enum.Enum):
     video = 5
     information = 6
     likert_demographics = 7
+    finish = 8
 
     def __repr__(self):
         # return '<QuestionType id: %r>' % self.id
@@ -314,10 +315,11 @@ class ParticipantAnswer(db.Model):
     __tablename__ = 'participant_answers'
 
     id = db.Column(db.Integer, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), primary_key=True)
-    question_id = db.Column(db.Integer, primary_key=True)
-    answers = db.Column(db.ARRAY(db.String))
-    response_time = db.Column(db.Float)
+    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
+    img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
+    answers = db.Column(db.ARRAY(db.String), nullable=False)
+    response_time = db.Column(db.Float, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
