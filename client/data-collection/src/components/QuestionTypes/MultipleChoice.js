@@ -92,7 +92,7 @@ const MultipleChoice = (props) => {
         <Button
           className={classes.nextButton}
           variant="contained"
-          disabled={state.answer === 0}
+          disabled={state.answers.length === 0}
           onClick={onClick}
         >
           NEXT

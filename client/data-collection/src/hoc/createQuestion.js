@@ -7,19 +7,20 @@ import Finish from '../components/QuestionTypes/Finish';
 import MultipleChoice from '../components/QuestionTypes/MultipleChoice';
 import FinishModal from '../components/FinishModal';
 import { Redirect } from 'react-router';
+import MultipleChoiceSpecial from '../components/QuestionTypes/MultipleChoiceSpecial';
 
 /*
 Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
-  'binary': BinaryQuestion,
-  'likert': LikertScaleQuestion,
-  'video': Video,
-  'information': Information,
-    5: Finish,
-  'mc_single_answer': MultipleChoice,
+  binary: BinaryQuestion,
+  likert: LikertScaleQuestion,
+  video: Video,
+  information: Information,
+  finish: Finish,
+  mc_single_answer: MultipleChoice,
+  mc_multiple_answer: MultipleChoiceSpecial,
 };
-
 
 /*
 HOC Component to Wrap question types for injecting type and 
@@ -30,17 +31,16 @@ export function createQuestion(Question) {
     constructor(props) {
       super(props);
       this.state = { show: false };
-      this.addQListener()
-
-    };
-    updateState = (event) => {
-      if(event.key === 'q') this.setState({ show: true });
+      this.addQListener();
     }
+    updateState = (event) => {
+      if (event.key === 'q') this.setState({ show: true });
+    };
     addQListener = () => {
-      window.addEventListener('keyup', this.updateState)
-    } 
+      window.addEventListener('keyup', this.updateState);
+    };
     componentWillUnmount() {
-      window.removeEventListener('keyup', this.updateState)
+      window.removeEventListener('keyup', this.updateState);
     }
     render() {
       var QuestionType = React.Fragment;
@@ -53,7 +53,14 @@ export function createQuestion(Question) {
             <Redirect to='/app' />
           ) : (
             <Question {...this.props}>
-              <FinishModal show={this.state.show} handleCloseModal={() => this.setState({show: false})} handleCloseQuiz={() => {this.props.onQuizFinished(); this.props.clearQuestions()}}/>
+              <FinishModal
+                show={this.state.show}
+                handleCloseModal={() => this.setState({ show: false })}
+                handleCloseQuiz={() => {
+                  this.props.onQuizFinished();
+                  this.props.clearQuestions();
+                }}
+              />
               <QuestionType
                 {...this.props.questionData}
                 questionIndex={this.props.questionIndex}

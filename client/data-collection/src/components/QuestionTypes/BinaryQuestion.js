@@ -1,20 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
-import { saveQuestionAction } from "../../actions/question";
-import answers from "../../utils/constants/Answers";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import ImageCard from "./ImageCard";
-import TextCard from "./TextCard";
-import { useEffect, useState } from "react";
-
+import React from 'react';
+import { connect } from 'react-redux';
+import { saveQuestionAction } from '../../actions/question';
+import answers from '../../utils/constants/Answers';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import ImageCard from './ImageCard';
+import TextCard from './TextCard';
+import { useEffect, useState } from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center",
+    textAlign: 'center',
     color: theme.palette.text.secondary,
   },
   card: {
@@ -29,38 +28,42 @@ const BinaryQuestion = (props) => {
 
   const classes = useStyles();
   const onClickLeft = (questionTime) => () => {
-    props.onNext();
+    const newAnswers = props.categories_left.map(category => parseInt(category.id))
     const answer = {
-      answers: [answers.LEFT],
+      answers: [...newAnswers],
+      img_id: props.image.link,
       response_time: answers.TIME(questionTime),
     };
-    props.onLeft(answer);
+    props.onAction(answer);
+    props.onNext();
   };
   const onClickRight = (questionTime) => () => {
-    props.onNext();
+    const newAnswers = props.categories_right.map(category => parseInt(category.id))
     const answer = {
-      answers: [answers.RIGHT],
+      answers: [...newAnswers],
+      img_id: props.image.link,
       response_time: answers.TIME(questionTime),
     };
-    props.onLeft(answer);
+    props.onAction(answer);
+    props.onNext();
   };
 
   const onKeyUp = (event) => {
-    if (event.key === "e") {
+    if (event.key === 'e') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickLeft(questionTime), 300);
     }
-    if (event.key === "i") {
+    if (event.key === 'i') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickRight(questionTime), 300);
     }
   };
 
   const onKeyDown = (event) => {
-    if (event.key === "e") {
+    if (event.key === 'e') {
       setstate({ ...state, isLeftSelected: true });
     }
-    if (event.key === "i") {
+    if (event.key === 'i') {
       setstate({ ...state, isRightSelected: true });
     }
   };
@@ -73,7 +76,6 @@ const BinaryQuestion = (props) => {
 
   const [timer, setTime] = useState(Date.now());
   useEffect(() => {
-    setTime(Date.now());
     setstate({
       questionIndex: props.questionIndex,
       isLeftSelected: false,
@@ -81,20 +83,26 @@ const BinaryQuestion = (props) => {
     });
   }, [props.questionIndex]);
 
+  
   /*eslint-disable */
   useEffect(() => {
-    window.addEventListener("keyup", onKeyUp, true);
-    window.addEventListener("keydown", onKeyDown, true);
-
+    window.addEventListener('keyup', onKeyUp, true);
+    window.addEventListener('keydown', onKeyDown, true);
+    
     return () => {
-      window.removeEventListener("keyup", onKeyUp, true);
-      window.removeEventListener("keydown", onKeyDown, true);
+      window.removeEventListener('keyup', onKeyUp, true);
+      window.removeEventListener('keydown', onKeyDown, true);
       setimageLoaded(false)
     };
   }, [state.questionIndex]);
-
+  
   const [imageLoaded, setimageLoaded] = useState(false)
-
+  
+  useEffect(() => {
+    if(imageLoaded){
+      setTime(Date.now())
+    }
+  }, [imageLoaded])
   /*eslint-enable */
   console.log(props.categories_left);
   return (
@@ -106,6 +114,7 @@ const BinaryQuestion = (props) => {
             key={props.questionIndex}
             image={props.image.link}
             onClick={onClickLeft}
+            imageLoaded={imageLoaded}
             onLoadImage={() => setimageLoaded(true)}
           />
         </Grid>
@@ -136,12 +145,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLeft: (answer) => {
+    onAction: (answer) => {
       dispatch(saveQuestionAction(answer));
-    },
-    onRight: (answer) => {
-      dispatch(saveQuestionAction(answer));
-    },
+    }
   };
 };
 

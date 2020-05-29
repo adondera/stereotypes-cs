@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide"
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -70,7 +71,7 @@ const LikertScaleQuestion = (props) => {
         <Button
           className={classes.nextButton}
           variant="contained"
-          disabled={state.answer === 0}
+          disabled={state.answers.length === 0}
           onClick={onClick}
         >
           NEXT
