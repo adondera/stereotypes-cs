@@ -1,5 +1,6 @@
 # pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
-""" Module that contains the models for the database (classes that will be mapped to the database schema)."""
+""" Module that contains the models for the database
+    (classes that will be mapped to the database schema)."""
 
 import json
 import random
@@ -186,7 +187,8 @@ class Ethnicity(enum.Enum):
 
 class Participant(db.Model):
     """
-    Class that maps the Participant object to the corresponding database table ('participants' table).
+    Class that maps the Participant object to
+     the corresponding database table ('participants' table).
 
     Attributes
     ----------
@@ -239,7 +241,8 @@ class Metacategory(enum.Enum):
 
 class Category(db.Model):
     """
-    Class that maps the Category object to the corresponding database table ('categories' table).
+    Class that maps the Category object to
+     the corresponding database table ('categories' table).
 
     Attributes
     ----------
@@ -294,7 +297,8 @@ class Category(db.Model):
 
 class Image(db.Model):
     """
-    Class that maps the Image object to the corresponding database table ('images' table).
+    Class that maps the Image object to
+     the corresponding database table ('images' table).
 
     Attributes
     ----------
@@ -370,7 +374,8 @@ class QuestionType(enum.Enum):
 
 class Question(db.Model):
     """
-    Class that maps the Question object to the corresponding database table ('questions' table).
+    Class that maps the Question object to
+     the corresponding database table ('questions' table).
 
     Attributes
     ----------
@@ -559,7 +564,8 @@ class Question_to_category(db.Model):
     c_id : int
         The id of the category that belongs to the question.
     is_left : boolean
-        Specifies the position of the category within the IAT question (left if True, or right if False).
+        Specifies the position of the category within the IAT question
+        (left if True, or right if False).
     question : Question
         The question object.
     category : Category
@@ -600,7 +606,8 @@ class Question_to_image(db.Model):
 
 class QuestionChoice(db.Model):
     """
-    Class that maps the QuestionChoice object to the corresponding database table ('question_choices' table).
+    Class that maps the QuestionChoice object to
+     the corresponding database table ('question_choices' table).
 
     Attributes
     ----------
@@ -665,7 +672,8 @@ class QuestionChoice(db.Model):
 
 class ParticipantAnswer(db.Model):
     """
-    Class that maps the ParticipantAnswer object to the corresponding database table ('participant_answers' table).
+    Class that maps the ParticipantAnswer object to
+     the corresponding database table ('participant_answers' table).
 
     Attributes
     ----------
