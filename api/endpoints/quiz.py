@@ -68,7 +68,7 @@ class QuizResults(Resource):
         for answer in ParticipantAnswer.query.all():
             array = []
             participant = Participant.query.filter_by(id=answer.participant_id).first() 
-            array.append("{first} {second}".format(participant.first_name, participant.last_name))
+            array.append(participant.first_name + " " + participant.last_name)
             array.append(str(answer.question_id))
             array.append(answer.img_link)
             array.append(answer.response_time)
