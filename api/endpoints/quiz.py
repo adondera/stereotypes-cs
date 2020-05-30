@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db
+from api.models import ParticipantAnswer, add_to_db, Participant
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
@@ -59,3 +59,23 @@ class QuizQuestions(Resource):
         """
         filename = os.path.join(current_app.static_folder, "IATs/gender-profession.json")
         return QuizFactory(filename).create_quiz(), 200
+
+class QuizResults(Resource):
+
+    def get(self):
+        columns = ["Name", "QuestionID", "Image", "Response Time", "Before Video"]
+        data = []
+        for answer in ParticipantAnswer.query.all():
+            array = []
+            participant = Participant.query.filter_by(id=answer.participant_id).first() 
+            array.append("{first} {second}".format(participant.first_name, participant.last_name))
+            array.append(str(answer.question_id))
+            array.append(answer.img_link)
+            array.append(answer.response_time)
+            array.append(answer.before_video)
+            data.append(array)
+        return {
+            columns: columns,
+            data: data
+        }
+
