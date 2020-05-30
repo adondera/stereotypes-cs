@@ -65,7 +65,8 @@ class EATFactory:
             "title": "Information",
             "header": "Explicit IAT",
             "text":
-            "In the following minutes you will be shown several statements. Please indicate how much you agree with the statement",
+            "In the following minutes you will be shown several statements. "
+            "Please indicate how much you agree with the statement",
         }
         self.response.append(iat_explanation)
         for q_id in self.data:
@@ -104,7 +105,7 @@ class IATFactory:
 
         assert len(questions) <= 1, "Should have at most one result"
 
-        if (len(questions) == 0):
+        if len(questions) == 0:
             self.response.extend(self.create_new_phase(phase).make_response())
             return
 

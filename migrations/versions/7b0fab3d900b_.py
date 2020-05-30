@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f75936ad1426
-Revises: 
-Create Date: 2020-05-29 16:20:36.299603
+Revision ID: 7b0fab3d900b
+Revises: dc1104c133d6
+Create Date: 2020-05-30 14:15:33.407196
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f75936ad1426'
-down_revision = None
+revision = '7b0fab3d900b'
+down_revision = 'dc1104c133d6'
 branch_labels = None
 depends_on = None
 
@@ -35,7 +35,7 @@ def upgrade():
     op.create_table('questions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('text', sa.Text(), nullable=True),
-    sa.Column('q_type', sa.Enum('mc_single_answer', 'mc_multiple_answer', 'likert', 'binary', 'video', 'information', 'likert_demographics', name='questiontype'), nullable=False),
+    sa.Column('q_type', sa.Enum('mc_single_answer', 'mc_multiple_answer', 'likert', 'binary', 'video', 'information', 'likert_demographics', 'finish', name='questiontype'), nullable=False),
     sa.Column('is_active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -81,11 +81,14 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('participant_id', sa.Integer(), nullable=False),
     sa.Column('question_id', sa.Integer(), nullable=False),
-    sa.Column('answers', sa.ARRAY(sa.Integer()), nullable=True),
+    sa.Column('img_link', sa.Text(), nullable=True),
+    sa.Column('answers', sa.ARRAY(sa.Integer()), nullable=False),
     sa.Column('response_time', sa.Float(), nullable=True),
     sa.Column('before_video', sa.Boolean(), nullable=False),
+    sa.ForeignKeyConstraint(['img_link'], ['images.link'], ),
     sa.ForeignKeyConstraint(['participant_id'], ['participants.id'], ),
-    sa.PrimaryKeyConstraint('id', 'participant_id', 'question_id')
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('question_choices',
     sa.Column('choice_num', sa.Integer(), nullable=False),

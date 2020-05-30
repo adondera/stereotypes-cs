@@ -19,15 +19,20 @@ def populate():
     ]
 
     for link in male_images:
-        img = Image.create_image(link=link, description="image of a man", attribute='man standing', c_id=c_male.id)
+        img = Image.create_image(link=link, description="image of a man", 
+                                    attribute='man standing', c_id=c_male.id)
 
     for link in female_images:
-        img = Image.create_image(link=link, description='image of a girl', attribute='girl standing', c_id=c_female.id)
+        img = Image.create_image(link=link, description='image of a girl', 
+                                    attribute='girl standing', c_id=c_female.id)
 
-    likert1 = Question.create_question(q_type=QuestionType.likert, text="Programming is a profession for men")
-    likert2 = Question.create_question(q_type=QuestionType.likert, text="Programming is a profession for women")
+    likert1 = Question.create_question(q_type=QuestionType.likert, 
+                                        text="Programming is a profession for men")
+    likert2 = Question.create_question(q_type=QuestionType.likert, 
+                                        text="Programming is a profession for women")
 
-    video = Image.create_image(link="7CVtTOpgSyY", description='role model intervention video', attribute='video')
+    video = Image.create_image(link="7CVtTOpgSyY", description='role model intervention video', 
+                                attribute='video')
     videoQuestion = Question.create_question(q_type=QuestionType.video,
                                              text="You are going to watch a video about stereotypes "
                                                   "in Computer Science. Click play when ready.",
