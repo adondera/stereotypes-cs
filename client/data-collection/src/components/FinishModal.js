@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
   const classes = useStyles();
   const textRef = React.createRef()
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -37,7 +38,7 @@ const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
             If you finish the quiz now, all the answers so far will be removed.
             Click Confirm if you want to close
           </h6>
-          <TextField inputRef={textRef}/>
+          <TextField inputRef={textRef} autoFocus={true}/>
           <Button
             style={{ margin: "auto" }}
             onClick={() => {

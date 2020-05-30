@@ -62,6 +62,7 @@ export function createQuestion(Question) {
                 }}
               />
               <QuestionType
+                disableKeys={this.state.show}
                 {...this.props.questionData}
                 questionIndex={this.props.questionIndex}
                 onNext={() =>
