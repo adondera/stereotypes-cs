@@ -17,23 +17,23 @@ class QuizFactory:
         with open(filename) as file:
             self.data = json.load(file)
             self.response = []
-            self.gender_profession = IATFactory(self.data["gender_profession"]).create_iat()
-            self.social_profession = IATFactory(self.data["social_profession"]).create_iat()
-            self.hobby_profession = IATFactory(self.data["hobby_profession"]).create_iat()
-            self.eat = EATFactory(self.data["eat"]).create_eat()
-            self.video = VideoFactory(self.data['video']).create_video()
-            self.demographics = DemographicsFactory(self.data['demographics']).create_demographics()
+            self.gender_profession = IATFactory(self.data["gender_profession"])
+            self.social_profession = IATFactory(self.data["social_profession"])
+            self.hobby_profession = IATFactory(self.data["hobby_profession"])
+            self.eat = EATFactory(self.data["eat"])
+            self.video = VideoFactory(self.data['video'])
+            self.demographics = DemographicsFactory(self.data['demographics'])
 
     def create_quiz(self):
         """
         Creates a quiz by combining the different components
         :return: The response object with all the questions
         """
-        self.response.extend(self.gender_profession)
-        self.response.extend(self.eat)
-        # self.response.extend(self.video)
+        self.response.extend(self.gender_profession.create_iat())
+        self.response.extend(self.eat.create_eat())
+        # self.response.extend(self.video.create_video())
         # self.response.extend(self.eat)
-        self.response.extend(self.demographics)
+        self.response.extend(self.demographics.create_demographics())
         self.response.append({
             "q_type": QuestionType.finish.name,
             "title": "Ending",
