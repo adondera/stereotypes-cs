@@ -36,10 +36,6 @@ class ConsentForm(Resource):
             'signature': valid.validate_signature
         }
 
-        # print("GOT DATA")
-        # print(request.json)
-        # print(request.form)
-
         data = valid.validate(valid.read_form_data(request), validators)
         if not data:
             return ANSWERS[400], 400
