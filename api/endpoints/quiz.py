@@ -22,7 +22,7 @@ class QuizAnswers(Resource):
     @jwt_required
     def post(self):
         """
-        On a post request on the /quiz endpoint we add the quiz answers
+        On a post request on the /answers endpoint we add the quiz answers
         :return: If the request is valid, a 201 CREATED status code, otherwise a 400 code
         """
         validators = {
