@@ -22,8 +22,7 @@
 3. Export the server module
 
     ```
-    export FLASK_APP=server.py 
-    export FLASK_ENV=development
+    export FLASK_APP=server
     ```
 
     For Windows use the command *'set'* instead of *'export'*.
@@ -39,7 +38,7 @@
     For TestingConfig you must have a local PostgreSQL database created with the following credentials:
 
         'user': 'test'
-        'pw': 'test'
+        'pw': 'test' 
         'db': 'test'
         'host': 'localhost'
         'port': '5432'
@@ -49,10 +48,11 @@
     ```
     export APP_SETTINGS=config.YourConfigurationChoice
     ```
+    We recommend to run ```export FLASK_ENV=config.DevelopmentConfig``` as the server database should work from the get-go
 
 5. Start the flask application.
     ```
     flask run
     ```
-6. Open the web browser on: http://localhost:5000
+6. Open the web browser on: http://localhost:5000.
 
