@@ -8,9 +8,11 @@ import ImageCard from './ImageCard';
 import TextCard from './TextCard';
 import { useEffect, useState } from 'react';
 import { KeyboardControls } from '../../utils/constants/Controls';
+import CssBaseline from "@material-ui/core/CssBaseline";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop: '15%'
   },
   paper: {
     padding: theme.spacing(2),
@@ -123,6 +125,7 @@ const BinaryQuestion = (props) => {
 
   return (
     <div className={imageLoaded ? classes.root : classes.hide}>
+      <CssBaseline/>
       <Grid container spacing={8}>
         <Grid item xs={12}>
           <ImageCard
