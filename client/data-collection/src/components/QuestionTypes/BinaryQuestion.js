@@ -49,6 +49,8 @@ const BinaryQuestion = (props) => {
   };
 
   const onKeyUp = (event) => {
+      window.removeEventListener('keyup', onKeyUp, true);
+      window.removeEventListener('keydown', onKeyDown, true);
     if (event.key === 'e' || event.key === 'E') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickLeft(questionTime), 300);
@@ -90,8 +92,6 @@ const BinaryQuestion = (props) => {
     window.addEventListener('keydown', onKeyDown, true);
     
     return () => {
-      window.removeEventListener('keyup', onKeyUp, true);
-      window.removeEventListener('keydown', onKeyDown, true);
       setimageLoaded(false)
     };
   }, [state.questionIndex]);

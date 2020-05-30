@@ -8,16 +8,13 @@ const Information = (props) => {
   /*eslint-disable */
 
   const onKeyUp = (event) => {
+      window.removeEventListener('keyup', onKeyUp, true);
       if(event.key === 'e' || event.key === 'i') {
-          setTimeout(props.onNext, 300)
+          setTimeout(props.onNext, 200)
       }
   }
   useEffect(() => {
     window.addEventListener('keyup', onKeyUp, true);
-
-    return () => {
-      window.removeEventListener('keyup', onKeyUp, true);
-    };
   }, [props.questionIndex]);
   return (
     <div>
