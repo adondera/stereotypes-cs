@@ -75,7 +75,7 @@ class QuizResults(Resource):
             array.append(answer.before_video)
             data.append(array)
         return {
-            columns: columns,
-            data: data
+            "columns": columns,
+            "data": data
         }
 
