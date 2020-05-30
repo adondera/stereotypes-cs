@@ -153,7 +153,9 @@ class IATFactory:
         assert len(questions) <= 1, "Should have at most one result"
 
         if len(questions) == 0:
-            self.response.extend(self.create_new_phase(phase).make_response())
+            question = self.create_new_phase(phase)
+            assert question.id
+            self.response.extend(question.make_response())
             return
 
         self.response.extend(Question.query.filter_by(id=questions[0]['id'])

@@ -4,6 +4,10 @@
             {
                 "left_categ": [1], 
                 "right_categ": [2]
+            },
+            {
+                "left_categ": [1,3], 
+                "right_categ": [2,4]
             }
         ]
     ,
