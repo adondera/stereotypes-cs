@@ -199,5 +199,5 @@ class IATFactory:
                     Category.query.filter(Category.id.in_(phase['right_categ'])).all())
         string_right = '&'.join(right)
         return """Press the E key for the images that belong to the categories ({left}), \
-        or press the I key for the images that belong to the categories ({right})""" \
+or press the I key for the images that belong to the categories ({right})""" \
             .format(left=string_left, right=string_right)

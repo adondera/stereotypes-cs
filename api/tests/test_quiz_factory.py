@@ -47,5 +47,5 @@ def test_create_guide_text(rootdir, init_db):
                 "right_categ": [2]
             }
     text = IATFactory.create_guide_text(phase)
-    assert text == "Press the E key for the images that belong to the categories (male),or press the I key for the images that belong to the categories (female)"
+    assert text == "Press the E key for the images that belong to the categories (male), or press the I key for the images that belong to the categories (female)"
     
