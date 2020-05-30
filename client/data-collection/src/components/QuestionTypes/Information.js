@@ -4,12 +4,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
+import {KeyboardControls} from '../../utils/constants/Controls'
 const Information = (props) => {
   /*eslint-disable */
 
   const onKeyUp = (event) => {
-      window.removeEventListener('keyup', onKeyUp, true);
-      if(event.key === 'e' || event.key === 'i') {
+      if(KeyboardControls.NEXT.indexOf(event.key) > -1) {
+            window.removeEventListener('keyup', onKeyUp, true);
           setTimeout(props.onNext, 200)
       }
   }

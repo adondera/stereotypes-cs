@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import ImageCard from './ImageCard';
 import TextCard from './TextCard';
 import { useEffect, useState } from 'react';
+import { KeyboardControls } from '../../utils/constants/Controls';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,25 +21,19 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   hide: {
-    display: 'none'
-  }
+    display: 'none',
+  },
 }));
 
+//Component for Binary question
 const BinaryQuestion = (props) => {
-
   const classes = useStyles();
+
+  //callback for calling left action
   const onClickLeft = (questionTime) => () => {
-    const newAnswers = props.categories_left.map(category => parseInt(category.id))
-    const answer = {
-      answers: [...newAnswers],
-      img_id: props.image.link,
-      response_time: answers.TIME(questionTime),
-    };
-    props.onAction(answer);
-    props.onNext();
-  };
-  const onClickRight = (questionTime) => () => {
-    const newAnswers = props.categories_right.map(category => parseInt(category.id))
+    const newAnswers = props.categories_left.map((category) =>
+      parseInt(category.id)
+    );
     const answer = {
       answers: [...newAnswers],
       img_id: props.image.link,
@@ -48,34 +43,55 @@ const BinaryQuestion = (props) => {
     props.onNext();
   };
 
+  //callback for calling right action
+  const onClickRight = (questionTime) => () => {
+    const newAnswers = props.categories_right.map((category) =>
+      parseInt(category.id)
+    );
+    const answer = {
+      answers: [...newAnswers],
+      img_id: props.image.link,
+      response_time: answers.TIME(questionTime),
+    };
+    props.onAction(answer);
+    props.onNext();
+  };
+
+  //callback for releasing key for controlling actions
   const onKeyUp = (event) => {
+    if (KeyboardControls.LEFT.indexOf(event.key) > -1) {
       window.removeEventListener('keyup', onKeyUp, true);
       window.removeEventListener('keydown', onKeyDown, true);
-    if (event.key === 'e' || event.key === 'E') {
       const questionTime = Date.now() - timer;
       setTimeout(onClickLeft(questionTime), 300);
     }
-    if (event.key === 'i' || event.key === 'I') {
+    if (KeyboardControls.RIGHT.indexOf(event.key) > -1) {
+      window.removeEventListener('keyup', onKeyUp, true);
+      window.removeEventListener('keydown', onKeyDown, true);
       const questionTime = Date.now() - timer;
       setTimeout(onClickRight(questionTime), 300);
     }
   };
 
+  //callback for pressing the key down
   const onKeyDown = (event) => {
-    if (event.key === 'e' || event.key === 'E') {
+    if (KeyboardControls.LEFT.indexOf(event.key) > -1) {
       setstate({ ...state, isLeftSelected: true });
     }
-    if (event.key === 'i' || event.key === 'I') {
+    if (KeyboardControls.RIGHT.indexOf(event.key) > -1) {
       setstate({ ...state, isRightSelected: true });
     }
   };
 
+
+  //use state inside the component to control particular attributes
   const [state, setstate] = useState({
     questionIndex: props.questionIndex,
     isLeftSelected: false,
     isRightSelected: false,
   });
 
+  //set the timer when component is mount and initialize state
   const [timer, setTime] = useState(Date.now());
   useEffect(() => {
     setstate({
@@ -85,26 +101,26 @@ const BinaryQuestion = (props) => {
     });
   }, [props.questionIndex]);
 
-  
+  //prepare event listeners when component is mount and clear state when unmount
   /*eslint-disable */
   useEffect(() => {
     window.addEventListener('keyup', onKeyUp, true);
     window.addEventListener('keydown', onKeyDown, true);
-    
+
     return () => {
-      setimageLoaded(false)
+      setimageLoaded(false);
     };
   }, [state.questionIndex]);
-  
-  const [imageLoaded, setimageLoaded] = useState(false)
-  
+
+  const [imageLoaded, setimageLoaded] = useState(false);
+
+  //watch the changes in props for updating the component
   useEffect(() => {
-    if(imageLoaded){
-      setTime(Date.now())
+    if (imageLoaded) {
+      setTime(Date.now());
     }
-  }, [imageLoaded])
-  /*eslint-enable */
-  console.log(props.categories_left);
+  }, [imageLoaded]);
+
   return (
     <div className={imageLoaded ? classes.root : classes.hide}>
       <Grid container spacing={8}>
@@ -147,8 +163,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAction: (answer) => {
       dispatch(saveQuestionAction(answer));
-    }
+    },
   };
 };
 
+//connect component to store
 export default connect(mapStateToProps, mapDispatchToProps)(BinaryQuestion);

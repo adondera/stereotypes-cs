@@ -4,11 +4,14 @@ import {connect} from "react-redux"
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 const Finish = (props) => {
+
+  //sequence of actions to be dispatched whne quiz ends
   const onClick = () => {
     props.sendQuestionsAnswers(props.childId);
     props.clearQuestionsStore();
     props.onFinish();
   };
+  
   return (
     <div>
       <Typography variant="h5" style={{textAlign: "justify"}}>

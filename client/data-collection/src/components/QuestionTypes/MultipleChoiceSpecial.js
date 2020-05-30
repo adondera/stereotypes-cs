@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
-  FormLabel,
   Button,
   FormControl,
   FormGroup,
   FormControlLabel,
   Checkbox,
-} from "@material-ui/core/";
-import { connect } from "react-redux";
-import { saveQuestionAction } from "../../actions/question";
+} from '@material-ui/core/';
+import { connect } from 'react-redux';
+import { saveQuestionAction } from '../../actions/question';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -17,7 +16,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -44,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeader: {
     backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
+      theme.palette.type === 'light'
+        ? theme.palette.grey[200]
+        : theme.palette.grey[700],
   },
   cardPricing: {
     display: 'flex',
@@ -71,7 +71,7 @@ const MultipleChoiceSpecial = (props) => {
     var initialState = {};
     props.choices.map((choice) => {
       initialState[choice.choice_num] = false;
-      return initialState[choice.choice_num]
+      return initialState[choice.choice_num];
     });
     return initialState;
   };
@@ -104,65 +104,72 @@ const MultipleChoiceSpecial = (props) => {
 
   console.log(props);
   return (
-      <React.Fragment>
-        <CssBaseline />
-        <Container maxWidth="sm" component="main" className={classes.heroContent}>
-          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            {props.text}
-          </Typography>
-          {/*<Typography variant="h5" align="center" color="textSecondary" component="p">*/}
-          {/*  Select all that apply.*/}
-          {/*</Typography>*/}
-        </Container>
-        <Container maxWidth="md" component="main">
-          <Grid container spacing={5} alignItems="flex-end">
-                <Grid item xs={12} md={6}>
-                  <Card style={{ margin: 'auto'}}>
-                    <CardHeader
-                        title='Select all that apply'
-                        titleTypographyProps={{ align: 'center' }}
-                        subheaderTypographyProps={{ align: 'center' }}
-                        action={null}
-                        className={classes.cardHeader}
-                    />
-                    <CardContent>
-                      <div className={classes.cardPricing}>
-                        <FormControl component="fieldset" className={classes.formControl}>
-                          <FormGroup>
-                            {props.choices.map((choice, index) => {
-                              return (
-                                  <FormControlLabel
-                                      key={choice.choice_num}
-                                      control={
-                                        <Checkbox
-                                            checked={options[choice.choice_num]}
-                                            color="primary"
-                                            onChange={handleChange}
-                                            key={choice.choice_num}
-                                            name={choice.choice_num.toString()}
-                                        />
-                                      }
-                                      label={choice.text}
-                                  />
-                              );
-                            })}
-                          </FormGroup>
-                        </FormControl>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Button
-                      className={classes.nextButton}
-                      variant="contained"
-                      disabled={ticked === 0}
-                      onClick={onClick}
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth='sm' component='main' className={classes.heroContent}>
+        <Typography
+          component='h1'
+          variant='h2'
+          align='center'
+          color='textPrimary'
+          gutterBottom
+        >
+          {props.text}
+        </Typography>
+      </Container>
+      <Container maxWidth='md' component='main'>
+        <Grid container spacing={5} alignItems='flex-end'>
+          <Grid item xs={12} md={6} style={{ margin: 'auto' }}>
+            <Card >
+              <CardHeader
+                title='Select all that apply'
+                titleTypographyProps={{ align: 'center' }}
+                subheaderTypographyProps={{ align: 'center' }}
+                action={null}
+                className={classes.cardHeader}
+              />
+              <CardContent>
+                <div className={classes.cardPricing}>
+                  <FormControl
+                    component='fieldset'
+                    className={classes.formControl}
                   >
-                    NEXT
-                  </Button>
-                </Grid>
+                    <FormGroup>
+                      {props.choices.map((choice, index) => {
+                        return (
+                          <FormControlLabel
+                            key={choice.choice_num}
+                            control={
+                              <Checkbox
+                                checked={options[choice.choice_num]}
+                                color='primary'
+                                onChange={handleChange}
+                                key={choice.choice_num}
+                                name={choice.choice_num.toString()}
+                              />
+                            }
+                            label={choice.text}
+                          />
+                        );
+                      })}
+                    </FormGroup>
+                  </FormControl>
+                </div>
+              </CardContent>
+            </Card>
+            <Button
+            style={{marginTop: '20px'}}
+              className={classes.nextButton}
+              variant='contained'
+              disabled={ticked === 0}
+              onClick={onClick}
+            >
+              NEXT
+            </Button>
           </Grid>
-        </Container>
-      </React.Fragment>
+        </Grid>
+      </Container>
+    </React.Fragment>
   );
 };
 

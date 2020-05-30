@@ -69,3 +69,11 @@
 .display-none {
   display: none;
 }
+
+.MultipleChoice div div div span {
+  color: #3f51b5 !important
+}
+
+.MultipleChoice div div div {
+  background-color: transparent !important;
+}
