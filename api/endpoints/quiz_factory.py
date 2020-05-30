@@ -20,7 +20,7 @@ class QuizFactory:
     def create_quiz(self):
         self.response.extend(self.gender_profession)
         self.response.extend(self.eat)
-        self.response.extend(self.video)
+        # self.response.extend(self.video)
         # self.response.extend(self.eat)
         self.response.extend(self.demographics)
         self.response.append({
