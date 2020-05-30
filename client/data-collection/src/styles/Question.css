@@ -79,3 +79,7 @@
 .MultipleChoice div div div {
   background-color: transparent !important;
 }
+
+.OptionLabel span {
+  font-size: 1.3em;
+}

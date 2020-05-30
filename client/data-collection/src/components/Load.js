@@ -10,6 +10,8 @@ const Load = (props) => {
         <Loader />
       ) : (
         <Button
+        variant='contained'
+        color='primary'
           onClick={() => {
             setstate({ isLoading: true });
             props.onClick();

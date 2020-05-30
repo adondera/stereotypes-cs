@@ -166,6 +166,7 @@ const MultipleChoice = (props) => {
                   onOptionSelect={onSelectedOption}
                 >
                   <QuestionGroup
+                    style={{fontSize: 'large'}}
                     key={props.questionIndex}
                     questionNumber={'selected-answer'}
                   >

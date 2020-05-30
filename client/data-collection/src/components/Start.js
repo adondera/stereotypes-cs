@@ -20,7 +20,7 @@ const Start = (props) => {
         style={{ marginTop: 50 }}
         variant="contained"
         onClick={props.onClick}
-        color="secondary"
+        color="primary"
         disabled={!props.canStart}
       >
         START!
