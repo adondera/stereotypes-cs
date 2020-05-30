@@ -319,7 +319,7 @@ class ParticipantAnswer(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
     img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
     answers = db.Column(db.ARRAY(db.Integer), nullable=False)
-    response_time = db.Column(db.Float, nullable=True)
+    response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
