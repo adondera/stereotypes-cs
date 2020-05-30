@@ -103,10 +103,17 @@ class User(db.Model):
         password : str
             User's password.
 
+        Returns
+        -------
+        user : User
+            The user object that was created.
+
         """
 
         hashed_pw = generate_password_hash(password).decode('utf-8')
-        add_to_db(User(username=username, password=hashed_pw))
+        user = User(username=username, password=hashed_pw)
+        add_to_db(user)
+        return user
 
     def __repr__(self):
         """The string representation of the object."""
@@ -156,12 +163,18 @@ class Consent(db.Model):
         signature : str (link)
             Parent's signature.
 
+        Returns
+        -------
+        consent : Consent
+            The consent object that was created.
+
         """
 
         consent = Consent(parent_first_name=parent_first_name,
                           parent_last_name=parent_last_name,
                           signature=signature)
         add_to_db(consent)
+        return consent
 
     def __repr__(self):
         """The string representation of the object."""
@@ -284,11 +297,16 @@ class Category(db.Model):
         metacategory : Metacategory
             The metacategory this category belongs to.
 
+        Returns
+        -------
+        cat : Category
+            The category object that was created.
+
         """
 
-        c = Category(name=name, metacategory=metacategory)
-        add_to_db(c)
-        return c
+        cat = Category(name=name, metacategory=metacategory)
+        add_to_db(cat)
+        return cat
 
     def __repr__(self):
         """The string representation of the object."""
@@ -343,6 +361,11 @@ class Image(db.Model):
             The attribute describing the image.
         c_id : int , optional
             The category that the images belongs to. (can be assigned at a later time)
+
+        Returns
+        -------
+        img : Image
+            The image object that was created.
 
         """
 
@@ -448,6 +471,7 @@ class Question(db.Model):
             The question object that was created.
 
         """
+
         q = Question(q_type=q_type, is_active=is_active, text=text,
                      categories=categories, choices=choices, images=images)
         add_to_db(q)
