@@ -39,7 +39,7 @@
     For TestingConfig you must have a local PostgreSQL database created with the following credentials:
 
         'user': 'test'
-        'pw': 'test'git 
+        'pw': 'test'
         'db': 'test'
         'host': 'localhost'
         'port': '5432'
