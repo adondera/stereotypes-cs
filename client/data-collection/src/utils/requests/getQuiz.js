@@ -9,7 +9,7 @@ export function getQuiz(accessToken, callback, errorcallback) {
   Send get request to retrieve quiz data from server
   */
   axios
-    .get("/protected2")
+    .get("/quiz")
     .then((res) => {
       console.log(res);
       if (callback != null && res.status === 200) {
