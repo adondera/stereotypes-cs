@@ -1,12 +1,15 @@
-# pylint: disable=invalid-name, too-many-arguments
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
 """ Models for the database schema."""
+
+import json
+import random
+import enum
 
 from flask_bcrypt import generate_password_hash
 from sqlalchemy import func
 from sqlalchemy.sql import expression
 
 from api import db
-import json, random, enum
 
 
 def add_to_db(obj):
@@ -32,7 +35,10 @@ def add_to_db(obj):
 
 
 class User(db.Model):
-    """Class that maps the User object to the corresponding database table ('users' table)."""
+    """
+    Class that maps the User object to
+    the corresponding database table ('users' table).
+    """
 
     __tablename__ = 'users'
 
@@ -61,7 +67,10 @@ class User(db.Model):
 
 
 class Consent(db.Model):
-    """Class that maps the Consent object to the corresponding database table ('consents' table)."""
+    """
+    Class that maps the Consent object to
+    the corresponding database table ('consents' table).
+    """
 
     __tablename__ = 'consent'
 
@@ -73,7 +82,9 @@ class Consent(db.Model):
     @staticmethod
     def create_consent(parent_first_name, parent_last_name, signature):
         """Creates a consent form row in the database"""
-        consent = Consent(parent_first_name=parent_first_name, parent_last_name=parent_last_name, signature=signature)
+        consent = Consent(parent_first_name=parent_first_name,
+                          parent_last_name=parent_last_name,
+                          signature=signature)
         add_to_db(consent)
 
     def __repr__(self):
@@ -87,16 +98,21 @@ class Gender(enum.Enum):
     female = 2
     other = 3
 
+
 class Ethnicity(enum.Enum):
     """Enum choices for ethnicity types"""
 
     White = 1
     Hispanic = 2
-    Black = 3 
+    Black = 3
     Asian = 4
 
+
 class Participant(db.Model):
-    """Class that maps the Participant object to the corresponding database table ('participants' table)."""
+    """
+    Class that maps the Participant object to
+    the corresponding database table ('participants' table).
+    """
 
     __tablename__ = 'participants'
 
@@ -126,7 +142,10 @@ class Metacategory(enum.Enum):
 
 
 class Category(db.Model):
-    """Class that maps the Category object to the corresponding database table ('categories' table)."""
+    """
+    Class that maps the Category object to
+    the corresponding database table ('categories' table).
+    """
 
     __tablename__ = 'categories'
 
@@ -138,16 +157,18 @@ class Category(db.Model):
 
     @staticmethod
     def create_category(name, metacategory):
+        """Creates a category object and inserts it into the database"""
         c = Category(name=name, metacategory=metacategory)
         add_to_db(c)
         return c
-        
+
     def __repr__(self):
         return '<Category id: %r>' % self.id
 
 
 class Image(db.Model):
-    """Class that maps the Image object to the corresponding database table ('images' table)."""
+    """Class that maps the Image object to
+    the corresponding database table ('images' table)."""
 
     __tablename__ = 'images'
 
@@ -159,13 +180,14 @@ class Image(db.Model):
 
     @staticmethod
     def create_image(link, description="", attribute="", c_id=None):
+        """Creates an image object and inserts it into the database"""
         img = Image(category_id=c_id, link=link, description=description, attribute=attribute)
         add_to_db(img)
         return img
 
     def __repr__(self):
         # return '<Image id: %r>' % self.id
-        return self.link
+        return str(self.link)
 
 
 class QuestionType(enum.Enum):
@@ -186,15 +208,19 @@ class QuestionType(enum.Enum):
 
 
 def is_jsonable(x):
+    """Checks if x is JSONable"""
     try:
         json.dumps(x)
         return True
-    except:
+    except TypeError:
         return False
 
 
 class Question(db.Model):
-    """Class that maps the Question object to the corresponding database table ('questions' table)."""
+    """
+    Class that maps the Question object to
+    the corresponding database table ('questions' table).
+    """
 
     __tablename__ = 'questions'
 
@@ -205,12 +231,17 @@ class Question(db.Model):
     to_dict = None
 
     categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
-    choices = db.relationship('QuestionChoice', backref=db.backref('question', lazy=False), lazy=False)
+    choices = db.relationship('QuestionChoice',
+                              backref=db.backref('question', lazy=False),
+                              lazy=False)
     images = db.relationship(Image, secondary="questions_to_images", lazy=False)
 
     @staticmethod
-    def create_question(q_type, is_active=True, text="", categories=[], choices=[], images=[]):
-        q = Question(q_type=q_type, is_active=is_active, text=text, categories=categories, choices=choices, images=images)
+    def create_question(q_type, is_active=True, text="",
+                        categories=[], choices=[], images=[]):
+        """Creates a question object and inserts it into the database"""
+        q = Question(q_type=q_type, is_active=is_active, text=text,
+                     categories=categories, choices=choices, images=images)
         add_to_db(q)
         return q
 
@@ -218,17 +249,30 @@ class Question(db.Model):
         return '<Question id: %r>' % self.id
 
     def as_dict(self):
+        """Creates a dictionary based on current instance and question type"""
         if self.to_dict:
             return self.to_dict
         dictionary = self.__dict__.copy()
         dictionary['q_type'] = self.q_type.name
 
         if dictionary['q_type'] == QuestionType.binary.name:
-            dictionary['images'] = list(map(lambda x: {"link": x.link, "category": x.category.name}, self.images))
-            dictionary['categories_left'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
-                                                     filter(lambda x: x.is_left, self.questions_to_categories)))
-            dictionary['categories_right'] = list(map(lambda x: {"id": x.category.id, "name": x.category.name},
-                                                      filter(lambda x: not x.is_left, self.questions_to_categories)))
+            dictionary['images'] = list(
+                map(
+                    lambda x: {"link": x.link, "category": x.category.name}, self.images
+                )
+            )
+            dictionary['categories_left'] = list(
+                map(
+                    lambda x: {"id": x.category.id, "name": x.category.name},
+                    filter(lambda x: x.is_left, self.questions_to_categories)
+                )
+            )
+            dictionary['categories_right'] = list(
+                map(
+                    lambda x: {"id": x.category.id, "name": x.category.name},
+                    filter(lambda x: not x.is_left, self.questions_to_categories)
+                )
+            )
 
         elif dictionary['q_type'] == QuestionType.video.name:
             dictionary['video'] = dictionary['images'][0].link
@@ -247,6 +291,11 @@ class Question(db.Model):
         return self.to_dict
 
     def make_response(self):
+        """
+        Shuffles images,
+        Flattens 'images' attribute,
+        Removes unnecessary attributes
+        """
         if not self.to_dict:
             self.as_dict()
         response = []
@@ -277,17 +326,28 @@ class Question(db.Model):
 
 
 class Question_to_category(db.Model):
+    """
+    Class that maps Questions objects to
+    their categories and stores their position ('is_left' boolean).
+    """
     __tablename__ = 'questions_to_categories'
 
     q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
     c_id = db.Column('category_id', db.Integer, db.ForeignKey(Category.id), primary_key=True)
     is_left = db.Column('is_left', db.Boolean, nullable=False)
 
-    question = db.relationship(Question, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
-    category = db.relationship(Category, backref=db.backref('questions_to_categories', lazy='joined'), lazy='joined')
+    question = db.relationship(Question,
+                               backref=db.backref('questions_to_categories', lazy='joined'),
+                               lazy='joined')
+    category = db.relationship(Category,
+                               backref=db.backref('questions_to_categories', lazy='joined'),
+                               lazy='joined')
 
 
 class Question_to_image(db.Model):
+    """
+    Class that maps Questions objects to their images.
+    """
     __tablename__ = 'questions_to_images'
 
     q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
@@ -295,6 +355,10 @@ class Question_to_image(db.Model):
 
 
 class QuestionChoice(db.Model):
+    """
+    Class that maps the QuestionChoice object to
+    the corresponding database table ('question_choices' table).
+    """
     __tablename__ = 'question_choices'
     choice_num = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), primary_key=True)
@@ -302,8 +366,11 @@ class QuestionChoice(db.Model):
     text = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
 
+    @staticmethod
     def create_choice(choice_num, q_id, text, img_id=None, is_active=True):
-        choice = QuestionChoice(choice_num=choice_num, question_id=q_id, img_id=img_id, text=text, is_active=is_active)
+        """Creates a choice object and inserts it into the database"""
+        choice = QuestionChoice(choice_num=choice_num, question_id=q_id,
+                                img_id=img_id, text=text, is_active=is_active)
         add_to_db(choice)
         return choice
 
@@ -312,6 +379,10 @@ class QuestionChoice(db.Model):
 
 
 class ParticipantAnswer(db.Model):
+    """
+    Class that maps the ParticipantAnswer object to
+    the corresponding database table ('participant_answers' table).
+    """
     __tablename__ = 'participant_answers'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -324,29 +395,3 @@ class ParticipantAnswer(db.Model):
 
     def __repr__(self):
         return '<Answer id: %r>' % (str(self.participant_id) + str(self.question_id))
-
-
-def populate_db():
-    db.drop_all()
-    db.create_all()
-
-    ### IAT ###
-    c = Category(name='writer', metacategory=Metacategory.profession)
-    add_to_db(c)
-
-    img = Image(category_id=c.id, link='google.com', description='description', attribute='attr')
-    add_to_db(img)
-
-    q = Question(text='teeeext', q_type=QuestionType.binary, images=[img])
-    add_to_db(q)
-
-    q_to_c = Question_to_category(q_id=q.id, c_id=c.id, is_left=True)
-
-    add_to_db(q_to_c)
-
-    eat = Question(text="How big yo mamma's reaction time", q_type=QuestionType.mc_multiple_answer)
-    add_to_db(eat)
-    choice1 = QuestionChoice(choice_num=1, question=eat, text="so fast")
-    choice2 = QuestionChoice(choice_num=2, question=eat, text="not so fast")
-    add_to_db(choice1)
-    add_to_db(choice2)
