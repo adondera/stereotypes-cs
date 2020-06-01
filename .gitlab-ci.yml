@@ -74,6 +74,7 @@ pytest:
   image: python:3.8.2
   services:
   - postgres:alpine
+  - redis:latest
   variables:
     POSTGRES_DB: test
     POSTGRES_USER: test

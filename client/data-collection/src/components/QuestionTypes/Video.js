@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useState } from "react";
 import Spinner from "@material-ui/core/CircularProgress";
+import {videoWasPlayed} from '../../actions/question'
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,30 +72,39 @@ const Video = (props) => {
                     ? classes.videoHide
                     : classes.video
                 }
-                videoId={props.videoId}
+                videoId={props.video}
                 onReady={onReady}
                 opts={opts}
                 onEnd={() => setstate({ ...state, isPlayedOnce: true })}
               />
-              {state.isLoading ? <Spinner /> : null}
+              {state.isLoading ? <Spinner className={classes.nextButton} /> : null}
             </CardContent>
             {state.isPlayed ? null : (
-              <Button
+              <React.Fragment>
+              {state.isLoading ? (
+                null
+              ) : (
+                <Button
                 variant="contained"
-                size="medium"
+                size="large"
+                color="primary"
                 className={classes.playButton}
                 onClick={() => {
+                  props.videoWasPlayed()
                   setstate({ ...state, isPlayed: true });
                   videoRef.current.internalPlayer.playVideo();
                 }}
               >
                 Play
               </Button>
+              )}
+              </React.Fragment>
             )}
             {state.isPlayedOnce ? (
               <Button
+              color="primary"
                 variant="contained"
-                size="medium"
+                size="small"
                 className={classes.playButton}
                 onClick={() => {
                   setstate({ ...state, isPlayed: true });
@@ -121,4 +132,16 @@ const Video = (props) => {
   );
 };
 
-export default Video;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    videoWasPlayed: () => dispatch(videoWasPlayed())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Video);

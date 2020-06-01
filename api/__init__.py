@@ -1,15 +1,19 @@
 """Init file for server."""
 import os
-from flask import Flask
+from flask import Flask, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from flask_socketio import SocketIO
 
 # Flask setup
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
+
+# Configure SocketIO
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Enables CORS
 cors = CORS(app)
@@ -35,6 +39,14 @@ def index():
     return "Hello, World!"
 
 
-from .endpoints import bp
+from .endpoints import bp as endpoints_bp
 
-app.register_blueprint(bp)
+app.register_blueprint(endpoints_bp)
+
+
+# @app.before_request
+# def before_request():
+#     if not request.is_secure and 'DYNO' in os.environ and request.url.startswith('http://'):
+#         url = request.url.replace('http://', 'https://', 1)
+#         code = 308
+#         return redirect(url, code=code)

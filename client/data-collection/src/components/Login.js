@@ -70,7 +70,6 @@ const Login = ({
                 id="username"
                 label="Username"
                 name="username"
-                autoComplete="username"
                 autoFocus
               />
               <TextField
@@ -85,9 +84,7 @@ const Login = ({
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
               />
-              {/* {errorMessage == "" ? null : ( */}
               {errorMessage === "" ? null : (
                 <Alert
                   open={errorMessage !== ""}

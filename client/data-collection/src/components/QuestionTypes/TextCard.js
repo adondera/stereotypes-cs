@@ -1,6 +1,6 @@
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent"
+import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Typography } from "@material-ui/core";
@@ -8,7 +8,7 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    borderRadius: 30
+    borderRadius: 15,
   },
   image: {
     margin: "auto",
@@ -29,7 +29,10 @@ const TextCard = (props) => {
           component="div"
           className={props.isSelected ? classes.imageFocus : classes.image}
         >
-        <Typography variant="h5"> {props.text} </Typography>
+          {props.categories.map((category,index) => (
+            <Typography variant="h5" key={index}> {category.name} </Typography>
+
+          ))}
         </CardContent>
       </CardActionArea>
     </Card>

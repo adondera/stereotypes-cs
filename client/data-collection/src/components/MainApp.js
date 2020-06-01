@@ -4,9 +4,11 @@ import { Switch } from "react-router";
 import Question from "../containers/Question";
 import PropTypes from "prop-types";
 import Start from "./Start";
-import Load from "./Load"
+import Load from "./Load";
+import QueueManagement from "./QueueManagement";
 
 const MainApp = ({
+  hasActiveChild = false,
   questionIndex = 0,
   onQuestionChange,
   loadData,
@@ -18,16 +20,15 @@ const MainApp = ({
     <div>
       <Switch>
         <Route path="/load">
-          <Load onClick={() => loadData(accessToken)}/>
+          <Load onClick={() => loadData(accessToken)} />
           {isDataLoaded ? <Redirect to="/app" /> : null}
         </Route>
         <Route path="/app">
-          <Start onClick={() => onQuestionChange(questionIndex).questions} />
+          <QueueManagement questionIndex={questionIndex} />
+          <Start canStart={hasActiveChild} onClick={() => onQuestionChange(questionIndex).questions} />
           {questionIndex === 0 ? null : <Redirect to="/questions" />}
         </Route>
-        <Route
-          path="/questions"
-        >
+        <Route path="/questions">
           <Question
             onQuizFinished={finishQuiz}
             onQuestionChange={onQuestionChange}
@@ -41,6 +42,7 @@ const MainApp = ({
 };
 
 MainApp.propTypes = {
+  hasActiveChild: PropTypes.bool,
   questions: PropTypes.object,
   questionIndex: PropTypes.number,
   onQuestionChange: PropTypes.func,

@@ -4,7 +4,6 @@ import Body from "./FormParts/Body";
 import Footer from "./FormParts/Footer";
 import "./FormParts/style/Form.css";
 import { postData } from "../utils/requests/postRequests";
-import Loader from "../common/Loader";
 
 const reload_threshold = process.env.REACT_APP_RELOAD_PAGE;
 const alertMessage = process.env.REACT_APP_ERROR_MSG;
@@ -50,7 +49,7 @@ class Form extends Component {
           {this.state.isSubmitted ? (
               <React.Fragment>
                 <h1>SUCCESS</h1>
-                <p>You can now proceed with the questionnaire.</p>
+                <p>U kunt nu verdergaan met de vragenlijst.</p>
               </React.Fragment>
           ) : (
                     <React.Fragment>

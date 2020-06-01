@@ -1,8 +1,17 @@
 """ This class declares fixtures for pytest """
+import os
 import pytest
 from api import app, db
 from api.models import User
+from api.endpoints.sockets import red
 
+@pytest.fixture
+def rootdir():
+    """
+    Returns the absolute path to the test directory
+    Used for file parsing
+    """
+    return os.path.dirname(os.path.abspath(__file__))
 
 @pytest.fixture
 def client():
@@ -27,3 +36,4 @@ def init_db():
     yield db
     db.session.close()
     db.drop_all()
+    red.flushall()

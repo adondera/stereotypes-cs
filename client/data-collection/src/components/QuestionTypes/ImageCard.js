@@ -1,40 +1,42 @@
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardMedia from "@material-ui/core/CardMedia";
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import CardMedia from '@material-ui/core/CardMedia';
+import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect, useState} from 'react';
+import Slide from  '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "50%",
-    margin: "auto"
+    width: '60%',
+    margin: 'auto',
   },
   image: {
-    margin: "auto",
-    height: "100%",
-    width: 250,
-    transform: "scale(1.05)",
+    margin: 'auto',
+    height: '100%',
+    width: 270,
+    transform: 'scale(1.05)',
   },
   imageFocus: {
-      transition: "transform .2s"
+    transition: 'transform .2s',
   },
 }));
 
-const ImageCard = (props) => {
-  const classes = useStyles();
 
+const ImageCard = ({onClick, onLoadImage, imageLoaded, image}) => {
+  const classes = useStyles();
+  const [loaded, setloaded] = useState(false)
+  useEffect(() => {
+    setloaded(imageLoaded)
+  }, [imageLoaded])
   return (
-    <Card className={classes.root}>
-      <CardActionArea onClick={props.onClick}>
-        <CardMedia
-          className={classes.image}
-          component="img"
-          alt=""
-          image={props.image}
-        />
-      </CardActionArea>
-    </Card>
+    <Slide direction='down' in={loaded}  >
+          <CardMedia
+            className={classes.image}
+            component='img'
+            alt=''
+            onLoad={onLoadImage}
+            image={image}
+          />
+    </Slide>
   );
 };
 

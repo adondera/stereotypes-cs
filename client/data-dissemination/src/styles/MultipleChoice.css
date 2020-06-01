@@ -1,0 +1,7 @@
+.Test div div div span {
+    color: blue !important
+}
+
+.Test div div div {
+    background-color: transparent !important;
+}
