@@ -28,7 +28,7 @@ class QuizAnswers(Resource):
         validators = {
             "participant_id": valid.validate_int,
             "question_id": valid.validate_string,
-            "img_id": valid.validate_int,
+            "img_link": valid.validate_string,
             "answers": valid.validate_list,
             "before_video": valid.validate_boolean
         }
@@ -39,7 +39,7 @@ class QuizAnswers(Resource):
 
         answer = ParticipantAnswer(participant_id=data["participant_id"],
                                    question_id=data["question_id"],
-                                   img_id=data["img_id"],
+                                   img_link=data["img_link"],
                                    answers=data["answers"],
                                    answer=["response_time"],
                                    before_video=data["before_video"])
