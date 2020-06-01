@@ -2,6 +2,9 @@
   width: 80%;
   margin: auto;
   text-align: left;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .Header {
