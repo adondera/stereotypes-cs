@@ -39,6 +39,38 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+
+### Run in kiosk mode
+
+> Currently only supported in Google Chrome.
+
+###### Linux
+```
+google-chrome --kiosk http://example.com/
+```
+
+###### MacOS
+
+```
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=localhost:3000
+```
+
+Then open Google Chrome and go to [localhost:3000](http://localhost:3000).
+
+###### Windows
+```
+–chrome-frame –kiosk “http://www.google.com”
+```
+
+More info can be found at the following [link](https://thegeekpage.com/how-to-setup-chrome-kiosk-mode-in-windows-10/).
+
+
+
+
+
+
+
+
 ### Code Splitting
 
 This section covers the folder strucure of the project.

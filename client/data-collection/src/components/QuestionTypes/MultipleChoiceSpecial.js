@@ -1,18 +1,22 @@
-import '../../styles/Question.css';
 import React, { useState } from 'react';
-import Likert from 'react-likert-scale';
-import { likertScaleText } from '../../utils/constants/LikertScale';
-import { saveQuestionAction } from '../../actions/question';
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core/';
 import { connect } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
+import { saveQuestionAction } from '../../actions/question';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import '../../styles/Question.css';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -61,24 +65,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LikertScaleQuestion = (props) => {
+const MultipleChoiceSpecial = (props) => {
   const classes = useStyles();
-  const [state, setQuestionAnswer] = useState({ answers: [] });
+
+  const getInitialState = () => {
+    var initialState = {};
+    props.choices.map((choice) => {
+      initialState[choice.choice_num] = false;
+      return initialState[choice.choice_num];
+    });
+    return initialState;
+  };
+  const [options, setOptions] = React.useState({
+    ...getInitialState(),
+  });
+
+  const [ticked, setTicked] = useState(0);
+
   const onClick = () => {
-    props.submitSelectedScale(state);
+    var answer = { answers: [] };
+    for (let [key, value] of Object.entries(options)) {
+      if (value) {
+        answer.answers.push(parseInt(key));
+      }
+    }
+    props.submitSelectedChoice(answer);
     props.onNext();
-    setQuestionAnswer({ answers: [] });
+    setTicked(0);
+    setOptions({ ...getInitialState() });
   };
 
-  const likertOptions = {
-    responses: likertScaleText.map((scaleText, index) => {
-      return { value: index + 1, text: scaleText };
-    }),
-    picked: (val) => {
-      setQuestionAnswer({ answers: [parseInt(val)] });
-    },
+  const handleChange = (event) => {
+    var newState = { ...options };
+    if (event.target.checked) setTicked(ticked + 1);
+    else setTicked(ticked - 1);
+    newState[parseInt(event.target.name)] = event.target.checked;
+    setOptions({ ...newState });
   };
 
+  console.log(props);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -95,28 +120,50 @@ const LikertScaleQuestion = (props) => {
       </Container>
       <Container maxWidth='md' component='main'>
         <Grid container spacing={5} alignItems='flex-end'>
-          <Grid item xs={12} md={12} style={{ margin: 'auto' }}>
-            <Card>
+          <Grid item xs={12} md={6} style={{ margin: 'auto' }}>
+            <Card >
               <CardHeader
-                title='Select the one you consider most appropriate'
+                title='Select all that apply'
                 titleTypographyProps={{ align: 'center' }}
                 subheaderTypographyProps={{ align: 'center' }}
                 action={null}
                 className={classes.cardHeader}
               />
               <CardContent>
-                <Likert
-                  key={props.questionIndex}
-                  {...likertOptions}
-                  className='likertScale'
-                />
+                <div className={classes.cardPricing}>
+                  <FormControl
+                    component='fieldset'
+                    className={classes.formControl}
+                  >
+                    <FormGroup>
+                      {props.choices.map((choice, index) => {
+                        return (
+                          <FormControlLabel
+                          className='OptionLabel'
+                            key={choice.choice_num}
+                            control={
+                              <Checkbox
+                                checked={options[choice.choice_num]}
+                                color='primary'
+                                onChange={handleChange}
+                                key={choice.choice_num}
+                                name={choice.choice_num.toString()}
+                              />
+                            }
+                            label={choice.text}
+                          />
+                        );
+                      })}
+                    </FormGroup>
+                  </FormControl>
+                </div>
               </CardContent>
             </Card>
             <Button
-              style={{ marginTop: '20px' }}
+            style={{marginTop: '20px'}}
               className={classes.nextButton}
               variant='contained'
-              disabled={state.answers.length === 0}
+              disabled={ticked === 0}
               onClick={onClick}
             >
               NEXT
@@ -136,7 +183,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSelectedScale: (answer) => {
+    submitSelectedChoice: (answer) => {
       dispatch(saveQuestionAction(answer));
     },
   };
@@ -145,4 +192,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LikertScaleQuestion);
+)(MultipleChoiceSpecial);

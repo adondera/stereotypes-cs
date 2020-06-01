@@ -12,11 +12,15 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "express": "^4.17.1",
+    "file-saver": "^2.0.2",
     "jest": "^24.9.0",
+    "json-loader": "^0.5.7",
     "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-export-excel": "^0.5.3",
+    "react-image": "^4.0.0",
     "react-likert-scale": "^1.0.0",
     "react-multiple-choice": "^2.0.2",
     "react-redux": "^7.2.0",
@@ -26,7 +30,8 @@
     "react-youtube": "^7.11.2",
     "redux": "^4.0.5",
     "socket.io-client": "^2.3.0",
-    "thunk": "0.0.1"
+    "thunk": "0.0.1",
+    "xlsx": "^0.16.1"
   },
   "scripts": {
     "start": "react-scripts start",
