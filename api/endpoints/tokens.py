@@ -3,17 +3,17 @@
 Here we use different endpoints protected by tokens
 """
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required, get_jwt_identity,\
+from flask_jwt_extended import jwt_required, get_jwt_identity, \
     jwt_refresh_token_required, create_access_token, \
     fresh_jwt_required
 from .constants import resp
-
 
 
 class Protected(Resource):
     """
     Defines the handlers for the /protected route
     """
+
     @jwt_required
     def get(self):
         """Route that requires authentication with token.
@@ -24,10 +24,16 @@ class Protected(Resource):
         return resp, 200
 
 
+class Unprotected(Resource):
+    def get(self):
+        return resp, 200
+
+
 class Refresh(Resource):
     """
     Defines the handlers for the /refresh route
     """
+
     @jwt_refresh_token_required
     def post(self):
         """Route for getting an access token with a refresh token.
@@ -44,6 +50,7 @@ class ProtectedFresh(Resource):
     """
     Defines the handlers for the /protected-fresh route
     """
+
     @fresh_jwt_required
     def get(self):
         """Route that requires authentication with a fresh token.

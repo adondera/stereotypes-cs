@@ -1,8 +1,8 @@
-"""remove-unique
+"""empty message
 
-Revision ID: e1b2cc5a44e5
+Revision ID: 2f2acf232add
 Revises: 
-Create Date: 2020-05-22 16:33:52.087705
+Create Date: 2020-05-30 14:25:43.240176
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e1b2cc5a44e5'
+revision = '2f2acf232add'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,6 +32,13 @@ def upgrade():
     sa.Column('signature', sa.Text(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('questions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('text', sa.Text(), nullable=True),
+    sa.Column('q_type', sa.Enum('mc_single_answer', 'mc_multiple_answer', 'likert', 'binary', 'video', 'information', 'likert_demographics', 'finish', name='questiontype'), nullable=False),
+    sa.Column('is_active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=80), nullable=False),
@@ -41,7 +48,7 @@ def upgrade():
     )
     op.create_table('images',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.Column('category_id', sa.Integer(), nullable=True),
     sa.Column('link', sa.Text(), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
     sa.Column('attribute', sa.String(length=40), nullable=False),
@@ -62,27 +69,25 @@ def upgrade():
     sa.ForeignKeyConstraint(['consent_id'], ['consent.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('participant_IAT_answers',
+    op.create_table('questions_to_categories',
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.Column('is_left', sa.Boolean(), nullable=False),
+    sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.PrimaryKeyConstraint('question_id', 'category_id')
+    )
+    op.create_table('participant_answers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('participant_id', sa.Integer(), nullable=False),
-    sa.Column('img_id', sa.Integer(), nullable=False),
-    sa.Column('assigned_category', sa.String(length=40), nullable=False),
-    sa.Column('unassigned_category', sa.String(length=40), nullable=False),
-    sa.Column('response_time', sa.Integer(), nullable=False),
-    sa.CheckConstraint('assigned_category != unassigned_category', name='check_different_categories'),
-    sa.ForeignKeyConstraint(['assigned_category'], ['categories.name'], ),
-    sa.ForeignKeyConstraint(['img_id'], ['images.id'], ),
+    sa.Column('question_id', sa.Integer(), nullable=False),
+    sa.Column('img_link', sa.Text(), nullable=True),
+    sa.Column('answers', sa.ARRAY(sa.Integer()), nullable=False),
+    sa.Column('response_time', sa.Integer(), nullable=True),
+    sa.Column('before_video', sa.Boolean(), nullable=False),
+    sa.ForeignKeyConstraint(['img_link'], ['images.link'], ),
     sa.ForeignKeyConstraint(['participant_id'], ['participants.id'], ),
-    sa.ForeignKeyConstraint(['unassigned_category'], ['categories.name'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('questions',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('img_id', sa.Integer(), nullable=True),
-    sa.Column('text', sa.Text(), nullable=False),
-    sa.Column('type', sa.Enum('mc_single_answer', 'mc_multiple_answer', 'likert', 'binary', name='questiontype'), nullable=False),
-    sa.Column('is_active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
-    sa.ForeignKeyConstraint(['img_id'], ['images.id'], ),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('question_choices',
@@ -95,26 +100,26 @@ def upgrade():
     sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
     sa.PrimaryKeyConstraint('choice_num', 'question_id')
     )
-    op.create_table('participant_EAT_answers',
-    sa.Column('participant_id', sa.Integer(), nullable=False),
-    sa.Column('choice_num', sa.Integer(), nullable=False),
+    op.create_table('questions_to_images',
     sa.Column('question_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['choice_num', 'question_id'], ['question_choices.choice_num', 'question_choices.question_id'], ),
-    sa.ForeignKeyConstraint(['participant_id'], ['participants.id'], ),
-    sa.PrimaryKeyConstraint('participant_id', 'choice_num', 'question_id')
+    sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['category_id'], ['images.id'], ),
+    sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
+    sa.PrimaryKeyConstraint('question_id', 'category_id')
     )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('participant_EAT_answers')
+    op.drop_table('questions_to_images')
     op.drop_table('question_choices')
-    op.drop_table('questions')
-    op.drop_table('participant_IAT_answers')
+    op.drop_table('participant_answers')
+    op.drop_table('questions_to_categories')
     op.drop_table('participants')
     op.drop_table('images')
     op.drop_table('users')
+    op.drop_table('questions')
     op.drop_table('consent')
     op.drop_table('categories')
     # ### end Alembic commands ###
