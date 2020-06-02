@@ -4,7 +4,6 @@ import Body from "./FormParts/Body";
 import Footer from "./FormParts/Footer";
 import "./FormParts/style/Form.css";
 import { postData } from "../utils/requests/postRequests";
-import Loader from "../common/Loader";
 
 const reload_threshold = process.env.REACT_APP_RELOAD_PAGE;
 const alertMessage = process.env.REACT_APP_ERROR_MSG;

@@ -138,7 +138,7 @@ class Footer extends Component {
             </div>
           )}
         </div>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{marginTop: '20px'}}>
           <FormControlLabel
             control={<Checkbox onClick={this.agreedChanged} color="secondary" name="agree" value="yes" />}
             label="Ga akkoord om gegevens te delen en te ondertekenen"
