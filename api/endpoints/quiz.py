@@ -19,7 +19,7 @@ import api.endpoints.validation as valid
 class QuizAnswers(Resource):
     """Resource that deals with saving answers into database"""
 
-    @jwt_required
+    # @jwt_required
     def post(self):
         """
         On a post request on the /answers endpoint we add the quiz answers
