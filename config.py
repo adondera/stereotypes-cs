@@ -9,10 +9,10 @@ class Config(object):
     CSRF_ENABLED = True
     PROPAGATE_EXCEPTIONS = True
     POSTGRES = {
-        'user': 'wjyyqbjfvwukln',
-        'pw': 'd9194e1d96f48b0ccc04e6e26d63d4c170191e34e836f87caa3f1d4441c153e7',
-        'db': 'd815qem5n7vf7a',
-        'host': 'ec2-46-137-84-173.eu-west-1.compute.amazonaws.com',
+        'user': 'feenldejtnjrfq',
+        'pw': 'e2d00d48e9b46003ed379387ea37c36f27378b887ad0db3b1a3dc549c36dcddd',
+        'db': 'drkct21t0o7md',
+        'host': 'ec2-54-247-71-245.eu-west-1.compute.amazonaws.com',
         'port': '5432',
     }
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
