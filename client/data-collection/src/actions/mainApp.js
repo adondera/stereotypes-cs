@@ -1,5 +1,6 @@
 import { getQuiz } from "../utils/requests/getQuiz";
 import { getChild } from "../utils/sockets/queue";
+import {preload} from '../utils/preloaders/images'
 /*
   Get all the data from the server.
 */
@@ -13,9 +14,10 @@ export const getQuizData = (accessToken, dispatch) => {
 */
 export const dataLoaded = (res) => {
   console.log(res);
+  preload(res.data)
   return {
     type: "DATA_IS_LOADED",
-    questions: res.data.questions,
+    questions: res.data,
   };
 };
 

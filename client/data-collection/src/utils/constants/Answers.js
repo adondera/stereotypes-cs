@@ -8,7 +8,7 @@ const answerTypes = {
   SCALE: (x) => x.toString(),
   OK: "ok",
   AGE: (age) => age.toString(),
-  TIME: (milisec) => milisec.toString()
+  TIME: (milisec) => milisec
 };
 
 export default answerTypes;

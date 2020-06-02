@@ -1,6 +1,6 @@
 const mainAppReducer = (
   state = {
-    activeChild: { firstName: "", lastName: "", id: "" },
+    activeChild: { firstName: '', lastName: '', id: '' },
     hasActiveChild: false,
   },
   action
@@ -9,7 +9,7 @@ const mainAppReducer = (
     /*
     Change active question
     */
-    case "CHANGE_QUESTION":
+    case 'CHANGE_QUESTION':
       return {
         ...state,
         questionIndex: action.questionIndex,
@@ -18,7 +18,7 @@ const mainAppReducer = (
     /*
     Conform data is loaded successfully
     */
-    case "DATA_IS_LOADED":
+    case 'DATA_IS_LOADED':
       console.log(action.questions);
       action.questions = {
         questions: action.questions,
@@ -32,7 +32,7 @@ const mainAppReducer = (
     /*
     Finish the quiz by making start screen active
     */
-    case "FINISH_QUIZ":
+    case 'FINISH_QUIZ':
       return {
         ...state,
         questionIndex: 0,
@@ -41,20 +41,20 @@ const mainAppReducer = (
     /*
   Rregister new child
   */
-    case "REGISTER_CHILD":
+    case 'REGISTER_CHILD':
       return {
         ...state,
         activeChild: action.child,
         hasActiveChild: true,
       };
 
-    case "REMOVE_ACTIVE_CHILD":
+    case 'REMOVE_ACTIVE_CHILD':
       return {
         ...state,
         activeChild: {
-          firstName: "",
-          lastName: "",
-          id: "",
+          firstName: '',
+          lastName: '',
+          id: '',
         },
         hasActiveChild: false,
       };

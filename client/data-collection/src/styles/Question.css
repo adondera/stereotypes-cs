@@ -24,7 +24,9 @@
 }
 
 .likertScale {
-  margin-top: 30px;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  border-width: 0px !important;
 }
 
 .likertLine {
@@ -68,4 +70,16 @@
 
 .display-none {
   display: none;
+}
+
+.MultipleChoice div div div span {
+  color: #3f51b5 !important
+}
+
+.MultipleChoice div div div {
+  background-color: transparent !important;
+}
+
+.OptionLabel span {
+  font-size: 1.3em;
 }
