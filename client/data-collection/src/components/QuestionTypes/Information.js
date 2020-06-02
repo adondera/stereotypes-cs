@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { KeyboardControls } from "../../utils/constants/Controls";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
@@ -59,21 +58,23 @@ const Information = (props) => {
   /*eslint-disable */
   const classes = useStyles()
 
-  const onKeyUp = (event) => {
-    if (KeyboardControls.NEXT.indexOf(event.key) > -1) {
-      window.removeEventListener("keyup", onKeyUp, true);
-      setTimeout(props.onNext, 200);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("keyup", onKeyUp, true);
-  }, [props.questionIndex]);
+  const [hasNext, sethasNext] = useState(false)
+  const [startsIn, setStartIn] = useState(false)
 
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+        {startsIn ? (  
+          <Typography
+          component="h1"
+          variant="h2"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >{startsIn}</Typography>) : (
+          <React.Fragment>
+        <Container maxWidth="sm" component="main" className={classes.heroContent}>      
         <Typography
           component="h1"
           variant="h2"
@@ -90,10 +91,14 @@ const Information = (props) => {
       <Button
         variant="contained"
         style={{ marginTop: 20 }}
-        onClick={props.onNext}
+        onClick={() => {sethasNext(true); setTimeout(props.onNext, 4000); setStartIn(3); setTimeout(() => setStartIn(2), 1000); setTimeout(() => setStartIn(1), 2000); setTimeout(() => setStartIn('Start!'), 3000) }}
+        disabled={hasNext}
       >
         NEXT
       </Button>
+      </React.Fragment>
+        )
+        }
     </React.Fragment>
   );
 };

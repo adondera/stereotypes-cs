@@ -65,13 +65,13 @@ const BinaryQuestion = (props) => {
       window.removeEventListener('keyup', onKeyUp, true);
       window.removeEventListener('keydown', onKeyDown, true);
       const questionTime = Date.now() - timer;
-      setTimeout(onClickLeft(questionTime), 300);
+      setTimeout(onClickLeft(questionTime), 100);
     }
     if (KeyboardControls.RIGHT.indexOf(event.key) > -1) {
       window.removeEventListener('keyup', onKeyUp, true);
       window.removeEventListener('keydown', onKeyDown, true);
       const questionTime = Date.now() - timer;
-      setTimeout(onClickRight(questionTime), 300);
+      setTimeout(onClickRight(questionTime), 100);
     }
   };
 

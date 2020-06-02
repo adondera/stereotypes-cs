@@ -62,6 +62,7 @@ export function createQuestion(Question) {
                 }}
               />
               <QuestionType
+              key={this.props.questionData.q_type}
                 disableKeys={this.state.show}
                 {...this.props.questionData}
                 questionIndex={this.props.questionIndex}
