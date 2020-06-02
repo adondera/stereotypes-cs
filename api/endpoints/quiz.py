@@ -25,25 +25,25 @@ class QuizAnswers(Resource):
         On a post request on the /answers endpoint we add the quiz answers
         :return: If the request is valid, a 201 CREATED status code, otherwise a 400 code
         """
-        validators = {
-            "participant_id": valid.validate_int,
-            "question_id": valid.validate_int,
-            "img_link": valid.validate_string,
-            "answers": valid.validate_list,
-            "before_video": valid.validate_boolean
-        }
-
-        data = valid.validate(valid.read_form_data(request), validators)
-        if not data:
-            return ANSWERS[400], 400
-
-        answer = ParticipantAnswer(participant_id=data["participant_id"],
-                                   question_id=data["question_id"],
-                                   img_link=data["img_link"],
-                                   answers=data["answers"],
-                                   answer=["response_time"],
-                                   before_video=data["before_video"])
-        add_to_db(answer)
+        # validators = {
+        #     "participant_id": valid.validate_int,
+        #     "question_id": valid.validate_int,
+        #     "img_link": valid.validate_string,
+        #     "answers": valid.validate_list,
+        #     "before_video": valid.validate_boolean
+        # }
+        #
+        # data = valid.validate(valid.read_form_data(request), validators)
+        # if not data:
+        #     return ANSWERS[400], 400
+        #
+        # answer = ParticipantAnswer(participant_id=data["participant_id"],
+        #                            question_id=data["question_id"],
+        #                            img_link=data["img_link"],
+        #                            answers=data["answers"],
+        #                            answer=["response_time"],
+        #                            before_video=data["before_video"])
+        # add_to_db(answer)
 
         return ANSWERS[201], 201
 
