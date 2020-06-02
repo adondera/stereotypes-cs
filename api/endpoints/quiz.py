@@ -27,7 +27,7 @@ class QuizAnswers(Resource):
         """
         validators = {
             "participant_id": valid.validate_int,
-            "question_id": valid.validate_string,
+            "question_id": valid.validate_int,
             "img_link": valid.validate_string,
             "answers": valid.validate_list,
             "before_video": valid.validate_boolean
