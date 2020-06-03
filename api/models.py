@@ -132,6 +132,8 @@ class Consent(db.Model):
         The first name of the parent that signs the consent.
     parent_last_name : str
         The last name of the parent that signs the consent.
+    parent_email : str
+        The email of the parent
     signature : str (link)
         Parent's signature (in the form of a link to the image location stored in the cloud).
 
@@ -147,6 +149,7 @@ class Consent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     parent_first_name = db.Column(db.String(40), nullable=False)
     parent_last_name = db.Column(db.String(40), nullable=False)
+    parent_email = db.Column(db.String(120), nullable=True)
     signature = db.Column(db.Text(), nullable=False)
 
     @staticmethod
@@ -184,18 +187,27 @@ class Consent(db.Model):
 class Gender(enum.Enum):
     """Enumeration of the choices for gender types"""
 
-    male = 1
-    female = 2
-    other = 3
+    Jongen = "Jongen"
+    Meisje = "Meisje"
+    Niet = "Zeg ik liever niet"
 
 
 class Ethnicity(enum.Enum):
     """Enumeration of the choices for ethnicity types"""
 
-    White = 1
-    Hispanic = 2
-    Black = 3
-    Asian = 4
+    Nederlands = "Nederlands"
+    Turks = "Turks"
+    Marokkaans = "Marokkaans"
+    Surinaams = "Surinaams"
+    Indonesisch = "Indonesisch"
+    Duits = "Duits"
+    Pools = "Pools"
+    Anders = "Anders"
+
+
+class Version(enum.Enum):
+    """Enumeration of the different scenarios"""
+    Dummy = "gender-profession.json"
 
 
 class Participant(db.Model):
@@ -219,6 +231,10 @@ class Participant(db.Model):
         The gender of the participant.
     ethnicity : list of Ethnicity
         The ethnicity/ethnicities of the participant. (multiple options possible)
+    researcher_notes : Text
+        Notes the researchers may add about the participant
+    quiz_version : Enum
+        Which quiz version the participant has taken
     date : datetime (current date)
         The date at which the participant takes the test.
 
@@ -236,6 +252,8 @@ class Participant(db.Model):
     age = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.Enum(Gender), nullable=True)
     ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
+    researcher_notes = db.Column(db.Text(), nullable=True)
+    quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __repr__(self):
@@ -246,10 +264,10 @@ class Participant(db.Model):
 class Metacategory(enum.Enum):
     """Enumeration of the choices for metacategories"""
 
-    profession = 1
-    gender = 2
-    hobby = 3
-    social = 4
+    profession = "Profession"
+    gender = "Gender"
+    hobby = "Hobby"
+    social = "Social"
 
 
 class Category(db.Model):
@@ -381,14 +399,15 @@ class Image(db.Model):
 class QuestionType(enum.Enum):
     """Enumeration of the choices for question types"""
 
-    mc_single_answer = 1
-    mc_multiple_answer = 2
-    likert = 3
-    binary = 4
-    video = 5
-    information = 6
-    likert_demographics = 7
-    finish = 8
+    mc_single_answer = "mc_single_answer"
+    mc_multiple_answer = "mc_multiple_answer"
+    likert = "likert"
+    binary = "binary"
+    video = "video"
+    information = "information"
+    likert_demographics = "likert_demographics"
+    finish = "finish"
+    open_question = "open_question"
 
     def __repr__(self):
         """The string representation of the object."""
@@ -711,9 +730,11 @@ class ParticipantAnswer(db.Model):
         The link to the image location in the cloud. (if the answer contains one)
     answers : list of int
         The list with the answers given. It varies based on the question type.
-        For IAT questions: the id's of the chosen categories.
+        For IAT questions: an integer representing the number of wrong tries
         For Likert questions: an integer from 1 to 5 (1: strongly agree -> 5: strongly disagree).
         For multiple choice questions: the number of the choice that was chosen (choice_num).
+    open_answer : Text
+        An optional field for questions where you can give your own answer in a text box
     response_time : int , optional
         The response time for the question in ms.
     before_video : boolean
@@ -727,7 +748,8 @@ class ParticipantAnswer(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
     img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
-    answers = db.Column(db.ARRAY(db.Integer), nullable=False)
+    answers = db.Column(db.ARRAY(db.Integer), nullable=True)
+    open_question_answer = db.Column(db.Text, nullable=True)
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
 
