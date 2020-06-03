@@ -39,14 +39,14 @@ class QuizFactory:
         return self.response
 
     def create_ending(self):
-        self.response.append({
+        self.response.extend({
             "q_type": QuestionType.finish.value,
             "title": "Ending",
             "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
                     "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
                     "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         })
-        self.response.append(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
+        self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
 
 
 class VideoFactory:
