@@ -1,13 +1,14 @@
-import BinaryQuestion from '../components/QuestionTypes/BinaryQuestion';
-import LikertScaleQuestion from '../components/QuestionTypes/LikertScaleQuestion.js';
-import React from 'react';
-import Video from '../components/QuestionTypes/Video';
-import Information from '../components/QuestionTypes/Information';
-import Finish from '../components/QuestionTypes/Finish';
-import MultipleChoice from '../components/QuestionTypes/MultipleChoice';
-import FinishModal from '../components/FinishModal';
-import { Redirect } from 'react-router';
-import MultipleChoiceSpecial from '../components/QuestionTypes/MultipleChoiceSpecial';
+import BinaryQuestion from "../components/QuestionTypes/BinaryQuestion";
+import LikertScaleQuestion from "../components/QuestionTypes/LikertScaleQuestion.js";
+import React from "react";
+import Video from "../components/QuestionTypes/Video";
+import Information from "../components/QuestionTypes/Information";
+import Finish from "../components/QuestionTypes/Finish";
+import MultipleChoice from "../components/QuestionTypes/MultipleChoice";
+import FinishModal from "../components/FinishModal";
+import { Redirect } from "react-router";
+import MultipleChoiceSpecial from "../components/QuestionTypes/MultipleChoiceSpecial";
+import OpenQuestion from "../components/QuestionTypes/OpenQuestion";
 
 /*
 Create mapping between type and Component to be rendered
@@ -20,8 +21,8 @@ const mapTypeToComponent = {
   finish: Finish,
   mc_single_answer: MultipleChoice,
   mc_multiple_answer: MultipleChoiceSpecial,
-  open_question: React.Fragment,
-  researcher_notes: React.Fragment
+  open_question: OpenQuestion,
+  researcher_notes: React.Fragment,
 };
 
 /*
@@ -36,13 +37,20 @@ export function createQuestion(Question) {
       this.addQListener();
     }
     updateState = (event) => {
-      if (event.key === 'q') this.setState({ show: true });
+      if (event.key === "q") {
+        if (
+          this.props.questionData.q_type === "open_question" ||
+          this.props.questionData.q_type === "researcher_notes"
+        ) return;
+        this.setState({ show: true });
+      }
     };
     addQListener = () => {
-      window.addEventListener('keyup', this.updateState);
+      window.addEventListener("keyup", this.updateState);
     };
+
     componentWillUnmount() {
-      window.removeEventListener('keyup', this.updateState);
+      window.removeEventListener("keyup", this.updateState);
     }
     render() {
       var QuestionType = React.Fragment;
@@ -52,7 +60,7 @@ export function createQuestion(Question) {
       return (
         <React.Fragment>
           {this.props.questionIndex === 0 ? (
-            <Redirect to='/app' />
+            <Redirect to="/app" />
           ) : (
             <Question {...this.props}>
               <FinishModal
@@ -64,7 +72,7 @@ export function createQuestion(Question) {
                 }}
               />
               <QuestionType
-              key={this.props.questionData.q_type}
+                key={this.props.questionData.q_type}
                 disableKeys={this.state.show}
                 {...this.props.questionData}
                 questionIndex={this.props.questionIndex}
