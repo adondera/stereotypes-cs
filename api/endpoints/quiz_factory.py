@@ -35,14 +35,18 @@ class QuizFactory:
         self.response.extend(self.eat.create_eat())
         # self.response.extend(self.video.create_video())
         self.response.extend(self.demographics.create_demographics())
+        self.create_ending()
+        return self.response
+
+    def create_ending(self):
         self.response.append({
-            "q_type": QuestionType.finish.name,
+            "q_type": QuestionType.finish.value,
             "title": "Ending",
             "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
-            "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
+                    "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
                     "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         })
-        return self.response
+        self.response.append(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
 
 
 class VideoFactory:
@@ -97,7 +101,7 @@ class EATFactory:
         :return: The response with a list of questions
         """
         iat_explanation = {
-            "q_type": QuestionType.information.name,
+            "q_type": QuestionType.information.value,
             "title": "Information",
             "header": "Explicit IAT",
             "text":
@@ -137,7 +141,7 @@ class IATFactory:
         :return: A list of questions for the phase
         """
         self.response.append({
-            "q_type": QuestionType.information.name,
+            "q_type": QuestionType.information.value,
             "title": "Information",
             "header": "Gender profession IAT",
             "text": IATFactory.create_guide_text(phase)
@@ -151,7 +155,7 @@ class IATFactory:
 
         questions = list(
             filter(lambda x: x['left'] == phase['left_categ']
-                   and x['right'] == phase['right_categ'], questions))
+                             and x['right'] == phase['right_categ'], questions))
 
         assert len(questions) <= 1, "Should have at most one result"
 

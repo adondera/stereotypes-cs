@@ -409,16 +409,18 @@ class QuestionType(enum.Enum):
     likert_demographics = "likert_demographics"
     finish = "finish"
     open_question = "open_question"
+    notes = "researcher_notes"
 
     def __repr__(self):
         """The string representation of the object."""
         return str(self.value)
 
 
-class DemographicsType(enum.Enum):
+class ParticipantInformationType(enum.Enum):
     age = "Age"
     gender = "Gender"
     ethnicity = "Ethnicity"
+    researcher_notes = "Researcher notes"
 
 
 class Question(db.Model):
@@ -462,7 +464,7 @@ class Question(db.Model):
     text = db.Column(db.Text, nullable=True)
     q_type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
-    demographics = db.Column(db.Enum(DemographicsType), nullable=True)
+    information = db.Column(db.Enum(ParticipantInformationType), nullable=True)
     to_dict = None
 
     categories = db.relationship(Category, secondary="questions_to_categories", lazy=True)
@@ -472,7 +474,7 @@ class Question(db.Model):
     images = db.relationship(Image, secondary="questions_to_images", lazy=True)
 
     @staticmethod
-    def create_question(q_type, is_active=True, text="", demographics=None,
+    def create_question(q_type, is_active=True, text="", information=None,
                         categories=[], choices=[], images=[]):
         """
         Creates a question object and inserts it into the database
@@ -499,7 +501,7 @@ class Question(db.Model):
 
         """
 
-        q = Question(q_type=q_type, is_active=is_active, text=text, demographics=demographics,
+        q = Question(q_type=q_type, is_active=is_active, text=text, information=information,
                      categories=categories, choices=choices, images=images)
         add_to_db(q)
         return q
@@ -520,9 +522,9 @@ class Question(db.Model):
         if self.to_dict:
             return self.to_dict
         dictionary = self.__dict__.copy()
-        dictionary['q_type'] = self.q_type.name
+        dictionary['q_type'] = self.q_type.value
 
-        if dictionary['q_type'] == QuestionType.binary.name:
+        if dictionary['q_type'] == QuestionType.binary.value:
             dictionary['images'] = list(
                 map(
                     lambda x: {"link": x.link, "category": x.category.name}, self.images
@@ -541,13 +543,13 @@ class Question(db.Model):
                 )
             )
 
-        elif dictionary['q_type'] == QuestionType.video.name:
+        elif dictionary['q_type'] == QuestionType.video.value:
             dictionary['video'] = dictionary['images'][0].link
             dictionary.pop('images')
 
-        elif (dictionary['q_type'] == QuestionType.mc_single_answer.name
-              or dictionary['q_type'] == QuestionType.mc_multiple_answer.name
-              or dictionary['q_type'] == QuestionType.likert.name):
+        elif (dictionary['q_type'] == QuestionType.mc_single_answer.value
+              or dictionary['q_type'] == QuestionType.mc_multiple_answer.value
+              or dictionary['q_type'] == QuestionType.likert.value):
             dictionary['choices'] = sorted(
                 list(map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
                 key=lambda x: x['choice_num'])
