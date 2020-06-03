@@ -135,8 +135,6 @@ def populate():
     # video_question
     Question.create_question(
         q_type=QuestionType.video,
-        text="You are going to watch a video about stereotypes "
-             "in Computer Science. Click play when ready.",
         images=[video]
     )
 

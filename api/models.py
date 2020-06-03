@@ -544,6 +544,7 @@ class Question(db.Model):
             )
 
         elif dictionary['q_type'] == QuestionType.video.value:
+            print(self.images)
             dictionary['video'] = dictionary['images'][0].link
             dictionary.pop('images')
 

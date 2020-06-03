@@ -29,11 +29,14 @@ class QuizFactory:
         Creates a quiz by combining the different components
         :return: The response object with all the questions
         """
+        if self.video.data['before']:
+            self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
         self.response.extend(self.eat.create_eat())
-        # self.response.extend(self.video.create_video())
+        if not self.video.data['before']:
+            self.response.extend(self.video.create_video())
         self.response.extend(self.demographics.create_demographics())
         self.create_ending()
         return self.response
@@ -63,8 +66,17 @@ class VideoFactory:
         The video is taken randomly, but it can also be taken from its id from data
         :return: Returns that question as a response
         """
-        videos = Question.query.filter_by(q_type=QuestionType.video).all()
-        return random.choice(videos).make_response()
+        video = Question.query.filter_by(id=self.data['id']).first()
+        video.text = self.create_video_text()
+        print(video.images)
+        return video.make_response()
+
+    def create_video_text(self):
+        if self.data['before']:
+            return "Wat goed gedaan! Je hebt alle vragen gehad. Je mag nog een korte video kijken waarin je "\
+                   "vertellen wat een programmeur eigenlijk is."
+        return "Allereerst ga je naar een video kijken waarin we je uitleg geven""over het beroep ‘programmeur’."
+
 
 
 class DemographicsFactory:
