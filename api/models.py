@@ -205,6 +205,11 @@ class Ethnicity(enum.Enum):
     Anders = "Anders"
 
 
+class Version(enum.Enum):
+    """Enumeration of the different scenarios"""
+    Dummy = "gender-profession.json"
+
+
 class Participant(db.Model):
     """
     Class that maps the Participant object to
