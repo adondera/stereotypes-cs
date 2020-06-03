@@ -652,7 +652,7 @@ class Question_to_image(db.Model):
     __tablename__ = 'questions_to_images'
 
     q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
-    img_id = db.Column('category_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
+    img_id = db.Column('img_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
 
 
 class QuestionChoice(db.Model):
