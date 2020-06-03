@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from sqlalchemy import and_, func
+from sqlalchemy import and_, func, String, not_
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from api.models import Participant, Version, Ethnicity
 
@@ -150,16 +151,16 @@ def ethnicity_distribution():
     """
 
     data = []
-
-    data = []
     for ethnicity in Ethnicity:
         num = Participant.query.filter(Participant.ethnicity.any(ethnicity.name)).count()
+
         ethnicity_obj = {
             'ethnicity': ethnicity.name,
             'number': num
         }
 
         data.append(ethnicity_obj)
+
     return data
 
 
