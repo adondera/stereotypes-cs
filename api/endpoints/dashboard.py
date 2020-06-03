@@ -126,7 +126,7 @@ def gender_distribution():
     for res in results:
         gender = "Not known"
         if res.gender is not None:
-            gender = res.gender.name
+            gender = res.gender
 
         gender_obj = {
             'gender': gender,
