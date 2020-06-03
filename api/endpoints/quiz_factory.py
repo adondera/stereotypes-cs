@@ -39,7 +39,7 @@ class QuizFactory:
         return self.response
 
     def create_ending(self):
-        self.response.extend({
+        self.response.append({
             "q_type": QuestionType.finish.value,
             "title": "Ending",
             "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
