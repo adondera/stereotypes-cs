@@ -255,7 +255,50 @@ class Participant(db.Model):
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
     answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
+
+    @staticmethod
+    def create_participant(consent_id, first_name="", last_name="", age=None, gender=None, ethnicity=[], researcher_notes="", quiz_version=None):
+        """
+        Creates a new participant and adds it in the database.
+
+        Parameters
+        ----------
+        consent_id : int
+            Id of the consent signed by participant's parent.
+        first_name : str
+            Participant's first name.
+        last_name : str
+            Participant's last name.
+        age : int
+            Participant's age.
+        gender : str
+            Participant's gender.
+        ethnicity : list of str
+            Participant's ethnicities.
+        researcher_notes : str
+            Researcher's notes on participant.
+        quiz_version : Version
+            The version of the quiz the participant has taken.
+
+        Returns
+        -------
+        participant : Participant
+            The participant object that was created.
+
+        """
+
+        participant = Participant(consent_id=consent_id,
+                                  first_name=first_name,
+                                  last_name=last_name,
+                                  age=age,
+                                  gender=gender,
+                                  ethnicity=ethnicity,
+                                  researcher_notes=researcher_notes,
+                                  quiz_version=quiz_version)
+        add_to_db(participant)
+        return participant
 
     def __repr__(self):
         """The string representation of the object."""

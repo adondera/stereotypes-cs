@@ -2,7 +2,7 @@
 import os
 import pytest
 from api import app, db
-from api.models import User
+from api.models import User, Consent, Participant
 from api.endpoints.sockets import red
 
 @pytest.fixture
@@ -37,3 +37,16 @@ def init_db():
     db.session.close()
     db.drop_all()
     red.flushall()
+
+@pytest.fixture
+def init_db_with_participants():
+    """
+    Initialises a local test db and removes it after testing is finished.
+    """
+    db.create_all()
+    Consent.create_consent("John", "Doe", "Signature")
+    Participant.cre
+    yield db
+    db.session.close()
+    db.drop_all()
+
