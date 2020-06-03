@@ -17,9 +17,10 @@ def validate_answer(value):
         "participant_id": validate_int,
         "question_id": validate_int,
         "img_link": validate_string,
-        "answers": validate_list,
+        "answers": validate_accept,
+        "open_answer": validate_string,
+        "response_time": validate_int,
         "before_video": validate_boolean,
-        "open_answer": validate_string
     }
 
     return validate(value, validators)

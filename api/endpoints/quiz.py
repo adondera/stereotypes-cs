@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, DemographicsType, QuestionType, QuestionChoice, Participant
+from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, ParticipantInformationType, Ethnicity, QuestionType, QuestionChoice, Participant
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
@@ -34,37 +34,45 @@ class QuizAnswers(Resource):
         if not data:
             return ANSWERS[400], 400
 
-        # Iterate through every answer and insert demographics ones 
+        # Iterate through every answer and insert demographics ones
         # into Participant, and the rest into ParticipantAnswer
         for answer in data['data']:
-            q_type = Question.query.filter_by(id=answer["question_id"]).first().q_type
-            d_type = Question.query.filter_by(id=answer["question_id"]).first().demographics
+            q_type = Question.query.filter_by(
+                id=answer["question_id"]).first().q_type
+            i_type = Question.query.filter_by(
+                id=answer["question_id"]).first().information
             participant = Participant.query.filter_by(id=data['id']).first()
 
-            if q_type == QuestionType.mc_single_answer and d_type == DemographicsType.age:
-                ageString = QuestionChoice.query.filter_by(choice_num=answer['answers'][0]).text
+            if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
+                ageString = QuestionChoice.query.filter_by(
+                    choice_num=answer['answers'], question_id=answer["question_id"]).first().text
                 participant.age = int(ageString)
 
-            elif (q_type == QuestionType.likert or q_type == QuestionType.mc_single_answer) and d_type == DemographicsType.gender:
-                gender = QuestionChoice.query.filter_by(choice_num=answer['answers'][0]).text
+            elif q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.gender:
+                gender = QuestionChoice.query.filter_by(
+                    choice_num=answer['answers'], question_id=answer["question_id"]).first().text
                 participant.gender = gender
 
-            elif q_type == QuestionType.mc_multiple_answer and d_type == DemographicsType.ethnicity:
+            elif q_type == QuestionType.mc_multiple_answer and i_type == ParticipantInformationType.ethnicity:
                 ethinicities = []
                 for choice_num in answer['answers']:
-                    eth = QuestionChoice.query.filter_by(choice_num=choice_num).first().text
+                    eth = QuestionChoice.query.filter_by(
+                        choice_num=choice_num, question_id=answer["question_id"]).first().text
                     ethinicities.append(eth)
                 participant.ethnicity = ethinicities
 
+            elif i_type == ParticipantInformationType.researcher_notes:
+                participant.researcher_notes = answer['open_answer']
+
             else:
-                p_answer = ParticipantAnswer(participant_id=answer["participant_id"],
-                                            question_id=answer["question_id"],
-                                            img_link=answer["img_link"],
-                                            answers=answer["answers"],
-                                            response_time=answer["response_time"],
-                                            before_video=answer["before_video"],
-                                            open_answer=answer["open_answer"])
-                add_to_session(p_answer)
+                ParticipantAnswer.create_participant_answer(
+                    p_id=answer["participant_id"],
+                    q_id=answer["question_id"],
+                    img_link=answer["img_link"],
+                    answers=answer["answers"],
+                    open_answer=answer["open_answer"],
+                    r_time=answer["response_time"],
+                    before_video=answer["before_video"])
 
         commit_db_session()
         return ANSWERS[201], 201

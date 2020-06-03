@@ -262,16 +262,18 @@ class Participant(db.Model):
         db.CheckConstraint('age >= 6 and age <= 18', name='check_age_requirements'), {})
 
     id = db.Column(db.Integer, primary_key=True)
-    consent_id = db.Column(db.Integer, db.ForeignKey(Consent.id), nullable=False)
+    consent_id = db.Column(
+        db.Integer, db.ForeignKey(Consent.id), nullable=False)
     first_name = db.Column(db.String(40), nullable=True)
     last_name = db.Column(db.String(40), nullable=True)
     age = db.Column(db.Integer, nullable=True)
-    gender = db.Column(db.Enum(Gender), nullable=True)
-    ethnicity = db.Column(db.ARRAY(db.Enum(Ethnicity)), nullable=True)
+    gender = db.Column(db.String(40), nullable=True)
+    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
+    answers = db.relationship(
+        "ParticipantAnswer", backref=db.backref('participant'), lazy=True)
 
     def __repr__(self):
         """The string representation of the object."""
@@ -317,8 +319,10 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
-    questions = db.relationship("Question", secondary="questions_to_categories", lazy=True)
-    images = db.relationship("Image", backref=db.backref('category'), lazy=True)
+    questions = db.relationship(
+        "Question", secondary="questions_to_categories", lazy=True)
+    images = db.relationship(
+        "Image", backref=db.backref('category'), lazy=True)
 
     @staticmethod
     def create_category(name, metacategory):
@@ -376,7 +380,8 @@ class Image(db.Model):
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=True)
+    category_id = db.Column(
+        db.Integer, db.ForeignKey(Category.id), nullable=True)
     link = db.Column(db.Text, nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     attribute = db.Column(db.String(40), nullable=False)
@@ -404,7 +409,8 @@ class Image(db.Model):
 
         """
 
-        img = Image(category_id=c_id, link=link, description=description, attribute=attribute)
+        img = Image(category_id=c_id, link=link,
+                    description=description, attribute=attribute)
         add_to_db(img)
         return img
 
@@ -478,11 +484,13 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=True)
     q_type = db.Column(db.Enum(QuestionType), nullable=False)
-    is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    is_active = db.Column(db.Boolean, default=True,
+                          server_default=expression.true())
     information = db.Column(db.Enum(ParticipantInformationType), nullable=True)
     to_dict = None
 
-    categories = db.relationship(Category, secondary="questions_to_categories", lazy=True)
+    categories = db.relationship(
+        Category, secondary="questions_to_categories", lazy=True)
     choices = db.relationship('QuestionChoice',
                               backref=db.backref('question', lazy=True),
                               lazy=True)
@@ -542,7 +550,8 @@ class Question(db.Model):
         if dictionary['q_type'] == QuestionType.binary.value:
             dictionary['images'] = list(
                 map(
-                    lambda x: {"link": x.link, "category": x.category.name}, self.images
+                    lambda x: {"link": x.link,
+                               "category": x.category.name}, self.images
                 )
             )
             dictionary['categories_left'] = list(
@@ -554,7 +563,8 @@ class Question(db.Model):
             dictionary['categories_right'] = list(
                 map(
                     lambda x: {"id": x.category.id, "name": x.category.name},
-                    filter(lambda x: not x.is_left, self.questions_to_categories)
+                    filter(lambda x: not x.is_left,
+                           self.questions_to_categories)
                 )
             )
 
@@ -566,7 +576,8 @@ class Question(db.Model):
               or dictionary['q_type'] == QuestionType.mc_multiple_answer.value
               or dictionary['q_type'] == QuestionType.likert.value):
             dictionary['choices'] = sorted(
-                list(map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
+                list(
+                    map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
                 key=lambda x: x['choice_num'])
         else:
             print("Invalid question type")
@@ -642,15 +653,19 @@ class Question_to_category(db.Model):
     """
     __tablename__ = 'questions_to_categories'
 
-    q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
-    c_id = db.Column('category_id', db.Integer, db.ForeignKey(Category.id), primary_key=True)
+    q_id = db.Column('question_id', db.Integer,
+                     db.ForeignKey(Question.id), primary_key=True)
+    c_id = db.Column('category_id', db.Integer,
+                     db.ForeignKey(Category.id), primary_key=True)
     is_left = db.Column('is_left', db.Boolean, nullable=False)
 
     question = db.relationship(Question,
-                               backref=db.backref('questions_to_categories', lazy=True),
+                               backref=db.backref(
+                                   'questions_to_categories', lazy=True),
                                lazy=True)
     category = db.relationship(Category,
-                               backref=db.backref('questions_to_categories', lazy=True),
+                               backref=db.backref(
+                                   'questions_to_categories', lazy=True),
                                lazy=True)
 
 
@@ -668,8 +683,10 @@ class Question_to_image(db.Model):
     """
     __tablename__ = 'questions_to_images'
 
-    q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
-    img_id = db.Column('img_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
+    q_id = db.Column('question_id', db.Integer,
+                     db.ForeignKey(Question.id), primary_key=True)
+    img_id = db.Column('img_id', db.Integer,
+                       db.ForeignKey(Image.id), primary_key=True)
 
 
 class QuestionChoice(db.Model):
@@ -699,10 +716,12 @@ class QuestionChoice(db.Model):
 
     __tablename__ = 'question_choices'
     choice_num = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey(Question.id), primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey(
+        Question.id), primary_key=True)
     img_id = db.Column(db.Integer, db.ForeignKey(Image.id), nullable=True)
     text = db.Column(db.Text, nullable=False)
-    is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    is_active = db.Column(db.Boolean, default=True,
+                          server_default=expression.true())
 
     @staticmethod
     def create_choice(choice_num, q_id, text, img_id=None, is_active=True):
@@ -770,8 +789,10 @@ class ParticipantAnswer(db.Model):
     __tablename__ = 'participant_answers'
 
     id = db.Column(db.Integer, primary_key=True)
-    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
+    participant_id = db.Column(
+        db.Integer, db.ForeignKey(Participant.id), nullable=False)
+    question_id = db.Column(
+        db.Integer, db.ForeignKey(Question.id), nullable=False)
     img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
     answers = db.Column(db.Integer, nullable=True)
     open_question_answer = db.Column(db.Text, nullable=True)
@@ -779,6 +800,13 @@ class ParticipantAnswer(db.Model):
     before_video = db.Column(db.Boolean, nullable=False)
 
     question = db.relationship("Question", backref=db.backref('answers'))
+
+    @staticmethod
+    def create_participant_answer(p_id, q_id, img_link=None, answers=None, open_answer=None, r_time=None, before_video=False):
+        p_answer = ParticipantAnswer(participant_id=p_id, question_id=q_id, img_link=img_link,
+                                     answers=answers, open_question_answer=open_answer,
+                                     response_time=r_time, before_video=before_video)
+        add_to_db(p_answer)
 
     def __repr__(self):
         """The string representation of the object."""
