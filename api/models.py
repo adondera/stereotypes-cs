@@ -301,8 +301,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
-    questions = db.relationship("Question", secondary="questions_to_categories", lazy=False)
-    images = db.relationship("Image", backref=db.backref('category', lazy='joined'), lazy='joined')
+    questions = db.relationship("Question", secondary="questions_to_categories", lazy=True)
+    images = db.relationship("Image", backref=db.backref('category'), lazy=True)
 
     @staticmethod
     def create_category(name, metacategory):
@@ -465,11 +465,11 @@ class Question(db.Model):
     demographics = db.Column(db.Enum(DemographicsType), nullable=True)
     to_dict = None
 
-    categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
+    categories = db.relationship(Category, secondary="questions_to_categories", lazy=True)
     choices = db.relationship('QuestionChoice',
-                              backref=db.backref('question', lazy=False),
-                              lazy=False)
-    images = db.relationship(Image, secondary="questions_to_images", lazy=False)
+                              backref=db.backref('question', lazy=True),
+                              lazy=True)
+    images = db.relationship(Image, secondary="questions_to_images", lazy=True)
 
     @staticmethod
     def create_question(q_type, is_active=True, text="", demographics=None,
@@ -630,11 +630,11 @@ class Question_to_category(db.Model):
     is_left = db.Column('is_left', db.Boolean, nullable=False)
 
     question = db.relationship(Question,
-                               backref=db.backref('questions_to_categories', lazy='joined'),
-                               lazy='joined')
+                               backref=db.backref('questions_to_categories', lazy=True),
+                               lazy=True)
     category = db.relationship(Category,
-                               backref=db.backref('questions_to_categories', lazy='joined'),
-                               lazy='joined')
+                               backref=db.backref('questions_to_categories', lazy=True),
+                               lazy=True)
 
 
 class Question_to_image(db.Model):
