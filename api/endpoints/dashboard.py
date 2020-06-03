@@ -4,8 +4,7 @@ from datetime import datetime, timedelta
 
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from sqlalchemy import and_, func, String, not_
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import and_, func
 
 from api.models import Participant, Version, Ethnicity
 
