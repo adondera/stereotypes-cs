@@ -255,6 +255,7 @@ class Participant(db.Model):
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
 
     def __repr__(self):
         """The string representation of the object."""
@@ -414,6 +415,12 @@ class QuestionType(enum.Enum):
         return str(self.value)
 
 
+class DemographicsType(enum.Enum):
+    age = "Age"
+    gender = "Gender"
+    ethnicity = "Ethnicity"
+
+
 class Question(db.Model):
     """
     Class that maps the Question object to
@@ -455,6 +462,7 @@ class Question(db.Model):
     text = db.Column(db.Text, nullable=True)
     q_type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    demographics = db.Column(db.Enum(DemographicsType), nullable=True)
     to_dict = None
 
     categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
@@ -464,7 +472,7 @@ class Question(db.Model):
     images = db.relationship(Image, secondary="questions_to_images", lazy=False)
 
     @staticmethod
-    def create_question(q_type, is_active=True, text="",
+    def create_question(q_type, is_active=True, text="", demographics=None,
                         categories=[], choices=[], images=[]):
         """
         Creates a question object and inserts it into the database
@@ -491,7 +499,7 @@ class Question(db.Model):
 
         """
 
-        q = Question(q_type=q_type, is_active=is_active, text=text,
+        q = Question(q_type=q_type, is_active=is_active, text=text, demographics=demographics,
                      categories=categories, choices=choices, images=images)
         add_to_db(q)
         return q
@@ -752,6 +760,8 @@ class ParticipantAnswer(db.Model):
     open_question_answer = db.Column(db.Text, nullable=True)
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
+
+    question = db.relationship("Questions", backref=db.backref('answers'))
 
     def __repr__(self):
         """The string representation of the object."""
