@@ -233,7 +233,7 @@ class Participant(db.Model):
         The ethnicity/ethnicities of the participant. (multiple options possible)
     researcher_notes : Text
         Notes the researchers may add about the participant
-    quiz_version : String
+    quiz_version : Enum
         Which quiz version the participant has taken
     date : datetime (current date)
         The date at which the participant takes the test.
@@ -253,7 +253,7 @@ class Participant(db.Model):
     gender = db.Column(db.Enum(Gender), nullable=True)
     ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
     researcher_notes = db.Column(db.Text(), nullable=True)
-    quiz_version = db.Column(db.String(40), nullable=True)
+    quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __repr__(self):
