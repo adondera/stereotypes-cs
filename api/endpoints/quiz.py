@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, Participant, Question, QuestionType
+from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, DemographicsType, QuestionType, QuestionChoice, Participant
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
@@ -34,11 +34,28 @@ class QuizAnswers(Resource):
         if not data:
             return ANSWERS[400], 400
 
+        # Iterate through every answer and insert demographics ones 
+        # into Participant, and the rest into ParticipantAnswer
         for answer in data['data']:
-            question_type = Question.query.filter_by(id=answer["question_id"]).first().q_type
+            q_type = Question.query.filter_by(id=answer["question_id"]).first().q_type
+            d_type = Question.query.filter_by(id=answer["question_id"]).first().demographics
+            participant = Participant.query.filter_by(id=data['id']).first()
 
-            if (question_type == QuestionType.mc_multiple_answer or question_type == QuestionType.mc_single_answer or question_type == QuestionType.likert_demographics):
-                pass
+            if q_type == QuestionType.mc_single_answer and d_type == DemographicsType.age:
+                ageString = QuestionChoice.query.filter_by(choice_num=answer['answers'][0]).text
+                participant.age = int(ageString)
+
+            elif (q_type == QuestionType.likert or q_type == QuestionType.mc_single_answer) and d_type == DemographicsType.gender:
+                gender = QuestionChoice.query.filter_by(choice_num=answer['answers'][0]).text
+                participant.gender = gender
+
+            elif q_type == QuestionType.mc_multiple_answer and d_type == DemographicsType.ethnicity:
+                ethinicities = []
+                for choice_num in answer['answers']:
+                    eth = QuestionChoice.query.filter_by(choice_num=choice_num).first().text
+                    ethinicities.append(eth)
+                participant.ethnicity = ethinicities
+
             else:
                 p_answer = ParticipantAnswer(participant_id=answer["participant_id"],
                                             question_id=answer["question_id"],
@@ -47,8 +64,9 @@ class QuizAnswers(Resource):
                                             response_time=answer["response_time"],
                                             before_video=answer["before_video"],
                                             open_answer=answer["open_answer"])
-            add_to_db(p_answer)
+                add_to_session(p_answer)
 
+        commit_db_session()
         return ANSWERS[201], 201
 
 
