@@ -71,27 +71,12 @@ class QuizResults(Resource):
             array = []
             participant = Participant.query.filter_by(id=answer.participant_id).first()
             q_type = answer.question.q_type
-            answers_list = answer.answers
-            participant_answers = ""
-
-            if q_type == QuestionType.binary:
-                c_id = answers_list[0]
-                cat = Category.query.filter_by(id=c_id).first()
-                participant_answers += str(cat.name)
-
-                if len(answers_list) == 2:
-                    c_id = answers_list[1]
-                    cat = Category.query.filter_by(id=c_id).first()
-                    participant_answers += " and " + str(cat.name)
-
-            if q_type == QuestionType.likert:
-                participant_answers += str(answers_list[0])
 
             array.append(participant.first_name + " " + participant.last_name)
             array.append(str(answer.question_id))
             array.append(str(answer.question.q_type.name))
             array.append(str(answer.question.text))
-            array.append(participant_answers)
+            array.append(str(answer.answers))
             array.append(answer.img_link)
             array.append(answer.response_time)
             array.append(answer.before_video)

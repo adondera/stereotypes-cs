@@ -739,7 +739,7 @@ class ParticipantAnswer(db.Model):
     answers : list of int
         The list with the answers given. It varies based on the question type.
         For IAT questions: an integer representing the number of wrong tries
-        For Likert questions: an integer from 1 to 5 (1: strongly agree -> 5: strongly disagree).
+        For Likert questions: an integer from 1 to 7 (1: strongly disagree -> 7: strongly agree).
         For multiple choice questions: the number of the choice that was chosen (choice_num).
     open_answer : Text
         An optional field for questions where you can give your own answer in a text box
