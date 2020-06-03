@@ -30,14 +30,17 @@ class QuizFactory:
         :return: The response object with all the questions
         """
         self.response.extend(self.gender_profession.create_iat())
+        self.response.extend(self.social_profession.create_iat())
+        self.response.extend(self.hobby_profession.create_iat())
         self.response.extend(self.eat.create_eat())
         # self.response.extend(self.video.create_video())
-        # self.response.extend(self.eat)
         self.response.extend(self.demographics.create_demographics())
         self.response.append({
             "q_type": QuestionType.finish.name,
             "title": "Ending",
-            "text": "Thank you for participating"
+            "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
+            "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
+                    "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         })
         return self.response
 
