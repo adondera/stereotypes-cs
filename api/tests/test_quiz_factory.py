@@ -3,6 +3,7 @@ from api.endpoints.quiz_factory import QuizFactory, IATFactory
 from api.script import populate
 from api.models import QuestionType, Question
 
+
 def test_quiz_factory_constructor(rootdir, init_db, client):
     test_file = os.path.join(rootdir, 'test_files/gender-profession.json')
     factory = QuizFactory(test_file)
@@ -12,6 +13,7 @@ def test_quiz_factory_constructor(rootdir, init_db, client):
     assert 'eat' in factory.data
     assert 'video' in factory.data
     assert 'demographics' in factory.data
+
 
 def test_quiz_factory_iat(rootdir, init_db, client):
     """
@@ -32,20 +34,9 @@ def test_quiz_factory_iat(rootdir, init_db, client):
     assert len(binary_questions) == 1
 
     # The response should have the following format
-    assert response[0]['q_type'] == QuestionType.information.name
+    assert response[0]['q_type'] == QuestionType.information.value
     for i in range(1, len(response)):
-        assert response[i]['q_type'] == QuestionType.binary.name
+        assert response[i]['q_type'] == QuestionType.binary.value
         assert 'categories_left' in response[i]
         assert 'categories_right' in response[i]
         assert 'image' in response[i]
-
-
-def test_create_guide_text(rootdir, init_db):
-    populate()
-    phase = {
-                "left_categ": [1], 
-                "right_categ": [2]
-            }
-    text = IATFactory.create_guide_text(phase)
-    assert text == "Press the E key for the images that belong to the categories (male), or press the I key for the images that belong to the categories (female)"
-    

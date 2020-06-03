@@ -132,6 +132,8 @@ class Consent(db.Model):
         The first name of the parent that signs the consent.
     parent_last_name : str
         The last name of the parent that signs the consent.
+    parent_email : str
+        The email of the parent
     signature : str (link)
         Parent's signature (in the form of a link to the image location stored in the cloud).
 
@@ -147,6 +149,7 @@ class Consent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     parent_first_name = db.Column(db.String(40), nullable=False)
     parent_last_name = db.Column(db.String(40), nullable=False)
+    parent_email = db.Column(db.String(120), nullable=True)
     signature = db.Column(db.Text(), nullable=False)
 
     @staticmethod
@@ -184,18 +187,27 @@ class Consent(db.Model):
 class Gender(enum.Enum):
     """Enumeration of the choices for gender types"""
 
-    male = 1
-    female = 2
-    other = 3
+    Jongen = "Jongen"
+    Meisje = "Meisje"
+    Niet = "Zeg ik liever niet"
 
 
 class Ethnicity(enum.Enum):
     """Enumeration of the choices for ethnicity types"""
 
-    White = 1
-    Hispanic = 2
-    Black = 3
-    Asian = 4
+    Nederlands = "Nederlands"
+    Turks = "Turks"
+    Marokkaans = "Marokkaans"
+    Surinaams = "Surinaams"
+    Indonesisch = "Indonesisch"
+    Duits = "Duits"
+    Pools = "Pools"
+    Anders = "Anders"
+
+
+class Version(enum.Enum):
+    """Enumeration of the different scenarios"""
+    Dummy = "gender-profession.json"
 
 
 class Participant(db.Model):
@@ -219,6 +231,10 @@ class Participant(db.Model):
         The gender of the participant.
     ethnicity : list of Ethnicity
         The ethnicity/ethnicities of the participant. (multiple options possible)
+    researcher_notes : Text
+        Notes the researchers may add about the participant
+    quiz_version : Enum
+        Which quiz version the participant has taken
     date : datetime (current date)
         The date at which the participant takes the test.
 
@@ -234,9 +250,12 @@ class Participant(db.Model):
     first_name = db.Column(db.String(40), nullable=True)
     last_name = db.Column(db.String(40), nullable=True)
     age = db.Column(db.Integer, nullable=True)
-    gender = db.Column(db.Enum(Gender), nullable=True)
+    gender = db.Column(db.String(40), nullable=True)
     ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
+    researcher_notes = db.Column(db.Text(), nullable=True)
+    quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
 
     def __repr__(self):
         """The string representation of the object."""
@@ -246,10 +265,10 @@ class Participant(db.Model):
 class Metacategory(enum.Enum):
     """Enumeration of the choices for metacategories"""
 
-    profession = 1
-    gender = 2
-    hobby = 3
-    social = 4
+    profession = "Profession"
+    gender = "Gender"
+    hobby = "Hobby"
+    social = "Social"
 
 
 class Category(db.Model):
@@ -282,8 +301,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False, unique=True)
     metacategory = db.Column(db.Enum(Metacategory), nullable=False)
-    questions = db.relationship("Question", secondary="questions_to_categories", lazy=False)
-    images = db.relationship("Image", backref=db.backref('category', lazy='joined'), lazy='joined')
+    questions = db.relationship("Question", secondary="questions_to_categories", lazy=True)
+    images = db.relationship("Image", backref=db.backref('category'), lazy=True)
 
     @staticmethod
     def create_category(name, metacategory):
@@ -381,18 +400,27 @@ class Image(db.Model):
 class QuestionType(enum.Enum):
     """Enumeration of the choices for question types"""
 
-    mc_single_answer = 1
-    mc_multiple_answer = 2
-    likert = 3
-    binary = 4
-    video = 5
-    information = 6
-    likert_demographics = 7
-    finish = 8
+    mc_single_answer = "mc_single_answer"
+    mc_multiple_answer = "mc_multiple_answer"
+    likert = "likert"
+    binary = "binary"
+    video = "video"
+    information = "information"
+    likert_demographics = "likert_demographics"
+    finish = "finish"
+    open_question = "open_question"
+    notes = "researcher_notes"
 
     def __repr__(self):
         """The string representation of the object."""
         return str(self.value)
+
+
+class ParticipantInformationType(enum.Enum):
+    age = "Age"
+    gender = "Gender"
+    ethnicity = "Ethnicity"
+    researcher_notes = "Researcher notes"
 
 
 class Question(db.Model):
@@ -436,16 +464,17 @@ class Question(db.Model):
     text = db.Column(db.Text, nullable=True)
     q_type = db.Column(db.Enum(QuestionType), nullable=False)
     is_active = db.Column(db.Boolean, default=True, server_default=expression.true())
+    information = db.Column(db.Enum(ParticipantInformationType), nullable=True)
     to_dict = None
 
-    categories = db.relationship(Category, secondary="questions_to_categories", lazy=False)
+    categories = db.relationship(Category, secondary="questions_to_categories", lazy=True)
     choices = db.relationship('QuestionChoice',
-                              backref=db.backref('question', lazy=False),
-                              lazy=False)
-    images = db.relationship(Image, secondary="questions_to_images", lazy=False)
+                              backref=db.backref('question', lazy=True),
+                              lazy=True)
+    images = db.relationship(Image, secondary="questions_to_images", lazy=True)
 
     @staticmethod
-    def create_question(q_type, is_active=True, text="",
+    def create_question(q_type, is_active=True, text="", information=None,
                         categories=[], choices=[], images=[]):
         """
         Creates a question object and inserts it into the database
@@ -472,7 +501,7 @@ class Question(db.Model):
 
         """
 
-        q = Question(q_type=q_type, is_active=is_active, text=text,
+        q = Question(q_type=q_type, is_active=is_active, text=text, information=information,
                      categories=categories, choices=choices, images=images)
         add_to_db(q)
         return q
@@ -493,9 +522,9 @@ class Question(db.Model):
         if self.to_dict:
             return self.to_dict
         dictionary = self.__dict__.copy()
-        dictionary['q_type'] = self.q_type.name
+        dictionary['q_type'] = self.q_type.value
 
-        if dictionary['q_type'] == QuestionType.binary.name:
+        if dictionary['q_type'] == QuestionType.binary.value:
             dictionary['images'] = list(
                 map(
                     lambda x: {"link": x.link, "category": x.category.name}, self.images
@@ -514,13 +543,14 @@ class Question(db.Model):
                 )
             )
 
-        elif dictionary['q_type'] == QuestionType.video.name:
+        elif dictionary['q_type'] == QuestionType.video.value:
+            print(self.images)
             dictionary['video'] = dictionary['images'][0].link
             dictionary.pop('images')
 
-        elif (dictionary['q_type'] == QuestionType.mc_single_answer.name
-              or dictionary['q_type'] == QuestionType.mc_multiple_answer.name
-              or dictionary['q_type'] == QuestionType.likert.name):
+        elif (dictionary['q_type'] == QuestionType.mc_single_answer.value
+              or dictionary['q_type'] == QuestionType.mc_multiple_answer.value
+              or dictionary['q_type'] == QuestionType.likert.value):
             dictionary['choices'] = sorted(
                 list(map(lambda x: {"choice_num": x.choice_num, "text": x.text}, self.choices)),
                 key=lambda x: x['choice_num'])
@@ -603,11 +633,11 @@ class Question_to_category(db.Model):
     is_left = db.Column('is_left', db.Boolean, nullable=False)
 
     question = db.relationship(Question,
-                               backref=db.backref('questions_to_categories', lazy='joined'),
-                               lazy='joined')
+                               backref=db.backref('questions_to_categories', lazy=True),
+                               lazy=True)
     category = db.relationship(Category,
-                               backref=db.backref('questions_to_categories', lazy='joined'),
-                               lazy='joined')
+                               backref=db.backref('questions_to_categories', lazy=True),
+                               lazy=True)
 
 
 class Question_to_image(db.Model):
@@ -625,7 +655,7 @@ class Question_to_image(db.Model):
     __tablename__ = 'questions_to_images'
 
     q_id = db.Column('question_id', db.Integer, db.ForeignKey(Question.id), primary_key=True)
-    img_id = db.Column('category_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
+    img_id = db.Column('img_id', db.Integer, db.ForeignKey(Image.id), primary_key=True)
 
 
 class QuestionChoice(db.Model):
@@ -711,9 +741,11 @@ class ParticipantAnswer(db.Model):
         The link to the image location in the cloud. (if the answer contains one)
     answers : list of int
         The list with the answers given. It varies based on the question type.
-        For IAT questions: the id's of the chosen categories.
+        For IAT questions: an integer representing the number of wrong tries
         For Likert questions: an integer from 1 to 5 (1: strongly agree -> 5: strongly disagree).
         For multiple choice questions: the number of the choice that was chosen (choice_num).
+    open_answer : Text
+        An optional field for questions where you can give your own answer in a text box
     response_time : int , optional
         The response time for the question in ms.
     before_video : boolean
@@ -727,9 +759,12 @@ class ParticipantAnswer(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
     img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
-    answers = db.Column(db.ARRAY(db.Integer), nullable=False)
+    answers = db.Column(db.Integer, nullable=True)
+    open_question_answer = db.Column(db.Text, nullable=True)
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
+
+    question = db.relationship("Question", backref=db.backref('answers'))
 
     def __repr__(self):
         """The string representation of the object."""
