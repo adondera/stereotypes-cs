@@ -22,7 +22,9 @@ class Stats(Resource):
                 'yesterday': self.yesterday_participants(),
                 'yesterday_by_this_time': self.yesterday_by_this_time_participants(),
                 'last_hour': self.last_hour_participants()
-            }
+            },
+
+            'version_distribution': self.version_distribution
         }
 
         self.yesterday_participants()
@@ -54,4 +56,8 @@ class Stats(Resource):
         last_hour = datetime.today() - timedelta(hours=1)
         return Participant.query.filter(Participant.date >= last_hour).count()
 
-
+    def group_distribution(self):
+        data = []
+        # for version in :
+        #     num = Participant.query.filter(Participant.version == version).count()
+        #     data.append(num)

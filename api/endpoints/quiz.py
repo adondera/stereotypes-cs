@@ -60,8 +60,10 @@ class QuizQuestions(Resource):
         filename = os.path.join(current_app.static_folder, "IATs/gender-profession.json")
         return QuizFactory(filename).create_quiz(), 200
 
+
 class QuizResults(Resource):
 
+    #@jwt_required
     def get(self):
         columns = ["Name", "QuestionID", "Image", "Response Time", "Before Video"]
         data = []
@@ -78,4 +80,5 @@ class QuizResults(Resource):
             "columns": columns,
             "data": data
         }
+
 
