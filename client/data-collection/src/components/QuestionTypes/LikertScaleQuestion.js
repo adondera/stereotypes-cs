@@ -98,7 +98,7 @@ const LikertScaleQuestion = (props) => {
           <Grid item xs={12} md={12} style={{ margin: 'auto' }}>
             <Card>
               <CardHeader
-                title='Select the one you consider most appropriate'
+                title='Selecteer degene die u het meest geschikt acht'
                 titleTypographyProps={{ align: 'center' }}
                 subheaderTypographyProps={{ align: 'center' }}
                 action={null}
