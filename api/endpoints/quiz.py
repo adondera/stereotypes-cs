@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, Participant
+from api.models import ParticipantAnswer, add_to_db, Participant, QuestionType, Category
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
@@ -65,17 +65,38 @@ class QuizResults(Resource):
 
     #@jwt_required
     def get(self):
-        columns = ["Name", "QuestionID", "Image", "Response Time", "Before Video"]
+        columns = ["Participant Name", "Question ID", "Question Type", "Question Text", "Participant Answers", "Image", "Response Time", "Before Video"]
         data = []
         for answer in ParticipantAnswer.query.all():
             array = []
-            participant = Participant.query.filter_by(id=answer.participant_id).first() 
+            participant = Participant.query.filter_by(id=answer.participant_id).first()
+            q_type = answer.question.q_type
+            answers_list = answer.answers
+            participant_answers = ""
+
+            if q_type == QuestionType.binary:
+                c_id = answers_list[0]
+                cat = Category.query.filter_by(id=c_id).first()
+                participant_answers += str(cat.name)
+
+                if len(answers_list) == 2:
+                    c_id = answers_list[1]
+                    cat = Category.query.filter_by(id=c_id).first()
+                    participant_answers += " and " + str(cat.name)
+
+            if q_type == QuestionType.likert:
+                participant_answers += str(answers_list[0])
+
             array.append(participant.first_name + " " + participant.last_name)
             array.append(str(answer.question_id))
+            array.append(str(answer.question.q_type.name))
+            array.append(str(answer.question.text))
+            array.append(participant_answers)
             array.append(answer.img_link)
             array.append(answer.response_time)
             array.append(answer.before_video)
             data.append(array)
+
         return {
             "columns": columns,
             "data": data
