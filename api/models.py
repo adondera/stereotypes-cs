@@ -255,6 +255,7 @@ class Participant(db.Model):
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
 
     def __repr__(self):
         """The string representation of the object."""
@@ -759,6 +760,8 @@ class ParticipantAnswer(db.Model):
     open_question_answer = db.Column(db.Text, nullable=True)
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
+
+    question = db.relationship("Questions", backref=db.backref('answers'))
 
     def __repr__(self):
         """The string representation of the object."""
