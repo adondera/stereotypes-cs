@@ -30,16 +30,23 @@ class QuizFactory:
         :return: The response object with all the questions
         """
         self.response.extend(self.gender_profession.create_iat())
+        self.response.extend(self.social_profession.create_iat())
+        self.response.extend(self.hobby_profession.create_iat())
         self.response.extend(self.eat.create_eat())
         # self.response.extend(self.video.create_video())
-        # self.response.extend(self.eat)
         self.response.extend(self.demographics.create_demographics())
-        self.response.append({
-            "q_type": QuestionType.finish.name,
-            "title": "Ending",
-            "text": "Thank you for participating"
-        })
+        self.create_ending()
         return self.response
+
+    def create_ending(self):
+        self.response.append({
+            "q_type": QuestionType.finish.value,
+            "title": "Ending",
+            "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
+                    "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
+                    "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
+        })
+        self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
 
 
 class VideoFactory:
@@ -94,7 +101,7 @@ class EATFactory:
         :return: The response with a list of questions
         """
         iat_explanation = {
-            "q_type": QuestionType.information.name,
+            "q_type": QuestionType.information.value,
             "title": "Information",
             "header": "Explicit IAT",
             "text":
@@ -134,7 +141,7 @@ class IATFactory:
         :return: A list of questions for the phase
         """
         self.response.append({
-            "q_type": QuestionType.information.name,
+            "q_type": QuestionType.information.value,
             "title": "Information",
             "header": "Gender profession IAT",
             "text": IATFactory.create_guide_text(phase)
@@ -148,7 +155,7 @@ class IATFactory:
 
         questions = list(
             filter(lambda x: x['left'] == phase['left_categ']
-                   and x['right'] == phase['right_categ'], questions))
+                             and x['right'] == phase['right_categ'], questions))
 
         assert len(questions) <= 1, "Should have at most one result"
 
