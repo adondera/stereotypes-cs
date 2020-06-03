@@ -1,6 +1,6 @@
 """Populates the database with data (categories, images, questions)"""
 from api.models import Category, Metacategory, Image, Question, \
-    QuestionType, QuestionChoice, Ethnicity, Gender, User
+    QuestionType, QuestionChoice, Ethnicity, Gender, User, DemographicsType
 
 from api import db
 
@@ -140,18 +140,21 @@ def populate():
         images=[video]
     )
 
-    mc_1 = Question.create_question(q_type=QuestionType.mc_single_answer, text="Hoe oud ben je?")
+    mc_1 = Question.create_question(q_type=QuestionType.mc_single_answer, text="Hoe oud ben je?",
+                                    demographics=DemographicsType.age)
     for i in range(6, 19):
         QuestionChoice.create_choice(choice_num=i - 5, q_id=mc_1.id, text=str(i))
     QuestionChoice.create_choice(choice_num=14, q_id=mc_1.id, text="Anders")
 
     mc_2 = Question.create_question(q_type=QuestionType.mc_multiple_answer,
-                                    text="Wat is jouw achtergrond? Er zijn meerdere antwoorden mogelijk.")
+                                    text="Wat is jouw achtergrond? Er zijn meerdere antwoorden mogelijk.",
+                                    demographics=DemographicsType.ethnicity)
     for i, ethnicity in enumerate(Ethnicity.__iter__(), 1):
         QuestionChoice.create_choice(choice_num=i, q_id=mc_2.id, text=ethnicity.value)
 
     mc_3 = Question.create_question(q_type=QuestionType.mc_single_answer,
-                                    text="Ik voel me een ...")
+                                    text="Ik voel me een ...",
+                                    demographics=DemographicsType.gender)
     for i, gender in enumerate(Gender.__iter__(), 1):
         QuestionChoice.create_choice(choice_num=i, q_id=mc_3.id, text=gender.value)
 
