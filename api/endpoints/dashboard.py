@@ -6,7 +6,7 @@ from flask_restful import Resource
 from sqlalchemy import extract, and_
 
 from api.endpoints.constants import ANSWERS
-from api.models import Participant
+from api.models import Participant, Version
 
 
 class Stats(Resource):
@@ -24,10 +24,9 @@ class Stats(Resource):
                 'last_hour': self.last_hour_participants()
             },
 
-            'version_distribution': self.version_distribution
+            'version_distribution': self.version_distribution()
         }
 
-        self.yesterday_participants()
         return data, 200
 
 
@@ -56,8 +55,15 @@ class Stats(Resource):
         last_hour = datetime.today() - timedelta(hours=1)
         return Participant.query.filter(Participant.date >= last_hour).count()
 
-    def group_distribution(self):
+    def version_distribution(self):
         data = []
-        # for version in :
-        #     num = Participant.query.filter(Participant.version == version).count()
-        #     data.append(num)
+        for version in Version:
+            num_participants = Participant.query.filter(Participant.quiz_version == version.name).count()
+
+            version_obj = {
+                'version_name': version.name,
+                'num_participants': num_participants
+            }
+
+            data.append(version_obj)
+        return data
