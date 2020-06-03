@@ -758,7 +758,7 @@ class ParticipantAnswer(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id), nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
     img_link = db.Column(db.Text, db.ForeignKey(Image.link), nullable=True)
-    answers = db.Column(db.ARRAY(db.Integer), nullable=True)
+    answers = db.Column(db.Integer, nullable=True)
     open_question_answer = db.Column(db.Text, nullable=True)
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
