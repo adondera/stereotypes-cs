@@ -761,7 +761,7 @@ class ParticipantAnswer(db.Model):
     response_time = db.Column(db.Integer, nullable=True)
     before_video = db.Column(db.Boolean, nullable=False)
 
-    question = db.relationship("Questions", backref=db.backref('answers'))
+    question = db.relationship("Question", backref=db.backref('answers'))
 
     def __repr__(self):
         """The string representation of the object."""
