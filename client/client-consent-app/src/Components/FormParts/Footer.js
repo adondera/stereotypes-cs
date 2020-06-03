@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import "./style/Form.css";
 import Child from "./ChildField";
 import Parent from "./ParentField";
+import Email from "./EmailField";
 import Loader from "../../common/Loader";
 
 const max_no_children = process.env.REACT_APP_NO_CHILD;
@@ -24,6 +25,7 @@ class Footer extends Component {
       signature: null,
       children: [{ firstName: "", lastName: "", isValid: false }],
       parent: { firstName: "", lastName: "", isValid: false },
+      email: ""
     };
   }
 
@@ -89,9 +91,10 @@ class Footer extends Component {
 
   render() {
     var parent = this.state.parent;
+    var email = this.state.email;
     return (
       <div className="Footer">
-        <Grid container spacing={3} className="TextFields">
+        <Grid container spacing={3} className="TextFields" justify = "center">
           <Parent
             firstName={parent.firstName}
             lastName={parent.lastName}
@@ -108,6 +111,10 @@ class Footer extends Component {
               />
             );
           })}
+          <Email
+              email = {email}
+              component={this}
+          />
         </Grid>
         <div className="PlusMinusButton">
           {this.state.children.length > max_no_children ? null : (
