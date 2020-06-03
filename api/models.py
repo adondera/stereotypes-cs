@@ -41,6 +41,22 @@ def add_to_db(obj):
     #     db.session.close()
 
 
+def commit_db_session():
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+
+
+def add_to_session(obj):
+    try:
+        db.session.add(obj)
+    except:
+        db.session.rollback()
+        raise
+
+
 def is_jsonable(x):
     """
     Checks if x is JSONable (can be converted to JSON object).
@@ -251,7 +267,7 @@ class Participant(db.Model):
     last_name = db.Column(db.String(40), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.Enum(Gender), nullable=True)
-    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
+    ethnicity = db.Column(db.ARRAY(db.Enum(Ethnicity)), nullable=True)
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -406,7 +422,6 @@ class QuestionType(enum.Enum):
     binary = "binary"
     video = "video"
     information = "information"
-    likert_demographics = "likert_demographics"
     finish = "finish"
     open_question = "open_question"
 
