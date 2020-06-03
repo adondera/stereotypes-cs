@@ -4,7 +4,7 @@ Module that separates resources for different endpoints
 from flask import Blueprint
 from flask_restful import Api
 from .auth import Login, FreshLogin
-from .dashboard import Stats
+from .dashboard import Stats, Participants
 from .tokens import Protected, Refresh, ProtectedFresh, Unprotected
 from .consent import ConsentResource, ConsentForm
 from .quiz import QuizAnswers, QuizQuestions, QuizResults
@@ -25,3 +25,4 @@ api.add_resource(QuizQuestions, '/quiz')
 api.add_resource(QuizAnswers, '/answers')
 api.add_resource(QuizResults, '/results')
 api.add_resource(Stats, '/stats')
+api.add_resource(Participants, '/participants')

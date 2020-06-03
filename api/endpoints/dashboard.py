@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy import and_, func
 
-from api.models import Participant, Version, Ethnicity
+from api.models import Participant, Version, Ethnicity, Consent
 
 
 def all_time_participants():
@@ -208,3 +208,37 @@ class Stats(Resource):
 
         gender_distribution()
         return data, 200
+
+
+class Participants(Resource):
+    """Resource that deals with retrieving participants data from database"""
+
+    @jwt_required
+    def get(self):
+        """
+        On a get request on the /participants endpoint we return all the participants stored
+        :return: If the request is valid, a JSON object with the participants and code 200
+        """
+
+        columns = ["Participant Name", "Parent's email", "Age", "Gender",
+                   "Ethnicities", "Test Version", "Test date", "Notes"]
+        data = []
+        for participant in Participant.query.all():
+            array = []
+            parent = Consent.query.filter_by(id=participant.consent_id).first()
+
+            array.append(participant.first_name + " " + participant.last_name)
+            array.append(parent.parent_email)
+            array.append(str(participant.age))
+            array.append(participant.gender)
+            array.append(str(participant.ethnicity))
+            array.append(participant.quiz_version.value)
+            array.append(str(participant.date))
+            array.append(participant.researcher_notes)
+
+            data.append(array)
+
+        return {
+                   "columns": columns,
+                   "data": data
+               }, 200
