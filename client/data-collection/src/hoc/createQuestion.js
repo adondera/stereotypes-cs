@@ -20,6 +20,8 @@ const mapTypeToComponent = {
   finish: Finish,
   mc_single_answer: MultipleChoice,
   mc_multiple_answer: MultipleChoiceSpecial,
+  open_question: React.Fragment,
+  researcher_notes: React.Fragment
 };
 
 /*
