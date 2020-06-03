@@ -239,6 +239,6 @@ class Participants(Resource):
             data.append(array)
 
         return {
-                   "columns": columns,
-                   "data": data
-               }, 200
+            "columns": columns,
+            "data": data
+        }, 200
