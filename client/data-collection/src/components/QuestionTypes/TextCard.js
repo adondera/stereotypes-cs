@@ -30,12 +30,12 @@ const TextCard = (props) => {
           className={props.isSelected ? classes.imageFocus : classes.image}
         >
           {props.categories.map((category,index) => (
-            <React.Fragment>
+            <div key={index}>
             {index === 1 ? (
-              <Typography variant="h5" key={index*2}> & </Typography>
+              <Typography variant="h6" style={{lineHeight: 0, marginBottom: '4px', marginTop: '4px'}}> & </Typography>
             ) : (null)}
-            <Typography variant="h5" key={index*2+1}> {category.name} </Typography>
-            </React.Fragment>
+            <Typography variant="h6" > {category.name} </Typography>
+            </div>
 
           ))}
         </CardContent>

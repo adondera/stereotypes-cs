@@ -89,6 +89,7 @@ const MultipleChoiceSpecial = (props) => {
         answer.answers.push(parseInt(key));
       }
     }
+    answer.question_id = props.id
     props.submitSelectedChoice(answer);
     props.onNext();
     setTicked(0);

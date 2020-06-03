@@ -74,7 +74,8 @@ const MultipleChoice = (props) => {
   };
   const onSelectedOption = (selectedOption) => {
     setQuestionAnswer({
-      answers: [parseInt(selectedOption['selected-answer'])],
+      answers: parseInt(selectedOption['selected-answer']),
+      question_id: props.id
     });
   };
   console.log(props);

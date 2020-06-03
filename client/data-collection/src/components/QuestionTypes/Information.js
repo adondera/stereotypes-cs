@@ -70,6 +70,7 @@ const Information = (props) => {
           component="h1"
           variant="h2"
           align="center"
+          marginTop='50%'
           color="textPrimary"
           gutterBottom
         >{startsIn}</Typography>) : (

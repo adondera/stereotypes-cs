@@ -75,7 +75,7 @@ const LikertScaleQuestion = (props) => {
       return { value: index + 1, text: scaleText };
     }),
     picked: (val) => {
-      setQuestionAnswer({ answers: [parseInt(val)] });
+      setQuestionAnswer({ answers: parseInt(val), question_id: props.id });
     },
   };
 
