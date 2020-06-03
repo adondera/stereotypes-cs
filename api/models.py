@@ -416,6 +416,8 @@ class QuestionType(enum.Enum):
 
 
 class DemographicsType(enum.Enum):
+    """Enumeration of the types of demographics questions"""
+
     age = "Age"
     gender = "Gender"
     ethnicity = "Ethnicity"

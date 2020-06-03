@@ -4,16 +4,13 @@ Module that deals with all logic related to consent forms
 """
 import os
 
-from flask import request
 from flask import current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, Participant, QuestionType, Category
+from api.models import ParticipantAnswer, Participant
 from api.endpoints.quiz_factory import QuizFactory
-
-import api.endpoints.validation as valid
 
 
 class QuizAnswers(Resource):
@@ -62,16 +59,21 @@ class QuizQuestions(Resource):
 
 
 class QuizResults(Resource):
+    """Resource that deals with retrieving answers from database"""
 
-    #@jwt_required
+    @jwt_required
     def get(self):
+        """
+        On a get request on the /results endpoint we return all the answers stored
+        :return: If the request is valid, a JSON object with the answers and code 200
+        """
+
         columns = ["Participant Name", "Question ID", "Question Type", "Question Text",
                    "Participant Answers", "Image", "Response Time", "Before Video"]
         data = []
         for answer in ParticipantAnswer.query.all():
             array = []
             participant = Participant.query.filter_by(id=answer.participant_id).first()
-            q_type = answer.question.q_type
 
             array.append(participant.first_name + " " + participant.last_name)
             array.append(str(answer.question_id))
@@ -86,6 +88,4 @@ class QuizResults(Resource):
         return {
             "columns": columns,
             "data": data
-        }
-
-
+        }, 200
