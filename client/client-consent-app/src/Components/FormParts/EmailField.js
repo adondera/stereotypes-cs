@@ -14,7 +14,7 @@ const Email = (props) => {
                 <TextField
                     fullWidth
                     name={props.email}
-                    label="email (optional)"
+                    label="email (optioneel)"
                     value={props.email}
                     autoComplete="fname"
                     onChange={onChangeEmail}

@@ -29,7 +29,7 @@ const Parent = (props) => {
                 <TextField
                     fullWidth
                     name={props.firstName}
-                    label="Voornaam van de ouder"
+                    label="Voornaam van de ouder*"
                     value={props.firstName}
                     autoComplete="fname"
                     onChange={onChangeFirstName}
@@ -39,7 +39,7 @@ const Parent = (props) => {
                 <TextField
                     fullWidth
                     name={props.lastName}
-                    label="Achternaam van de ouder"
+                    label="Achternaam van de ouder*"
                     value={props.lastName}
                     autoComplete="lname"
                     onChange={onChangeLastName}
