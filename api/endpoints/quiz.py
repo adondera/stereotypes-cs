@@ -65,7 +65,8 @@ class QuizResults(Resource):
 
     #@jwt_required
     def get(self):
-        columns = ["Participant Name", "Question ID", "Question Type", "Question Text", "Participant Answers", "Image", "Response Time", "Before Video"]
+        columns = ["Participant Name", "Question ID", "Question Type", "Question Text",
+                   "Participant Answers", "Image", "Response Time", "Before Video"]
         data = []
         for answer in ParticipantAnswer.query.all():
             array = []

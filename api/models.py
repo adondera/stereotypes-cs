@@ -251,7 +251,7 @@ class Participant(db.Model):
     last_name = db.Column(db.String(40), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.Enum(Gender), nullable=True)
-    ethnicity = db.Column(db.ARRAY(db.String(40)), nullable=True)
+    ethnicity = db.Column(db.ARRAY(db.Enum(Ethnicity)), nullable=True)
     researcher_notes = db.Column(db.Text(), nullable=True)
     quiz_version = db.Column(db.Enum(Version), nullable=True)
     date = db.Column(db.DateTime(timezone=True), server_default=func.now())

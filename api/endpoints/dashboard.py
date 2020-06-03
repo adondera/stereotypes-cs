@@ -3,15 +3,15 @@ from datetime import datetime, timedelta
 
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from sqlalchemy import extract, and_
+from sqlalchemy import extract, and_, func
 
 from api.endpoints.constants import ANSWERS
-from api.models import Participant, Version
+from api.models import Participant, Version, Gender, Ethnicity
 
 
 class Stats(Resource):
 
-    #@jwt_required
+    # @jwt_required
     def get(self):
 
         data = {
@@ -24,11 +24,17 @@ class Stats(Resource):
                 'last_hour': self.last_hour_participants()
             },
 
-            'version_distribution': self.version_distribution()
+            'average_participant_age': self.avg_age(),
+
+            'version_distribution': self.version_distribution(),
+
+            'gender_distribution': self.gender_distribution(),
+
+            'ethnicity_distribution': self.ethnicity_distribution()
         }
 
+        self.gender_distribution()
         return data, 200
-
 
     def all_time_participants(self):
         return Participant.query.count()
@@ -67,3 +73,41 @@ class Stats(Resource):
 
             data.append(version_obj)
         return data
+
+    def gender_distribution(self):
+        data = []
+        results = Participant.query.with_entities(Participant.gender, func.count(Participant.gender)) \
+            .group_by(Participant.gender).all()
+
+        for res in results:
+            gender = "Not known"
+            if res.gender is not None:
+                gender = res.gender.name
+
+            gender_obj = {
+                'gender': gender,
+                'number': res[1]
+            }
+
+            data.append(gender_obj)
+
+        return data
+
+    def ethnicity_distribution(self):
+        data = []
+
+        data = []
+        for ethnicity in Ethnicity:
+            num = Participant.query.filter(Participant.ethnicity.any(ethnicity.name)).count()
+            ethnicity_obj = {
+                'ethnicity': ethnicity.name,
+                'number': num
+            }
+
+            data.append(ethnicity_obj)
+        return data
+
+
+    def avg_age(self):
+        avg_age = Participant.query.with_entities(func.avg(Participant.age)).one()[0]
+        return float(avg_age)
