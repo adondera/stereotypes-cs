@@ -9,15 +9,19 @@ import Child from "./ChildField";
 import Parent from "./ParentField";
 import Email from "./EmailField";
 import Loader from "../../common/Loader";
-
+import InputLabel from "@material-ui/core/InputLabel";
+import validator from "validator";
 const max_no_children = process.env.REACT_APP_NO_CHILD;
 
 class Footer extends Component {
   constructor(props) {
     super(props);
     this.signatureDiv = { width: 300, height: 100 };
+    this.emailRef = React.createRef();
     this.props = props;
+
     this.state = {
+      isMailInvalid: false,
       isSigned: false,
       hasValidFields: false,
       isSubmittable: false,
@@ -25,10 +29,25 @@ class Footer extends Component {
       signature: null,
       children: [{ firstName: "", lastName: "", isValid: false }],
       parent: { firstName: "", lastName: "", isValid: false },
-      email: ""
+      email: "",
     };
   }
 
+  onSubmit = () => {
+    if (
+      validator.isEmail(this.emailRef.current.value) ||
+      this.emailRef.current.value === ""
+    ) {
+      const dataToSend = { ...this.state, email: this.emailRef.current.value };
+      this.props.onSubmit(dataToSend)();
+    } else {
+      this.setState({ ...this.state, isMailInvalid: true });
+      setTimeout(
+        () => this.setState({ ...this.state, isMailInvalid: false }),
+        2000
+      );
+    }
+  };
   componentDidMount = () => {
     this.signatureRef.off();
     this.signatureRef.getCanvas().width = document
@@ -82,7 +101,7 @@ class Footer extends Component {
     if (this.state.isAgreed) {
       this.signatureRef.clear();
       this.signatureRef.off();
-      this.setState({ isSubmittable: false,isAgreed: false, isSigned: false });
+      this.setState({ isSubmittable: false, isAgreed: false, isSigned: false });
     } else {
       this.signatureRef.on();
       this.setState({ isAgreed: true });
@@ -91,10 +110,9 @@ class Footer extends Component {
 
   render() {
     var parent = this.state.parent;
-    var email = this.state.email;
     return (
       <div className="Footer">
-        <Grid container spacing={3} className="TextFields" justify = "center">
+        <Grid container spacing={3} className="TextFields" justify="center">
           <Parent
             firstName={parent.firstName}
             lastName={parent.lastName}
@@ -111,11 +129,9 @@ class Footer extends Component {
               />
             );
           })}
-          <Email
-              email = {email}
-              component={this}
-          />
+          <Email ref={this.emailRef} />
         </Grid>
+        <InputLabel style={{marginTop: 10, visibility: this.state.isMailInvalid ? 'visible' : 'hidden'}} error={true}> Ongeldig e-mail </InputLabel>
         <div className="PlusMinusButton">
           {this.state.children.length > max_no_children ? null : (
             <div className="Button">
@@ -145,9 +161,16 @@ class Footer extends Component {
             </div>
           )}
         </div>
-        <Grid item xs={12} style={{marginTop: '20px'}}>
+        <Grid item xs={12} style={{ marginTop: "20px" }}>
           <FormControlLabel
-            control={<Checkbox onClick={this.agreedChanged} color="secondary" name="agree" value="yes" />}
+            control={
+              <Checkbox
+                onClick={this.agreedChanged}
+                color="secondary"
+                name="agree"
+                value="yes"
+              />
+            }
             label="Ga akkoord om gegevens te delen en te ondertekenen*"
           />
         </Grid>
@@ -181,7 +204,7 @@ class Footer extends Component {
             size="large"
             disableElevation={true}
             disabled={!this.state.isSubmittable}
-            onClick={this.props.onSubmit(this.state)}
+            onClick={this.onSubmit}
           >
             Verzenden
           </Button>
