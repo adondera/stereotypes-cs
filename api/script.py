@@ -109,18 +109,18 @@ def populate():
     create_images(together_images, c_together.id)
 
     # likert
-    create_likert("Ik ben sociaal\n"
+    create_likert("Ik ben sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Ik ben graag de beste")
     create_likert("Ik ben gek op computers")
     create_likert("Ik wil later programmeur worden")
-    create_likert("Programmeurs zijn sociaal\n"""
+    create_likert("Programmeurs zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Programmeurs houden ervan om de beste te zijn")
     create_likert("Programmeurs zijn gek op computers en hebben weinig andere hobby’s")
     create_likert("Programmeur zijn, dat is een beroep voor mannen")
     create_likert("Programmeur zijn, dat is een beroep voor vrouwen")
-    create_likert("Schrijvers zijn sociaal\n"""
+    create_likert("Schrijvers zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Schrijvers houden ervan om de beste te zijn")
     create_likert("Schrijvers zijn gek op computers en hebben weinig andere hobby’s")
