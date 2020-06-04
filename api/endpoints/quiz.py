@@ -46,12 +46,14 @@ class QuizAnswers(Resource):
             if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
                 ageString = QuestionChoice.query.filter_by(
                     choice_num=answer['answers'], question_id=answer["question_id"]).first().text
-                participant.age = int(ageString)
+                if ageString != "Anders":
+                    participant.age = int(ageString)
 
             elif q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.gender:
                 gender = QuestionChoice.query.filter_by(
                     choice_num=answer['answers'], question_id=answer["question_id"]).first().text
-                participant.gender = gender
+                if gender != "Zeg ik liever niet":
+                    participant.gender = gender
 
             elif q_type == QuestionType.mc_multiple_answer and i_type == ParticipantInformationType.ethnicity:
                 ethinicities = []
