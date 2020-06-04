@@ -70,7 +70,6 @@ class QuizAnswers(Resource):
                     q_id=answer["question_id"],
                     img_link=answer["img_link"],
                     answers=answer["answers"],
-                    open_answer=answer["open_answer"],
                     r_time=answer["response_time"],
                     before_video=answer["before_video"])
 
