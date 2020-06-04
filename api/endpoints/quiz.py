@@ -42,7 +42,7 @@ class QuizAnswers(Resource):
             i_type = Question.query.filter_by(
                 id=answer["question_id"]).first().information
             participant = Participant.query.filter_by(id=data['id']).first()
-
+            
             if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
                 ageString = QuestionChoice.query.filter_by(
                     choice_num=answer['answers'], question_id=answer["question_id"]).first().text
@@ -68,9 +68,9 @@ class QuizAnswers(Resource):
                 ParticipantAnswer.create_participant_answer(
                     p_id=answer["participant_id"],
                     q_id=answer["question_id"],
-                    img_link=answer["img_link"],
+                    img_link=answer["img_link"] if "img_link" in answer else None, # for likert
                     answers=answer["answers"],
-                    r_time=answer["response_time"],
+                    r_time=answer["response_time"] if 'response_time' in answer else None,
                     before_video=answer["before_video"])
 
         commit_db_session()

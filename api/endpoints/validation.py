@@ -6,10 +6,10 @@ def validate_answers(answers):
         return False
 
     for answer in answers:
-        if not validate_answer(answer) \
+        if not (validate_answer(answer) \
             or validate_open_answer(answer) \
-            or validate_not_binary(answer):
-            print("Answer is not valid:{}".format(answer))
+            or validate_not_binary(answer)):
+            print("Answer is not valid: {}".format(answer))
             return False
 
     return True
@@ -31,6 +31,7 @@ def validate_open_answer(value):
         "participant_id": validate_int,
         "question_id": validate_int,
         "open_answer": validate_string,
+        "before_video": validate_boolean
     }
 
     return validate(value, validators)
@@ -43,7 +44,7 @@ def validate_answer(value):
         "img_link": validate_string,
         "answers": validate_accept,
         "response_time": validate_int,
-        "before_video": validate_boolean,
+        "before_video": validate_boolean
     }
 
     return validate(value, validators)
