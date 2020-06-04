@@ -93,22 +93,33 @@ class QuizQuestions(Resource):
 
 
 class QuizResults(Resource):
+    """Resource that deals with retrieving answers from database"""
 
+    @jwt_required
     def get(self):
-        columns = ["Name", "QuestionID", "Image",
-                   "Response Time", "Before Video"]
+        """
+        On a get request on the /results endpoint we return all the answers stored
+        :return: If the request is valid, a JSON object with the answers and code 200
+        """
+
+        columns = ["Participant Name", "Question ID", "Question Type", "Question Text",
+                   "Participant Answers", "Image", "Response Time", "Before Video"]
         data = []
         for answer in ParticipantAnswer.query.all():
             array = []
-            participant = Participant.query.filter_by(
-                id=answer.participant_id).first()
+            participant = Participant.query.filter_by(id=answer.participant_id).first()
+
             array.append(participant.first_name + " " + participant.last_name)
             array.append(str(answer.question_id))
+            array.append(str(answer.question.q_type.name))
+            array.append(str(answer.question.text))
+            array.append(str(answer.answers))
             array.append(answer.img_link)
             array.append(answer.response_time)
             array.append(answer.before_video)
             data.append(array)
+
         return {
             "columns": columns,
             "data": data
-        }
+        }, 200
