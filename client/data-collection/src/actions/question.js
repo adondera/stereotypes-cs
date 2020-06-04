@@ -11,9 +11,13 @@ export const clearQuestionsStore = () => {
     }
 }
 
-export const sendQuestionsAnswers = (childId) => {
+export const sendQuestionsAnswers = (childId, notes='') => {
+  const childInfo = {
+    notes: notes,
+    childId: childId
+  }
   return {
-    childId: childId,
+    childInfo: childInfo,
     type: "SEND_QUESTIONS_ANSWERS"
   }
 }

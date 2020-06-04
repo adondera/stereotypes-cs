@@ -30,7 +30,7 @@ const questionsReducer = (
     Send question results to server
     */
     case 'SEND_QUESTIONS_ANSWERS':
-      sendData(state.answers, action.childId);
+      sendData(state.answers, action.childInfo);
       return { ...state, answers: [] };
 
     case 'VIDEO_WAS_PLAYED':

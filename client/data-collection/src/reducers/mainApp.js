@@ -12,7 +12,7 @@ const mainAppReducer = (
     case 'CHANGE_QUESTION':
       return {
         ...state,
-        questionIndex: 233,
+        questionIndex: 237,
       };
 
     /*
