@@ -129,7 +129,7 @@ def populate():
 
     Question.create_question(q_type=QuestionType.open_question, text="Wat doet een programmeur?")
 
-    video_female = Image.create_image(link="73d_-zTd1o", description='Role model intervention',
+    video_female = Image.create_image(link="173d_-zTd1o", description='Role model intervention',
                                attribute='Female')
     video_male = Image.create_image(link="hEMOMVZbSBE", description='Role model intervention',
                                attribute='Male')
