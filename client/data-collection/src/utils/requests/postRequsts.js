@@ -32,7 +32,7 @@ export function sendData(data, childInfo, callback, errorcallback) {
   axios
     .post("/answers", dataToBeSent)
     .then((res) => {
-      if (callback != null && res.status === 200) {
+      if (callback != null && res.status === 201) {
         callback(res);
       }
     })

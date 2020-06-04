@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core";
 import { connect } from 'react-redux';
+import { saveQuestionAction } from '../../actions/question';
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -67,7 +68,7 @@ const OpenQuestion = (props) => {
     props.submitAnswer(answer)
     props.onNext()
   }
-  
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -99,7 +100,6 @@ const OpenQuestion = (props) => {
           variant="contained"
           style={{ marginTop: 20 }}
           onClick={onClick}
-          disabled={hasNext}
         >
           NEXT
         </Button>
