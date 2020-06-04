@@ -8,6 +8,7 @@ import Load from "./Load";
 import QueueManagement from "./QueueManagement";
 
 const MainApp = ({
+  loadFailed = false,
   hasActiveChild = false,
   questionIndex = 0,
   onQuestionChange,
@@ -20,7 +21,7 @@ const MainApp = ({
     <div>
       <Switch>
         <Route path="/load">
-          <Load onClick={() => loadData(accessToken)} />
+          <Load loadFailed={loadFailed} onClick={() => loadData(accessToken)} />
           {isDataLoaded ? <Redirect to="/app" /> : null}
         </Route>
         <Route path="/app">
@@ -42,6 +43,7 @@ const MainApp = ({
 };
 
 MainApp.propTypes = {
+  loadFailed: PropTypes.bool,
   hasActiveChild: PropTypes.bool,
   questions: PropTypes.object,
   questionIndex: PropTypes.number,

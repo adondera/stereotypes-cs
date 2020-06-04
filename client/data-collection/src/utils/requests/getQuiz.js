@@ -17,6 +17,7 @@ export function getQuiz(accessToken, callback, errorcallback) {
       return res;
     })
     .catch((err) => {
+      console.log('here')
       if (errorcallback != null) {
         errorcallback(err);
       }

@@ -2,10 +2,17 @@ const mainAppReducer = (
   state = {
     activeChild: { firstName: '', lastName: '', id: '' },
     hasActiveChild: false,
+    loadFailed: false
   },
   action
 ) => {
   switch (action.type) {
+
+    case 'DATA_IS_LOADING':
+      return {
+        ...state,
+        loadFailed: false
+      }
     /*
     Change active question
     */
@@ -27,6 +34,15 @@ const mainAppReducer = (
         questions: action.questions,
         isDataLoaded: true,
       };
+    
+    /*
+    Data load failed
+    */
+   case 'DATA_LOAD_FAILED':
+     return {
+       ...state,
+       loadFailed: true
+     }
 
     /*
     Finish the quiz by making start screen active

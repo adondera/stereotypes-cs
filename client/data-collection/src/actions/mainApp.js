@@ -6,7 +6,7 @@ import {preload} from '../utils/preloaders/images'
 */
 export const getQuizData = (accessToken, dispatch) => {
   dispatch(dataIsLoading());
-  getQuiz(accessToken, (res) => dispatch(dataLoaded(res)));
+  getQuiz(accessToken, (res) => dispatch(dataLoaded(res)), () => dispatch(dataLoadFailed()));
 };
 
 /*
@@ -19,6 +19,16 @@ export const dataLoaded = (res) => {
     questions: res.data,
   };
 };
+
+
+/*
+  Fault tolerance for data load fail
+*/
+export const dataLoadFailed = () => {
+  return {
+    type: 'DATA_LOAD_FAILED'
+  }
+}
 
 /*
   Inform store that data is currently being fetched
