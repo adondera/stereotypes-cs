@@ -129,13 +129,15 @@ def populate():
 
     Question.create_question(q_type=QuestionType.open_question, text="Wat doet een programmeur?")
 
-    video = Image.create_image(link="7CVtTOpgSyY", description='role model intervention video',
-                               attribute='video')
+    video_female = Image.create_image(link="73d_-zTd1o", description='Role model intervention',
+                               attribute='Female')
+    video_male = Image.create_image(link="hEMOMVZbSBE", description='Role model intervention',
+                               attribute='Male')
 
     # video_question
     Question.create_question(
         q_type=QuestionType.video,
-        images=[video]
+        images=[video_female]
     )
 
     mc_1 = Question.create_question(q_type=QuestionType.mc_single_answer, text="Hoe oud ben je?",
@@ -158,6 +160,12 @@ def populate():
 
     Question.create_question(q_type=QuestionType.notes, text="Researcher notes",
                              information=ParticipantInformationType.researcher_notes)
+
+    # video_question
+    Question.create_question(
+        q_type=QuestionType.video,
+        images=[video_male]
+    )
 
 
 def create_images(link_array, c_id):

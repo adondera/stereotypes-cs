@@ -148,7 +148,6 @@ class IATFactory:
         :return: A list with all the IAT questions
         """
         for block_nr, phase in enumerate(self.data, 0):
-            print(phase)
             self.create_guide_text(phase, block_nr)
             self.load_phase(phase)
         self.create_end_text()
@@ -223,8 +222,7 @@ class IATFactory:
         guide_text['text3'] = block_end_text
         images0 = list(map(lambda x: x.link,
                       Image.query.filter(Image.category_id.in_(phase['left_categ']))))
-        print(phase['left_categ'])
-        print(images0)
+
         images1 = list(map(lambda x: x.link,
                       Image.query.filter(Image.category_id.in_(phase['right_categ']))))
         guide_text['images0'] = images0
