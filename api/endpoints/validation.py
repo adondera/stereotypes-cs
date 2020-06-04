@@ -41,7 +41,7 @@ def validate_answer(value):
     validators = {
         "participant_id": validate_int,
         "question_id": validate_int,
-        "img_link": validate_string,
+        "img_id": validate_string,
         "answers": validate_accept,
         "response_time": validate_int,
         "before_video": validate_boolean

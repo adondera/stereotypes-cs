@@ -70,7 +70,7 @@ class QuizAnswers(Resource):
                 ParticipantAnswer.create_participant_answer(
                     p_id=answer["participant_id"],
                     q_id=answer["question_id"],
-                    img_link=answer["img_link"] if "img_link" in answer else None, # for likert
+                    img_link=answer["img_id"] if "img_id" in answer else None, # for likert
                     answers=answer["answers"] if "answers" in answer else None,
                     open_answer=answer["open_answer"] if "open_answer" in answer else None,
                     r_time=answer["response_time"] if 'response_time' in answer else None,
