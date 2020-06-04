@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, ParticipantInformationType, Ethnicity, QuestionType, QuestionChoice, Participant
+from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, ParticipantInformationType, Ethnicity, QuestionType, QuestionChoice, Participant, Version
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
@@ -89,8 +89,9 @@ class QuizQuestions(Resource):
         On a get request on the /quiz endpoint we return a quiz with questions
         :return: quiz and status 200
         """
+        version = request.args.get("version")
         filename = os.path.join(current_app.static_folder,
-                                "IATs/gender-profession.json")
+                                "IATs/{}".format(Version[version].value))
         return QuizFactory(filename).create_quiz(), 200
 
 
