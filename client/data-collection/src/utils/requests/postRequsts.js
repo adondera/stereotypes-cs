@@ -21,8 +21,7 @@ export function login(data, callback, errorcallback) {
 /*
 Send quiz data to the server at the end of quiz
 */
-export function sendData(data, childInfo, callback, errorcallback) {
-  console.log(JSON.stringify({ ...data, id: childInfo.childId, notes: childInfo.notes }, null, 2));
+export function sendData(data, childInfo, dispatch, callback, errorcallback) {
   axios
     .post("/answers", { ...data, id: childInfo.childId, notes: childInfo.notes })
     .then((res) => {
@@ -32,6 +31,8 @@ export function sendData(data, childInfo, callback, errorcallback) {
     })
     .catch((err) => {
       if (errorcallback != null) {
+        //answers are logged when answers failed to be sent
+        console.log(JSON.stringify({ ...data, id: childInfo.childId, notes: childInfo.notes }, null, 2));
         errorcallback(err);
       }
     });

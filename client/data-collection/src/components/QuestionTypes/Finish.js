@@ -75,7 +75,9 @@ const Finish = (props) => {
 
   //sequence of actions to be dispatched whne quiz ends
   const onClickFinish = () => {
+    console.log('STARTED')
     props.sendQuestionsAnswers(props.childId);
+    console.log('FINISHED')
     props.clearQuestionsStore();
     props.onFinish();
   };
