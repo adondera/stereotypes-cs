@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import {saveQuestionAction} from '../../actions/question'
 import {
   clearQuestionsStore,
   sendQuestionsAnswers,
@@ -8,7 +9,8 @@ import Button from "@material-ui/core/Button";
 import {
   Typography,
   TextField,
-  Grid
+  Grid,
+  InputLabel
 } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -67,10 +69,25 @@ const ResearcherNotes = (props) => {
   //sequence of actions to be dispatched whne quiz ends
   const onClickFinish = () => {
     const notes = notesRef.current.value
+    props.submitNotes({question_id: props.id, open_answer: notes})
     props.sendQuestionsAnswers(props.childId,notes);
-    props.clearQuestionsStore();
-    props.onFinish();
   };
+
+  const [dataFailed, setdataFailed] = useState(false)
+
+  useEffect(() => {
+    if(props.sendDataStatus === 1 ) {
+      props.clearQuestionsStore();
+      props.onFinish();
+    }
+    if(props.sendDataStatus === 2) {
+      setdataFailed(true)
+      setTimeout(() => {
+        props.clearQuestionsStore();
+        props.onFinish();
+      }, 6000)
+    }
+  }, [props])
 
 
   return (
@@ -114,6 +131,11 @@ const ResearcherNotes = (props) => {
             FINISH
         </Button>
       </Grid>
+      <Grid>
+        <InputLabel error style={{visibility: dataFailed ? 'visible' : 'hidden', marginTop: 20}}>
+          Data failed to be sent. NO data was lost! Data has been printed in logs. You will now be redirected to main page.
+        </InputLabel>
+      </Grid>
     </React.Fragment>
   );
 };
@@ -121,13 +143,15 @@ const ResearcherNotes = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
+    sendDataStatus: state.mainAppReducer.sendDataStatus,
     childId: state.mainAppReducer.activeChild.id,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendQuestionsAnswers: (childId, notes) => dispatch(sendQuestionsAnswers(childId, notes)),
+    submitNotes: (answer) => dispatch(saveQuestionAction(answer)),
+    sendQuestionsAnswers: (childId, notes) => dispatch(sendQuestionsAnswers(childId, notes, dispatch)),
     clearQuestionsStore: () => dispatch(clearQuestionsStore()),
   };
 };

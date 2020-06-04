@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   clearQuestionsStore,
   sendQuestionsAnswers,
@@ -10,7 +10,8 @@ import {
   Checkbox,
   TextField,
   FormControlLabel,
-  Grid
+  Grid,
+  InputLabel
 } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -68,6 +69,21 @@ const Finish = (props) => {
 
   const [finish, setfinish] = useState(true);
   const [researcherCode, setresearcherCode] = useState("");
+  const [dataFailed, setdataFailed] = useState(false)
+
+  useEffect(() => {
+    if(props.sendDataStatus === 1 ) {
+      props.clearQuestionsStore();
+      props.onFinish();
+    }
+    if(props.sendDataStatus === 2) {
+      setdataFailed(true)
+      setTimeout(() => {
+        props.clearQuestionsStore();
+        props.onFinish();
+      }, 6000)
+    }
+  }, [props])
 
   const onCheck = (event) => {
     setfinish(!event.target.checked);
@@ -75,11 +91,7 @@ const Finish = (props) => {
 
   //sequence of actions to be dispatched whne quiz ends
   const onClickFinish = () => {
-    console.log('STARTED')
     props.sendQuestionsAnswers(props.childId);
-    console.log('FINISHED')
-    props.clearQuestionsStore();
-    props.onFinish();
   };
 
   const onClickNext = () => {
@@ -134,10 +146,15 @@ const Finish = (props) => {
           style={{ marginTop: 20 }}
           variant="contained"
           onClick={finish ? onClickFinish : onClickNext}
-          disabled={researcherCode !== "NEMO"}
+          disabled={researcherCode !== "NEMO" || dataFailed}
         >
           {finish ? <span>END</span> : <span>NEXT</span>}
         </Button>
+      </Grid>
+      <Grid>
+        <InputLabel error style={{visibility: dataFailed ? 'visible' : 'hidden', marginTop: 20}}>
+          Data failed to be sent. NO data was lost! Data has been printed in logs. You will now be redirected to main page.
+        </InputLabel>
       </Grid>
     </React.Fragment>
   );
@@ -146,13 +163,14 @@ const Finish = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
+    sendDataStatus: state.mainAppReducer.sendDataStatus,
     childId: state.mainAppReducer.activeChild.id,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendQuestionsAnswers: (childId) => dispatch(sendQuestionsAnswers(childId)),
+    sendQuestionsAnswers: (childId) => dispatch(sendQuestionsAnswers(childId, '', dispatch)),
     clearQuestionsStore: () => dispatch(clearQuestionsStore()),
   };
 };

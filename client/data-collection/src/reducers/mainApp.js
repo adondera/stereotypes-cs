@@ -19,7 +19,8 @@ const mainAppReducer = (
     case 'CHANGE_QUESTION':
       return {
         ...state,
-        questionIndex: action.questionIndex,
+       questionIndex: action.questionIndex,
+       //questionIndex: 241
       };
 
     /*
@@ -44,6 +45,12 @@ const mainAppReducer = (
        loadFailed: true
      }
 
+    case 'SEND_SUCCESS': 
+     return { ...state, sendDataStatus: 1}
+    
+    case 'SEND_FAIL':
+      return { ...state, sendDataStatus: 2}
+
     /*
     Finish the quiz by making start screen active
     */
@@ -51,6 +58,7 @@ const mainAppReducer = (
       return {
         ...state,
         questionIndex: 0,
+        sendDataStatus: 0
       };
 
     /*

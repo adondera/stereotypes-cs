@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -60,8 +60,6 @@ const OpenQuestion = (props) => {
   /*eslint-disable */
   const classes = useStyles()
 
-  const [hasNext, sethasNext] = useState(false)
-  const [startsIn, setStartIn] = useState(false)
 
 
   return (

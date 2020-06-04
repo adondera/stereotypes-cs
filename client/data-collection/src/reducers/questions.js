@@ -30,7 +30,9 @@ const questionsReducer = (
     Send question results to server
     */
     case 'SEND_QUESTIONS_ANSWERS':
-      sendData(state.answers, action.childInfo);
+      const succes = () => action.dispatch({type: 'SEND_SUCCESS'})
+      const fail = () => action.dispatch({type: 'SEND_FAIL'})
+      sendData(state.answers, action.childInfo, succes, fail);
       return { ...state, answers: [] };
 
     case 'VIDEO_WAS_PLAYED':

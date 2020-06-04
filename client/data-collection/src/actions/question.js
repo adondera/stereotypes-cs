@@ -11,12 +11,13 @@ export const clearQuestionsStore = () => {
     }
 }
 
-export const sendQuestionsAnswers = (childId, notes='') => {
+export const sendQuestionsAnswers = (childId, notes='', dispatch) => {
   const childInfo = {
     notes: notes,
     childId: childId
   }
   return {
+    dispatch: dispatch,
     childInfo: childInfo,
     type: "SEND_QUESTIONS_ANSWERS"
   }
