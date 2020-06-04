@@ -99,7 +99,7 @@ const Information = (props) => {
             <GridList
               cellHeight="auto"
               className={classes.gridList}
-              cols={images0.length}
+              cols={props.images0.length}
             >
               {props.images0.map((image) => (
                 <GridListTile key={image} cols={1}>
@@ -124,7 +124,7 @@ const Information = (props) => {
             <GridList
               cellHeight="auto"
               className={classes.gridList}
-              cols={images1.length}
+              cols={props.images1.length}
             >
               {props.images1.map((image) => (
                 <GridListTile key={image} cols={1}>
