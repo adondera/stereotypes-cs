@@ -1,14 +1,15 @@
 """Collection of methods used for input validation."""
 import base64
 
+
 def validate_answers(answers):
     if not validate_list(answers):
         return False
 
     for answer in answers:
-        if not (validate_answer(answer) \
-            or validate_open_answer(answer) \
-            or validate_not_binary(answer)):
+        if not (validate_answer(answer.copy())
+                or validate_open_answer(answer.copy())
+                or validate_not_binary(answer.copy())):
             print("Answer is not valid: {}".format(answer))
             return False
 
@@ -72,7 +73,7 @@ def validate_children_data(value):
 
 def validate_signature(value):
     try:
-        return base64.b64encode(base64.b64decode(value.split(',')[1])) ==\
+        return base64.b64encode(base64.b64decode(value.split(',')[1])) == \
                bytes(value.split(',')[1], encoding='ascii')
     except:
         print("Expected base64, got something else")
