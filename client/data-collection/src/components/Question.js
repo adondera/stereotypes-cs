@@ -6,7 +6,6 @@ import "../styles/Question.css"
 class Question extends Component {
 
   getType() {
-    console.log(this.props);
     return this.props.questionData.type;
   }
 

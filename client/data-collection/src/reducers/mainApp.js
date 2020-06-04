@@ -12,14 +12,13 @@ const mainAppReducer = (
     case 'CHANGE_QUESTION':
       return {
         ...state,
-        questionIndex: 237,
+        questionIndex: action.questionIndex,
       };
 
     /*
     Conform data is loaded successfully
     */
     case 'DATA_IS_LOADED':
-      console.log(action.questions);
       action.questions = {
         questions: action.questions,
       };

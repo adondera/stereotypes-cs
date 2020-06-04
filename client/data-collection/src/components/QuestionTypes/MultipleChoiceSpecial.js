@@ -103,8 +103,6 @@ const MultipleChoiceSpecial = (props) => {
     newState[parseInt(event.target.name)] = event.target.checked;
     setOptions({ ...newState });
   };
-
-  console.log(props);
   return (
     <React.Fragment>
       <CssBaseline />

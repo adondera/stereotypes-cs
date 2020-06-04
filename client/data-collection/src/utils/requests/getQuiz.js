@@ -11,14 +11,12 @@ export function getQuiz(accessToken, callback, errorcallback) {
   axios
     .get("/quiz")
     .then((res) => {
-      console.log(res);
       if (callback != null && res.status === 200) {
         callback(res);
       }
       return res;
     })
     .catch((err) => {
-      console.log(err);
       if (errorcallback != null) {
         errorcallback(err);
       }

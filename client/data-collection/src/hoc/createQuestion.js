@@ -9,6 +9,8 @@ import FinishModal from "../components/FinishModal";
 import { Redirect } from "react-router";
 import MultipleChoiceSpecial from "../components/QuestionTypes/MultipleChoiceSpecial";
 import OpenQuestion from "../components/QuestionTypes/OpenQuestion";
+import ResearcherNotes from "../components/QuestionTypes/ResearcherNotes";
+import BinaryInformation from '../components/QuestionTypes/BinaryInformation';
 
 /*
 Create mapping between type and Component to be rendered
@@ -22,12 +24,13 @@ const mapTypeToComponent = {
   mc_single_answer: MultipleChoice,
   mc_multiple_answer: MultipleChoiceSpecial,
   open_question: OpenQuestion,
-  researcher_notes: React.Fragment,
+  researcher_notes: ResearcherNotes,
+  binary_information: BinaryInformation
 };
 
 /*
 HOC Component to Wrap question types for injecting type and 
-add Modal for exiting quiz prematurely
+add Modal for exiting quiz pr•••••••ematurely
 */
 export function createQuestion(Question) {
   return class QuestionHoc extends React.Component {

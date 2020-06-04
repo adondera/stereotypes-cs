@@ -7,13 +7,11 @@ export function login(data, callback, errorcallback) {
   axios
     .post("/login", data)
     .then((res) => {
-      console.log(res);
       if (callback != null && res.status === 200) {
         callback(res);
       }
     })
     .catch((err) => {
-      console.log(err);
       if (errorcallback != null) {
         errorcallback(err);
       }
@@ -24,16 +22,15 @@ export function login(data, callback, errorcallback) {
 Send quiz data to the server at the end of quiz
 */
 export function sendData(data, childInfo, callback, errorcallback) {
+  console.log(JSON.stringify({ ...data, id: childInfo.childId, notes: childInfo.notes }, null, 2));
   axios
     .post("/answers", { ...data, id: childInfo.childId, notes: childInfo.notes })
     .then((res) => {
-      console.log(res);
       if (callback != null && res.status === 200) {
         callback(res);
       }
     })
     .catch((err) => {
-      console.log(err);
       if (errorcallback != null) {
         errorcallback(err);
       }

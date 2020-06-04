@@ -78,7 +78,6 @@ const MultipleChoice = (props) => {
       question_id: props.id
     });
   };
-  console.log(props);
 
   return (
     // <React.Fragment>

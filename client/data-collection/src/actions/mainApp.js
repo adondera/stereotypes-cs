@@ -13,7 +13,6 @@ export const getQuizData = (accessToken, dispatch) => {
   Change boolan field as soon as all data has arrived.
 */
 export const dataLoaded = (res) => {
-  console.log(res);
   preload(res.data)
   return {
     type: "DATA_IS_LOADED",

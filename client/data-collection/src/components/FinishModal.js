@@ -42,7 +42,6 @@ const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
           <Button
             style={{ margin: "auto" }}
             onClick={() => {
-              console.log(textRef.current.value)
               if(textRef.current.value === "NEMO"){
                 handleCloseModal();
                 handleCloseQuiz();
