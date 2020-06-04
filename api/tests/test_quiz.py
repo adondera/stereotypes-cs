@@ -1,4 +1,4 @@
-from api.endpoints.constants import consent_data, ANSWERS, answer
+from .test_constants import consent_data, answer
 from api.models import Participant, Question, QuestionChoice
 from api.script import populate
 

@@ -470,11 +470,13 @@ class QuestionType(enum.Enum):
     mc_multiple_answer = "mc_multiple_answer"
     likert = "likert"
     binary = "binary"
-    video = "video"
-    information = "information"
-    finish = "finish"
     open_question = "open_question"
+    information = "information"
+    binary_information = "binary_information"
+    finish = "finish"
+    video = "video"
     notes = "researcher_notes"
+    
 
     def __repr__(self):
         """The string representation of the object."""

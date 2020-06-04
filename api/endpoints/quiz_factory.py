@@ -2,11 +2,10 @@
 Module that contains the classes that create the different components for a quiz
 """
 import json
-import random
 from sqlalchemy import or_
 
 from api.models import QuestionType, Question, Image, add_to_db, Question_to_category, Category
-
+from api.endpoints.constants import block_start_text, block_end_text, final_block_text
 
 class QuizFactory:
     """
@@ -29,6 +28,7 @@ class QuizFactory:
         Creates a quiz by combining the different components
         :return: The response object with all the questions
         """
+        self.create_information_beginning()
         if self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
@@ -50,6 +50,13 @@ class QuizFactory:
                     "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         })
         self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
+
+    def create_information_beginning(self):
+        self.response.append({
+            "q_type": QuestionType.information.value,
+            "text": "Leuk dat je mee doet aan dit onderzoek! Als je iets niet begrijpt tijdens het onderzoek, of als je wilt "
+                    "stoppen, steek dan je hand op. We komen dan zo snel mogelijk naar je toe om je te helpen."
+        })
 
 
 class VideoFactory:
@@ -140,9 +147,11 @@ class IATFactory:
         Creates an IAT response object
         :return: A list with all the IAT questions
         """
-        for phase in self.data:
+        for block_nr, phase in enumerate(self.data, 0):
+            print(phase)
+            self.create_guide_text(phase, block_nr)
             self.load_phase(phase)
-
+        self.create_end_text()
         return self.response
 
     def load_phase(self, phase):
@@ -152,13 +161,6 @@ class IATFactory:
         :param phase: Object with the left and right categories
         :return: A list of questions for the phase
         """
-        self.response.append({
-            "q_type": QuestionType.information.value,
-            "title": "Information",
-            "header": "Gender profession IAT",
-            "text": IATFactory.create_guide_text(phase)
-        })
-
         questions = list((map(lambda x: {
             "id": x.id,
             "left": list(map(lambda y: y['id'], x.as_dict()['categories_left'])),
@@ -204,19 +206,32 @@ class IATFactory:
 
         return question
 
-    @staticmethod
-    def create_guide_text(phase):
+    def create_guide_text(self, phase, block_nr):
         """
         Creates the text before a phase in a IAT
         :param phase: Object that contains the left and right categories in the phase
         :return: The text to be showed before the phase
         """
-        left = map(lambda x: x.name,
-                   Category.query.filter(Category.id.in_(phase['left_categ'])).all())
-        string_left = '&'.join(left)
-        right = map(lambda x: x.name,
-                    Category.query.filter(Category.id.in_(phase['right_categ'])).all())
-        string_right = '&'.join(right)
-        return """Press the E key for the images that belong to the categories ({left}), \
-or press the I key for the images that belong to the categories ({right})""" \
-            .format(left=string_left, right=string_right)
+        guide_text = block_start_text[block_nr].copy()
+        guide_text['q_type'] = QuestionType.binary_information.value
+        c_left = list(map(lambda x: (x.name, x.id),
+                   Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
+        c_right = list(map(lambda x: (x.name, x.id),
+                    Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
+        guide_text['text1'] = guide_text['text1'].format(c_left[0][0], c_left[1][0] if len(c_left) >= 2 else None)
+        guide_text['text2'] = guide_text['text2'].format(c_right[0][0], c_right[1][0] if len(c_right) >= 2 else None)
+        guide_text['text3'] = block_end_text
+        images0 = list(map(lambda x: x.link,
+                      Image.query.filter(Image.category_id.in_(phase['left_categ']))))
+        print(phase['left_categ'])
+        print(images0)
+        images1 = list(map(lambda x: x.link,
+                      Image.query.filter(Image.category_id.in_(phase['right_categ']))))
+        guide_text['images0'] = images0
+        guide_text['images1'] = images1
+        self.response.append(guide_text)
+
+    def create_end_text(self):
+        end_text = final_block_text
+        end_text['q_type'] = QuestionType.information.value
+        self.response.append(end_text)
