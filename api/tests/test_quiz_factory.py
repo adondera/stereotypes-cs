@@ -34,9 +34,9 @@ def test_quiz_factory_iat(rootdir, init_db, client):
     assert len(binary_questions) == 1
 
     # The response should have the following format
-    assert response[0]['q_type'] == QuestionType.information.name
+    assert response[0]['q_type'] == QuestionType.information.value
     for i in range(1, len(response)):
-        assert response[i]['q_type'] == QuestionType.binary.name
+        assert response[i]['q_type'] == QuestionType.binary.value
         assert 'categories_left' in response[i]
         assert 'categories_right' in response[i]
         assert 'image' in response[i]

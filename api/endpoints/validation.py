@@ -1,6 +1,29 @@
 """Collection of methods used for input validation."""
 import base64
 
+def validate_answers(answers):
+    if not validate_list(answers):
+        return False
+
+    for answer in answers:
+        if not validate_answer(answer):
+            return False
+
+    return True
+
+
+def validate_answer(value):
+    validators = {
+        "participant_id": validate_int,
+        "question_id": validate_int,
+        "img_link": validate_string,
+        "answers": validate_accept,
+        "open_answer": validate_string,
+        "response_time": validate_int,
+        "before_video": validate_boolean,
+    }
+
+    return validate(value, validators)
 
 def validate_person_data(value):
     validators = {
