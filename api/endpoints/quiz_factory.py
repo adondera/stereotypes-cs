@@ -73,8 +73,8 @@ class VideoFactory:
 
     def create_video_text(self):
         if self.data['before']:
-            return "Wat goed gedaan! Je hebt alle vragen gehad. Je mag nog een korte video kijken waarin je "\
-                   "vertellen wat een programmeur eigenlijk is."
+            return "Wat goed gedaan! Je hebt alle vragen gehad. "\
+                   "Je mag nog een korte video kijken waarin we je vertellen wat een programmeur eigenlijk is."
         return "Allereerst ga je naar een video kijken waarin we je uitleg geven""over het beroep ‘programmeur’."
 
 
