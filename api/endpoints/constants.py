@@ -41,7 +41,7 @@ block_start_text = [
         "text1": "Wanneer je een plaatje ziet van {} of {} verplaats je deze naar links door op de ‘e’ "
                  "te tikken op het toetsenbord. Dat zijn dus deze plaatjes.",
                     
-        "text2": "Wanneer je een plaatje ziet van {} en {} verplaats je deze naar rechts door op de "
+        "text2": "Wanneer je een plaatje ziet van {} of {} verplaats je deze naar rechts door op de "
                  "‘i’ te tikken op het toetsenbord. Dat zijn dus deze plaatjes."
     },
     
@@ -59,7 +59,7 @@ block_start_text = [
         "text1": "Wanneer je een plaatje ziet van {} of {} verplaats je deze naar links door op de ‘e’ "
                  "te tikken op het toetsenbord. Dat zijn dus deze plaatjes.",
                     
-        "text2": "Wanneer je een plaatje ziet van {} en {} verplaats je deze naar rechts door op de "
+        "text2": "Wanneer je een plaatje ziet van {} of {} verplaats je deze naar rechts door op de "
                  "‘i’ te tikken op het toetsenbord. Dat zijn dus deze plaatjes."
     },
 ]

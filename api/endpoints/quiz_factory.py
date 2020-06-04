@@ -34,6 +34,7 @@ class QuizFactory:
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
+        self.create_end_text()
         self.response.extend(self.eat.create_eat())
         if not self.video.data['before']:
             self.response.extend(self.video.create_video())
@@ -57,6 +58,11 @@ class QuizFactory:
             "text": "Leuk dat je mee doet aan dit onderzoek! Als je iets niet begrijpt tijdens het onderzoek, of als je wilt "
                     "stoppen, steek dan je hand op. We komen dan zo snel mogelijk naar je toe om je te helpen."
         })
+    
+    def create_end_text(self):
+        end_text = final_block_text.copy()
+        end_text['q_type'] = QuestionType.information.value
+        self.response.append(end_text)
 
 
 class VideoFactory:
@@ -100,6 +106,10 @@ class DemographicsFactory:
         Creates a response object with all the demographics questions
         :return: The response with a list of questions
         """
+        self.response.append({
+            "q_type": QuestionType.information.value,
+            "text": "Je bent er bijna, nog een paar vragen!"
+        })
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -119,15 +129,6 @@ class EATFactory:
         Create a response object with the likert scale questions
         :return: The response with a list of questions
         """
-        iat_explanation = {
-            "q_type": QuestionType.information.value,
-            "title": "Information",
-            "header": "Explicit IAT",
-            "text":
-                "In the following minutes you will be shown several statements. "
-                "Please indicate how much you agree with the statement",
-        }
-        self.response.append(iat_explanation)
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -147,10 +148,9 @@ class IATFactory:
         Creates an IAT response object
         :return: A list with all the IAT questions
         """
-        for block_nr, phase in enumerate(self.data, 0):
+        for block_nr, phase in enumerate(self.data, 5 - len(self.data)):
             self.create_guide_text(phase, block_nr)
             self.load_phase(phase)
-        self.create_end_text()
         return self.response
 
     def load_phase(self, phase):
@@ -228,8 +228,4 @@ class IATFactory:
         guide_text['images0'] = images0
         guide_text['images1'] = images1
         self.response.append(guide_text)
-
-    def create_end_text(self):
-        end_text = final_block_text
-        end_text['q_type'] = QuestionType.information.value
-        self.response.append(end_text)
+        
