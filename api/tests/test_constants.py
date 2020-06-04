@@ -34,46 +34,31 @@ answer = {
         {
             "participant_id": 1,
             "question_id": 17,
-            "img_link": "",
             "answers": 5,
-            "open_answer": "",
-            "response_time": 1234,
             "before_video": True
         },
         {
             "participant_id": 1,
             "question_id": 18,
-            "img_link": "",
             "answers": [1],
-            "open_answer": "asdas",
-            "response_time": 1234,
             "before_video": True
         },
         {
             "participant_id": 1,
             "question_id": 19,
-            "img_link": "",
             "answers": 1,
-            "open_answer": "asdas",
-            "response_time": 1234,
             "before_video": True
         },
         {
             "participant_id": 1,
             "question_id": 20,
-            "img_link": "",
-            "answers": "",
             "open_answer": "This is a comment for participant_id=1",
-            "response_time": 1234,
             "before_video": True
         },
         {
             "participant_id": 1,
             "question_id": 1,
-            "img_link": None,
             "answers": 1,
-            "open_answer": "",
-            "response_time": 500,
             "before_video": True
         }
     ]
