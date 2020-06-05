@@ -65,16 +65,10 @@ const Start = (props) => {
         color="textPrimary"
         gutterBottom
       >
-        Stereotypes in CS 
+        Welkom bij Nemo
       </Typography>
       <Typography variant="h5" align="justify" color="textSecondary" component="p">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ultrices tincidunt
-        arcu non sodales neque sodales. Ut diam quam nulla porttitor massa id.
-        Ornare arcu odio ut sem nulla pharetra diam. Eu volutpat odio facilisis
-        mauris sit amet massa vitae. Mi ipsum faucibus vitae aliquet nec
-        ullamcorper. Nunc mi ipsum faucibus vitae. Ut faucibus pulvinar
-        elementum integer enim neque volutpat ac
+        {/* TEXT TO BE ADDED */ }
       </Typography>
     </Container>
     <Button
