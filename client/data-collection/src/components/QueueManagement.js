@@ -22,11 +22,13 @@ const QueueManagament = (props) => {
   }, [props.hasActiveChild]);
   return (
     <Fragment>
+      <div style={{paddingTop: 200}}>
       <Typography variant="h1">Hello,</Typography>
       <Typography className={"blink_me"} variant="h1" style={{ color: blue }}>
         {" " + props.activeChild.firstName + " "}
         {props.activeChild.lastName}
       </Typography>
+      </div>
     </Fragment>
   );
 };
