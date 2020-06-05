@@ -101,7 +101,7 @@ const Load = (props) => {
       </InputLabel>
       <br/>
       {results ? (
-        <ExcelFile element={<Button style={{marginTop: 20}} variant='contained' color='primary'>Data Ready!"</Button>}>
+        <ExcelFile element={<Button style={{marginTop: 20}} variant='contained' color='primary'>Data Ready!</Button>}>
           <ExcelSheet dataSet={results} name="Organization" />
         </ExcelFile>
       ) : (

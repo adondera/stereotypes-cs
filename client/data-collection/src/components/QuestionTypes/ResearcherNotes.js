@@ -73,6 +73,7 @@ const ResearcherNotes = (props) => {
     props.sendQuestionsAnswers(props.childId,notes);
   };
 
+  const [sendRequested, setsendRequested] = useState(false)
   const [dataFailed, setdataFailed] = useState(false)
 
   useEffect(() => {
@@ -126,7 +127,8 @@ const ResearcherNotes = (props) => {
         <Button
           style={{ marginTop: 20 }}
           variant="contained"
-          onClick={onClickFinish}
+          onClick={() => {setsendRequested(true); onClickFinish()}}
+          disabled={sendRequested}
         >
             AF HEBBEN
         </Button>

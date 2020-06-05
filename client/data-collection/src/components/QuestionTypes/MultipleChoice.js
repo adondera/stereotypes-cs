@@ -84,8 +84,8 @@ const MultipleChoice = (props) => {
       <CssBaseline />
       <Container maxWidth='sm' component='main' className={classes.heroContent}>
         <Typography
-          component='h4'
-          variant='p'
+          component='p'
+          variant='h4'
           align='center'
           color='textPrimary'
           gutterBottom

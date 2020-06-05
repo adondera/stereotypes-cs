@@ -68,6 +68,7 @@ const Finish = (props) => {
   const classes = useStyles();
 
   const [finish, setfinish] = useState(true);
+  const [sendRequested, setsendRequested] = useState(false)
   const [researcherCode, setresearcherCode] = useState("");
   const [dataFailed, setdataFailed] = useState(false)
 
@@ -145,8 +146,8 @@ const Finish = (props) => {
         <Button
           style={{ marginTop: 20 }}
           variant="contained"
-          onClick={finish ? onClickFinish : onClickNext}
-          disabled={researcherCode !== "NEMO" || dataFailed}
+          onClick={finish ? () => {setsendRequested(true); onClickFinish()} : onClickNext}
+          disabled={researcherCode !== "NEMO" || dataFailed || sendRequested}
         >
           {finish ? <span>EINDE</span> : <span>VOLGENDE</span>}
         </Button>

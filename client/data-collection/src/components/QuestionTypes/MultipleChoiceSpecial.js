@@ -108,9 +108,9 @@ const MultipleChoiceSpecial = (props) => {
       <CssBaseline />
       <Container maxWidth='sm' component='main' className={classes.heroContent}>
         <Typography
-          component='h4'
+          component='p'
           align='center'
-          variant='p'
+          variant='h4'
           color='textPrimary'
           gutterBottom
         >
