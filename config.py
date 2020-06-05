@@ -1,4 +1,5 @@
 import os
+import secrets
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,13 +17,19 @@ class Config(object):
         'port': '5432',
     }
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
-    SECRET_KEY = 'some random key'
-    JWT_SECRET_KEY = 'super-secret'
+    SECRET_KEY = "Ud5yvQuCrh4GvYX9Mjc6VzomQA3q5K5_HSCvf0_Q6Tw"
+    JWT_SECRET_KEY = "S8y0MwT_t7vf002vCYnL0Z8M9mRYpmJUPRkmnTXwN4E"
 
 
 class ProductionConfig(Config):
     DEBUG = False
-
+    POSTGRES = {
+        'user': 'frbytifsjnfuec',
+        'pw': '957f087c94717131d3623d9df525094479b3a67c7bd8143d9b568f2b90e2e38a',
+        'db': 'd33riso0mvutf9',
+        'host': 'ec2-54-75-246-118.eu-west-1.compute.amazonaws.com',
+        'port': '5432',
+    }
 
 class StagingConfig(Config):
     DEVELOPMENT = True

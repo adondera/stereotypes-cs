@@ -2,11 +2,10 @@
 Module that contains the classes that create the different components for a quiz
 """
 import json
-import random
 from sqlalchemy import or_
 
 from api.models import QuestionType, Question, Image, add_to_db, Question_to_category, Category
-
+from api.endpoints.constants import block_start_text, block_end_text, final_block_text
 
 class QuizFactory:
     """
@@ -29,11 +28,13 @@ class QuizFactory:
         Creates a quiz by combining the different components
         :return: The response object with all the questions
         """
+        self.create_information_beginning()
         if self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
+        self.create_end_text()
         self.response.extend(self.eat.create_eat())
         if not self.video.data['before']:
             self.response.extend(self.video.create_video())
@@ -44,12 +45,24 @@ class QuizFactory:
     def create_ending(self):
         self.response.append({
             "q_type": QuestionType.finish.value,
-            "title": "Ending",
+            "title": "Einde",
             "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
                     "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
                     "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         })
         self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
+
+    def create_information_beginning(self):
+        self.response.append({
+            "q_type": QuestionType.information.value,
+            "text": "Leuk dat je mee doet aan dit onderzoek! Als je iets niet begrijpt tijdens het onderzoek, of als je wilt "
+                    "stoppen, steek dan je hand op. We komen dan zo snel mogelijk naar je toe om je te helpen."
+        })
+    
+    def create_end_text(self):
+        end_text = final_block_text.copy()
+        end_text['q_type'] = QuestionType.information.value
+        self.response.append(end_text)
 
 
 class VideoFactory:
@@ -72,10 +85,10 @@ class VideoFactory:
         return video.make_response()
 
     def create_video_text(self):
-        if self.data['before']:
-            return "Wat goed gedaan! Je hebt alle vragen gehad. Je mag nog een korte video kijken waarin je "\
-                   "vertellen wat een programmeur eigenlijk is."
-        return "Allereerst ga je naar een video kijken waarin we je uitleg geven""over het beroep ‘programmeur’."
+        if not self.data['before']:
+            return "Wat goed gedaan! Je hebt alle vragen gehad. "\
+                   "Je mag nog een korte video kijken waarin we je vertellen wat een programmeur eigenlijk is."
+        return "Allereerst ga je naar een video kijken waarin we je uitleg geven over het beroep ‘programmeur’."
 
 
 
@@ -93,6 +106,10 @@ class DemographicsFactory:
         Creates a response object with all the demographics questions
         :return: The response with a list of questions
         """
+        self.response.append({
+            "q_type": QuestionType.information.value,
+            "text": "Je bent er bijna, nog een paar vragen!"
+        })
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -112,15 +129,6 @@ class EATFactory:
         Create a response object with the likert scale questions
         :return: The response with a list of questions
         """
-        iat_explanation = {
-            "q_type": QuestionType.information.value,
-            "title": "Information",
-            "header": "Explicit IAT",
-            "text":
-                "In the following minutes you will be shown several statements. "
-                "Please indicate how much you agree with the statement",
-        }
-        self.response.append(iat_explanation)
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -140,9 +148,9 @@ class IATFactory:
         Creates an IAT response object
         :return: A list with all the IAT questions
         """
-        for phase in self.data:
+        for block_nr, phase in enumerate(self.data, 5 - len(self.data)):
+            self.create_guide_text(phase, block_nr)
             self.load_phase(phase)
-
         return self.response
 
     def load_phase(self, phase):
@@ -152,13 +160,6 @@ class IATFactory:
         :param phase: Object with the left and right categories
         :return: A list of questions for the phase
         """
-        self.response.append({
-            "q_type": QuestionType.information.value,
-            "title": "Information",
-            "header": "Gender profession IAT",
-            "text": IATFactory.create_guide_text(phase)
-        })
-
         questions = list((map(lambda x: {
             "id": x.id,
             "left": list(map(lambda y: y['id'], x.as_dict()['categories_left'])),
@@ -204,19 +205,27 @@ class IATFactory:
 
         return question
 
-    @staticmethod
-    def create_guide_text(phase):
+    def create_guide_text(self, phase, block_nr):
         """
         Creates the text before a phase in a IAT
         :param phase: Object that contains the left and right categories in the phase
         :return: The text to be showed before the phase
         """
-        left = map(lambda x: x.name,
-                   Category.query.filter(Category.id.in_(phase['left_categ'])).all())
-        string_left = '&'.join(left)
-        right = map(lambda x: x.name,
-                    Category.query.filter(Category.id.in_(phase['right_categ'])).all())
-        string_right = '&'.join(right)
-        return """Press the E key for the images that belong to the categories ({left}), \
-or press the I key for the images that belong to the categories ({right})""" \
-            .format(left=string_left, right=string_right)
+        guide_text = block_start_text[block_nr].copy()
+        guide_text['q_type'] = QuestionType.binary_information.value
+        c_left = list(map(lambda x: (x.name, x.id),
+                   Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
+        c_right = list(map(lambda x: (x.name, x.id),
+                    Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
+        guide_text['text1'] = guide_text['text1'].format(c_left[0][0].lower(), c_left[1][0].lower() if len(c_left) >= 2 else None)
+        guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(), c_right[1][0].lower() if len(c_right) >= 2 else None)
+        guide_text['text3'] = block_end_text
+        images0 = list(map(lambda x: x.link,
+                      Image.query.filter(Image.category_id.in_(phase['left_categ']))))
+
+        images1 = list(map(lambda x: x.link,
+                      Image.query.filter(Image.category_id.in_(phase['right_categ']))))
+        guide_text['images0'] = images0
+        guide_text['images1'] = images1
+        self.response.append(guide_text)
+        

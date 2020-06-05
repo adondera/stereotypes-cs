@@ -169,7 +169,7 @@ class Consent(db.Model):
     signature = db.Column(db.Text(), nullable=False)
 
     @staticmethod
-    def create_consent(parent_first_name, parent_last_name, signature):
+    def create_consent(parent_first_name, parent_last_name, signature, email=""):
         """
         Creates a new consent form entry in the database.
 
@@ -191,7 +191,8 @@ class Consent(db.Model):
 
         consent = Consent(parent_first_name=parent_first_name,
                           parent_last_name=parent_last_name,
-                          signature=signature)
+                          signature=signature,
+                          parent_email=email)
         add_to_db(consent)
         return consent
 
@@ -223,7 +224,15 @@ class Ethnicity(enum.Enum):
 
 class Version(enum.Enum):
     """Enumeration of the different scenarios"""
-    Dummy = "gender-profession.json"
+
+    A = "control-social-female"
+    B = "control-social-male"
+    C = "control-hobby-female"
+    D = "control-hobby-male"
+    E = "intervention-social-female"
+    F = "intervention-social-male"
+    G = "intervention-hobby-female"   
+    H = "intervention-hobby-male"
 
 
 class Participant(db.Model):
@@ -470,11 +479,13 @@ class QuestionType(enum.Enum):
     mc_multiple_answer = "mc_multiple_answer"
     likert = "likert"
     binary = "binary"
-    video = "video"
-    information = "information"
-    finish = "finish"
     open_question = "open_question"
+    information = "information"
+    binary_information = "binary_information"
+    finish = "finish"
+    video = "video"
     notes = "researcher_notes"
+    
 
     def __repr__(self):
         """The string representation of the object."""
