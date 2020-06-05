@@ -20,7 +20,7 @@ const mainAppReducer = (
       return {
         ...state,
        questionIndex: action.questionIndex,
-       //questionIndex: 230
+       //questionIndex: 240
       };
 
     /*

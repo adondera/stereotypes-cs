@@ -44,6 +44,7 @@ const MainApp = ({
 };
 
 MainApp.propTypes = {
+  serVersion: PropTypes.func,
   loadFailed: PropTypes.bool,
   hasActiveChild: PropTypes.bool,
   questions: PropTypes.object,

@@ -104,7 +104,7 @@ const Finish = (props) => {
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
           component="h1"
-          variant="h2"
+          variant="h1"
           align="center"
           color="textPrimary"
           gutterBottom
