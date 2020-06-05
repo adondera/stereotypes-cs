@@ -217,8 +217,8 @@ class IATFactory:
                    Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
         c_right = list(map(lambda x: (x.name, x.id),
                     Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
-        guide_text['text1'] = guide_text['text1'].format(c_left[0][0], c_left[1][0] if len(c_left) >= 2 else None)
-        guide_text['text2'] = guide_text['text2'].format(c_right[0][0], c_right[1][0] if len(c_right) >= 2 else None)
+        guide_text['text1'] = guide_text['text1'].format(c_left[0][0].lower(), c_left[1][0].lower() if len(c_left) >= 2 else None)
+        guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(), c_right[1][0].lower() if len(c_right) >= 2 else None)
         guide_text['text3'] = block_end_text
         images0 = list(map(lambda x: x.link,
                       Image.query.filter(Image.category_id.in_(phase['left_categ']))))
