@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1.5),
   },
   heroContent: {
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(6, 0, 6),
   },
   cardHeader: {
     backgroundColor:
@@ -64,9 +64,9 @@ const useStyles = makeStyles((theme) => ({
 
 const giveMeString = function(index) {
   if(index === '1')
-    return '1 - helemaal mee eens';
+    return index + " - helemaal mee "
   else if(index === '7')
-    return '7 - helemaal mee oneens';
+    return index + ' - helemaal mee oneens';
   return index.toString();
 }
 
@@ -93,8 +93,8 @@ const LikertScaleQuestion = (props) => {
       <CssBaseline />
       <Container maxWidth='sm' component='main' className={classes.heroContent}>
         <Typography
-          component='h1'
-          variant='h2'
+          component='p'
+          variant='h4'
           align='center'
           color='textPrimary'
           gutterBottom
@@ -108,7 +108,7 @@ const LikertScaleQuestion = (props) => {
             <Card>
               <CardHeader
                 title='Ben jij het eens of oneens met deze zin?'
-                titleTypographyProps={{ align: 'center' }}
+                titleTypographyProps={{ align: 'center', variant: 'h6' }}
                 subheaderTypographyProps={{ align: 'center' }}
                 action={null}
                 className={classes.cardHeader}
