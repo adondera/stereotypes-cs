@@ -207,7 +207,7 @@ def unfinished_tests():
 class Stats(Resource):
     """Resource that deals with retrieving statistics about participants"""
 
-    #@jwt_required
+    @jwt_required
     def get(self):
         """
         On a get request on the /stats endpoint we return an object with statistics
@@ -242,7 +242,7 @@ class Stats(Resource):
 class Participants(Resource):
     """Resource that deals with retrieving participants data from database"""
 
-    #@jwt_required
+    @jwt_required
     def get(self):
         """
         On a get request on the /participants endpoint we return
@@ -262,7 +262,7 @@ class Participants(Resource):
             array.append(str(participant.age))
             array.append(participant.gender)
             array.append(str(participant.ethnicity))
-            array.append(participant.quiz_version.name)
+            array.append(participant.quiz_version.value)
             array.append(str(participant.date))
             array.append(participant.researcher_notes)
 
