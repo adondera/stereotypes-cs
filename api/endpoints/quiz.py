@@ -27,12 +27,16 @@ class QuizAnswers(Resource):
         """
         validators = {
             "data": valid.validate_answers,
-            "id": valid.validate_int
+            "id": valid.validate_int,
+            "version": valid.validate_string
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
         if not data:
             return ANSWERS[400], 400
+
+        participant = Participant.query.filter_by(id=data['id']).first()
+        participant.quiz_version = Version[data["version"]]
 
         # Iterate through every answer and insert demographics ones
         # into Participant, and the rest into ParticipantAnswer
@@ -41,7 +45,6 @@ class QuizAnswers(Resource):
                 id=answer["question_id"]).first().q_type
             i_type = Question.query.filter_by(
                 id=answer["question_id"]).first().information
-            participant = Participant.query.filter_by(id=data['id']).first()
             
             if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
                 ageString = QuestionChoice.query.filter_by(
