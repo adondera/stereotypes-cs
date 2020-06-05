@@ -11,6 +11,7 @@ import Email from "./EmailField";
 import Loader from "../../common/Loader";
 import InputLabel from "@material-ui/core/InputLabel";
 import validator from "validator";
+import Typography from "@material-ui/core/Typography";
 const max_no_children = process.env.REACT_APP_NO_CHILD;
 
 class Footer extends Component {
@@ -113,11 +114,6 @@ class Footer extends Component {
     return (
       <div className="Footer">
         <Grid container spacing={3} className="TextFields" justify="center">
-          <Parent
-            firstName={parent.firstName}
-            lastName={parent.lastName}
-            component={this}
-          />
           {this.state.children.map((child, index) => {
             return (
               <Child
@@ -129,9 +125,38 @@ class Footer extends Component {
               />
             );
           })}
+          <Typography
+            variant="body1"
+            component="div"
+            style={{ padding: 12, marginTop: 20 }}
+            className="Paragraph"
+            align="left"
+          >
+            deelgenomen aan op het bovenstaande vermelden en beschreven
+            onderzoek. Door ondertekening van dit formulier geef ik
+            uitdrukkelijk toestemming tot deelname aan het onderzoek binnen
+            NEMO’s Science Live programma.
+            <br />
+            <br />
+            Voor- en achternaam ouder/voogd:
+          </Typography>
+          <Parent
+            firstName={parent.firstName}
+            lastName={parent.lastName}
+            component={this}
+          />
           <Email ref={this.emailRef} />
         </Grid>
-        <InputLabel style={{marginTop: 10, visibility: this.state.isMailInvalid ? 'visible' : 'hidden'}} error={true}> Ongeldig e-mail </InputLabel>
+        <InputLabel
+          style={{
+            marginTop: 10,
+            visibility: this.state.isMailInvalid ? "visible" : "hidden",
+          }}
+          error={true}
+        >
+          {" "}
+          Ongeldig e-mail{" "}
+        </InputLabel>
         <div className="PlusMinusButton">
           {this.state.children.length > max_no_children ? null : (
             <div className="Button">
@@ -171,7 +196,7 @@ class Footer extends Component {
                 value="yes"
               />
             }
-            label="Ga akkoord om gegevens te delen en te ondertekenen*"
+            label="Ga akkoord om gegevens te delen en teken hieronder*"
           />
         </Grid>
         <Grid item xs={12}>
