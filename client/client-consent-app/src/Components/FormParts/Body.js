@@ -104,7 +104,7 @@ const Body = () => {
       </Typography>
       <Typography variant="body1" component='div' className="Paragraph">
           <b>
-          Op {new Date().getDay()} / {new Date().getMonth()} / {new Date().getFullYear()}
+          Op {new Date().getDay()} / {new Date().getMonth()+1} / {new Date().getFullYear()}
           </b>
       </Typography>
     </div>
