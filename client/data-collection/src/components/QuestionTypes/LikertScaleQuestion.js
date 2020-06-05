@@ -61,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+const giveMeString = function(index) {
+  if(index == 1)
+    return '1 - helemaal mee eens';
+  else if(index == 7)
+    return '7 - helemaal mee oneens';
+  return index.toString();
+}
+
 const LikertScaleQuestion = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answers: [] });
@@ -72,7 +81,7 @@ const LikertScaleQuestion = (props) => {
 
   const likertOptions = {
     responses: likertScaleText.map((scaleText, index) => {
-      return { value: index + 1, text: scaleText };
+      return { value: index + 1, text: giveMeString(scaleText) };
     }),
     picked: (val) => {
       setQuestionAnswer({ answers: parseInt(val), question_id: props.id });
@@ -98,7 +107,7 @@ const LikertScaleQuestion = (props) => {
           <Grid item xs={12} md={12} style={{ margin: 'auto' }}>
             <Card>
               <CardHeader
-                title='Selecteer degene die u het meest geschikt acht'
+                title='Ben jij het eens of oneens met deze zin?'
                 titleTypographyProps={{ align: 'center' }}
                 subheaderTypographyProps={{ align: 'center' }}
                 action={null}
@@ -119,7 +128,7 @@ const LikertScaleQuestion = (props) => {
               disabled={state.answers.length === 0}
               onClick={onClick}
             >
-              NEXT
+              VOLGENDE
             </Button>
           </Grid>
         </Grid>
