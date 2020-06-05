@@ -80,64 +80,12 @@ const MultipleChoice = (props) => {
   };
 
   return (
-    // <React.Fragment>
-    //   <div className={classes.root}>
-    //     <Grid container spacing={3}>
-    //       <Grid item xs={12}>
-    //         <Slide
-    //           direction='down'
-    //           in={true}
-    //           key={props.questionIndex}
-    //           mountOnEnter
-    //         >
-    //           <Card className={classes.root}>
-    //             <Typography gutterBottom variant='h5' component='h2'>
-    //               {props.text}
-    //             </Typography>
-    //             <CardContent>
-    //               <Typography
-    //                 variant='body2'
-    //                 color='textSecondary'
-    //                 component='p'
-    //               ></Typography>
-    // <Test
-    //   className={classes.choices}
-    //   onOptionSelect={onSelectedOption}
-    // >
-    //   <QuestionGroup
-    //     key={props.questionIndex}
-    //     questionNumber={'selected-answer'}
-    //   >
-    //     {props.choices.map((option, index) => {
-    //       return (
-    //         <Option key={index} value={(option.choice_num).toString()}>
-    //           {option.text}
-    //         </Option>
-    //       );
-    //     })}
-    //   </QuestionGroup>
-    // </Test>
-    //             </CardContent>
-    //           </Card>
-    //         </Slide>
-    //       </Grid>
-    //     </Grid>
-    // <Button
-    //   className={classes.nextButton}
-    //   variant='contained'
-    //   disabled={state.answers.length === 0}
-    //   onClick={onClick}
-    // >
-    //   NEXT
-    // </Button>
-    //   </div>
-    // </React.Fragment>
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth='sm' component='main' className={classes.heroContent}>
         <Typography
-          component='h1'
-          variant='h2'
+          component='h4'
+          variant='p'
           align='center'
           color='textPrimary'
           gutterBottom
