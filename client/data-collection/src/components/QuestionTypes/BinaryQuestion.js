@@ -157,14 +157,6 @@ const BinaryQuestion = (props) => {
       <CssBaseline/>
       <Grid container spacing={8}>
         <Grid item xs={12}>
-          <ImageCard
-            {...props}
-            key={props.questionIndex}
-            image={props.image.link}
-            onClick={onClickLeft}
-            imageLoaded={imageLoaded}
-            onLoadImage={() => setimageLoaded(true)}
-          />
         </Grid>
         <Grid item xs={12} sm={5}>
           <TextCard
@@ -187,6 +179,14 @@ const BinaryQuestion = (props) => {
             isSelected={state.isRightSelected}
           />
         </Grid>
+          <ImageCard
+            {...props}
+            key={props.questionIndex}
+            image={props.image.link}
+            onClick={onClickLeft}
+            imageLoaded={imageLoaded}
+            onLoadImage={() => setimageLoaded(true)}
+          />
       </Grid>
     </div>
   );

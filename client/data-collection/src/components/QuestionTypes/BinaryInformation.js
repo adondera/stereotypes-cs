@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridList: {
-    paddingTop: 30,
+    paddingTop: 25,
   },
 }));
 
@@ -86,7 +86,7 @@ const Information = (props) => {
             {props.text0}
           </Typography>
           <Container maxWidth component="main" className={classes.heroContent}>
-            <div style={{ paddingTop: 50 }}>
+            <div style={{ paddingTop: 30 }}>
               <Typography
                 variant="h5"
                 align="center"
@@ -102,7 +102,7 @@ const Information = (props) => {
               cols={props.images0.length}
             >
               {props.images0.map((image) => (
-                <GridListTile key={image} cols={1}>
+                <GridListTile style={props.images0.length === 4 ? {width: '19%', margin:'auto'} : {}} key={image} cols={1}>
                   <img
                     style={{ width: "100%", height: "auto" }}
                     src={image}
@@ -111,7 +111,7 @@ const Information = (props) => {
                 </GridListTile>
               ))}
             </GridList>
-            <div style={{ paddingTop: 50 }}>
+            <div style={{ paddingTop: 25 }}>
               <Typography
                 variant="h5"
                 align="center"
@@ -127,7 +127,7 @@ const Information = (props) => {
               cols={props.images1.length}
             >
               {props.images1.map((image) => (
-                <GridListTile key={image} cols={1}>
+                <GridListTile style={props.images0.length === 4 ? {width: '19%', margin:'auto'} : {}} key={image} cols={1}>
                   <img
                     style={{ width: "100%", height: "auto" }}
                     src={image}
@@ -136,7 +136,7 @@ const Information = (props) => {
                 </GridListTile>
               ))}
             </GridList>
-            <div style={{ paddingTop: 50 }}>
+            <div style={{ paddingTop: 25 }}>
               <Typography
                 variant="h5"
                 align="center"
@@ -160,7 +160,7 @@ const Information = (props) => {
             }}
             disabled={hasNext}
           >
-            VOLGENDE
+            NEXT
           </Button>
         </React.Fragment>
       )}
