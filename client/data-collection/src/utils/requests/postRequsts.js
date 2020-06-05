@@ -21,10 +21,11 @@ export function login(data, callback, errorcallback) {
 /*
 Send quiz data to the server at the end of quiz
 */
-export function sendData(data, childInfo, callback, errorcallback) {
+export function sendData(data, childInfo, version ,callback, errorcallback) {
   var dataToBeSent = {}
-  dataToBeSent.data = []
   dataToBeSent.id = childInfo.childId
+  dataToBeSent.version = version
+  dataToBeSent.data = []
   data.forEach(answer => {
     dataToBeSent.data.push(answer)
   });

@@ -8,6 +8,7 @@ import Load from "./Load";
 import QueueManagement from "./QueueManagement";
 
 const MainApp = ({
+  setVersion,
   loadFailed = false,
   hasActiveChild = false,
   questionIndex = 0,
@@ -21,7 +22,7 @@ const MainApp = ({
     <div>
       <Switch>
         <Route path="/load">
-          <Load loadFailed={loadFailed} onClick={() => loadData(accessToken)} />
+          <Load loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
           {isDataLoaded ? <Redirect to="/app" /> : null}
         </Route>
         <Route path="/app">

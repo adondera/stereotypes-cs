@@ -1,9 +1,16 @@
 import { sendData } from '../utils/requests/postRequsts';
 const questionsReducer = (
-  state = { answers: [], before_video: true, participant_id: undefined },
+  state = { answers: [], before_video: true, participant_id: undefined, version: 'A' },
   action
 ) => {
   switch (action.type) {
+
+    case 'SET_VERSION':
+      return {
+        ...state,
+        version: action.version
+      }
+
     /*
     Save question answer in store
     */
@@ -32,7 +39,7 @@ const questionsReducer = (
     case 'SEND_QUESTIONS_ANSWERS':
       const succes = () => action.dispatch({type: 'SEND_SUCCESS'})
       const fail = () => action.dispatch({type: 'SEND_FAIL'})
-      sendData(state.answers, action.childInfo, succes, fail);
+      sendData(state.answers, action.childInfo, state.version,succes, fail);
       return { ...state, answers: [] };
 
     case 'VIDEO_WAS_PLAYED':
