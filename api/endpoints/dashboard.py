@@ -19,7 +19,7 @@ def all_time_participants():
         The total number of participants.
     """
 
-    return Participant.query.count()
+    return Participant.query.filter(Participant.quiz_version.isnot(None)).count()
 
 
 def today_participants():
@@ -33,7 +33,8 @@ def today_participants():
     """
 
     today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
-    return Participant.query.filter(Participant.date >= today).count()
+    return Participant.query.filter(and_(Participant.date >= today,
+                                         Participant.quiz_version.isnot(None))).count()
 
 
 def yesterday_participants():
@@ -50,7 +51,8 @@ def yesterday_participants():
     yesterday = datetime(date.year, date.month, date.day)
     today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
     return Participant.query.filter(and_(Participant.date >= yesterday,
-                                         Participant.date < today)).count()
+                                         Participant.date < today,
+                                         Participant.quiz_version.isnot(None))).count()
 
 
 def yesterday_by_this_time_participants():
@@ -68,8 +70,9 @@ def yesterday_by_this_time_participants():
                             yesterday_this_time.month,
                             yesterday_this_time.day)
 
-    return Participant.query.filter(and_(Participant.date >= yesterday_00),
-                                    Participant.date <= yesterday_this_time).count()
+    return Participant.query.filter(and_(Participant.date >= yesterday_00,
+                                         Participant.date <= yesterday_this_time,
+                                         Participant.quiz_version.isnot(None))).count()
 
 
 def last_hour_participants():
@@ -83,7 +86,8 @@ def last_hour_participants():
     """
 
     last_hour = datetime.today() - timedelta(hours=1)
-    return Participant.query.filter(Participant.date >= last_hour).count()
+    return Participant.query.filter(and_(Participant.date >= last_hour,
+                                         Participant.quiz_version.isnot(None))).count()
 
 
 def version_distribution():
@@ -98,10 +102,10 @@ def version_distribution():
 
     data = []
     for version in Version:
-        num_part = Participant.query.filter(Participant.quiz_version == version.name).count()
+        num_part = Participant.query.filter(Participant.quiz_version == version).count()
 
         version_obj = {
-            'version_name': version.name,
+            'version_name': version.value,
             'num_participants': num_part
         }
 
@@ -120,7 +124,8 @@ def gender_distribution():
     """
 
     data = []
-    results = Participant.query.with_entities(Participant.gender, func.count(Participant.gender)) \
+    results = Participant.query.filter(Participant.quiz_version.isnot(None)) \
+        .with_entities(Participant.gender, func.count(Participant.gender)) \
         .group_by(Participant.gender).all()
 
     for res in results:
@@ -173,8 +178,9 @@ def avg_age():
        The average age amongst the participants.
     """
 
-    avg = Participant.query.with_entities(func.avg(Participant.age)).one()[0]
-    return float(avg)
+    avg = Participant.query.filter(Participant.quiz_version.isnot(None)) \
+        .with_entities(func.avg(Participant.age)).one()[0]
+    return float(avg) if avg is not None else None
 
 
 class Stats(Resource):
@@ -223,7 +229,7 @@ class Participants(Resource):
         columns = ["Participant Name", "Parent's email", "Age", "Gender",
                    "Ethnicities", "Test Version", "Test date", "Notes"]
         data = []
-        for participant in Participant.query.all():
+        for participant in Participant.query.filter(Participant.quiz_version.isnot(None)).all():
             array = []
             parent = Consent.query.filter_by(id=participant.consent_id).first()
 
@@ -232,7 +238,7 @@ class Participants(Resource):
             array.append(str(participant.age))
             array.append(participant.gender)
             array.append(str(participant.ethnicity))
-            array.append(participant.quiz_version.value)
+            array.append(participant.quiz_version.name)
             array.append(str(participant.date))
             array.append(participant.researcher_notes)
 
