@@ -165,7 +165,7 @@ const MultipleChoiceSpecial = (props) => {
               disabled={ticked === 0}
               onClick={onClick}
             >
-              NEXT
+              VOLGENDE
             </Button>
           </Grid>
         </Grid>

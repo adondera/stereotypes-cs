@@ -148,7 +148,7 @@ const Finish = (props) => {
           onClick={finish ? onClickFinish : onClickNext}
           disabled={researcherCode !== "NEMO" || dataFailed}
         >
-          {finish ? <span>END</span> : <span>NEXT</span>}
+          {finish ? <span>EINDE</span> : <span>VOLGENDE</span>}
         </Button>
       </Grid>
       <Grid>

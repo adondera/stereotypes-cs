@@ -101,7 +101,7 @@ const OpenQuestion = (props) => {
           style={{ marginTop: 20 }}
           onClick={onClick}
         >
-          NEXT
+          VOLGENDE
         </Button>
       </Grid>
     </React.Fragment>

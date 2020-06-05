@@ -128,7 +128,7 @@ const ResearcherNotes = (props) => {
           variant="contained"
           onClick={onClickFinish}
         >
-            FINISH
+            AF HEBBEN
         </Button>
       </Grid>
       <Grid>

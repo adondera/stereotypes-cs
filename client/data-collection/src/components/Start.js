@@ -84,7 +84,7 @@ const Start = (props) => {
         color="primary"
         disabled={!props.canStart}
       >
-        Start
+        BEGIN
       </Button>
   </React.Fragment>
   );

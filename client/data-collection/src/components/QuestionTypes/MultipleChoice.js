@@ -191,7 +191,7 @@ const MultipleChoice = (props) => {
               disabled={state.answers.length === 0}
               onClick={onClick}
             >
-              NEXT
+              VOLGENDE
             </Button>
           </Grid>
         </Grid>

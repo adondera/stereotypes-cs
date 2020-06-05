@@ -82,7 +82,7 @@ const Information = (props) => {
         style={{ marginTop: 20 }}
         onClick={props.onNext}
       >
-        NEXT
+        VOLGENDE
       </Button>
     </React.Fragment>
   );
