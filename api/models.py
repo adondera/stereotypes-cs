@@ -224,14 +224,14 @@ class Ethnicity(enum.Enum):
 class Version(enum.Enum):
     """Enumeration of the different scenarios"""
 
-    A = "control-social-female.json"
-    B = "control-social-male.json"
-    C = "control-hobby-female.json"
-    D = "control-hobby-male.json"
-    E = "intervention-social-female.json"
-    F = "intervention-social-male.json"
-    G = "intervention-hobby-female.json"   
-    H = "intervention-hobby-male.json"
+    A = "control-social-female"
+    B = "control-social-male"
+    C = "control-hobby-female"
+    D = "control-hobby-male"
+    E = "intervention-social-female"
+    F = "intervention-social-male"
+    G = "intervention-hobby-female"   
+    H = "intervention-hobby-male"
 
 
 class Participant(db.Model):

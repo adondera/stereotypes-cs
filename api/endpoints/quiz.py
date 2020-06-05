@@ -94,7 +94,7 @@ class QuizQuestions(Resource):
         """
         version = request.args.get("version")
         filename = os.path.join(current_app.static_folder,
-                                "IATs/{}".format(Version[version].value))
+                                "IATs/{}.json".format(Version[version].value))
         return QuizFactory(filename).create_quiz(), 200
 
 class QuizVersions(Resource):
