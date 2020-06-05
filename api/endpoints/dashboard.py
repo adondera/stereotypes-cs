@@ -184,6 +184,14 @@ def avg_age():
 
 
 def unfinished_tests():
+    """
+    Get the number of the persons who have signed the consent but did not take the test.
+
+    Returns
+    -------
+    int
+        The number of persons who did not complete the test (with consent signed).
+    """
 
     num = Participant.query.filter(Participant.quiz_version.is_(None)).count()
     return num
