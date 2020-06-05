@@ -94,6 +94,18 @@ class QuizQuestions(Resource):
                                 "IATs/{}".format(Version[version].value))
         return QuizFactory(filename).create_quiz(), 200
 
+class QuizVersions(Resource):
+    """Resource that returns a mapping for the different scenarios"""
+
+    def get(self):
+        """
+        On a get on the /quiz-version endpoint we return a version mapping
+        :return the version mapping
+        """
+        ret = dict()
+        for e in Version:
+            ret[e.name] = e.value
+        return ret
 
 class QuizResults(Resource):
     """Resource that deals with retrieving answers from database"""
