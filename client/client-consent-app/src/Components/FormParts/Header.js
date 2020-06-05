@@ -19,7 +19,7 @@ const Header = () => {
         <br/>
         <br/>
         <Typography variant="h5" style={{ textAlign: 'left' }}>
-          Toestemmingsformulier Minderjarigen
+        Toestemmingsformulier minderjarigen
         </Typography>
       </Grid>
     </div>

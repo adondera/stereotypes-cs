@@ -114,6 +114,15 @@ class Footer extends Component {
     return (
       <div className="Footer">
         <Grid container spacing={3} className="TextFields" justify="center">
+        <Typography
+            variant="body1"
+            component="div"
+            style={{ padding: 12, width: '100%' }}
+            className="Paragraph"
+            align="left"
+          >
+            heeft [voor- en achternaam kind(eren)] <br/>
+          </Typography>
           {this.state.children.map((child, index) => {
             return (
               <Child
@@ -125,6 +134,35 @@ class Footer extends Component {
               />
             );
           })}
+            <div className="PlusMinusButton">
+              {this.state.children.length > max_no_children ? null : (
+                <div className="Button">
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    onClick={this.onAddClick}
+                  >
+                    +
+                  </Button>
+                </div>
+              )}
+              {this.state.children.length === 1 ? null : (
+                <div className="Button">
+                  <Button
+                    className="Button"
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    onClick={this.onRemoveClick}
+                  >
+                    -
+                  </Button>
+                </div>
+              )}
+            </div>
           <Typography
             variant="body1"
             component="div"
@@ -157,35 +195,6 @@ class Footer extends Component {
           {" "}
           Ongeldig e-mail{" "}
         </InputLabel>
-        <div className="PlusMinusButton">
-          {this.state.children.length > max_no_children ? null : (
-            <div className="Button">
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                disableElevation
-                onClick={this.onAddClick}
-              >
-                +
-              </Button>
-            </div>
-          )}
-          {this.state.children.length === 1 ? null : (
-            <div className="Button">
-              <Button
-                className="Button"
-                size="small"
-                variant="contained"
-                color="primary"
-                disableElevation
-                onClick={this.onRemoveClick}
-              >
-                -
-              </Button>
-            </div>
-          )}
-        </div>
         <Grid item xs={12} style={{ marginTop: "20px" }}>
           <FormControlLabel
             control={

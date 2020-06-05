@@ -106,8 +106,6 @@ const Body = () => {
           <b>
           Op {new Date().getDay()} / {new Date().getMonth()} / {new Date().getFullYear()}
           </b>
-          <br/><br/>
-          heeft [voor- en achternaam kind(eren)]
       </Typography>
     </div>
   );
