@@ -207,7 +207,7 @@ def unfinished_tests():
 class Stats(Resource):
     """Resource that deals with retrieving statistics about participants"""
 
-    @jwt_required
+    #@jwt_required
     def get(self):
         """
         On a get request on the /stats endpoint we return an object with statistics
@@ -242,10 +242,11 @@ class Stats(Resource):
 class Participants(Resource):
     """Resource that deals with retrieving participants data from database"""
 
-    @jwt_required
+    #@jwt_required
     def get(self):
         """
-        On a get request on the /participants endpoint we return all the participants stored
+        On a get request on the /participants endpoint we return
+        all the participants stored (who completed the test).
         :return: If the request is valid, a JSON object with the participants and code 200
         """
 
