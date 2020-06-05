@@ -23,7 +23,13 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-
+    POSTGRES = {
+        'user': 'frbytifsjnfuec',
+        'pw': '957f087c94717131d3623d9df525094479b3a67c7bd8143d9b568f2b90e2e38a',
+        'db': 'd33riso0mvutf9',
+        'host': 'ec2-54-75-246-118.eu-west-1.compute.amazonaws.com',
+        'port': '5432',
+    }
 
 class StagingConfig(Config):
     DEVELOPMENT = True
