@@ -61,5 +61,6 @@ answer = {
             "answers": 1,
             "before_video": True
         }
-    ]
+    ],
+    "version": "A"
 }
