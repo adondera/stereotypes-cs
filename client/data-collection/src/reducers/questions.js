@@ -31,7 +31,7 @@ const questionsReducer = (
     Clear question results from store
     */
     case 'CLEAR_QUESTIONS':
-      return { ...state, answers: [] };
+      return { ...state, before_video: false, participant_id: undefined, answers: [] };
 
     /*
     Send question results to server
