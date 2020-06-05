@@ -183,6 +183,12 @@ def avg_age():
     return float(avg) if avg is not None else None
 
 
+def unfinished_tests():
+
+    num = Participant.query.filter(Participant.quiz_version.is_(None)).count()
+    return num
+
+
 class Stats(Resource):
     """Resource that deals with retrieving statistics about participants"""
 
@@ -202,6 +208,8 @@ class Stats(Resource):
                 'yesterday_by_this_time': yesterday_by_this_time_participants(),
                 'last_hour': last_hour_participants()
             },
+
+            'started_but_not_completed': unfinished_tests(),
 
             'average_participant_age': avg_age(),
 
