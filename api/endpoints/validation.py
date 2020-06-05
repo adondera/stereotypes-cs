@@ -1,6 +1,8 @@
 """Collection of methods used for input validation."""
 import base64
+import re
 
+email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 def validate_answers(answers):
     if not validate_list(answers):
@@ -153,9 +155,10 @@ def validate_email(value):
     value (any): Input value
 
     Returns:
-    boolean: True if value has email format
+    boolean: True if value has email format or is empty string
     """
-    return isinstance(value, str) and len(value.split('@')) == 2
+    return isinstance(value, str) and (email_regex.match(value) or value=="")
+    # return isinstance(value, str) and len(value.split('@')) == 2
 
 
 def validate_list(value):

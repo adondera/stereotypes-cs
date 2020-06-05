@@ -25,7 +25,8 @@ consent_data = {
         "firstName": "Parent first name",
         "lastName": "Parent last name",
         "isValid": True
-    }
+    },
+    "email": ""
 }
 
 answer = {

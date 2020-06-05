@@ -169,7 +169,7 @@ class Consent(db.Model):
     signature = db.Column(db.Text(), nullable=False)
 
     @staticmethod
-    def create_consent(parent_first_name, parent_last_name, signature):
+    def create_consent(parent_first_name, parent_last_name, signature, email=""):
         """
         Creates a new consent form entry in the database.
 
@@ -191,7 +191,8 @@ class Consent(db.Model):
 
         consent = Consent(parent_first_name=parent_first_name,
                           parent_last_name=parent_last_name,
-                          signature=signature)
+                          signature=signature,
+                          parent_email=email)
         add_to_db(consent)
         return consent
 
