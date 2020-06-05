@@ -128,17 +128,24 @@ def gender_distribution():
         .with_entities(Participant.gender, func.count(Participant.gender)) \
         .group_by(Participant.gender).all()
 
+    num_null = 0
     for res in results:
-        gender = "Not known"
         if res.gender is not None:
-            gender = res.gender
 
-        gender_obj = {
-            'gender': gender,
-            'number': res[1]
-        }
+            gender_obj = {
+                'gender': res.gender,
+                'number': res[1]
+            }
 
-        data.append(gender_obj)
+            data.append(gender_obj)
+        else:
+            num_null += 1
+
+    # add not known genders count
+    data.append({
+        'gender': "Not known",
+        'number': num_null
+    })
 
     return data
 
