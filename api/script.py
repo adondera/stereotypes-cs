@@ -23,73 +23,73 @@ def populate():
     c_tennis = Category.create_category(name="Tennis", metacategory=Metacategory.hobby)
 
     male_images = [
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192602/Gender/gender_male_1_g2lh5p.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192602/Gender/gender_male_2_sa8fgj.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_male_3_puyy0g.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_male_4_xdz0j1.png']
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_male_1_dh1pbq.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_male_2_bsbqc9.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276421/Gender/gender_male_3_eknmuv.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276421/Gender/gender_male_4_d1clch.png']
 
     female_images = [
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_female_1_mkeatm.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_female_2_jpeyr0.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_female_3_xtzyxj.png',
-        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192601/Gender/gender_female_4_ns0xph.png'
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276422/Gender/gender_female_1_nph1ga.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_female_2_fjfxrv.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_female_3_erg7nd.png',
+        'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_female_4_b0vc8l.png'
     ]
 
     programmer_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_programmer_1_o8cjwc.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276505/Profession/profession_programmer_1_c6pvby.png",
          "App"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_programmer_2_stjskj.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276504/Profession/profession_programmer_2_rbcfov.png",
          "Laptop"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_programmer_3_bu0poe.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276504/Profession/profession_programmer_3_cjwqsw.png",
          "Keyboard"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_programmer_4_meu8oc.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276504/Profession/profession_programmer_4_xbviey.png",
          "Website")
     ]
 
     writer_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_writer_1_dqzbjn.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276504/Profession/profession_writer_1_o8xzue.png",
          "Newspaper"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192879/Profession/profession_writer_2_faw9zt.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276504/Profession/profession_writer_2_mmpdnx.png",
          "Papers"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192877/Profession/profession_writer_3_cwj9lk.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276505/Profession/profession_writer_3_qyl8aq.png",
          "Pen"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192878/Profession/profession_writer_4_l2boup.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276505/Profession/profession_writer_4_tbvw0b.png",
          "Book")
     ]
 
     gaming_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_gaming_1_f29wwk.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_gaming_1_tlfl07.png",
          "Game Controller"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192999/Hobby/hobby_gaming_2_rinzcc.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_gaming_2_ruribs.png",
          "Game Controller"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591192999/Hobby/hobby_gaming_3_xqy21o.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_gaming_3_hvkfme.png",
          "Game Controller"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_gaming_4_bkrsbg.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_gaming_4_cb1doe.png",
          "Game Controller")
     ]
 
     tenis_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_tennis_1_qg4dgy.png", "Net"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_tennis_2_skoohe.png", "Racket"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_tennis_3_khrqoj.png", "Shoe"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193001/Hobby/hobby_tennis_4_npdibp.png", "Ball")
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276495/Hobby/hobby_tennis_1_ei7yic.png", "Net"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_tennis_2_qx7tms.png", "Racket"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_tennis_3_pdsnou.png", "Shoe"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276493/Hobby/hobby_tennis_4_v5yam2.png", "Ball")
     ]
 
     alone_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193132/Social/social_alone_1_vmistb.png", "Alone"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193132/Social/social_alone_2_uwyq0o.png", "Alone"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193133/Social/social_alone_3_leru5w.png", "Alone"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193132/Social/social_alone_4_ffzago.png", "Alone")
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276518/Social/social_alone_1_wy8rpb.png", "Alone"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276516/Social/social_alone_2_vy3tmr.png", "Alone"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276518/Social/social_alone_3_ygnsbz.png", "Alone"),
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276517/Social/social_alone_4_ppasf1.png", "Alone")
     ]
 
     together_images = [
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193133/Social/social_together_1_thdegt.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276518/Social/social_together_1_eumalw.png",
          "Together"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193133/Social/social_together_2_oaarip.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276517/Social/social_together_2_ketyo1.png",
          "Together"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193134/Social/social_together_3_zji8l5.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276517/Social/social_together_3_s4wzba.png",
          "Together"),
-        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591193134/Social/social_together_4_h4oz8h.png",
+        ("https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276517/Social/social_together_4_ea2yka.png",
          "Together")
     ]
 
@@ -109,18 +109,18 @@ def populate():
     create_images(together_images, c_together.id)
 
     # likert
-    create_likert("Ik ben sociaal\n"
+    create_likert("Ik ben sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Ik ben graag de beste")
     create_likert("Ik ben gek op computers")
     create_likert("Ik wil later programmeur worden")
-    create_likert("Programmeurs zijn sociaal"""
+    create_likert("Programmeurs zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Programmeurs houden ervan om de beste te zijn")
     create_likert("Programmeurs zijn gek op computers en hebben weinig andere hobby’s")
     create_likert("Programmeur zijn, dat is een beroep voor mannen")
     create_likert("Programmeur zijn, dat is een beroep voor vrouwen")
-    create_likert("Schrijvers zijn sociaal"""
+    create_likert("Schrijvers zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Schrijvers houden ervan om de beste te zijn")
     create_likert("Schrijvers zijn gek op computers en hebben weinig andere hobby’s")
@@ -129,13 +129,15 @@ def populate():
 
     Question.create_question(q_type=QuestionType.open_question, text="Wat doet een programmeur?")
 
-    video = Image.create_image(link="7CVtTOpgSyY", description='role model intervention video',
-                               attribute='video')
+    video_female = Image.create_image(link="173d_-zTd1o", description='Role model intervention',
+                               attribute='Female')
+    video_male = Image.create_image(link="hEMOMVZbSBE", description='Role model intervention',
+                               attribute='Male')
 
     # video_question
     Question.create_question(
         q_type=QuestionType.video,
-        images=[video]
+        images=[video_female]
     )
 
     mc_1 = Question.create_question(q_type=QuestionType.mc_single_answer, text="Hoe oud ben je?",
@@ -158,6 +160,12 @@ def populate():
 
     Question.create_question(q_type=QuestionType.notes, text="Researcher notes",
                              information=ParticipantInformationType.researcher_notes)
+
+    # video_question
+    Question.create_question(
+        q_type=QuestionType.video,
+        images=[video_male]
+    )
 
 
 def create_images(link_array, c_id):

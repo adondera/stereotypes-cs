@@ -1,4 +1,5 @@
 import os
+import secrets
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,8 +17,8 @@ class Config(object):
         'port': '5432',
     }
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
-    SECRET_KEY = 'some random key'
-    JWT_SECRET_KEY = 'super-secret'
+    SECRET_KEY = "Ud5yvQuCrh4GvYX9Mjc6VzomQA3q5K5_HSCvf0_Q6Tw"
+    JWT_SECRET_KEY = "S8y0MwT_t7vf002vCYnL0Z8M9mRYpmJUPRkmnTXwN4E"
 
 
 class ProductionConfig(Config):

@@ -4,7 +4,7 @@ Test class that simulates the queue management
 and tests the socket connection
 """
 from api import app, socketio
-from ..endpoints.constants import consent_data
+from .test_constants import consent_data
 
 
 def test_connection(client, init_db):
