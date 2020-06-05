@@ -61,18 +61,10 @@ const Information = (props) => {
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
-          variant="h1"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          {props.header}
-        </Typography>
-        <Typography
-          variant="h5"
+          variant="h4"
           align="center"
           color="textSecondary"
-          component="p"
+          gutterBottom
         >
           {props.text}
         </Typography>

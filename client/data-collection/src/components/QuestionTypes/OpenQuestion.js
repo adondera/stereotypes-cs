@@ -74,9 +74,9 @@ const OpenQuestion = (props) => {
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
-          variant="h5"
+          variant="h4"
           align="center"
-          color="textSecondary"
+          color="textPrimary"
           component="p"
         >
           {props.text}
@@ -88,6 +88,7 @@ const OpenQuestion = (props) => {
           label="Antwoord hier"
           multiline
           rows={4}
+          style={{width: '50%'}}
           inputRef={textRef}
           autoFocus
           defaultValue=""
