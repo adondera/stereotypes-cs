@@ -32,7 +32,7 @@ const TextCard = (props) => {
           {props.categories.map((category,index) => (
             <div key={index}>
             {index === 1 ? (
-              <Typography variant="h6" style={{lineHeight: 0, marginBottom: '4px', marginTop: '4px'}}> & </Typography>
+              <Typography variant="h6" style={{lineHeight: 0, marginBottom: '4px', marginTop: '4px'}}> of </Typography>
             ) : (null)}
             <Typography variant="h6" > {category.name} </Typography>
             </div>
