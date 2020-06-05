@@ -48,7 +48,7 @@ def init_db_with_participants():
     db.create_all()
     User.create_user("username", "password")
     Consent.create_consent("John", "Doe", "Signature")
-    Participant.create_participant(1, "Ionut", "Cons", 15, Gender.Jongen.value, [Ethnicity.Nederlands.value], "", Version.Dummy)
+    Participant.create_participant(1, "Ionut", "Cons", 15, Gender.Jongen.value, [Ethnicity.Nederlands.value], "", Version.A)
     yield db
     db.session.close()
     db.drop_all()

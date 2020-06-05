@@ -224,7 +224,15 @@ class Ethnicity(enum.Enum):
 
 class Version(enum.Enum):
     """Enumeration of the different scenarios"""
-    Dummy = "gender-profession.json"
+
+    A = "control-social-female"
+    B = "control-social-male"
+    C = "control-hobby-female"
+    D = "control-hobby-male"
+    E = "intervention-social-female"
+    F = "intervention-social-male"
+    G = "intervention-hobby-female"   
+    H = "intervention-hobby-male"
 
 
 class Participant(db.Model):
