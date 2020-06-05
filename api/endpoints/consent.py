@@ -46,7 +46,7 @@ class ConsentForm(Resource):
 
         if os.environ['APP_SETTINGS'] != "config.TestingConfig" \
                 and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
-            upload_result = upload(signature)
+            upload_result = upload(signature, folder="signatures")
             signature = upload_result["secure_url"]
 
         cons = Consent.create_consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
