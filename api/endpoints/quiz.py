@@ -93,9 +93,12 @@ class QuizQuestions(Resource):
         :return: quiz and status 200
         """
         version = request.args.get("version")
-        filename = os.path.join(current_app.static_folder,
-                                "IATs/{}.json".format(Version[version].value))
-        return QuizFactory(filename).create_quiz(), 200
+        try:
+            filename = os.path.join(current_app.static_folder,
+                                    "IATs/{}.json".format(Version[version].value))                 
+            return QuizFactory(filename).create_quiz(), 200
+        except:
+            return ANSWERS[404], 404
 
 class QuizVersions(Resource):
     """Resource that returns a mapping for the different scenarios"""
