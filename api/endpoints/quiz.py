@@ -134,7 +134,10 @@ class QuizResults(Resource):
             array.append(str(answer.question_id))
             array.append(str(answer.question.q_type.name))
             array.append(str(answer.question.text))
-            array.append(str(answer.answers))
+            if answer.question.q_type == QuestionType.open_question:
+                array.append(str(answer.open_question_answer))
+            else:
+                array.append(str(answer.answers))
             array.append(answer.img_link)
             array.append(answer.response_time)
             array.append(answer.before_video)
