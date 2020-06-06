@@ -36,9 +36,9 @@ class QuizFactory:
         self.response.extend(self.hobby_profession.create_iat())
         self.create_end_text()
         self.response.extend(self.eat.create_eat())
+        self.response.extend(self.demographics.create_demographics())
         if not self.video.data['before']:
             self.response.extend(self.video.create_video())
-        self.response.extend(self.demographics.create_demographics())
         self.create_ending()
         return self.response
 
