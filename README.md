@@ -1,18 +1,23 @@
-# Stereotypes in Computer Science
+# Stereotypes in Computer Science :boy: :girl: :computer:
 
 [![coverage report](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/badges/dev/coverage.svg)](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/commits/dev)
 [![pipeline status](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/badges/dev/pipeline.svg)](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/commits/dev)
 ![pylint](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/jobs/artifacts/server-side_setup/raw/public/badges/pylint.svg?job=pylint)
 
-
-## Overview
+## :book: Overview 
 One Paragraph of project description goes here
+## :beginner: Features 
 
+* A
+* B
+* C
 
-## Getting started
+## :camera: Screenshots 
+
+## :checkered_flag: Getting started 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+### Prerequisites :gear:
 A step by step series of examples that tell you how to get a development env running
 
 Say what the step will be
@@ -29,7 +34,7 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-### Instalation
+### Instalation :electric_plug:
 A step by step series of examples that tell you how to get a development env running
 
 Say what the step will be
@@ -46,21 +51,43 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Usage
+## :zap: Usage 
 
 Some intro here
 
-### Folder structrue
+### Folder structrue :file_folder:
 
 How are the folders organised. Where to find stuff.
 
-### Starting the client application
-Reference to client README.md
+```
+.
+├── assets
+│   ├── css
+│   │   ├── index-ui.css
+│   │   └── rate-ui.css
+│   ├── images
+│   │   ├── icons
+│   │   │   ├── shrink-button.png
+│   │   │   └── umbrella.png
+│   │   ├── logo_144.png
+│   │   └── Untitled-1.psd
+│   └── javascript
+│       ├── index.js
+│       └── rate.js
+├── CNAME
+├── index.html
+├── rate.html
+└── README.md
+```
 
-### Starting the server
+### Starting the server :hot_pepper:
 Reference to server README.md
 
-## Running the tests
+
+### Starting the application :desktop_computer:
+Reference to client README.md
+
+## :runner: Running the tests  
 
 Explain how to run the automated tests for this system
 
@@ -80,11 +107,11 @@ Explain what these tests test and why
 Give an example
 ```
 
-## Deployment
+## :rocket: Deployment 
 
 Add additional notes about how to deploy this on a live system
 
-## Issue board
+## :pushpin: Issue board 
 
 
 #### Labels:
@@ -99,7 +126,7 @@ Add additional notes about how to deploy this on a live system
 * A user story will be assigned to a sprint (milestone) 
 * `Sprint Backlog` list will contain tasks derived from a user story
 
-## Technologies used
+## :tools: Technologies used  
 
 ### Client-side
 * [React](https://github.com/facebook/create-react-app) - The web framework used
@@ -110,17 +137,17 @@ Add additional notes about how to deploy this on a live system
 
 ### Server-side
 
-## Authors
+## :sunglasses: Authors 
 
 * **Ionut Constantinescu** - *Initial work* - [iconstantinesc](https://gitlab.ewi.tudelft.nl/iconstantinesc)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
-## License
+## :pencil: License 
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## :star2: Acknowledgments 
 
 * Hat tip to anyone whose code was used
 * Inspiration
