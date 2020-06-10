@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { saveQuestionAction } from '../../actions/question';
 import answers from '../../utils/constants/Answers';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ImageCard from './ImageCard';
 import TextCard from './TextCard';
@@ -10,23 +9,7 @@ import { useEffect, useState } from 'react';
 import { KeyboardControls } from '../../utils/constants/Controls';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Typography } from '@material-ui/core';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginTop: '15%'
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  card: {
-    maxWidth: 345,
-  },
-  hide: {
-    display: 'none',
-  },
-}));
+import useStyles from '../../styles/BinaryQuestion';
 
 //Component for Binary question
 const BinaryQuestion = (props) => {

@@ -19,7 +19,7 @@ const mainAppReducer = (
     case 'CHANGE_QUESTION':
       return {
         ...state,
-       questionIndex: action.questionIndex,
+      questionIndex: action.questionIndex,
       };
 
     /*

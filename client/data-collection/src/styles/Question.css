@@ -38,6 +38,22 @@
   display: none;
 }
 
+.likertIndicator {
+  height: 2em !important;
+  width: 2em !important;
+  border-radius: 2em !important;
+}
+
+.likertText {
+  padding-top: 0.7em !important;
+  font-size: x-large;
+}
+
+span.MuiFormControlLabel-label {
+  margin: auto;
+  font-size: x-large;
+}
+
 .likertScale div label span.likertIndicator {
   background-color: white;
   border: solid #002984;
