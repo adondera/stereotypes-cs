@@ -4,6 +4,7 @@ import Finish from '../components/quizComponents/Finish';
 import Information from '../components/quizComponents/Information';
 import Video from '../components/quizComponents/Video';
 import MultipleChoise from '../components/quizComponents/MultipleChoise';
+import MultipleChoiseSpecial from "../components/quizComponents/MultipleChoiseSpecial";
 import React from 'react';
 import withProps from '../hoc/withProps';
 import { Redirect } from 'react-router';
@@ -17,7 +18,8 @@ const mapTypeToComponent = {
   3: Video,
   4: Information,
   5: Finish,
-  6: MultipleChoise
+  6: MultipleChoise,
+  7: MultipleChoiseSpecial
 };
 
 
