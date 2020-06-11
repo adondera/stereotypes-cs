@@ -19,7 +19,7 @@ const mapTypeToComponent = {
   'information': Information,
   5: Finish,
   'mc_single_answer': MultipleChoise,
-  7: MultipleChoiseSpecial
+  'mc_multiple_answer': MultipleChoiseSpecial
 };
 
 

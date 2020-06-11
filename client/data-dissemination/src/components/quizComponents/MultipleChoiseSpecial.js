@@ -54,7 +54,7 @@ const MultipleChoiseSpecial = (props) => {
             <Grid container spacing={3} alignItems="center" justify="center">
                 <Grid item xs={12} sm={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h3">Multiple choise special !!!</Typography>
+                        <Typography variant="h3">{props.text}</Typography>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
