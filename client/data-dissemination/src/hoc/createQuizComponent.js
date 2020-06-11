@@ -14,7 +14,7 @@ Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
   'binary': BinaryQuestion,
-  2: LikertScaleQuestion,
+  'likert': LikertScaleQuestion,
   3: Video,
   'information': Information,
   5: Finish,
