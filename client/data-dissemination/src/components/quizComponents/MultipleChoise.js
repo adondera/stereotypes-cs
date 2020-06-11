@@ -3,26 +3,10 @@ import { Test, QuestionGroup, Option } from 'react-multiple-choice';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 import '../../styles/MultipleChoice.css'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '95%',
-    margin: 'auto',
-    flexGrow: 1,
-    marginTop: '20px',
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.primary,
-  },
-}));
-
-
+import {useStyles} from '../../styles/MultipleChoice';
 
 const MultipleChoice = (props) => {
   const classes = useStyles();

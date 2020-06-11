@@ -4,26 +4,12 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
 import "../../styles/Likert.css";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "95%",
-    margin: "auto",
-    flexGrow: 1,
-    marginTop: "20px",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-}));
+import {useStyles} from "../../styles/Likert";
 
 const LikertScaleQuestion = (props) => {
   const classes = useStyles();

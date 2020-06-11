@@ -4,25 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "95%",
-        margin: "auto",
-        flexGrow: 1,
-        marginTop: "20px",
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.primary,
-    },
-}));
+import {useStyles} from "../../styles/MultipleChoiceSpecial";
 
 const MultipleChoiseSpecial = (props) => {
     const classes = useStyles();
