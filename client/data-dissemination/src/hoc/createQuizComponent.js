@@ -18,7 +18,7 @@ const mapTypeToComponent = {
   3: Video,
   'information': Information,
   5: Finish,
-  6: MultipleChoise,
+  'mc_single_answer': MultipleChoise,
   7: MultipleChoiseSpecial
 };
 
