@@ -16,7 +16,7 @@ const mapTypeToComponent = {
   'binary': BinaryQuestion,
   2: LikertScaleQuestion,
   3: Video,
-  4: Information,
+  'information': Information,
   5: Finish,
   6: MultipleChoise,
   7: MultipleChoiseSpecial

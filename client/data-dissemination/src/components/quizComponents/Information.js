@@ -12,18 +12,15 @@ const Information = (props) => {
     return (
         <div className={classes.root}>
             <Grid container spacing={3} alignItems='center' justify='center'>
-                <Grid item xs={12} sm={12}>
-                    <Paper className={classes.paper}>
-                        <Typography variant='h3'>{props.title}</Typography>
-                    </Paper>
-                </Grid>
+                {/*title*/}
                 <Grid item xs={12} sm={6}>
                     <Paper className={classes.paper} elevation={0}>
                         <Typography style={{textAlign: 'justify'}} variant='h6'>
-                            {props.body}
+                            {props.text}
                         </Typography>
                     </Paper>
                 </Grid>
+                {/*button*/}
                 <Grid item xs={12} sm={12}>
                     <Paper className={classes.paper} elevation={0}>
                         <Link to='/quiz' style={{textDecoration: 'none'}}>
