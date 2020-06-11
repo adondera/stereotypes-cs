@@ -13,7 +13,7 @@ import { Redirect } from 'react-router';
 Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
-  1: BinaryQuestion,
+  'binary': BinaryQuestion,
   2: LikertScaleQuestion,
   3: Video,
   4: Information,
@@ -34,7 +34,7 @@ export function createQuizComponent(Quiz) {
       const contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {}
       const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData, registerAnswer: this.props.registerAnswer}
       if (contentData.type === 5) contentProps.finishQuiz = this.props.finishQuiz
-      const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].type]) : withProps(redirectProps, Redirect)
+      const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].q_type]) : withProps(redirectProps, Redirect)
       return (
         <React.Fragment>
             <Quiz {...this.props}>

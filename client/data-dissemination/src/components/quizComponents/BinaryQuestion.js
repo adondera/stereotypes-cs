@@ -14,6 +14,7 @@ const BinaryQuestion = (props) => {
     setstart(Date.now());
   }, []);
 
+  // save answer to store
   const sumbitAnswerToStore = () => {
     const time = Date.now() - start;
     const answer = { time: time, wrong: wrong, id: props.id };
@@ -21,19 +22,22 @@ const BinaryQuestion = (props) => {
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
   };
-
+  // handle click on left pad
   const onClickLeft = () => {
     console.log(props.correctAnswer);
-    if (props.correctAnswer === "left") {
-      setState({ choice: "right" });
+    if (props.image.category === props.categories_left[0].name) {
+      //TODO! change what goes into store !!!
+      setState({ choice: props.categories_left[0].name });
       sumbitAnswerToStore();
     } else {
       setwrong(true);
     }
   };
+  // handle click on right pad
   const onClickRight = () => {
-    if (props.correctAnswer === "right") {
-      setState({ choice: "left" });
+    if (props.image.category === props.categories_right[0].name) {
+      //TODO! change what goes into store !!!
+      setState({ choice: props.categories_right[0].name });
       sumbitAnswerToStore();
     } else {
       setwrong(true);
@@ -41,36 +45,41 @@ const BinaryQuestion = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={0}>
-        <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h5">{props.textLeft}</Typography>
-        </Grid>
-        <Grid item xs={4} />
-        <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h5">{props.textRight}</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <ChoiceCard
-            correct={props.correctAnswer === "left"}
-            onClick={onClickLeft}
-            isSelected={true}
-          />
-        </Grid>
-        <Slide in={state.choice === null} direction={state.choice}>
-          <Grid item xs={4}>
-            <ImageCard {...props} image={props.image} />
+      <div className={classes.root}>
+        <Grid container spacing={0}>
+          {/* left text here*/}
+          <Grid className={classes.paper} item xs={4}>
+            <Typography variant="h5">{props.categories_left[0].name}</Typography>
           </Grid>
-        </Slide>
-        <Grid item xs={4}>
-          <ChoiceCard
-            correct={props.correctAnswer === "right"}
-            onClick={onClickRight}
-            isSelected={true}
-          />
+          <Grid item xs={4} />
+          {/* right text here*/}
+          <Grid className={classes.paper} item xs={4}>
+            <Typography variant="h5">{props.categories_right[0].name}</Typography>
+          </Grid>
+          {/* left pad here*/}
+          <Grid item xs={4}>
+            <ChoiceCard
+                correct={props.categories_left[0].name === props.image.category}
+                onClick={onClickLeft}
+                isSelected={true}
+            />
+            {/* image here*/}
+          </Grid>
+          <Slide in={state.choice === null} direction={state.choice}>
+            <Grid item xs={4}>
+              <ImageCard {...props} image={props.image.link} />
+            </Grid>
+          </Slide>
+          {/* right pad here*/}
+          <Grid item xs={4}>
+            <ChoiceCard
+                correct={props.categories_right[0].name === props.image.category}
+                onClick={onClickRight}
+                isSelected={true}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
   );
 };
 
