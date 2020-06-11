@@ -65,11 +65,9 @@ const BinaryQuestion = (props) => {
             />
             {/* image here*/}
           </Grid>
-          <Slide in={state.choice === null} direction={state.choice}>
             <Grid item xs={4}>
               <ImageCard {...props} image={props.image.link} />
             </Grid>
-          </Slide>
           {/* right pad here*/}
           <Grid item xs={4}>
             <ChoiceCard
