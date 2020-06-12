@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_socketio import SocketIO
+from flask_mail import Mail
 
 # Flask setup
 app = Flask(__name__)
@@ -29,6 +30,16 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES']=datetime.timedelta(hours=12)
 # Database setup
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Email setup
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = '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'
+app.config['MAIL_DEFAULT_SENDER'] = 'nemolivescience@gmail.com' # os.environ.get('MAIL_DEFAULT_SENDER')
+
+mail = Mail(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % app.config['POSTGRES']

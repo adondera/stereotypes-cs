@@ -8,6 +8,7 @@ from .dashboard import Stats, Participants
 from .tokens import Protected, Refresh, ProtectedFresh
 from .consent import ConsentResource, ConsentForm
 from .quiz import QuizAnswers, QuizQuestions, QuizResults, QuizVersions
+from .email import Email
 
 bp = Blueprint("endpoint", __name__)
 
@@ -26,3 +27,4 @@ api.add_resource(QuizResults, '/results')
 api.add_resource(Stats, '/stats')
 api.add_resource(Participants, '/participants')
 api.add_resource(QuizVersions, '/quiz-versions')
+api.add_resource(Email, '/email')

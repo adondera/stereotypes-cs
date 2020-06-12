@@ -20,6 +20,8 @@ class Config(object):
     SECRET_KEY = "Ud5yvQuCrh4GvYX9Mjc6VzomQA3q5K5_HSCvf0_Q6Tw"
     JWT_SECRET_KEY = "S8y0MwT_t7vf002vCYnL0Z8M9mRYpmJUPRkmnTXwN4E"
 
+    MAIL_DEBUG = True
+    MAIL_SUPPRESS_SEND = False
 
 class ProductionConfig(Config):
     DEBUG = False
@@ -42,7 +44,8 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    TESTING = True
+    TESTING = False
+    DEBUG = True
     POSTGRES = {
         'user': 'test',
         'pw': 'test',
