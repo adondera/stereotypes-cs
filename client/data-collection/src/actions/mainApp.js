@@ -71,6 +71,15 @@ export const changeQuestion = (questionIndex, questionsLength) => {
   };
 };
 
+/*
+  Skips to finish
+*/
+export const skipQuiz = () => {
+  return {
+    type: "SKIP_TO_FINISH",
+  };
+};
+
 export const finishQuiz = () => {
   return {
     type: "FINISH_QUIZ",

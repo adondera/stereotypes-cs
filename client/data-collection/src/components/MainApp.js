@@ -17,6 +17,7 @@ const MainApp = ({
   isDataLoaded = false,
   accessToken = "",
   finishQuiz,
+  skipQuiz
 }) => {
   return (
     <div>
@@ -36,6 +37,7 @@ const MainApp = ({
             onQuestionChange={onQuestionChange}
             quizStarted={questionIndex > 0}
             questionIndex={questionIndex}
+            onSkipQuiz={skipQuiz}
           />
         </Route>
       </Switch>

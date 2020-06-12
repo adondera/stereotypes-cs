@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import MainApp from '../components/MainApp';
-import {changeQuestion, getQuizData, finishQuiz, setVersion} from "../actions/mainApp"
+import {changeQuestion, getQuizData, finishQuiz, setVersion, skipQuiz} from "../actions/mainApp"
 
 
 const mapStateToProps = (state) => {
@@ -18,7 +18,8 @@ const mapStateToProps = (state) => {
     setVersion: (version) => dispatch(setVersion(version)),
     onQuestionChange: (questionIndex) => dispatch(changeQuestion(questionIndex)),
     loadData: (accessToken, version) => getQuizData(accessToken, dispatch, version),
-    finishQuiz: () => dispatch(finishQuiz())
+    finishQuiz: () => dispatch(finishQuiz()),
+    skipQuiz: () => dispatch(skipQuiz())
   });
 
   export default connect(mapStateToProps, mapDispatchToProps)(MainApp)

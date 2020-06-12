@@ -22,6 +22,24 @@ const mainAppReducer = (
       questionIndex: action.questionIndex,
       };
 
+
+    /*
+    Skip to first finish type found in array of questions (for terminating quiz early)
+    */
+    case 'SKIP_TO_FINISH':
+      var finishIndex = state.questionIndex
+      for (var i=0; i<state.questions.questions.length; i++) {
+        if(state.questions.questions[i].q_type === "finish") {
+          finishIndex = i+1
+          break
+        }
+      }
+      console.log(finishIndex)
+      return {
+        ...state,
+        questionIndex: finishIndex
+      }
+
     /*
     Conform data is loaded successfully
     */

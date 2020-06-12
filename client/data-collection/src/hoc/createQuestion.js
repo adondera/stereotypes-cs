@@ -68,6 +68,7 @@ export function createQuestion(Question) {
             <Question {...this.props}>
               <FinishModal
                 show={this.state.show}
+                onSkipQuiz={() => this.props.onSkipQuiz()}
                 handleCloseModal={() => this.setState({ show: false })}
                 handleCloseQuiz={() => {
                   this.props.onQuizFinished();
