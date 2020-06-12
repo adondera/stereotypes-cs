@@ -641,6 +641,39 @@ class Question(db.Model):
         self.to_dict = dictionary
         return self.to_dict
 
+    def shuffle_images(self, seed=None):
+        """
+        Shuffles the images in a IAT block, making sure that no image appears consecutively.
+
+        Parameters
+        ----------
+        seed : int
+            If supplied, provides the seed for the random number generator.
+            Added for testing purposes, defaults to None.
+        Returns
+        -------
+        images : List of Image
+            The created and shuffled list of images
+        """
+        
+        random.seed(seed)
+        
+        images = self.to_dict['images']
+
+        images1 = list(random.sample(images, k=len(images)))
+        images2 = list(random.sample(images, k=len(images)))
+
+        if images1[-1]['link'] == images2[0]['link']:
+            new_index = random.randrange(1, len(images2))
+            try:
+                images2[0], images2[new_index] = images2[new_index], images2[0]
+            except IndexError:
+                return images
+
+        images1.extend(images2)
+
+        return images1
+
     def make_response(self):
         """
         1)Shuffles images (for IAT questions).
@@ -659,9 +692,7 @@ class Question(db.Model):
             self.as_dict()
         response = []
         try:
-            images = self.to_dict['images']
-            images = [x for x in images for _ in range(2)]
-            random.shuffle(images)
+            images = self.shuffle_images()
         except KeyError:
             images = []
         for img in images:
@@ -669,6 +700,7 @@ class Question(db.Model):
             new_dict.pop('images')
             new_dict['image'] = img
             response.append(new_dict)
+
         if len(response) == 0:
             response = [self.to_dict]
 
