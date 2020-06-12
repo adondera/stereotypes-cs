@@ -3,6 +3,7 @@
 Module that deals with all logic related to consent forms
 """
 import os
+import random
 
 from flask import request
 from flask import current_app
@@ -84,7 +85,7 @@ class QuizAnswers(Resource):
 
 
 class QuizQuestions(Resource):
-    """Resource that deals with retrieving questions from database"""
+    """Resource that deals with retrieving scenario from database"""
 
     @jwt_required
     def get(self):
@@ -99,6 +100,25 @@ class QuizQuestions(Resource):
             return QuizFactory(filename).create_quiz(), 200
         except:
             return ANSWERS[404], 404
+
+
+class RandomQuiz(Resource):
+    """Resource that deals with retrieving random scenario from database"""
+
+    @jwt_required
+    def get(self):
+        """
+        On a get request on the /random-quiz endpoint we return a random quiz with questions
+        :return: random quiz and status 200
+        """
+        scenario = random.choice(list(Version))
+        try:
+            filename = os.path.join(current_app.static_folder,
+                                    "IATs/{}.json".format(scenario.value))                 
+            return QuizFactory(filename).create_quiz(), 200
+        except:
+            return ANSWERS[404], 404
+
 
 class QuizVersions(Resource):
     """Resource that returns a mapping for the different scenarios"""
