@@ -150,10 +150,10 @@ class IATFactory:
         """
         for block_nr, phase in enumerate(self.data, 5 - len(self.data)):
             self.create_guide_text(phase, block_nr)
-            self.load_phase(phase)
+            self.load_phase(phase, block_nr)
         return self.response
 
-    def load_phase(self, phase):
+    def load_phase(self, phase, block_nr):
         """
         Loads a question (phase) from the database if it exists
         Otherwise it creates a new question and adds it to the database
@@ -175,11 +175,17 @@ class IATFactory:
         if len(questions) == 0:
             question = self.create_new_phase(phase)
             assert question.id
-            self.response.extend(question.make_response())
+            self.append_response(question, block_nr)
             return
 
-        self.response.extend(Question.query.filter_by(id=questions[0]['id'])
-                             .first().make_response())
+        question = Question.query.filter_by(id=questions[0]['id']).first()
+        self.append_response(question, block_nr)
+
+    
+    def append_response(self, question, block_nr):
+        d = question.as_dict()
+        d['block_nr'] = block_nr
+        self.response.extend(question.make_response())
 
     def create_new_phase(self, phase):
         """
