@@ -8,7 +8,9 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    boxShadow: 'none',
     borderRadius: 15,
+    backgroundColor: 'transparent',
   },
   image: {
     margin: "auto",

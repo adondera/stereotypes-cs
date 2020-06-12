@@ -5,17 +5,16 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Container,
+  Typography,
+  CardContent,
+  CardHeader,
+  Card,
+  Grid, 
+  CssBaseline
 } from "@material-ui/core/";
 import { connect } from "react-redux";
 import { saveQuestionAction } from "../../actions/question";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import "../../styles/Question.css";
 import useStyles from "../../styles/MultipleChoiceSpecial";
 
@@ -57,6 +56,7 @@ const MultipleChoiceSpecial = (props) => {
     newState[parseInt(event.target.name)] = event.target.checked;
     setOptions({ ...newState });
   };
+  
   return (
     <React.Fragment>
       <CssBaseline />
