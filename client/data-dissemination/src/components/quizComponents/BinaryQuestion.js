@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, responsiveFontSizes, ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Grid, Typography, Slide } from "@material-ui/core";
 import ImageCard from "./ImageCard";
 import ChoiceCard from "./ChoiceCard";
 
-const useStyles = makeStyles((theme) => ({
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
+const useStyles = makeStyles((theme) => (
+  {
   root: {
     width: "95%",
     margin: "auto",
@@ -32,6 +36,8 @@ const BinaryQuestion = (props) => {
   const [state, setState] = useState({ choice: null });
   const [start, setstart] = useState(Date.now);
   const [wrong, setwrong] = useState(false);
+
+
   useEffect(() => {
     setstart(Date.now());
   }, []);
@@ -64,17 +70,19 @@ const BinaryQuestion = (props) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={0}>
+      <ThemeProvider theme={theme}>
+      <Grid container spacing={1}>
         <Grid className={classes.paper} item xs={4}>
           <Typography variant="h5">{props.textLeft}</Typography>
         </Grid>
-        <Grid item xs={4} />
+        <Grid item xs={4}>
+        <Typography variant="h3" align='center' style={{visibility: wrong ? 'visible' : 'hidden', color: 'red'}}>X</Typography>
+          </Grid>
         <Grid className={classes.paper} item xs={4}>
           <Typography variant="h5">{props.textRight}</Typography>
         </Grid>
         <Grid item xs={4}>
           <ChoiceCard
-            correct={props.correctAnswer === "left"}
             onClick={onClickLeft}
             isSelected={true}
           />
@@ -86,12 +94,12 @@ const BinaryQuestion = (props) => {
         </Slide>
         <Grid item xs={4}>
           <ChoiceCard
-            correct={props.correctAnswer === "right"}
             onClick={onClickRight}
             isSelected={true}
           />
         </Grid>
       </Grid>
+      </ThemeProvider>
     </div>
   );
 };

@@ -5,15 +5,15 @@ const initialStore = {
   appReducer: {
     quizIndex: 0,
     quizData: [
-      // {
-      //   id: 69,
-      //   type: 1,
-      //   title: 'Binary question',
-      //   textLeft: 'Programmer',
-      //   textRight: 'Writer',
-      //   image: 'https://i.imgur.com/9GIFW9f.jpg',
-      //   correctAnswer: 'right',
-      // },
+      {
+        id: 69,
+        type: 1,
+        title: 'Binary question',
+        textLeft: 'Programmer',
+        textRight: 'Writer',
+        image: 'https://i.imgur.com/9GIFW9f.jpg',
+        correctAnswer: 'right',
+      },
       // {
       //   id: 42,
       //   type: 1,
