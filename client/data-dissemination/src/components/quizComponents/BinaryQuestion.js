@@ -1,47 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, responsiveFontSizes, ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { Grid, Typography, Slide } from "@material-ui/core";
+import {
+  responsiveFontSizes,
+  ThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
+import { Grid, Typography } from "@material-ui/core";
 import ImageCard from "./ImageCard";
 import ChoiceCard from "./ChoiceCard";
+import { useStyles } from "../../styles/BinaryQuestion";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-const useStyles = makeStyles((theme) => (
-  {
-  root: {
-    width: "95%",
-    margin: "auto",
-    flexGrow: 1,
-    marginTop: "20%",
-  },
-  paper: {
-    padding: theme.spacing(0.5),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  rootBeforeChoice: {
-    padding: theme.spacing(0.5),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    pointerEvents: "none",
-  },
-  card: {
-    maxWidth: 345,
-  },
-}));
-
 const BinaryQuestion = (props) => {
   const classes = useStyles();
-  const [state, setState] = useState({ choice: null });
   const [start, setstart] = useState(Date.now);
   const [wrong, setwrong] = useState(false);
-
 
   useEffect(() => {
     setstart(Date.now());
   }, []);
 
+  // save answer to store
   const sumbitAnswerToStore = () => {
     const time = Date.now() - start;
     const answer = { time: time, wrong: wrong, id: props.id };
@@ -49,19 +29,21 @@ const BinaryQuestion = (props) => {
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
   };
-
+  // handle click on left pad
   const onClickLeft = () => {
     console.log(props.correctAnswer);
-    if (props.correctAnswer === "left") {
-      setState({ choice: "right" });
+    if (props.image.category === props.categories_left[0].name) {
+      //TODO! change what goes into store !!!
       sumbitAnswerToStore();
     } else {
       setwrong(true);
     }
   };
+
+  // handle click on right pad
   const onClickRight = () => {
-    if (props.correctAnswer === "right") {
-      setState({ choice: "left" });
+    if (props.image.category === props.categories_right[0].name) {
+      //TODO! change what goes into store !!!
       sumbitAnswerToStore();
     } else {
       setwrong(true);
@@ -71,34 +53,32 @@ const BinaryQuestion = (props) => {
   return (
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
-      <Grid container spacing={1}>
-        <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h5">{props.textLeft}</Typography>
-        </Grid>
-        <Grid item xs={4}>
-        <Typography variant="h3" align='center' style={{visibility: wrong ? 'visible' : 'hidden', color: 'red'}}>X</Typography>
+        <Grid container spacing={0.5}>
+          <Grid className={classes.paper} item xs={4}>
+            <Typography variant="h5">
+              {props.categories_left[0].name}
+            </Typography>
           </Grid>
-        <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h5">{props.textRight}</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <ChoiceCard
-            onClick={onClickLeft}
-            isSelected={true}
-          />
-        </Grid>
-        <Slide in={state.choice === null} direction={state.choice}>
           <Grid item xs={4}>
-            <ImageCard {...props} image={props.image} />
+            <Typography
+              variant="h3"
+              align="center"
+              style={{ visibility: wrong ? "visible" : "hidden", color: "red" }}
+            >
+              X
+            </Typography>
           </Grid>
-        </Slide>
-        <Grid item xs={4}>
-          <ChoiceCard
-            onClick={onClickRight}
-            isSelected={true}
-          />
+          <Grid className={classes.paper} item xs={4}>
+            <Typography variant="h5">
+              {props.categories_right[0].name}
+            </Typography>
+          </Grid>
+            <ChoiceCard onClick={onClickLeft} />
+          <Grid item xs={4}>
+            <ImageCard image={props.image.link}></ImageCard>
+          </Grid>
+            <ChoiceCard onClick={onClickRight}/>
         </Grid>
-      </Grid>
       </ThemeProvider>
     </div>
   );

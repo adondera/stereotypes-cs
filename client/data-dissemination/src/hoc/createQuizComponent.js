@@ -4,6 +4,7 @@ import Finish from '../components/quizComponents/Finish';
 import Information from '../components/quizComponents/Information';
 import Video from '../components/quizComponents/Video';
 import MultipleChoise from '../components/quizComponents/MultipleChoise';
+import MultipleChoiseSpecial from "../components/quizComponents/MultipleChoiseSpecial";
 import React from 'react';
 import withProps from '../hoc/withProps';
 import { Redirect } from 'react-router';
@@ -12,12 +13,13 @@ import { Redirect } from 'react-router';
 Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
-  1: BinaryQuestion,
-  2: LikertScaleQuestion,
-  3: Video,
-  4: Information,
-  5: Finish,
-  6: MultipleChoise
+  'binary': BinaryQuestion,
+  'likert': LikertScaleQuestion,
+  'video': Video,
+  'information': Information,
+  'finish': Finish,
+  'mc_single_answer': MultipleChoise,
+  'mc_multiple_answer': MultipleChoiseSpecial
 };
 
 
@@ -32,7 +34,7 @@ export function createQuizComponent(Quiz) {
       const contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {}
       const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData, registerAnswer: this.props.registerAnswer}
       if (contentData.type === 5) contentProps.finishQuiz = this.props.finishQuiz
-      const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].type]) : withProps(redirectProps, Redirect)
+      const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].q_type]) : withProps(redirectProps, Redirect)
       return (
         <React.Fragment>
             <Quiz {...this.props}>
