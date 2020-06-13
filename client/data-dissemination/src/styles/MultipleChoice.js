@@ -9,9 +9,10 @@ export const useStyles = makeStyles((theme) => ({
         width: '95%',
         margin: 'auto',
         flexGrow: 1,
-        marginTop: '20px',
+        marginTop: '5px',
     },
     paper: {
+        margin: 'auto',
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.primary,

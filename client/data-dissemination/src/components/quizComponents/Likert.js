@@ -33,7 +33,7 @@ const LikertScaleQuestion = (props) => {
 
   return (
       <div className={classes.root}>
-        <Grid container spacing={3} alignItems="center" justify="center">
+        <Grid container spacing={1} alignItems="center" justify="center">
           <Grid item xs={12}>
             <Slide
                 direction="down"

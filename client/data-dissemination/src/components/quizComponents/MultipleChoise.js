@@ -22,12 +22,12 @@ const MultipleChoice = (props) => {
         {/*title*/}
         <Grid item xs={12} sm={12}>
           <Paper className={classes.paper}>
-            <Typography variant="h3">{props.text}</Typography>
+            <Typography variant="h4">{props.text}</Typography>
           </Paper>
         </Grid>
       </Grid>
       {/*options*/}
-      <Grid container spacing={3} alignItems="center" justify="center">
+      <Grid container spacing={1} alignItems="center" justify="center">
         <Grid item xs={8} sm={4}>
         <RadioGroup
           aria-label="gender"
@@ -39,14 +39,16 @@ const MultipleChoice = (props) => {
             var isSelected = option.choice_num === picked;
             return (
               <div
-                key={index}
-                style={{
+                  key={index}
+                  style={{                 
                   margin: 'auto',
+                  marginTop:'0.5em',
+                  marginBottom:'0.5em',
                   width: '70%',
                   textAlign: "center",
                   padding: "0.5em",
                   borderRadius: 8,
-                  backgroundColor: isSelected ? "rgba(63,81,181,0.1)" : null,
+                  backgroundColor: isSelected ? "rgba(63,81,181,0.1)" : 'whitesmoke',
                 }}
               >
                 <FormControlLabel
