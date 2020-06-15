@@ -180,6 +180,6 @@ class CalculateResult(Resource):
 
 
 class Dissemination(Resource):
-    
+
     def get(self):
-        return jsonify(dummy_iat_dissemination), 200
+        return dummy_iat_dissemination, 200
