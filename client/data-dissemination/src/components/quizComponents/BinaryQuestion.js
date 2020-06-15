@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  responsiveFontSizes,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import ImageCard from "./ImageCard";
 import ChoiceCard from "./ChoiceCard";
 import { useStyles } from "../../styles/BinaryQuestion";
-
-//responsive font sizes
-let theme = createMuiTheme();
-theme = responsiveFontSizes(theme);
 
 const BinaryQuestion = (props) => {
   const classes = useStyles();
@@ -59,7 +50,6 @@ const BinaryQuestion = (props) => {
 
   return (
     <div className={classes.root}>
-      <ThemeProvider theme={theme}>
         <Grid container spacing={0.5}>
           {/* left text */}
           <Grid className={classes.paper} item xs={4}>
@@ -92,7 +82,6 @@ const BinaryQuestion = (props) => {
           {/* choice card right */}
           <ChoiceCard onClick={onClickRight} />
         </Grid>
-      </ThemeProvider>
     </div>
   );
 };
