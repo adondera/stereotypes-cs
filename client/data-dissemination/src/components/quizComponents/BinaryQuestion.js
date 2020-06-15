@@ -50,7 +50,7 @@ const BinaryQuestion = (props) => {
 
   return (
     <div className={classes.root}>
-        <Grid container spacing={0.5}>
+        <Grid container spacing={0}>
           {/* left text */}
           <Grid className={classes.paper} item xs={4}>
             <Typography variant="h5">
