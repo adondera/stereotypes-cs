@@ -5,6 +5,7 @@ import Information from '../components/quizComponents/Information';
 import Video from '../components/quizComponents/Video';
 import MultipleChoise from '../components/quizComponents/MultipleChoise';
 import MultipleChoiseSpecial from "../components/quizComponents/MultipleChoiseSpecial";
+import BinaryInformation from "../components/quizComponents/BinaryInformation"
 import React from 'react';
 import withProps from '../hoc/withProps';
 import { Redirect } from 'react-router';
@@ -14,6 +15,7 @@ Create mapping between type and Component to be rendered
 */
 const mapTypeToComponent = {
   'binary': BinaryQuestion,
+  'binary_information': BinaryInformation,
   'likert': LikertScaleQuestion,
   'video': Video,
   'information': Information,

@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
         width: "95%",
         margin: "auto",
         flexGrow: 1,
-        marginTop: "20%",
+        marginTop: "100px",
     },
     paper: {
         padding: theme.spacing(0.5),
