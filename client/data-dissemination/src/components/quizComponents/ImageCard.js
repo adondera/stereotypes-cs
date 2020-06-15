@@ -8,13 +8,14 @@ const ImageCard = (props) => {
   const classes = useStyles();
 
   return (
-      <Card className={classes.root}>
+      <Card className={classes.root} style={{visibility: props.imageLoaded ? 'visible' : 'hidden'}}>
         <CardActionArea onClick={props.onClick}>
           <CardMedia
             className={classes.image}
             component='img'
             alt=''
             image={props.image}
+            onLoad={props.onImageLoaded}
           />
         </CardActionArea>
       </Card>

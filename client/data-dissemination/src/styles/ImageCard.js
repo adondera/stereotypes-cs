@@ -8,8 +8,10 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
     },
     image: {
+        maxWidth: '200px',
         height: '100%',
         width:'100%',
+        margin: 'auto',
         transform: 'scale(1.05)',
     },
     imageFocus: {
