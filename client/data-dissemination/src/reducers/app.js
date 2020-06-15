@@ -22,7 +22,8 @@ const appReducer = (state = {}, action) => {
     case 'QUIZ_LOADED':
         return {
             ...state,
-            quizData: action.quizData
+            quizData: action.quizData,
+            quizIsLoaded: true
         }
     default:
       return state;

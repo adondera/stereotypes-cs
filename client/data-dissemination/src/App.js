@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 import { Switch } from 'react-router';
 import Quiz from './containers/Quiz';
 import Home from './components/Home';
@@ -24,6 +24,7 @@ function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFini
         <Home />
       </Route>
       <Route exact path='/quiz'> 
+        {quizIsLoaded ? null : (<Redirect to='/'/>) }
         <Quiz
           quizIndex={quizIndex}
           quizData={quizData}
