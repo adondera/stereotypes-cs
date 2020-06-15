@@ -33,7 +33,7 @@ export function createQuizComponent(Quiz) {
       const redirectProps = {to: '/'}
       const contentData = this.props.quizIsLoaded ? this.props.quizData[this.props.quizIndex] : {}
       const contentProps = {onNext: this.props.incrementQuizIndex, key: this.props.quizIndex,  ...contentData, registerAnswer: this.props.registerAnswer}
-      if (contentData.type === 5) contentProps.finishQuiz = this.props.finishQuiz
+      if (contentData.q_type === 'finish') contentProps.finishQuiz = this.props.finishQuiz
       const QuizContentType = this.props.quizIsLoaded ? withProps(contentProps, mapTypeToComponent[this.props.quizData[this.props.quizIndex].q_type]) : withProps(redirectProps, Redirect)
       return (
         <React.Fragment>

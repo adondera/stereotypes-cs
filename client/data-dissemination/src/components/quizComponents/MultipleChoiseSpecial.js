@@ -28,22 +28,37 @@ const MultipleChoiseSpecial = (props) => {
   });
 
   const onClick = () => {
-    var answer = { answers: [] };
+    var answer = { answers: [], question_id: props.id };
     for (let [key, value] of Object.entries(options)) {
       if (value) {
         answer.answers.push(parseInt(key));
       }
     }
-    answer.question_id = props.id;
     props.registerAnswer(answer);
     props.onNext();
     setOptions({ ...getInitialState() });
   };
+  
+
+  // const onClick = () => {
+  //   var answer = { answers: [] };
+  //   for (let [key, value] of Object.entries(options)) {
+  //     if (value) {
+  //       answer.answers.push(parseInt(key));
+  //     }
+  //   }
+  //   answer.question_id = props.id;
+  //   props.submitSelectedChoice(answer);
+  //   props.onNext();
+  //   setTicked(0);
+  //   setOptions({ ...getInitialState() });
+  // };
+
+
 
   const handleChange = (event) => {
     var newState = { ...options };
-
-    newState[event.target.name] = event.target.checked;
+    newState[parseInt(event.target.name)] = event.target.checked;
     setOptions({ ...newState });
   };
 
@@ -88,7 +103,7 @@ const MultipleChoiseSpecial = (props) => {
                         color="primary"
                         onChange={handleChange}
                         key={choice.choice_num}
-                        name={choice.choice_num}
+                        name={choice.choice_num.toString()}
                       />
                     }
                     label={choice.text}

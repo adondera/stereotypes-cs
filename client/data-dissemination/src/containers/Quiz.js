@@ -10,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerAnswer: (answer) => dispatch(registerAnswer(answer))
+        registerAnswer: (answer) => dispatch(registerAnswer(answer)),
+        finishQuiz: () => console.log('finish quiz')
     }
 }
 
