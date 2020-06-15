@@ -5,12 +5,12 @@ Module that deals with all logic related to consent forms
 import os
 import random
 
-from flask import request
+from flask import request, jsonify
 from flask import current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
-from api.endpoints.constants import ANSWERS
+from api.endpoints.constants import ANSWERS, dummy_iat_dissemination
 from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, ParticipantInformationType, Ethnicity, QuestionType, QuestionChoice, Participant, Version
 from api.endpoints.quiz_factory import QuizFactory
 
@@ -177,3 +177,9 @@ class CalculateResult(Resource):
     def post(self):
 
         return "You have a slight bias towards Americans.", 200
+
+
+class Dissemination(Resource):
+    
+    def get(self):
+        return jsonify(dummy_iat_dissemination), 200
