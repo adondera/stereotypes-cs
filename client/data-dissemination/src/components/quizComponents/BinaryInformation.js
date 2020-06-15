@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridList from "@material-ui/core/GridList";
+import { Button, Typography, CssBaseline, Container, GridListTile, GridList }  from "@material-ui/core/Button";
 import { useStyles } from "../../styles/BinaryInformation";
 
 
