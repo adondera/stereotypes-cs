@@ -19,12 +19,13 @@ const BinaryQuestion = (props) => {
 
   useEffect(() => {
     setstart(Date.now());
+    setwrong(0)
   }, []);
 
   // save answer to store
   const sumbitAnswerToStore = () => {
     const time = Date.now() - start;
-    const answer = { time: time, wrong: wrong, id: props.id };
+    const answer = { response_time: time, answers: wrong, question_id: props.id, img_id: props.image.link };
     console.log(Date.now() - start);
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
@@ -36,7 +37,7 @@ const BinaryQuestion = (props) => {
       //TODO! change what goes into store !!!
       sumbitAnswerToStore();
     } else {
-      setwrong(true);
+      setwrong(wrong+1);
     }
   };
 
@@ -46,7 +47,7 @@ const BinaryQuestion = (props) => {
       //TODO! change what goes into store !!!
       sumbitAnswerToStore();
     } else {
-      setwrong(true);
+      setwrong(wrong+1);
     }
   };
 
