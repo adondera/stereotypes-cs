@@ -27,18 +27,18 @@ const BinaryInformation = (props) => {
         </div>
       ) : (
         <React.Fragment>
+          <Container maxWidth={"md"} component="main" className={classes.heroContent}>
           <Typography
-            variant="h5"
+            variant="body1"
             align="center"
             color="textPrimary"
             component="p"
           >
             {props.text0}
           </Typography>
-          <Container maxWidth component="main" className={classes.heroContent}>
             <div style={{ paddingTop: 30 }}>
               <Typography
-                variant="h5"
+                variant="body1"
                 align="center"
                 color="textSecondary"
                 component="p"
@@ -55,7 +55,7 @@ const BinaryInformation = (props) => {
                 <GridListTile
                   style={
                     props.images0.length === 4
-                      ? { width: "23%", margin: "auto" }
+                      ? { width: "25%", margin: "auto" }
                       : {}
                   }
                   key={image}
@@ -71,7 +71,7 @@ const BinaryInformation = (props) => {
             </GridList>
             <div style={{ paddingTop: 25 }}>
               <Typography
-                variant="h5"
+                variant="body1"
                 align="center"
                 color="textSecondary"
                 component="p"
@@ -88,7 +88,7 @@ const BinaryInformation = (props) => {
                 <GridListTile
                   style={
                     props.images0.length === 4
-                      ? { width: "23%", margin: "auto" }
+                      ? { width: "25%", margin: "auto" }
                       : {}
                   }
                   key={image}
@@ -104,7 +104,7 @@ const BinaryInformation = (props) => {
             </GridList>
             <div style={{ paddingTop: 25 }}>
               <Typography
-                variant="h5"
+                variant="body1"
                 align="center"
                 color="textPrimary"
                 component="p"
@@ -116,7 +116,7 @@ const BinaryInformation = (props) => {
           <div style={{ margin: "auto", textAlign: "center" }}>
             <Button
               variant="contained"
-              style={{ marginTop: 20 }}
+              style={{ marginTop: 20, marginBottom: 20 }}
               onClick={() => {
                 sethasNext(true);
                 setTimeout(props.onNext, 4000);
