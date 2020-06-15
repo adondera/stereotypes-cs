@@ -5,5 +5,5 @@ import axios from '../API';
  */
 export function getQuiz() {
     console.log('AXIOS CALLED');
-  return axios.get("/unprotected");
+  return axios.get("/iat");
 }

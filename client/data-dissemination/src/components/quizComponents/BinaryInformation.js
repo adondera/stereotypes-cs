@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { Button, Typography, CssBaseline, Container, GridListTile, GridList }  from "@material-ui/core/Button";
+import {
+  Button,
+  Typography,
+  CssBaseline,
+  Container,
+  GridListTile,
+  GridList,
+} from "@material-ui/core";
 import { useStyles } from "../../styles/BinaryInformation";
-
 
 const BinaryInformation = (props) => {
   /*eslint-disable */

@@ -29,6 +29,6 @@ export const quizLoadFailed = () => {
 }
 export const loadQuiz = () => {
     return async function(dispatch) {
-        return getQuiz().then(res => dispatch(quizLoaded(res.data.questions))).catch((err) => dispatch(quizLoadFailed()))
+        return getQuiz().then(res => {console.log(res); dispatch(quizLoaded(res.data))}).catch((err) => dispatch(quizLoadFailed()))
     }
 }
