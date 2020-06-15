@@ -17,11 +17,11 @@ const LikertScaleQuestion = (props) => {
 
   // action to be performed on click
   const onClick = () => {
-    const answer = { answers: picked, question_id: props.id };
+    const answer = { answers: parseInt(picked), question_id: props.id };
     props.registerAnswer(answer);
     props.onNext();
   };
-  
+
   //list of all the options
   const likertOptions = {
     responses: [
