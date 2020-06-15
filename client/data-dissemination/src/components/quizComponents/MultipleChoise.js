@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Grid, RadioGroup, Radio, FormControlLabel } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
@@ -8,10 +8,18 @@ import { useStyles } from "../../styles/MultipleChoice";
 
 const MultipleChoice = (props) => {
   const classes = useStyles();
-  const [picked, setpicked] = useState(false);
+  const [picked, setpicked] = useState(0);
 
+  // action to be performed
+  // when questionId changes.
+  useEffect(() => {
+    setpicked(0)
+  }, [props])
+
+  // on click action
+  // saves the result to the store.
   const onClick = () => {
-    const answer = { value: picked, id: props.id };
+    const answer = { answers: picked, question_id: props.id };
     props.registerAnswer(answer);
     props.onNext();
   };
