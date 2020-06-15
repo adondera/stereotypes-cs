@@ -11,7 +11,6 @@ class QuizFactory:
     """
     Class that creates a quiz from a file
     """
-
     def __init__(self, filename):
         with open(filename) as file:
             self.data = json.load(file)
@@ -29,7 +28,7 @@ class QuizFactory:
         :return: The response object with all the questions
         """
         self.create_information_beginning()
-        if self.video.data['before']:
+        if 'before' in self.video.data and self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
@@ -37,7 +36,7 @@ class QuizFactory:
         self.create_end_text()
         self.response.extend(self.eat.create_eat())
         self.response.extend(self.demographics.create_demographics())
-        if not self.video.data['before']:
+        if 'before' in self.video.data and not self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.create_ending()
         return self.response

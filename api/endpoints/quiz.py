@@ -182,4 +182,9 @@ class CalculateResult(Resource):
 class Dissemination(Resource):
 
     def get(self):
-        return dummy_iat_dissemination, 200
+        try:
+            filename = os.path.join(current_app.static_folder,
+                                    "IATs/{}.json".format("dissemination"))                 
+            return QuizFactory(filename).create_quiz(), 200
+        except:
+            return ANSWERS[404], 404
