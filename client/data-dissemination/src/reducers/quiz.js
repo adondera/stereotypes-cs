@@ -7,6 +7,16 @@ const quizReducer = (state={answers: []}, action) => {
                 ...state,
                 answers: newAnswers
             }
+        case 'ANSWERS_SEND_FAILED':
+            return {
+                ...state,
+                answers: []
+            }
+        case 'FINISH_QUIZ':
+            return {
+                ...state,
+                answers: []
+            }
         default:
             return state;
     }

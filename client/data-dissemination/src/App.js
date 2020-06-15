@@ -9,7 +9,7 @@ import { incrementQuizIndex, finishQuiz, loadQuiz } from './actions/app';
 import { connect } from 'react-redux';
 
 
-function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFinished, finishQuiz, loadQuiz }) {
+function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFinished, finishQuiz, loadQuiz, result }) {
   const [state, setstate] = useState(false)
   useEffect(() => {
     if(state === false) {
@@ -33,7 +33,7 @@ function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFini
         />
       </Route>
       <Route exact path='/results'>
-        <Results resultsAvailable={quizIsFinished}/>
+        <Results resultsAvailable={quizIsFinished} result={result}/>
       </Route>
     </Switch>
   );
@@ -45,7 +45,8 @@ const mapStateToProps = (state, ownProps) => {
     quizIndex: state.appReducer.quizIndex,
     quizData: state.appReducer.quizData,
     quizIsLoaded: state.appReducer.quizIsLoaded,
-    quizIsFinished: state.appReducer.quizIsFinished
+    quizIsFinished: state.appReducer.quizIsFinished,
+    result: state.appReducer.result
   };
 };
 

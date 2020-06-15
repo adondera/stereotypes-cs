@@ -5,8 +5,8 @@ const Results = (props) => {
 
   return (
     <div>
-      <h1>RESULTS PAGE HERE</h1>
-      <h1> {props.resultsAvailable.toString()} </h1>
+      <h1>{props.result}</h1>
+      {/* <h1>{props.resultsAvailable.toString()}</h1> */}
     </div>
   );
 };

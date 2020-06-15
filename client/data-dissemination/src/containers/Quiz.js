@@ -1,4 +1,4 @@
-import {registerAnswer} from '../actions/quiz';
+import {registerAnswer, sendQuiz} from '../actions/quiz';
 import Quiz from '../components/Quiz';
 import {connect} from 'react-redux';
 
@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
     return {
         registerAnswer: (answer) => dispatch(registerAnswer(answer)),
-        finishQuiz: () => console.log('finish quiz')
+        finishQuiz: () => dispatch(sendQuiz())
     }
 }
 

@@ -11,7 +11,14 @@ const appReducer = (state = {}, action) => {
         ...state,
         quizIndex: 0,
         quizIsFinished: true,
+        result: action.result
       };
+    case 'ANSWERS_SEND_FAILED':
+      return {
+        ...state,
+        quizIndex: 0,
+        quizIsFinished: false,   // ???
+      } 
     case 'QUIZ_LOADED':
         return {
             ...state,
