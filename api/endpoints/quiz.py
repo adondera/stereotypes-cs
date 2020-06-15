@@ -167,3 +167,13 @@ class QuizResults(Resource):
             "columns": columns,
             "data": data
         }, 200
+
+
+class CalculateResult(Resource):
+    """
+    Defines the handlers for the /dummy route
+    """
+
+    def post(self):
+
+        return "You have a slight bias towards Americans.", 200
