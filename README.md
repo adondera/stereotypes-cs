@@ -38,13 +38,14 @@ The following repository contains the source code from the 2019-2020 CSE200 Soft
 
 ## :beginner: Features 
 
-* A
-* B
-* C
+* Parents can complete a digital consent form
+* Children can take an IAT test
+* Test results are stored in a database
+* etc
 
 ## :camera: Screenshots 
 
-![image](screenshots/screenshot.png) <!-- .element height="50%" width="50%" -->
+![image](docs/screenshots/iat_gender.png) <!-- .element height="20%" width="20%" -->
 
 ## :checkered_flag: Getting started 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -139,10 +140,22 @@ How are the folders organised. Where to find stuff.
 │       ├── index.js
 │       └── rate.js
 ├── CNAME
-├── index.html
-├── rate.html
+├── config.py
+├── server.py
 └── README.md
+
+EXAMPLE
 ```
+
+| No | File/Folder Name | Details 
+|----|------------|-------|
+| 1  | api        |serve-side code|
+| 2  | client     |client-side code|
+| 3  | docs       |documentation, meeting notes|
+| 4  | migrations |migration files for database schema|
+| 5  | socketio   |socket communication|
+| 6  | config.py  |server configurations|
+| 7  | requirements.txt|packages used in the code|
 
 ### Starting the server :hot_pepper:
 Reference to server README.md
@@ -210,6 +223,14 @@ Any contributions you make are **greatly appreciated**.
 * [React-Router](https://github.com/ReactTraining/react-router) - blabla
 
 ### Server-side
+
+* [Flask-Restful](https://flask-restful.readthedocs.io/en/latest/) - REST API functionalities of Flask
+* [Flask-JWT-extended](https://flask-jwt-extended.readthedocs.io/en/stable/) - JWT integration for authorisation and authentication
+* [Flask-SocketIO](https://flask-socketio.readthedocs.io/en/latest/) -  Socket communication framework
+* [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) - SQL toolkit and object-relational mapper.
+* [Redis](https://redis.io/) - In-memory data structure store
+* [Cloudinary](https://cloudinary.com/) - Cloud management service for media contents
+* [PostgreSQL](https://www.postgresql.org/) - Relational database system
 
 ## :sunglasses: Authors 
 
