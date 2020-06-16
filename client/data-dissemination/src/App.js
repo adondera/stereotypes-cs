@@ -6,10 +6,11 @@ import Home from './components/Home';
 import Results from './components/Results'
 import './App.css';
 import { incrementQuizIndex, finishQuiz, loadQuiz } from './actions/app';
+import { sendQuiz } from './actions/quiz';
 import { connect } from 'react-redux';
 
 
-function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFinished, finishQuiz, loadQuiz, result }) {
+function App({ quizIndex, quizData, quizIsLoaded, quizResultAvailable, quizResultLoading, finishQuiz, loadQuiz, result }) {
   const [state, setstate] = useState(false)
   useEffect(() => {
     if(state === false) {
@@ -34,8 +35,8 @@ function App({ quizIndex, quizData, incrementQuizIndex, quizIsLoaded, quizIsFini
         />
       </Route>
       <Route exact path='/results'>
-        {quizIsFinished ? null : (<Redirect to='/'/>)}
-        <Results resultsAvailable={quizIsFinished} result={result}/>
+        {quizResultLoading || quizResultAvailable ? null : (<Redirect to='/'/>)}
+        <Results resultsAvailable={quizResultAvailable} result={result}/>
       </Route>
     </Switch>
   );
@@ -48,14 +49,15 @@ const mapStateToProps = (state, ownProps) => {
     quizData: state.appReducer.quizData,
     quizIsLoaded: state.appReducer.quizIsLoaded,
     quizIsFinished: state.appReducer.quizIsFinished,
+    quizResultLoading: state.appReducer.quizResultLoading,
+    quizResultAvailable: state.appReducer.quizResultAvailable,
     result: state.appReducer.result
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    incrementQuizIndex: () => dispatch(incrementQuizIndex()),
-    finishQuiz: () => dispatch(finishQuiz()),
+    finishQuiz: () => {dispatch(finishQuiz()); dispatch(sendQuiz());},
     loadQuiz: () => dispatch(loadQuiz())
   };
 };

@@ -10,19 +10,26 @@ const appReducer = (state = {}, action) => {
       return {
         ...state,
         quizIndex: 0,
+        quizResultLoading: true,
         quizIsFinished: true,
-        result: action.result
       };
-    case 'ANSWERS_SEND_FAILED':
+    case 'FETCH_RESULTS_FAILED':
       return {
         ...state,
-        quizIndex: 0,
-        quizIsFinished: false,   // ???
+        quizIsFinished: false,
+        quizResultLoading: false,
       } 
+    case 'FECT_RESULTS_SUCCESS':
+      return {
+        ...state,
+        quizResultLoading: false,
+        quizResultAvailable: true,
+        result: action.results
+      }
     case 'QUIZ_LOADED':
         return {
             ...state,
-            quizData: action.quizData,
+            //quizData: action.quizData,
             quizIsLoaded: true
         }
     default:

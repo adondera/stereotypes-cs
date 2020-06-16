@@ -8,11 +8,12 @@ export const registerAnswer = (answer) => {
 }
 
 export const sendQuiz = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
     var answerData = {}
     console.log(getState())
     answerData.data = [...getState().quizReducer.answers]
-    sendData(answerData).then((response) => response.status === 200 ? dispatch({type: 'FINISH_QUIZ', result: response.data}) : dispatch({type: 'ANSWERS_SEND_FAILED'}))
-                        .catch((err) => dispatch({type: 'ANSWERS_SEND_FAILED'}))
+    return sendData(answerData)
+                        .then((response) => response.ok ? dispatch({type: 'FETCH_RESULTS_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULTS_FAILED'}))
+                        .catch(() => dispatch({type: 'FETCH_RESULTS_FAILED'}))
     }
 }
