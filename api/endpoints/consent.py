@@ -33,7 +33,8 @@ class ConsentForm(Resource):
         validators = {
             'parent': valid.validate_person_data,
             'children': valid.validate_children_data,
-            'signature': valid.validate_signature
+            'signature': valid.validate_signature,
+            'email': valid.validate_email
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
@@ -45,12 +46,11 @@ class ConsentForm(Resource):
 
         if os.environ['APP_SETTINGS'] != "config.TestingConfig" \
                 and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
-            upload_result = upload(signature)
+            upload_result = upload(signature, folder="signatures")
             signature = upload_result["secure_url"]
 
-        cons = Consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
-                       signature=signature)
-        add_to_db(cons)
+        cons = Consent.create_consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
+                                      signature=signature, email=data['email'])
 
         for child in data['children']:
             participant = Participant(first_name=child['firstName'],

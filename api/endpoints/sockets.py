@@ -7,7 +7,7 @@ import redis
 from flask_jwt_extended import jwt_required
 from .. import socketio
 
-if os.environ["APP_SETTINGS"] == "config.StagingConfig":
+if os.environ["APP_SETTINGS"] == "config.StagingConfig" or os.environ["APP_SETTINGS"] == "config.ProductionConfig":
     red = redis.from_url(os.environ["REDIS_URL"])
 elif os.environ["APP_SETTINGS"] == "config.CITestingConfig":
     red = redis.Redis(host="redis")
