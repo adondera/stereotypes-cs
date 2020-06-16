@@ -3,9 +3,10 @@
 Module that deals with all logic related to consent forms
 """
 import os
+import random
 import traceback
 
-from flask import request
+from flask import request, jsonify
 from flask import current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
@@ -85,7 +86,7 @@ class QuizAnswers(Resource):
 
 
 class QuizQuestions(Resource):
-    """Resource that deals with retrieving questions from database"""
+    """Resource that deals with retrieving scenario from database"""
 
     @jwt_required
     def get(self):
@@ -101,6 +102,25 @@ class QuizQuestions(Resource):
         except:
             traceback.print_exc()
             return ANSWERS[404], 404
+
+
+class RandomQuiz(Resource):
+    """Resource that deals with retrieving random scenario from database"""
+
+    @jwt_required
+    def get(self):
+        """
+        On a get request on the /random-quiz endpoint we return a random quiz with questions
+        :return: random quiz and status 200
+        """
+        scenario = random.choice(list(Version))
+        try:
+            filename = os.path.join(current_app.static_folder,
+                                    "IATs/{}.json".format(scenario.value))
+            return QuizFactory(filename).create_quiz(), 200
+        except:
+            return ANSWERS[404], 404
+
 
 class QuizVersions(Resource):
     """Resource that returns a mapping for the different scenarios"""
@@ -149,3 +169,24 @@ class QuizResults(Resource):
             "columns": columns,
             "data": data
         }, 200
+
+
+class CalculateResult(Resource):
+    """
+    Defines the handlers for the /dummy route
+    """
+
+    def post(self):
+
+        return "You have a slight bias towards Americans.", 200
+
+
+class Dissemination(Resource):
+
+    def get(self):
+        try:
+            filename = os.path.join(current_app.static_folder,
+                                    "IATs/{}.json".format("dissemination"))
+            return QuizFactory(filename).create_quiz(), 200
+        except:
+            return ANSWERS[404], 404
