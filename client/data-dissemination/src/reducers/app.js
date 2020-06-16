@@ -13,18 +13,18 @@ const appReducer = (state = {}, action) => {
         quizResultLoading: true,
         quizIsFinished: true,
       };
-    case 'FETCH_RESULTS_FAILED':
+    case 'FETCH_RESULT_FAILED':
       return {
         ...state,
         quizIsFinished: false,
         quizResultLoading: false,
       } 
-    case 'FECT_RESULTS_SUCCESS':
+    case 'FETCH_RESULT_SUCCESS':
       return {
         ...state,
         quizResultLoading: false,
         quizResultAvailable: true,
-        result: action.results
+        result: action.result
       }
     case 'QUIZ_LOADED':
         return {

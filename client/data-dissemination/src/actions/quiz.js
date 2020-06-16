@@ -13,7 +13,7 @@ export const sendQuiz = () => {
     console.log(getState())
     answerData.data = [...getState().quizReducer.answers]
     return sendData(answerData)
-                        .then((response) => response.ok ? dispatch({type: 'FETCH_RESULTS_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULTS_FAILED'}))
-                        .catch(() => dispatch({type: 'FETCH_RESULTS_FAILED'}))
+                        .then((response) => {response.statusText === 'OK' ? dispatch({type: 'FETCH_RESULT_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULT_FAILED'})})
+                        .catch(() => dispatch({type: 'FETCH_RESULT_FAILED'}))
     }
 }
