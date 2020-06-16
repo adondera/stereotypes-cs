@@ -3,6 +3,7 @@ from flask import request
 from flask_mail import Message
 from flask_restful import Resource
 
+
 class Email(Resource):
 
     def post(self):

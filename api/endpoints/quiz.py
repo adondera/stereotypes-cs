@@ -3,6 +3,7 @@
 Module that deals with all logic related to consent forms
 """
 import os
+import traceback
 
 from flask import request
 from flask import current_app
@@ -98,6 +99,7 @@ class QuizQuestions(Resource):
                                     "IATs/{}.json".format(Version[version].value))                 
             return QuizFactory(filename).create_quiz(), 200
         except:
+            traceback.print_exc()
             return ANSWERS[404], 404
 
 class QuizVersions(Resource):
