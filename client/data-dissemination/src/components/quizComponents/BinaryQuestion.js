@@ -26,15 +26,13 @@ const BinaryQuestion = (props) => {
       question_id: props.id,
       img_id: props.image.link,
     };
-    console.log(Date.now() - start);
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
   };
 
   // handle click on left pad
   const onClickLeft = () => {
-    console.log(props.correctAnswer);
-    if (props.image.category === props.categories_left[0].name) {
+    if (props.categories_left.map(category => category.name).indexOf(props.image.category) > -1) {
       sumbitAnswerToStore();
     } else {
       setwrong(wrong + 1);
@@ -43,7 +41,7 @@ const BinaryQuestion = (props) => {
 
   // handle click on right pad
   const onClickRight = () => {
-    if (props.image.category === props.categories_right[0].name) {
+    if (props.categories_right.map(category => category.name).indexOf(props.image.category) > -1) {
       sumbitAnswerToStore();
     } else {
       setwrong(wrong + 1);
@@ -55,7 +53,9 @@ const BinaryQuestion = (props) => {
       <Grid container spacing={0}>
         {/* left text */}
         <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h6">{props.categories_left[0].name}</Typography>
+          {props.categories_left.map(category => (
+            <Typography variant="h6">{category.name}</Typography>
+          ))}
         </Grid>
         {/* X */}
         <Grid item xs={4}>
@@ -69,7 +69,9 @@ const BinaryQuestion = (props) => {
         </Grid>
         {/* right text */}
         <Grid className={classes.paper} item xs={4}>
-          <Typography variant="h6">{props.categories_right[0].name}</Typography>
+        {props.categories_right.map(category => (
+            <Typography variant="h6">{category.name}</Typography>
+          ))}
         </Grid>
         {/* choice card left */}
         <Grid xs={12} style={{ marginTop: "3em" }} />
