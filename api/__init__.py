@@ -51,6 +51,11 @@ def index():
     return "Hello, World!"
 
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.close()
+
+
 from .endpoints import bp as endpoints_bp
 
 app.register_blueprint(endpoints_bp)
