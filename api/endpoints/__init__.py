@@ -7,7 +7,6 @@ from .auth import Login, FreshLogin
 from .dashboard import Stats, Participants, ActiveParticipants
 from .tokens import Protected, Refresh, ProtectedFresh
 from .consent import ConsentResource, ConsentForm
-from .email import Email
 from .quiz import QuizAnswers, QuizQuestions, QuizResults, QuizVersions, RandomQuiz
 from .quiz_dissemination import DisseminationQuiz, CalculateResult
 
@@ -32,4 +31,3 @@ api.add_resource(QuizVersions, '/quiz-versions')
 api.add_resource(RandomQuiz, '/random-quiz')
 api.add_resource(CalculateResult, '/calculate')
 api.add_resource(DisseminationQuiz, '/iat')
-api.add_resource(Email, '/email')
