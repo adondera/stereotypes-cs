@@ -8,7 +8,8 @@ from .dashboard import Stats, Participants
 from .tokens import Protected, Refresh, ProtectedFresh
 from .consent import ConsentResource, ConsentForm
 from .email import Email
-from .quiz import QuizAnswers, QuizQuestions, QuizResults, QuizVersions, RandomQuiz, CalculateResult, Dissemination
+from .quiz import QuizAnswers, QuizQuestions, QuizResults, QuizVersions, RandomQuiz
+from .quiz_dissemination import DisseminationQuiz, CalculateResult
 
 bp = Blueprint("endpoint", __name__)
 
@@ -29,5 +30,5 @@ api.add_resource(Participants, '/participants')
 api.add_resource(QuizVersions, '/quiz-versions')
 api.add_resource(RandomQuiz, '/random-quiz')
 api.add_resource(CalculateResult, '/calculate')
-api.add_resource(Dissemination, '/iat')
+api.add_resource(DisseminationQuiz, '/iat')
 api.add_resource(Email, '/email')

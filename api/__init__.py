@@ -54,11 +54,3 @@ def index():
 from .endpoints import bp as endpoints_bp
 
 app.register_blueprint(endpoints_bp)
-
-
-# @app.before_request
-# def before_request():
-#     if not request.is_secure and 'DYNO' in os.environ and request.url.startswith('http://'):
-#         url = request.url.replace('http://', 'https://', 1)
-#         code = 308
-#         return redirect(url, code=code)

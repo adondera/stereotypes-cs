@@ -7,10 +7,12 @@ from sqlalchemy import or_
 from api.models import QuestionType, Question, Image, add_to_db, Question_to_category, Category
 from api.endpoints.constants import block_start_text, block_end_text, final_block_text
 
+
 class QuizFactory:
     """
     Class that creates a quiz from a file
     """
+
     def __init__(self, filename):
         with open(filename) as file:
             self.data = json.load(file)
@@ -57,7 +59,7 @@ class QuizFactory:
             "text": "Leuk dat je mee doet aan dit onderzoek! Als je iets niet begrijpt tijdens het onderzoek, of als je wilt "
                     "stoppen, steek dan je hand op. We komen dan zo snel mogelijk naar je toe om je te helpen."
         })
-    
+
     def create_end_text(self):
         end_text = final_block_text.copy()
         end_text['q_type'] = QuestionType.information.value
@@ -85,10 +87,9 @@ class VideoFactory:
 
     def create_video_text(self):
         if not self.data['before']:
-            return "Wat goed gedaan! Je hebt alle vragen gehad. "\
+            return "Wat goed gedaan! Je hebt alle vragen gehad. " \
                    "Je mag nog een korte video kijken waarin we je vertellen wat een programmeur eigenlijk is."
         return "Allereerst ga je naar een video kijken waarin we je uitleg geven over het beroep ‘programmeur’."
-
 
 
 class DemographicsFactory:
@@ -166,8 +167,7 @@ class IATFactory:
         }, Question.query.filter_by(q_type=QuestionType.binary).all())))
 
         questions = list(
-            filter(lambda x: x['left'] == phase['left_categ']
-                             and x['right'] == phase['right_categ'], questions))
+            filter(lambda x: x['left'] == phase['left_categ'] and x['right'] == phase['right_categ'], questions))
 
         assert len(questions) <= 1, "Should have at most one result"
 
@@ -180,10 +180,9 @@ class IATFactory:
         question = Question.query.filter_by(id=questions[0]['id']).first()
         self.append_response(question, block_nr)
 
-    
     def append_response(self, question, block_nr):
-        d = question.as_dict()
-        d['block_nr'] = block_nr
+        dictionary = question.as_dict()
+        dictionary['block_nr'] = block_nr
         self.response.extend(question.make_response())
 
     def create_new_phase(self, phase):
@@ -219,18 +218,19 @@ class IATFactory:
         guide_text = block_start_text[block_nr].copy()
         guide_text['q_type'] = QuestionType.binary_information.value
         c_left = list(map(lambda x: (x.name, x.id),
-                   Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
+                          Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
         c_right = list(map(lambda x: (x.name, x.id),
-                    Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
-        guide_text['text1'] = guide_text['text1'].format(c_left[0][0].lower(), c_left[1][0].lower() if len(c_left) >= 2 else None)
-        guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(), c_right[1][0].lower() if len(c_right) >= 2 else None)
+                           Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
+        guide_text['text1'] = guide_text['text1'].format(c_left[0][0].lower(),
+                                                         c_left[1][0].lower() if len(c_left) >= 2 else None)
+        guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(),
+                                                         c_right[1][0].lower() if len(c_right) >= 2 else None)
         guide_text['text3'] = block_end_text
         images0 = list(map(lambda x: x.link,
-                      Image.query.filter(Image.category_id.in_(phase['left_categ']))))
+                           Image.query.filter(Image.category_id.in_(phase['left_categ']))))
 
         images1 = list(map(lambda x: x.link,
-                      Image.query.filter(Image.category_id.in_(phase['right_categ']))))
+                           Image.query.filter(Image.category_id.in_(phase['right_categ']))))
         guide_text['images0'] = images0
         guide_text['images1'] = images1
         self.response.append(guide_text)
-        

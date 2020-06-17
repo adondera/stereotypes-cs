@@ -5,20 +5,19 @@ Module that deals with all logic related to consent forms
 import os
 import random
 import traceback
-from scipy.stats import ttest_ind as ttest
 
-from flask import request, jsonify
+from flask import request
 from flask import current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from flask_mail import Message
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, add_to_db, commit_db_session, add_to_session, Participant, Question, ParticipantInformationType, Ethnicity, QuestionType, QuestionChoice, Participant, Version
+from api.models import ParticipantAnswer, commit_db_session, Question, ParticipantInformationType, QuestionType, \
+    QuestionChoice, Participant, Version
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
-from api import mail
+
 
 class QuizAnswers(Resource):
     """Resource that deals with saving answers into database"""
@@ -49,7 +48,7 @@ class QuizAnswers(Resource):
                 id=answer["question_id"]).first().q_type
             i_type = Question.query.filter_by(
                 id=answer["question_id"]).first().information
-            
+
             if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
                 ageString = QuestionChoice.query.filter_by(
                     choice_num=answer['answers'], question_id=answer["question_id"]).first().text
@@ -77,7 +76,7 @@ class QuizAnswers(Resource):
                 ParticipantAnswer.create_participant_answer(
                     p_id=answer["participant_id"],
                     q_id=answer["question_id"],
-                    img_link=answer["img_id"] if "img_id" in answer else None, # for likert
+                    img_link=answer["img_id"] if "img_id" in answer else None,  # for likert
                     answers=answer["answers"] if "answers" in answer else None,
                     open_answer=answer["open_answer"] if "open_answer" in answer else None,
                     r_time=answer["response_time"] if 'response_time' in answer else None,
@@ -99,7 +98,7 @@ class QuizQuestions(Resource):
         version = request.args.get("version")
         try:
             filename = os.path.join(current_app.static_folder,
-                                    "IATs/{}.json".format(Version[version].value))                 
+                                    "IATs/{}.json".format(Version[version].value))
             return QuizFactory(filename).create_quiz(), 200
         except:
             traceback.print_exc()
@@ -137,6 +136,7 @@ class QuizVersions(Resource):
             ret[e.name] = e.value
         return ret
 
+
 class QuizResults(Resource):
     """Resource that deals with retrieving answers from database"""
 
@@ -168,70 +168,6 @@ class QuizResults(Resource):
             data.append(array)
 
         return {
-            "columns": columns,
-            "data": data
-        }, 200
-
-
-class CalculateResult(Resource):
-    """
-    Defines the handlers for the /dummy route
-    """
-
-    
-    def get_block_information(self, block_nr, data):
-        question_id = next(x["question_id"] for x in data['data'] if x["block_nr"] == block_nr)
-        question = Question.query.filter_by(id=question_id).first()
-        block_answers = list(map(lambda x: x["response_time"], filter(lambda x: x["block_nr"] == block_nr, data['data'])))
-        return question, block_answers
-
-    def send_email(self, res, email=None):
-        msg = Message('Your IAT results', recipients=[email])
-        msg.body = 'Here are your IAT results: {}'.format(res)
-        mail.send(msg)
-
-    def post(self):
-        """
-        Analyses the results from a data dissemination quiz and gives the result.
-        The result can be either that stereotypes were found, or that they weren't found.
-        """
-        validators = {
-            "data": valid.validate_accept,
-            "email": valid.validate_email
-        }
-
-        data = valid.validate(valid.read_form_data(request), validators)
-        if not data:
-            return ANSWERS[400], 400
-        
-
-        data = valid.read_form_data(request)
-
-
-        question3, block_3_answers = self.get_block_information(3, data)
-        question5, block_5_answers = self.get_block_information(5, data)
-        
-        t_statistic, p_value = ttest(block_3_answers, block_5_answers, equal_var=False)
-
-        response = "No bias"
-
-        if p_value <= 0.1:
-            if t_statistic < 0:
-                response = "3"
-            else:
-                response = "5"
-        
-        if 'email' in data:
-            self.send_email(res=response, email=data['email'])
-
-        return response, 200
-
-class Dissemination(Resource):
-
-    def get(self):
-        try:
-            filename = os.path.join(current_app.static_folder,
-                                    "IATs/{}.json".format("dissemination"))
-            return QuizFactory(filename).create_quiz(), 200
-        except:
-            return ANSWERS[404], 404
+                   "columns": columns,
+                   "data": data
+               }, 200
