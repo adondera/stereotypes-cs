@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Start from "./Start";
 import Load from "./Load";
 import QueueManagement from "./QueueManagement";
+import Participants from "../containers/Participants";
 
 const MainApp = ({
   setVersion,
@@ -39,6 +40,9 @@ const MainApp = ({
             questionIndex={questionIndex}
             onSkipQuiz={skipQuiz}
           />
+        </Route>
+        <Route path="/participants">
+          <Participants accessToken={accessToken}/>
         </Route>
       </Switch>
     </div>
