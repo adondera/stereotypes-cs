@@ -1,5 +1,6 @@
 const mainAppReducer = (
   state = {
+    shouldRemoveChild: false,
     activeChild: { firstName: '', lastName: '', id: '' },
     hasActiveChild: false,
     loadFailed: false
@@ -11,7 +12,8 @@ const mainAppReducer = (
     case 'DATA_IS_LOADING':
       return {
         ...state,
-        loadFailed: false
+        loadFailed: false,
+        isDataLoaded: false
       }
     /*
     Change active question
@@ -75,7 +77,8 @@ const mainAppReducer = (
       return {
         ...state,
         questionIndex: 0,
-        sendDataStatus: 0
+        sendDataStatus: 0,
+        shouldRemoveChild: true
       };
 
     /*
@@ -86,9 +89,15 @@ const mainAppReducer = (
         ...state,
         activeChild: action.child,
         hasActiveChild: true,
+        shouldRemoveChild: false
       };
 
     case 'REMOVE_ACTIVE_CHILD':
+      if(!state.shouldRemoveChild) {
+        return {
+          ...state
+        }
+      }
       return {
         ...state,
         activeChild: {

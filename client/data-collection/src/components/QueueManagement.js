@@ -9,9 +9,13 @@ import "../styles/Question.css";
 
 const QueueManagament = (props) => {
   useEffect(() => {
-    if (props.questionIndex === 0) {
+    if (props.questionIndex === 0 && props.shouldRemoveChild) {
       props.removeChild();
       props.getChild();
+    } else {
+      if(!props.hasActiveChild) {
+        props.getChild();
+      }
     }
     // eslint-disable-next-line
   }, [props.questionIndex]);

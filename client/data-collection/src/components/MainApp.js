@@ -7,8 +7,12 @@ import Start from "./Start";
 import Load from "./Load";
 import QueueManagement from "./QueueManagement";
 import Participants from "../containers/Participants";
+import Grid from '@material-ui/core/Grid'
+import BackIcon from '@material-ui/icons/Backspace'
+import {Link} from 'react-router-dom'
 
 const MainApp = ({
+  shouldRemoveChild,
   setVersion,
   loadFailed = false,
   hasActiveChild = false,
@@ -24,11 +28,15 @@ const MainApp = ({
     <div>
       <Switch>
         <Route path="/load">
-          <Load loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
-          {isDataLoaded ? <Redirect to="/app" /> : null}
+          <Load isDataLoaded={isDataLoaded} loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
         </Route>
         <Route path="/app">
-          <QueueManagement questionIndex={questionIndex} />
+          <Grid>
+            <Link to='/load'>
+            <BackIcon style={{ float: 'left', margin: 10}} fontSize='large'/>
+          </Link>
+          </Grid>
+          <QueueManagement hasActiveChild={hasActiveChild} questionIndex={questionIndex} shouldRemoveChild={shouldRemoveChild}/>
           <Start canStart={hasActiveChild} onClick={() => onQuestionChange(questionIndex).questions} />
           {questionIndex === 0 ? null : <Redirect to="/questions" />}
         </Route>
@@ -60,6 +68,7 @@ MainApp.propTypes = {
   isDataLoaded: PropTypes.bool,
   accessToken: PropTypes.string,
   finishQuiz: PropTypes.func,
+  shouldRemoveChild: PropTypes.bool
 };
 
 export default MainApp;

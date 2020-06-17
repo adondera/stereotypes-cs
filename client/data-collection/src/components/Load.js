@@ -1,14 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import Loader from "@material-ui/core/LinearProgress";
 import { InputLabel } from "@material-ui/core";
 import { getResults } from "../utils/requests/getResults";
 import { getVersions } from "../utils/requests/getQuiz";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 var modules = require("react-export-excel");
 
@@ -37,6 +36,12 @@ const Load = (props) => {
   }, [props.loadFailed]);
 
   useEffect(() => {
+    if (props.isDataLoaded) {
+      setstate({ isLoading: false });
+    }
+  }, [props.isDataLoaded]);
+
+  useEffect(() => {
     if (!versions) {
       fetchVersions();
     }
@@ -58,9 +63,6 @@ const Load = (props) => {
 
   return (
     <div style={{ width: "50%", paddingTop: 300, margin: "auto" }}>
-      {state.isLoading ? (
-        <Loader />
-      ) : (
         <React.Fragment>
           <Grid container spacing={2}>
             <Grid item xs={6} style={{ textAlign: "right" }}>
@@ -92,24 +94,24 @@ const Load = (props) => {
                 style={{ margin: "auto" }}
                 variant="contained"
                 color="primary"
-                disabled={checkedVersion === ""}
+                disabled={checkedVersion === "" || state.isLoading}
                 onClick={() => {
                   setstate({ isLoading: true });
                   props.onLoadData(checkedVersion);
                 }}
               >
                 {" "}
-                Start Session{" "}
+                LOAD QUESTIONS{" "}
               </Button>
-            </Grid>
-            <Grid item xs={12} style={{marginTop: 20}}>
-              <Link to="/participants" style={{textDecoration: 'none'}}>
-                <Button color='primary' variant="contained">Participants</Button>
-              </Link>
             </Grid>
           </Grid>
         </React.Fragment>
-      )}
+
+      <Grid item xs={12} style={{ marginTop: 20 }}>
+        <Link to="/participants" style={{ textDecoration: "none" }}>
+          <Button variant="contained" color='primary'>Participants</Button>
+        </Link>
+      </Grid>
       <InputLabel
         error
         style={{
@@ -123,10 +125,7 @@ const Load = (props) => {
       {results ? (
         <ExcelFile
           element={
-            <Button
-              variant="contained"
-              color="primary"
-            >
+            <Button variant="contained" color="primary">
               Data Ready!
             </Button>
           }
@@ -134,14 +133,24 @@ const Load = (props) => {
           <ExcelSheet dataSet={results} name="Organization" />
         </ExcelFile>
       ) : (
-        <Button
-          onClick={fetchResults}
-          variant="contained"
-          color="primary"
-        >
+        <Button onClick={fetchResults} variant="contained" color="primary">
           Start Download Data
         </Button>
       )}
+      <br />
+      <Link
+        to={props.isDataLoaded ? "/app" : "/load"}
+        style={{ textDecoration: "none" }}
+      >
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ marginTop: 50 }}
+          disabled={!props.isDataLoaded}
+        >
+          Start session
+        </Button>
+      </Link>
     </div>
   );
 };

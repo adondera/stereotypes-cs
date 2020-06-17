@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
       accessToken: state.loginReducer.accessToken,
       questionIndex: state.mainAppReducer.questionIndex,
       questions: state.mainAppReducer.questions,
-      isDataLoaded: state.mainAppReducer.isDataLoaded
+      isDataLoaded: state.mainAppReducer.isDataLoaded,
+      shouldRemoveChild: state.mainAppReducer.shouldRemoveChild
     };
   };
   
