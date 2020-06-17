@@ -99,7 +99,7 @@ class QuizQuestions(Resource):
         try:
             filename = os.path.join(current_app.static_folder,
                                     "IATs/{}.json".format(Version[version].value))
-            return QuizFactory(filename).create_quiz(), 200
+            return QuizFactory(filename).create_collection_quiz(), 200
         except:
             traceback.print_exc()
             return ANSWERS[404], 404
@@ -118,7 +118,7 @@ class RandomQuiz(Resource):
         try:
             filename = os.path.join(current_app.static_folder,
                                     "IATs/{}.json".format(scenario.value))
-            return QuizFactory(filename).create_quiz(), 200
+            return QuizFactory(filename).create_collection_quiz(), 200
         except:
             return ANSWERS[404], 404
 

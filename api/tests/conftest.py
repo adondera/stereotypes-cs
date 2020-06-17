@@ -64,7 +64,7 @@ def make_quiz():
     populate()
     root = os.path.dirname(os.path.abspath(__file__))
     test_file = os.path.join(root, 'test_files/intervention-hobby-female.json')
-    QuizFactory(test_file).create_quiz()
+    QuizFactory(test_file).create_collection_quiz()
     question_3 = Question.query.filter_by(id=24).first()
     question_5 = Question.query.filter_by(id=26).first()
     yield question_3, question_5

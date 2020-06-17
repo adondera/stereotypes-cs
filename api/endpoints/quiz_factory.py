@@ -5,7 +5,8 @@ import json
 from sqlalchemy import or_
 
 from api.models import QuestionType, Question, Image, add_to_db, Question_to_category, Category
-from api.endpoints.constants import block_start_text, block_end_text, final_block_text
+from api.endpoints.constants import block_start_text, block_end_text, final_block_text, collection_quiz_end_text, \
+    collection_quiz_beginning_text, intervention_video_text, control_video_text
 
 
 class QuizFactory:
@@ -24,43 +25,54 @@ class QuizFactory:
             self.video = VideoFactory(self.data['video'])
             self.demographics = DemographicsFactory(self.data['demographics'])
 
-    def create_quiz(self):
+    def create_collection_quiz(self):
         """
         Creates a quiz by combining the different components
-        :return: The response object with all the questions
+        :return: The response to the collection application with all the questions
         """
-        self.create_information_beginning()
-        if 'before' in self.video.data and self.video.data['before']:
+        self.response = []
+        self.create_information_beginning(collection_quiz_beginning_text)
+        if self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
-        self.create_end_text()
+        self.create_end_iat_text()
         self.response.extend(self.eat.create_eat())
         self.response.extend(self.demographics.create_demographics())
-        if 'before' in self.video.data and not self.video.data['before']:
+        if self.video.data['before']:
             self.response.extend(self.video.create_video())
-        self.create_ending()
+        self.create_ending(collection_quiz_end_text)
         return self.response
 
-    def create_ending(self):
+    def create_dissemination_quiz(self):
+        """
+        Creates a quiz for the data dissemination application
+        :return: The response to the dissemination application with the list of questions
+        """
+        self.response = []
+        self.create_information_beginning("Introduction text for this application")
+        self.response.extend(self.gender_profession.create_iat())
+        self.response.extend(self.social_profession.create_iat())
+        self.response.extend(self.hobby_profession.create_iat())
+        self.create_ending("Ending text for this application")
+        return self.response
+
+    def create_ending(self, end_text):
         self.response.append({
             "q_type": QuestionType.finish.value,
             "title": "Einde",
-            "text": "Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappen"
-                    "wat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\n"
-                    "Steek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
+            "text": end_text
         })
         self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
 
-    def create_information_beginning(self):
+    def create_information_beginning(self, beginning_text):
         self.response.append({
             "q_type": QuestionType.information.value,
-            "text": "Leuk dat je mee doet aan dit onderzoek! Als je iets niet begrijpt tijdens het onderzoek, of als je wilt "
-                    "stoppen, steek dan je hand op. We komen dan zo snel mogelijk naar je toe om je te helpen."
+            "text": beginning_text
         })
 
-    def create_end_text(self):
+    def create_end_iat_text(self):
         end_text = final_block_text.copy()
         end_text['q_type'] = QuestionType.information.value
         self.response.append(end_text)
@@ -87,9 +99,8 @@ class VideoFactory:
 
     def create_video_text(self):
         if not self.data['before']:
-            return "Wat goed gedaan! Je hebt alle vragen gehad. " \
-                   "Je mag nog een korte video kijken waarin we je vertellen wat een programmeur eigenlijk is."
-        return "Allereerst ga je naar een video kijken waarin we je uitleg geven over het beroep ‘programmeur’."
+            return intervention_video_text
+        return control_video_text
 
 
 class DemographicsFactory:

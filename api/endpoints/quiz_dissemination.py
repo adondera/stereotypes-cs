@@ -31,7 +31,7 @@ class DisseminationQuiz(Resource):
         try:
             filename = os.path.join(current_app.static_folder,
                                     "IATs/{}.json".format("dissemination"))
-            return QuizFactory(filename).create_quiz(), 200
+            return QuizFactory(filename).create_dissemination_quiz(), 200
         except:
             return ANSWERS[404], 404
 
@@ -72,7 +72,7 @@ class CalculateResult(Resource):
         """
         validators = {
             "data": valid.validate_accept,
-            "email": valid.validate_email
+            "email": valid.validate_accept
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
