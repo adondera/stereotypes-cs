@@ -9,7 +9,7 @@ const ChoiceCard = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={4} style={{ visibility: props.imageLoaded ? 'visible' : 'hidden'}}>
+    <Grid item xs={4}>
     <Card className={classes.card}>
         <CardActionArea
           component='div'
