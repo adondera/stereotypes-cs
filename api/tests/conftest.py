@@ -2,8 +2,10 @@
 import os
 import pytest
 from api import app, db
-from api.models import User, Consent, Participant, Version, Gender, Ethnicity
+from api.models import User, Consent, Participant, Version, Gender, Ethnicity, Question
 from api.endpoints.sockets import red
+from api.script import populate
+from api.endpoints.quiz_factory import QuizFactory
 
 @pytest.fixture
 def rootdir():
@@ -50,6 +52,22 @@ def init_db_with_participants():
     Consent.create_consent("John", "Doe", "Signature")
     Participant.create_participant(1, "Ionut", "Cons", 15, Gender.Jongen.value, [Ethnicity.Nederlands.value], "", Version.A)
     yield db
+    db.session.close()
+    db.drop_all()
+
+@pytest.fixture
+def make_quiz():
+    """
+    Populates the database and creates a gender-profession IAT
+    """
+    db.drop_all()
+    populate()
+    root = os.path.dirname(os.path.abspath(__file__))
+    test_file = os.path.join(root, 'test_files/intervention-hobby-female.json')
+    QuizFactory(test_file).create_quiz()
+    question_3 = Question.query.filter_by(id=24).first()
+    question_5 = Question.query.filter_by(id=26).first()
+    yield question_3, question_5
     db.session.close()
     db.drop_all()
 

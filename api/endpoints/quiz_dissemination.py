@@ -86,15 +86,24 @@ class CalculateResult(Resource):
 
         t_statistic, p_value = ttest(block_3_answers, block_5_answers, equal_var=False)
 
-        response = "No bias"
+        response = "De resultaten laten zien dat je geen vooringenomenheid hebt."
 
         if p_value <= 0.1:
             if t_statistic < 0:
-                response = "3"
+                response = self.get_bias_text(question3.as_dict())
             else:
-                response = "5"
+                response = self.get_bias_text(question5.as_dict())
 
         if 'email' in data:
             self.send_email(res=response, email=data['email'])
 
         return response, 200
+
+    def get_bias_text(self, question_dict):
+        cat_left = question_dict["categories_left"]
+        cat_right = question_dict['categories_right']
+
+        return "De resultaten laten zien dat je een lichte neiging hebt om {} te associëren met {} en {} met {}"\
+        .format(cat_left[0]["name"].lower(), cat_left[1]["name"].lower(), 
+                cat_right[0]["name"].lower(), cat_right[1]["name"].lower())
+                                                                
