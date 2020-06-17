@@ -241,19 +241,29 @@ class Stats(Resource):
         return data, 200
 
 
-class ActiveUsers(Resource):
+class ActiveParticipants(Resource):
+    """Resource that deals with retrieving the names of active participants (last hour)"""
 
     #@jwt_required
     def get(self):
+        """
+        On a get request on the /active-participants endpoint
+        we return the names of current participants
+        :return: If the request is valid, the JSON object and code 200
+        """
+
         last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
-        result = Participant.query.filter(and_(Participant.quiz_version.is_(None),
-                                               Participant.date >= last_hour)).all()
+        result = Participant.query.filter(Participant.date >= last_hour).all()
 
-        users = []
+        active_participants = []
         for res in result:
-            users.append(res.first_name + " " + res.last_name)
+            data = {
+                'name': res.first_name + " " + res.last_name,
+                'finished': res.quiz_version is not None
+            }
+            active_participants.append(data)
 
-        return users, 200
+        return active_participants, 200
 
 
 class Participants(Resource):
@@ -286,6 +296,6 @@ class Participants(Resource):
             data.append(array)
 
         return {
-                   "columns": columns,
-                   "data": data
-               }, 200
+            "columns": columns,
+            "data": data
+        }, 200
