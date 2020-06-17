@@ -32,7 +32,8 @@ def today_participants():
         The number of participants who took the test today.
     """
 
-    today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
+    now = datetime.now(timezone.utc)
+    today = datetime(now.year, now.month, now.day)
     return Participant.query.filter(and_(Participant.date >= today,
                                          Participant.quiz_version.isnot(None))).count()
 
@@ -47,9 +48,10 @@ def yesterday_participants():
         The number of participants who took the test yesterday.
     """
 
-    date = datetime.today() - timedelta(days=1)
+    date = datetime.now(timezone.utc) - timedelta(days=1)
     yesterday = datetime(date.year, date.month, date.day)
-    today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
+    now = datetime.now(timezone.utc)
+    today = datetime(now.year, now.month, now.day)
     return Participant.query.filter(and_(Participant.date >= yesterday,
                                          Participant.date < today,
                                          Participant.quiz_version.isnot(None))).count()
@@ -65,7 +67,7 @@ def yesterday_by_this_time_participants():
         The number of participants who took the test yesterday by this time.
     """
 
-    yesterday_this_time = datetime.today() - timedelta(days=1)
+    yesterday_this_time = datetime.now(timezone.utc) - timedelta(days=1)
     yesterday_00 = datetime(yesterday_this_time.year,
                             yesterday_this_time.month,
                             yesterday_this_time.day)
@@ -85,7 +87,7 @@ def last_hour_participants():
         The number of participants who took the test in the last hour.
     """
 
-    last_hour = datetime.today() - timedelta(hours=1)
+    last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
     return Participant.query.filter(and_(Participant.date >= last_hour,
                                          Participant.quiz_version.isnot(None))).count()
 
@@ -244,7 +246,6 @@ class ActiveUsers(Resource):
     #@jwt_required
     def get(self):
         last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
-        print(last_hour)
         result = Participant.query.filter(and_(Participant.quiz_version.is_(None),
                                                Participant.date >= last_hour)).all()
 
