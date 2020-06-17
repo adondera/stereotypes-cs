@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Button, Grid, FormControlLabel, Checkbox, Typography } from "@material-ui/core";
+import RefreshIcon from '@material-ui/icons/RefreshOutlined'
 
 const Participants = ({ fetchParticipants, participants, accessToken }) => {
   const [activeParticipants, setactiveParticipants] = useState({});
@@ -19,6 +20,7 @@ const Participants = ({ fetchParticipants, participants, accessToken }) => {
       }
     }
     setactiveParticipants(newParticipants);
+    // eslint-disable-next-line
   }, [participants]);
 
   const refreshParticipants = () => {
@@ -32,9 +34,12 @@ const Participants = ({ fetchParticipants, participants, accessToken }) => {
   }
   return (
     <React.Fragment>
-      <Grid container style={{flexGrow: 1}}>
+      <Grid container style={{flexGrow: 1, margin: 'auto', textAlign: 'center', marginTop: 100}}>
+      <Grid style={{margin: 'auto', marginBottom: 50}}>
+          <Typography variant='h4' > Active participants (Diploma)</Typography>
+        </Grid>
         {Object.keys(activeParticipants).map((name) => (
-          <Grid item xs={12}>
+          <Grid item xs={12} key={name}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -46,8 +51,8 @@ const Participants = ({ fetchParticipants, participants, accessToken }) => {
             />
           </Grid>
         ))}
-        <Grid item xs={12}>
-        <Button onClick={() => refreshParticipants()}>REFRESH</Button>
+        <Grid item xs={12} style={{marginTop: 50}}>
+            <Button onClick={() => refreshParticipants()}> <RefreshIcon/></Button>
         </Grid>
       </Grid>
     </React.Fragment>
