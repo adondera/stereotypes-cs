@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use
 """Module that is used for sending data that can be shown on the admin dashboard"""
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
@@ -207,7 +207,7 @@ def unfinished_tests():
 class Stats(Resource):
     """Resource that deals with retrieving statistics about participants"""
 
-    @jwt_required
+    #@jwt_required
     def get(self):
         """
         On a get request on the /stats endpoint we return an object with statistics
@@ -237,6 +237,22 @@ class Stats(Resource):
 
         gender_distribution()
         return data, 200
+
+
+class ActiveUsers(Resource):
+
+    #@jwt_required
+    def get(self):
+        last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
+        print(last_hour)
+        result = Participant.query.filter(and_(Participant.quiz_version.is_(None),
+                                               Participant.date >= last_hour)).all()
+
+        users = []
+        for res in result:
+            users.append(res.first_name + " " + res.last_name)
+
+        return users, 200
 
 
 class Participants(Resource):
@@ -269,6 +285,6 @@ class Participants(Resource):
             data.append(array)
 
         return {
-            "columns": columns,
-            "data": data
-        }, 200
+                   "columns": columns,
+                   "data": data
+               }, 200
