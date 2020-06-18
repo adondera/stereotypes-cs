@@ -5,7 +5,6 @@ Module that deals with all logic related to consent forms
 import os
 
 from flask import request
-from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from cloudinary.uploader import upload
 
@@ -15,12 +14,6 @@ from ..models.helpers import add_to_db
 from .constants import ANSWERS
 from .sockets import red
 from .. import socketio
-
-
-class ConsentResource(Resource):
-    @jwt_required
-    def post(self):
-        return request.get_json()
 
 
 class ConsentForm(Resource):

@@ -6,7 +6,7 @@ from flask_restful import Api
 from .auth import Login, FreshLogin
 from .dashboard import Stats, Participants, ActiveParticipants
 from .tokens import Protected, Refresh, ProtectedFresh
-from .consent import ConsentResource, ConsentForm
+from .consent import ConsentForm
 from .quiz import QuizAnswers, QuizQuestions, QuizResults, QuizVersions, RandomQuiz
 from .quiz_dissemination import DisseminationQuiz, CalculateResult
 
@@ -19,7 +19,6 @@ api.add_resource(Protected, '/protected')
 api.add_resource(Refresh, '/refresh')
 api.add_resource(FreshLogin, '/fresh-login')
 api.add_resource(ProtectedFresh, '/protected-fresh')
-api.add_resource(ConsentResource, '/submit')
 api.add_resource(ConsentForm, '/form')
 api.add_resource(QuizQuestions, '/quiz')
 api.add_resource(QuizAnswers, '/answers')
