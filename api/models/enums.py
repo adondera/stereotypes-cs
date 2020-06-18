@@ -1,3 +1,7 @@
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the enums used in the database
+"""
 import enum
 
 
@@ -51,6 +55,9 @@ class QuestionType(enum.Enum):
 
 
 class ParticipantInformationType(enum.Enum):
+    """
+    Enum of questions that relate directly to a participant
+    """
     age = "Age"
     gender = "Gender"
     ethnicity = "Ethnicity"

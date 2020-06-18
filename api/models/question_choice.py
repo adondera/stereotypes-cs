@@ -1,5 +1,9 @@
-from .helpers import db, add_to_db
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the QuestionChoice object from the database
+"""
 from sqlalchemy.sql import expression
+from .helpers import db, add_to_db
 from .question import Question
 from .image import Image
 

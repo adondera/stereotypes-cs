@@ -1,7 +1,11 @@
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the participant object from the database
+"""
+from sqlalchemy import func
 from .helpers import db, add_to_db
 from .consent import Consent
 from .enums import Version
-from sqlalchemy import func
 
 
 class Participant(db.Model):
@@ -56,8 +60,8 @@ class Participant(db.Model):
     answers = db.relationship("ParticipantAnswer", backref=db.backref('participant'), lazy=True)
 
     @staticmethod
-    def create_participant(consent_id, first_name="", last_name="", age=None, gender=None, ethnicity=[],
-                           researcher_notes="", quiz_version=None):
+    def create_participant(consent_id, first_name="", last_name="", age=None, gender=None,
+                           ethnicity=[], researcher_notes="", quiz_version=None):
         """
         Creates a new participant and adds it in the database.
 

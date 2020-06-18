@@ -1,3 +1,7 @@
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the question object from the database and its relationships
+"""
 import random
 from sqlalchemy.sql import expression
 

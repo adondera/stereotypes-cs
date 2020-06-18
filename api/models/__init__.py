@@ -1,5 +1,5 @@
 # pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
-""" Module that contains the models for the database
+""" Module that imports the models for the database
     (classes that will be mapped to the database schema)."""
 
 from .enums import *

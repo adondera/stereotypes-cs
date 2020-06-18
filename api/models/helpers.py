@@ -1,3 +1,7 @@
+# pylint: disable=no-member
+"""
+Module that defines helper functions for the database
+"""
 import json
 
 from api import db
@@ -25,10 +29,6 @@ def add_to_db(obj):
     except:
         db.session.rollback()
         raise
-    # commented this so that we can use object attributes after adding them to database
-    # if it's not commented you get an error because the object must have a session
-    # finally:
-    #     db.session.close()
 
 
 def commit_db_session():

@@ -1,3 +1,7 @@
+"""
+Module that contains the image object from the database
+"""
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
 from .helpers import db, add_to_db
 from .category import Category
 

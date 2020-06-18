@@ -1,5 +1,9 @@
-from .helpers import db, add_to_db
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the user object from the database (admin credentials)
+"""
 from flask_bcrypt import generate_password_hash
+from .helpers import db, add_to_db
 
 
 class User(db.Model):

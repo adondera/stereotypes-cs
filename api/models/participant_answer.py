@@ -1,3 +1,7 @@
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module that contains the answer object from the database
+"""
 from .helpers import db, add_to_db
 from .question import Question
 from .image import Image
@@ -49,8 +53,33 @@ class ParticipantAnswer(db.Model):
     question = db.relationship("Question", backref=db.backref('answers'))
 
     @staticmethod
-    def create_participant_answer(p_id, q_id, img_link=None, answers=None, open_answer=None, r_time=None,
-                                  before_video=False):
+    def create_participant_answer(p_id, q_id, img_link=None, answers=None, open_answer=None,
+                                  r_time=None, before_video=False):
+        """
+            Creates a new answer and adds it in the database.
+
+            Parameters
+            ----------
+            p_id : int
+                Id of the participant.
+            q_id : int
+                Id of the question.
+            img_link : str(link)
+                Link of the image for binary questions.
+            answers :
+                The answer to the question (number of tries for binary questions)
+            open_answer : str
+                The answer to a open question
+            r_time : int
+                Response time of the question (Only for binary questions)
+            before_video : boolean
+                True if the questions was before the video, false otherwise
+            Returns
+            -------
+            answer : ParticipantAnswer
+                The participant's answer object that was created.
+
+        """
         p_answer = ParticipantAnswer(participant_id=p_id, question_id=q_id, img_link=img_link,
                                      answers=answers, open_question_answer=open_answer,
                                      response_time=r_time, before_video=before_video)

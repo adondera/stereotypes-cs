@@ -1,3 +1,7 @@
+# pylint: disable=invalid-name, too-many-arguments, too-few-public-methods, no-member, dangerous-default-value
+"""
+Module for the category object in the database
+"""
 from .helpers import db, add_to_db
 from .enums import Metacategory
 
