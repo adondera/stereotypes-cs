@@ -4,7 +4,8 @@ Module that contains the classes that create the different components for a quiz
 import json
 from sqlalchemy import or_
 
-from api.models import QuestionType, Question, Image, add_to_db, Question_to_category, Category
+from api.models import QuestionType, Question, Image, Question_to_category, Category
+from api.models.helpers import add_to_db
 from api.endpoints.constants import block_start_text, block_end_text, final_block_text, collection_quiz_end_text, \
     collection_quiz_beginning_text, intervention_video_text, control_video_text
 

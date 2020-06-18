@@ -12,8 +12,9 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
 from api.endpoints.constants import ANSWERS
-from api.models import ParticipantAnswer, commit_db_session, Question, ParticipantInformationType, QuestionType, \
+from api.models import ParticipantAnswer, Question, ParticipantInformationType, QuestionType, \
     QuestionChoice, Participant, Version
+from api.models.helpers import commit_db_session
 from api.endpoints.quiz_factory import QuizFactory
 
 import api.endpoints.validation as valid
