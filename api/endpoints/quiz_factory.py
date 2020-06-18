@@ -44,6 +44,7 @@ class QuizFactory:
         if self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.create_ending(COLLECTION_QUIZ_END_TEXT)
+        self.create_researcher_notes()
         return self.response
 
     def create_dissemination_quiz(self):
@@ -52,7 +53,6 @@ class QuizFactory:
         :return: The response to the dissemination application with the list of questions
         """
         self.response = []
-        self.create_information_beginning("Introduction text for this application")
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
@@ -65,6 +65,8 @@ class QuizFactory:
             "title": "Einde",
             "text": end_text
         })
+
+    def create_researcher_notes(self):
         self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
 
     def create_information_beginning(self, beginning_text):
