@@ -6,8 +6,8 @@ from sqlalchemy import or_
 
 from api.models import QuestionType, Question, Image, Question_to_category, Category
 from api.models.helpers import add_to_db
-from api.endpoints.constants import block_start_text, block_end_text, final_block_text, collection_quiz_end_text, \
-    collection_quiz_beginning_text, intervention_video_text, control_video_text
+from api.endpoints.constants import BLOCK_START_TEXT, BLOCK_END_TEXT, FINAL_BLOCK_TEXT, COLLECTION_QUIZ_END_TEXT, \
+    COLLECTION_QUIZ_BEGINNING_TEXT, INTERVENTION_VIDEO_TEXT, CONTROL_VIDEO_TEXT
 
 
 class QuizFactory:
@@ -32,7 +32,7 @@ class QuizFactory:
         :return: The response to the collection application with all the questions
         """
         self.response = []
-        self.create_information_beginning(collection_quiz_beginning_text)
+        self.create_information_beginning(COLLECTION_QUIZ_BEGINNING_TEXT)
         if self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
@@ -43,7 +43,7 @@ class QuizFactory:
         self.response.extend(self.demographics.create_demographics())
         if self.video.data['before']:
             self.response.extend(self.video.create_video())
-        self.create_ending(collection_quiz_end_text)
+        self.create_ending(COLLECTION_QUIZ_END_TEXT)
         return self.response
 
     def create_dissemination_quiz(self):
@@ -74,7 +74,7 @@ class QuizFactory:
         })
 
     def create_end_iat_text(self):
-        end_text = final_block_text.copy()
+        end_text = FINAL_BLOCK_TEXT.copy()
         end_text['q_type'] = QuestionType.information.value
         self.response.append(end_text)
 
@@ -100,8 +100,8 @@ class VideoFactory:
 
     def create_video_text(self):
         if not self.data['before']:
-            return intervention_video_text
-        return control_video_text
+            return INTERVENTION_VIDEO_TEXT
+        return CONTROL_VIDEO_TEXT
 
 
 class DemographicsFactory:
@@ -227,7 +227,7 @@ class IATFactory:
         :param phase: Object that contains the left and right categories in the phase
         :return: The text to be showed before the phase
         """
-        guide_text = block_start_text[block_nr].copy()
+        guide_text = BLOCK_START_TEXT[block_nr].copy()
         guide_text['q_type'] = QuestionType.binary_information.value
         c_left = list(map(lambda x: (x.name, x.id),
                           Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
@@ -237,7 +237,7 @@ class IATFactory:
                                                          c_left[1][0].lower() if len(c_left) >= 2 else None)
         guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(),
                                                          c_right[1][0].lower() if len(c_right) >= 2 else None)
-        guide_text['text3'] = block_end_text
+        guide_text['text3'] = BLOCK_END_TEXT
         images0 = list(map(lambda x: x.link,
                            Image.query.filter(Image.category_id.in_(phase['left_categ']))))
 

@@ -51,10 +51,10 @@ class QuizAnswers(Resource):
                 id=answer["question_id"]).first().information
 
             if q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.age:
-                ageString = QuestionChoice.query.filter_by(
+                age_string = QuestionChoice.query.filter_by(
                     choice_num=answer['answers'], question_id=answer["question_id"]).first().text
-                if ageString != "Anders":
-                    participant.age = int(ageString)
+                if age_string != "Anders":
+                    participant.age = int(age_string)
 
             elif q_type == QuestionType.mc_single_answer and i_type == ParticipantInformationType.gender:
                 gender = QuestionChoice.query.filter_by(
@@ -133,8 +133,8 @@ class QuizVersions(Resource):
         :return the version mapping
         """
         ret = dict()
-        for e in Version:
-            ret[e.name] = e.value
+        for enum in Version:
+            ret[enum.name] = enum.value
         return ret
 
 
@@ -169,6 +169,6 @@ class QuizResults(Resource):
             data.append(array)
 
         return {
-                   "columns": columns,
-                   "data": data
-               }, 200
+            "columns": columns,
+            "data": data
+            }, 200
