@@ -25,12 +25,6 @@ def connect():
     print("Authenticated", flush=True)
 
 
-@socketio.on('message')
-def handle_message(message):
-    print('received message: ' + message)
-    return {"message": "here's a message"}
-
-
 @socketio.on('free')
 def check_queue(message):
     """
