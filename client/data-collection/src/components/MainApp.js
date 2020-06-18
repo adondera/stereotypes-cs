@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Start from "./Start";
 import Load from "./Load";
 import QueueManagement from "./QueueManagement";
+import Stats from './Stats'
 import Participants from "../containers/Participants";
 import Grid from '@material-ui/core/Grid'
 import BackIcon from '@material-ui/icons/Backspace'
@@ -27,13 +28,19 @@ const MainApp = ({
   return (
     <div>
       <Switch>
+        <Route path="/stats">
+        <Link to='/load'>
+            <BackIcon style={{ float: 'left', margin: 10}} fontSize='medium'/>
+          </Link>
+          <Stats accessToken={accessToken}/>
+        </Route>
         <Route path="/load">
           <Load isDataLoaded={isDataLoaded} loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
         </Route>
         <Route path="/app">
           <Grid>
             <Link to='/load'>
-            <BackIcon style={{ float: 'left', margin: 10}} fontSize='large'/>
+            <BackIcon style={{ float: 'left', margin: 10}} fontSize='medium'/>
           </Link>
           </Grid>
           <QueueManagement hasActiveChild={hasActiveChild} questionIndex={questionIndex} shouldRemoveChild={shouldRemoveChild}/>
@@ -50,6 +57,9 @@ const MainApp = ({
           />
         </Route>
         <Route path="/participants">
+          <Link to='/load'>
+            <BackIcon style={{ float: 'left', margin: 10}} fontSize='medium'/>
+          </Link>
           <Participants accessToken={accessToken}/>
         </Route>
       </Switch>

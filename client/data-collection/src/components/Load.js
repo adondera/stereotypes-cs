@@ -76,7 +76,7 @@ const Load = (props) => {
   };
 
   return (
-    <div style={{ width: "50%", paddingTop: 300, margin: "auto" }}>
+    <div style={{ width: "50%", paddingTop: 200, margin: "auto" }}>
       <Grid container spacing={2}>
         {/* VERSION DROPDOWN */}
         <Grid item xs={6} style={{ textAlign: "right" }}>
@@ -125,14 +125,6 @@ const Load = (props) => {
           </Button>
         </Grid>
       </Grid>
-      {/* PARTICIPANTS BUTTON */}
-      <Grid item xs={12} style={{ marginTop: 20 }}>
-        <Link to="/participants" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color="primary">
-            Participants
-          </Button>
-        </Link>
-      </Grid>
       {/* ERROR MESSAGE */}
       <InputLabel
         error
@@ -143,12 +135,26 @@ const Load = (props) => {
       >
         Data load failed
       </InputLabel>
-      <br />
-        {/* DOWNLOAD DATA */}
+      {/* PARTICIPANTS BUTTON */}
+      <Grid item xs={12} style={{ marginTop: 20 }}>
+        <Link to="/participants" style={{ textDecoration: "none" }}>
+          <Button variant="contained" color="primary">
+            Participants
+          </Button>
+        </Link>
+      </Grid>
+      <Grid item={12} style={{ marginTop: 20 }}>
+        <Link to={"/stats"} style={{ textDecoration: "none" }}>
+          <Button variant="contained" color="primary">
+            Live stats
+          </Button>
+        </Link>
+      </Grid>
+      {/* DOWNLOAD DATA */}
       {results ? (
         <ExcelFile
           element={
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" style={{ marginTop: 20 }}>
               Data Ready!
             </Button>
           }
@@ -156,8 +162,8 @@ const Load = (props) => {
           <ExcelSheet dataSet={results} name="Organization" />
         </ExcelFile>
       ) : (
-        <Button onClick={fetchResults} variant="contained" color="primary">
-          Start Download Data
+        <Button onClick={fetchResults} variant="contained" color="primary" style={{ marginTop: 20 }}>
+          Download Data
         </Button>
       )}
       <br />
