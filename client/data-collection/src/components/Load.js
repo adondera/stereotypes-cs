@@ -25,7 +25,7 @@ const Load = (props) => {
   const classes = useStyles();
 
   const [state, setstate] = useState({ isLoading: false, version: 0 });
-  const [checkedVersion, setversion] = useState("");
+  const [checkedVersion, setversion] = useState("R");
   const [results, setresults] = useState(false);
   const [versions, setversions] = useState(false);
   const ExcelFile = modules.modules.ExcelFile;
@@ -47,12 +47,15 @@ const Load = (props) => {
     }
   }, [versions]);
 
+  // Fetch the results
   const fetchResults = async () => {
     getResults(props.accessToken)
       .then((res) => setresults([res.data]))
       .catch();
   };
 
+  // Get the versions of the quiz.
+  // If any error occurs, always select the first version.
   const fetchVersions = async () => {
     getVersions()
       .then((res) => {
@@ -61,57 +64,76 @@ const Load = (props) => {
       .catch(setversions({ A: "Version 1" }));
   };
 
+  // Function to determine the version of the quiz to be loaded.
+  // If the value string is 'R' the quiz is randomly selected.
+  const getCurrentVersion = (version) => {
+    var ver = version;
+    if (version === "R");
+    ver = Object.keys(versions)[
+      Math.floor(Math.random() * Object.keys(versions).length)
+    ];
+    return ver;
+  };
+
   return (
     <div style={{ width: "50%", paddingTop: 300, margin: "auto" }}>
-        <React.Fragment>
-          <Grid container spacing={2}>
-            <Grid item xs={6} style={{ textAlign: "right" }}>
-              {versions ? (
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Version
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={checkedVersion}
-                    onChange={(event) => setversion(event.target.value)}
-                    label="Version"
-                  >
-                    {Object.keys(versions).map((versionKey, index) => {
-                      return (
-                        <MenuItem key={versionKey} value={versionKey}>
-                          {versions[versionKey]}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              ) : null}
-            </Grid>
-            <Grid item xs={6} style={{ textAlign: "left", margin: "auto" }}>
-              <Button
-                style={{ margin: "auto" }}
-                variant="contained"
-                color="primary"
-                disabled={checkedVersion === "" || state.isLoading}
-                onClick={() => {
-                  setstate({ isLoading: true });
-                  props.onLoadData(checkedVersion);
-                }}
+      <Grid container spacing={2}>
+        {/* VERSION DROPDOWN */}
+        <Grid item xs={6} style={{ textAlign: "right" }}>
+          {versions ? (
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Version
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={checkedVersion}
+                onChange={(event) => setversion(event.target.value)}
+                label="Version"
               >
-                {" "}
-                LOAD QUESTIONS{" "}
-              </Button>
-            </Grid>
-          </Grid>
-        </React.Fragment>
-
+                {/* The first MenuItem will always be the RANDOM one */}
+                <MenuItem key="R" value="R">
+                  random
+                </MenuItem>
+                {/* All other selections */}
+                {Object.keys(versions).map((versionKey, index) => {
+                  return (
+                    <MenuItem key={versionKey} value={versionKey}>
+                      {versions[versionKey]}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          ) : null}
+        </Grid>
+        {/* LOAD QUESTIONS BUTTON */}
+        <Grid item xs={6} style={{ textAlign: "left", margin: "auto" }}>
+          <Button
+            style={{ margin: "auto" }}
+            variant="contained"
+            color="primary"
+            disabled={checkedVersion === "" || state.isLoading}
+            onClick={() => {
+              setstate({ isLoading: true });
+              props.onLoadData(getCurrentVersion(checkedVersion));
+            }}
+          >
+            {" "}
+            LOAD QUESTIONS{" "}
+          </Button>
+        </Grid>
+      </Grid>
+      {/* PARTICIPANTS BUTTON */}
       <Grid item xs={12} style={{ marginTop: 20 }}>
         <Link to="/participants" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color='primary'>Participants</Button>
+          <Button variant="contained" color="primary">
+            Participants
+          </Button>
         </Link>
       </Grid>
+      {/* ERROR MESSAGE */}
       <InputLabel
         error
         style={{
@@ -122,6 +144,7 @@ const Load = (props) => {
         Data load failed
       </InputLabel>
       <br />
+        {/* DOWNLOAD DATA */}
       {results ? (
         <ExcelFile
           element={
@@ -138,6 +161,7 @@ const Load = (props) => {
         </Button>
       )}
       <br />
+      {/* START BUTTON */}
       <Link
         to={props.isDataLoaded ? "/app" : "/load"}
         style={{ textDecoration: "none" }}
