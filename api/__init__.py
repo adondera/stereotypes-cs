@@ -25,7 +25,7 @@ bcrypt = Bcrypt(app)
 
 # JSON Access Token setup
 jwt = JWTManager(app)
-app.config['JWT_ACCESS_TOKEN_EXPIRES']=datetime.timedelta(hours=12)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=12)
 
 # Database setup
 db = SQLAlchemy(app)
@@ -40,9 +40,6 @@ app.config['MAIL_PASSWORD'] = 'SG.CegnAgd9TyCtAtk4VgMVAg.LV5WEb1iOd_94a5_ZxY5W0C
 app.config['MAIL_DEFAULT_SENDER'] = 'nemolivescience@gmail.com' # os.environ.get('MAIL_DEFAULT_SENDER')
 
 mail = Mail(app)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % app.config['POSTGRES']
 
 @app.route('/')
 @app.route('/index')
