@@ -25,6 +25,7 @@ const BinaryQuestion = (props) => {
       answers: wrong,
       question_id: props.id,
       img_id: props.image.link,
+      block_nr: props.block_nr
     };
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
