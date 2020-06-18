@@ -8,7 +8,6 @@ import Load from "./Load";
 import QueueManagement from "./QueueManagement";
 import Stats from './Stats'
 import Participants from "../containers/Participants";
-import Grid from '@material-ui/core/Grid'
 import BackIcon from '@material-ui/icons/Backspace'
 import {Link} from 'react-router-dom'
 
@@ -23,26 +22,25 @@ const MainApp = ({
   isDataLoaded = false,
   accessToken = "",
   finishQuiz,
-  skipQuiz
+  skipQuiz,
+  version
 }) => {
   return (
     <div>
       <Switch>
         <Route path="/stats">
-        <Link to='/load'>
+          <Link to='/load'>
             <BackIcon style={{ float: 'left', margin: 10}} fontSize='medium'/>
           </Link>
           <Stats accessToken={accessToken}/>
         </Route>
         <Route path="/load">
-          <Load isDataLoaded={isDataLoaded} loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
+          <Load  version={version} isDataLoaded={isDataLoaded} loadFailed={loadFailed} accessToken={accessToken} onLoadData={(version) => {setVersion(version); loadData(accessToken, version)}} />
         </Route>
         <Route path="/app">
-          <Grid>
             <Link to='/load'>
             <BackIcon style={{ float: 'left', margin: 10}} fontSize='medium'/>
           </Link>
-          </Grid>
           <QueueManagement hasActiveChild={hasActiveChild} questionIndex={questionIndex} shouldRemoveChild={shouldRemoveChild}/>
           <Start canStart={hasActiveChild} onClick={() => onQuestionChange(questionIndex).questions} />
           {questionIndex === 0 ? null : <Redirect to="/questions" />}

@@ -1,6 +1,6 @@
 import { sendData } from '../utils/requests/postRequsts';
 const questionsReducer = (
-  state = { answers: [], before_video: true, participant_id: undefined, version: 'A' },
+  state = { answers: [], before_video: true, participant_id: undefined, version: 'R' },
   action
 ) => {
   switch (action.type) {

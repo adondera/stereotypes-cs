@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
       questionIndex: state.mainAppReducer.questionIndex,
       questions: state.mainAppReducer.questions,
       isDataLoaded: state.mainAppReducer.isDataLoaded,
-      shouldRemoveChild: state.mainAppReducer.shouldRemoveChild
+      shouldRemoveChild: state.mainAppReducer.shouldRemoveChild,
+      version: state.questionsReducer.version
     };
   };
   

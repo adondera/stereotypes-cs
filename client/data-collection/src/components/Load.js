@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 const Load = (props) => {
   const classes = useStyles();
 
-  const [state, setstate] = useState({ isLoading: false, version: 0 });
-  const [checkedVersion, setversion] = useState("R");
+  const [state, setstate] = useState({ isLoading: false, version: props.version });
+  const [checkedVersion, setversion] = useState(props.version);
   const [results, setresults] = useState(false);
   const [versions, setversions] = useState(false);
   const ExcelFile = modules.modules.ExcelFile;
@@ -68,10 +68,9 @@ const Load = (props) => {
   // If the value string is 'R' the quiz is randomly selected.
   const getCurrentVersion = (version) => {
     var ver = version;
-    if (version === "R");
-    ver = Object.keys(versions)[
-      Math.floor(Math.random() * Object.keys(versions).length)
-    ];
+    if (version === "R"){
+      ver = Object.keys(versions)[Math.floor(Math.random() * Object.keys(versions).length)];
+    }
     return ver;
   };
 
