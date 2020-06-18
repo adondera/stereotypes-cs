@@ -12,7 +12,8 @@ from scipy.stats import ttest_ind as ttest
 from api import mail
 from api.endpoints import validation as valid
 
-from api.endpoints.constants import ANSWERS
+from api.endpoints.constants import ANSWERS, DISSEMINATION_NO_ASSOCIATION,\
+    DISSEMINATION_RESULT_FEMALE, DISSEMINATION_RESULT_MALE
 from api.endpoints.quiz_factory import QuizFactory
 from api.models import Question
 
@@ -86,24 +87,15 @@ class CalculateResult(Resource):
 
         t_statistic, p_value = ttest(block_3_answers, block_5_answers, equal_var=False)
 
-        response = "De resultaten laten zien dat je geen vooringenomenheid hebt."
+        response = DISSEMINATION_NO_ASSOCIATION
 
         if p_value <= 0.1:
             if t_statistic < 0:
-                response = self.get_bias_text(question3.as_dict())
+                response = DISSEMINATION_RESULT_MALE
             else:
-                response = self.get_bias_text(question5.as_dict())
+                response = DISSEMINATION_RESULT_FEMALE
 
         if 'email' in data:
             self.send_email(res=response, email=data['email'])
 
         return response, 200
-
-    def get_bias_text(self, question_dict):
-        cat_left = question_dict["categories_left"]
-        cat_right = question_dict['categories_right']
-
-        return "De resultaten laten zien dat je een lichte neiging hebt om {} " \
-                "te associëren met {} en {} met {}".format(cat_left[0]["name"].lower(), cat_left[1]["name"].lower(), 
-                                                            cat_right[0]["name"].lower(), cat_right[1]["name"].lower())
-                                                                

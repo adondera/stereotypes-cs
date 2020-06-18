@@ -10,7 +10,8 @@ from flask_restful import Resource
 from cloudinary.uploader import upload
 
 import api.endpoints.validation as valid
-from api.models import Consent, add_to_db, Participant
+from api.models import Consent, Participant
+from ..models.helpers import add_to_db
 from .constants import ANSWERS
 from .sockets import red
 from .. import socketio
