@@ -81,8 +81,8 @@ class CalculateResult(Resource):
 
         data = valid.read_form_data(request)
 
-        question3, block_3_answers = self.get_block_information(3, data)
-        question5, block_5_answers = self.get_block_information(5, data)
+        question3, block_3_answers = self.get_block_information(2, data)
+        question5, block_5_answers = self.get_block_information(4, data)
 
         t_statistic, p_value = ttest(block_3_answers, block_5_answers, equal_var=False)
 
