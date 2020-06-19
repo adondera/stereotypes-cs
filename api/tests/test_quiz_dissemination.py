@@ -28,6 +28,26 @@ def test_calculate_result_bias_block_3(client, make_quiz):
     assert response.get_json() == DISSEMINATION_RESULT_MALE
 
 
+def test_calculate_result_bias_block_3_no_email(client, make_quiz):
+    """
+    Tests that short response times in block3 => associate male faster
+    :param client: the client that simulates the request
+    :param make_quiz: fixture that creates the quiz
+    :return: nothing
+    """
+    response_range_3 = range(80, 100)
+    response_range_5 = range(100, 120)
+
+    question3, question5 = make_quiz
+
+    data = {}
+    data['data'] = generate_answers(question3, question5, response_range_3, response_range_5)
+
+    response = client.post('/calculate', json=data)
+    assert response.status_code == 200
+    assert response.get_json() == DISSEMINATION_RESULT_MALE
+
+
 def test_calculate_result_bias_block_5(client, make_quiz):
     """
     Tests that short response times in block5 => associate female faster
@@ -58,7 +78,7 @@ def test_calculate_result_no_bias(client, make_quiz):
     """
     populate()
 
-    response_range = range(100, 110)
+    response_range = range(100, 101)
 
     question3, question5 = make_quiz
 
@@ -116,3 +136,29 @@ def test_fail_dissemination_quiz(client, init_db):
     response = client.get('/iat', headers={'Authorization': 'Bearer ' + token})
 
     assert response.status_code == 404
+
+
+def test_invalid_results_object_none(client, init_db):
+    data = {}
+    data['data'] = 1
+
+    response = client.post('/calculate', json=data)
+    assert response.status_code == 400
+
+
+def test_invalid_results_object(client, init_db):
+    data = {}
+    data['data'] = ["somestring"]
+
+    response = client.post('/calculate', json=data)
+    assert response.status_code == 400
+
+
+def test_invalid_results_object(client, init_db):
+    data = {}
+    data['data'] = ["somestring"]
+
+    response = client.post('/calculate', json=data)
+    assert response.status_code == 400
+
+
