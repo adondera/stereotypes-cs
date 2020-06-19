@@ -273,6 +273,7 @@ class Participants(Resource):
         """
         On a get request on the /participants endpoint we return
         all the participants stored (who completed the test).
+        This JSON structure is required for the Excel file.
         :return: If the request is valid, a JSON object with the participants and code 200
         """
 
