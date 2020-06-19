@@ -1,5 +1,5 @@
 from .test_constants import consent_data, answer
-from api.models import Participant, QuestionChoice, Version
+from api.models import Participant, QuestionChoice, Version, Question
 from api.script import populate
 from api.endpoints.constants import COLUMNS_RESULTS
 
