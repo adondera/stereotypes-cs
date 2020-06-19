@@ -237,7 +237,6 @@ class Stats(Resource):
             'ethnicity_distribution': ethnicity_distribution()
         }
 
-        gender_distribution()
         return data, 200
 
 

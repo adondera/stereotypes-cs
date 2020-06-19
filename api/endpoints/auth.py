@@ -19,6 +19,7 @@ class Login(Resource):
     def post(self):
         """Route for application login.
             Sends back a JSON with an access and a refresh token"""
+
         validators = {
             'username': valid.validate_string,
             'password': valid.validate_string
@@ -52,6 +53,7 @@ class FreshLogin(Resource):
     def post(self):
         """Route to get a fresh access token by entering credentials again
             Returns a json with a fresh access token"""
+
         validators = {
             'username': valid.validate_string,
             'password': valid.validate_string

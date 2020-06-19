@@ -23,7 +23,8 @@ class DisseminationQuiz(Resource):
     Returns a quiz for the data dissemination application.
     """
 
-    def get(self):
+    @staticmethod
+    def get():
         """
         On a get request that uses this resource it returns
         a quiz for the data dissemination application.
@@ -42,7 +43,8 @@ class CalculateResult(Resource):
     Defines the handlers for the /dummy route
     """
 
-    def get_block_information(self, block_nr, data):
+    @staticmethod
+    def get_block_information(block_nr, data):
         """
         Gets the specific information from a block in the IAT.
         :param block_nr: The number of the block (1 to 5)
@@ -55,7 +57,8 @@ class CalculateResult(Resource):
                                  filter(lambda x: x["block_nr"] == block_nr, data['data'])))
         return question, block_answers
 
-    def send_email(self, res, email=None):
+    @staticmethod
+    def send_email(res, email=None):
         """
         Sends the email with the results to the recipient
         :param res: The result of the IAT

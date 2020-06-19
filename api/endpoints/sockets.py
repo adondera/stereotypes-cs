@@ -1,7 +1,6 @@
 """
 Class that deals with socket communication for the queue management
 """
-import os
 import json
 import redis
 from flask_jwt_extended import jwt_required
