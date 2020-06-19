@@ -1,14 +1,20 @@
 from .test_constants import consent_data, answer
-from api.models import Participant, Question, QuestionChoice, Version
+from api.models import Participant, QuestionChoice, Version
 from api.script import populate
 
 
 def test_quiz_answers_participant_info(init_db, client):
     populate()
-    response = client.post('/form', json=consent_data)
-    assert response.status_code == 200
+
+    form_response = client.post('/form', json=consent_data)
+    assert form_response.status_code == 200
+
+    login_response = client.post("/login", data=dict(username='admin', password='admin'))
+    assert login_response.status_code == 200
+    token = login_response.get_json()['access_token']
+
     assert Participant.query.filter_by(id=1).first()
-    client.post('/answers', json=answer)
+    client.post('/answers', json=answer, headers={'Authorization': 'Bearer ' + token})
 
     p = Participant.query.filter_by(id=1).first()
     assert p.age == int(QuestionChoice.query.filter_by(question_id=answer['data'][0]["question_id"],
@@ -29,10 +35,16 @@ def test_quiz_answers_participant_info(init_db, client):
 
 def test_quiz_answers_non_participant_info(init_db, client):
     populate()
-    response = client.post('/form', json=consent_data)
-    assert response.status_code == 200
+
+    form_response = client.post('/form', json=consent_data)
+    assert form_response.status_code == 200
+
+    login_response = client.post("/login", data=dict(username='admin', password='admin'))
+    assert login_response.status_code == 200
+    token = login_response.get_json()['access_token']
+
     assert Participant.query.filter_by(id=1).first()
-    client.post('/answers', json=answer)
+    client.post('/answers', json=answer, headers={'Authorization': 'Bearer ' + token})
     p = Participant.query.filter_by(id=1).first()
     assert p.answers
 
