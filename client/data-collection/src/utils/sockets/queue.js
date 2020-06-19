@@ -2,7 +2,7 @@ const io = require("socket.io-client");
 let socket = undefined;
 export const withToken = (token) => {
   console.log(token);
-  socket = io("wss://nemo-live-science-dev.herokuapp.com", {
+  socket = io("ws://localhost:8000", {
     transportOptions: {
       polling: {
         extraHeaders: {

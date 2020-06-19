@@ -11,6 +11,8 @@ if os.environ["APP_SETTINGS"] == "config.StagingConfig" or os.environ["APP_SETTI
     red = redis.from_url(os.environ["REDIS_URL"])
 elif os.environ["APP_SETTINGS"] == "config.CITestingConfig":
     red = redis.Redis(host="redis")
+elif os.environ["APP_SETTINGS"] == "config.DockerConfig": 
+    red = redis.Redis(host="redis") 
 else:
     red = redis.Redis()
 

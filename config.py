@@ -50,7 +50,16 @@ class TestingConfig(Config):
         'host': 'localhost',
         'port': '5432',
     }
-
+    
+class DockerConfig(Config):
+    TESTING = True
+    POSTGRES = {
+        'user': 'postgres',
+        'pw': 'password',
+        'db': 'testdb',
+        'host': 'db',
+        'port': '5432',
+    }
 
 class CITestingConfig(Config):
     TESTING = True

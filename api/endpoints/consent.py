@@ -45,7 +45,8 @@ class ConsentForm(Resource):
         signature = data['signature']
 
         if os.environ['APP_SETTINGS'] != "config.TestingConfig" \
-                and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
+                and os.environ['APP_SETTINGS'] != "config.CITestingConfig" \
+                and os.environ['APP_SETTINGS'] != "config.DockerConfig":
             upload_result = upload(signature, folder="signatures")
             signature = upload_result["secure_url"]
 
