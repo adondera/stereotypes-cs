@@ -130,7 +130,7 @@ const initialStore = {
             "text":"Bedankt voor het meedoen aan dit onderzoek! We willen je vragen om niet te verklappenwat je precies gedaan hebt aan andere kinderen die misschien nog mee willen doen.\nSteek je hand op, dan komt er zo snel mogelijk iemand naar je toe."
         }
     ],
-    quizIsLoaded: false,
+    quizIsLoaded: true,
     quizIsLoading: true,
     quizIsFinished: false,
     quizResultAvailable: false,

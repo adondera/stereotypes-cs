@@ -13,6 +13,7 @@ const quizReducer = (state={answers: []}, action) => {
                 answers: []
             }
         case 'FINISH_QUIZ':
+            console.log("Finish the quizzz!!!");
             return {
                 ...state,
                 answers: []

@@ -12,12 +12,14 @@ const Results = (props) => {
         <div>
             <Grid container spacing={3} alignItems="center" justify="center">
                 {/*result*/}
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6}   direction="column" alignItems="center" justify="center">
                     <Paper className={classes.paper} elevation={1}>
-                        <Typography style={{ textAlign: "justify" }} variant="h6">
+                        <Typography variant="h4">
                             <h1>{props.result}</h1>
                         </Typography>
                     </Paper>
+                    <br/>
+                    <br/>
                     {/*other information*/}
                     <Paper className={classes.paper} elevation={0}>
                         <Typography style={{ textAlign: "justify" }} variant="h6">

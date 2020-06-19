@@ -57,7 +57,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    finishQuiz: () => {dispatch(finishQuiz()); dispatch(sendQuiz());},
+    finishQuiz: () => {dispatch(sendQuiz());},
     loadQuiz: () => dispatch(loadQuiz())
   };
 };

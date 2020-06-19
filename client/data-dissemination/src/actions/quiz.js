@@ -15,6 +15,7 @@ export const sendQuiz = () => {
         console.log(answerData);
     return sendData(answerData)
                         .then((response) => {response.statusText === 'OK' ? dispatch({type: 'FETCH_RESULT_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULT_FAILED'})})
+                        .then(dispatch({type: 'FINISH_QUIZ'}))
                         .catch(() => dispatch({type: 'FETCH_RESULT_FAILED'}))
     }
 }
