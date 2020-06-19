@@ -18,8 +18,9 @@ ENV APP_SETTINGS config.DockerConfig
 
 ENTRYPOINT [ "gunicorn" ]
 
-CMD [ "-k", "geventwebsocket.gunicorn.workers.GeventWebSocketWorker", "-w", "1","-b", "0.0.0.0:8000", "server:app"]
-
 # populate the database
 # TO BE USED WITH CARE!!!
-RUN python3 -c 'print("Hello world");'
+CMD ["python3", "-c", "from api.script import *; populate();"]
+
+CMD [ "-k", "geventwebsocket.gunicorn.workers.GeventWebSocketWorker", "-w", "1","-b", "0.0.0.0:8000", "server:app"]
+
