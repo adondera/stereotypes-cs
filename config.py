@@ -15,7 +15,6 @@ class Config(object):
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     REDIS_URL = os.environ.get('REDIS_URL')
     MAIL_DEBUG = True
-    MAIL_SUPPRESS_SEND = False
 
 
 class ProductionConfig(Config):
@@ -33,12 +32,13 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    TESTING = False
+    TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://test:test@localhost:5432/test'
     REDIS_URL = 'redis://:@localhost:6379/0'
     SECRET_KEY = "test"
     JWT_SECRET_KEY = "test"
+    MAIL_SUPPRESS_SEND = True
 
 
 class CITestingConfig(TestingConfig):
