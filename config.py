@@ -11,8 +11,8 @@ class Config(object):
     PROPAGATE_EXCEPTIONS = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
-    SECRET_KEY = "Ud5yvQuCrh4GvYX9Mjc6VzomQA3q5K5_HSCvf0_Q6Tw"
-    JWT_SECRET_KEY = "S8y0MwT_t7vf002vCYnL0Z8M9mRYpmJUPRkmnTXwN4E"
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     REDIS_URL = os.environ.get('REDIS_URL')
     MAIL_DEBUG = True
     MAIL_SUPPRESS_SEND = False
@@ -37,9 +37,11 @@ class TestingConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://test:test@localhost:5432/test'
     REDIS_URL = 'redis://:@localhost:6379/0'
+    SECRET_KEY = "test"
+    JWT_SECRET_KEY = "test"
 
 
-class CITestingConfig(Config):
+class CITestingConfig(TestingConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://test:test@postgres:5432/test'
     REDIS_URL = 'redis://:@redis:6379/0'

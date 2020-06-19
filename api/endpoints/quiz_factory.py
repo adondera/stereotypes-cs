@@ -7,7 +7,7 @@ from sqlalchemy import or_
 from api.models import QuestionType, Question, Image, Question_to_category, Category
 from api.models.helpers import add_to_db
 from api.endpoints.constants import BLOCK_START_TEXT, BLOCK_END_TEXT, FINAL_BLOCK_TEXT, COLLECTION_QUIZ_END_TEXT, \
-    COLLECTION_QUIZ_BEGINNING_TEXT, INTERVENTION_VIDEO_TEXT, CONTROL_VIDEO_TEXT
+    COLLECTION_QUIZ_BEGINNING_TEXT, INTERVENTION_VIDEO_TEXT, CONTROL_VIDEO_TEXT, DISSEMINATION_QUIZ_END_TEXT
 
 
 class QuizFactory:
@@ -56,7 +56,7 @@ class QuizFactory:
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
         self.response.extend(self.hobby_profession.create_iat())
-        self.create_ending("Ending text for this application")
+        self.create_ending(DISSEMINATION_QUIZ_END_TEXT)
         return self.response
 
     def create_ending(self, end_text):

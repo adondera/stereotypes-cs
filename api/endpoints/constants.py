@@ -94,3 +94,5 @@ DISSEMINATION_RESULT_MALE = "Volgens deze test associeert u programmeren met man
 DISSEMINATION_RESULT_FEMALE = "Volgens deze test associeert u programmeren met vrouwen."
 
 DISSEMINATION_NO_ASSOCIATION = "Volgens deze test heeft u geen associatie tussen programmeren met gender."
+
+DISSEMINATION_QUIZ_END_TEXT = "Bedankt voor het afleggen van de test. Druk op de knop om uw resultaten te zien."
