@@ -1,6 +1,7 @@
 from .test_constants import consent_data, answer
 from api.models import Participant, Question, QuestionChoice, Version
 from api.script import populate
+from api.endpoints.constants import COLUMNS_RESULTS
 
 
 def test_quiz_answers_participant_info(init_db, client):
@@ -98,3 +99,52 @@ def test_get_quiz_versions(init_db, client):
 
     for key, value in response.get_json().items():
         assert Version[key].value == value
+
+
+def test_quiz_results(init_db, client):
+    populate()
+
+    response = client.post('/form', json=consent_data)
+    assert response.status_code == 200
+
+    response = client.post("/login", data=dict(username='admin', password='admin'))
+    assert response.status_code == 200
+    token = response.get_json()['access_token']
+
+    response = client.post('/answers', json=answer, headers={'Authorization': 'Bearer ' + token})
+
+    assert response.status_code == 201
+
+    response = client.get('/results', headers={'Authorization': 'Bearer ' + token})
+
+    assert response.status_code == 200
+    print(response.get_json())
+
+    assert response.get_json()['columns'] == COLUMNS_RESULTS
+
+    name = "{} {}".format(consent_data['children'][0]['firstName'], consent_data['children'][0]['lastName'])
+    assert response.get_json()['data'][0][0] == name
+
+    q_id = answer['data'][4]['question_id']
+    assert int(response.get_json()['data'][0][1]) == q_id
+
+
+    q = Question.query.filter_by(id=q_id).first()
+    q_type = q.q_type.value
+    q_text = q.text
+
+    assert response.get_json()['data'][0][2] == q_type
+    assert response.get_json()['data'][0][3] == q_text
+
+
+    q_answer = answer['data'][4]['answers']
+    assert int(response.get_json()['data'][0][4]) == q_answer
+
+    img_link = None
+    assert response.get_json()['data'][0][5] == img_link
+    
+    response_time = None
+    assert response.get_json()['data'][0][6] == response_time
+    
+    before_video = answer['data'][4]['before_video']
+    assert response.get_json()['data'][0][7] == before_video
