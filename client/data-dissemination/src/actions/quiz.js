@@ -12,6 +12,7 @@ export const sendQuiz = () => {
     var answerData = {}
     console.log(getState())
     answerData.data = [...getState().quizReducer.answers]
+        console.log(answerData);
     return sendData(answerData)
                         .then((response) => {response.statusText === 'OK' ? dispatch({type: 'FETCH_RESULT_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULT_FAILED'})})
                         .catch(() => dispatch({type: 'FETCH_RESULT_FAILED'}))
