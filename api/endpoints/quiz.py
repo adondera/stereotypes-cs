@@ -129,7 +129,7 @@ class QuizVersions(Resource):
 
     def get(self):
         """
-        On a get on the /quiz-version endpoint we return a version mapping
+        On a get on the /quiz-versions endpoint we return a version mapping
         :return the version mapping
         """
         ret = dict()

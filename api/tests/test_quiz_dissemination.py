@@ -58,7 +58,7 @@ def test_calculate_result_no_bias(client, make_quiz):
     """
     populate()
 
-    response_range = range(100, 120)
+    response_range = range(100, 110)
 
     question3, question5 = make_quiz
 
@@ -93,3 +93,26 @@ def generate_answers(question_3, question_5, range_3, range_5, sample_size=32):
     block_3.extend(block_5)
 
     return block_3
+
+
+def test_get_dissemination_quiz(client, init_db):
+    populate()
+
+    response = client.post("/login", data=dict(username='admin', password='admin'))
+    assert response.status_code == 200
+    token = response.get_json()['access_token']
+
+    response = client.get('/iat', headers={'Authorization': 'Bearer ' + token})
+
+    assert response.status_code == 200
+    assert isinstance(response.get_json(), list)
+
+
+def test_fail_dissemination_quiz(client, init_db):
+    response = client.post("/login", data=dict(username='username', password='password'))
+    assert response.status_code == 200
+    token = response.get_json()['access_token']
+
+    response = client.get('/iat', headers={'Authorization': 'Bearer ' + token})
+
+    assert response.status_code == 404
