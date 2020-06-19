@@ -1,7 +1,25 @@
-from .test_constants import consent_data, answer
+from .test_constants import consent_data, answer, GENDER_ETHNICITY_NOANSWER
 from api.models import Participant, QuestionChoice, Version, Question
 from api.script import populate
 from api.endpoints.constants import COLUMNS_RESULTS
+
+
+def test_quiz_bad_form(init_db, client):
+    bad_consent_data = {
+        "parent": {
+            "firstName": "string",
+        },
+        "children": [
+            {
+                "firstName": "string",
+                "lastName": "string"
+            }
+        ],
+        "signature": "string",
+        "email": "user@example.com"
+    }
+    form_response = client.post('/form', json=bad_consent_data)
+    assert form_response.status_code == 400
 
 
 def test_quiz_answers_participant_info(init_db, client):
@@ -50,6 +68,23 @@ def test_quiz_answers_non_participant_info(init_db, client):
     assert p.answers
 
 
+def test_quiz_answers_participant_no_gender_no_ethnicity(init_db, client):
+    populate()
+
+    form_response = client.post('/form', json=consent_data)
+    assert form_response.status_code == 200
+
+    login_response = client.post("/login", data=dict(username='admin', password='admin'))
+    assert login_response.status_code == 200
+    token = login_response.get_json()['access_token']
+
+    assert Participant.query.filter_by(id=1).first()
+    client.post('/answers', json=GENDER_ETHNICITY_NOANSWER, headers={'Authorization': 'Bearer ' + token})
+    p = Participant.query.filter_by(id=1).first()
+    assert p.age is None
+    assert p.gender is None
+
+
 def test_get_quiz_version(init_db, client):
     populate()
 
@@ -88,7 +123,7 @@ def test_get_random_quiz(init_db, client):
 
     assert response.status_code == 200
     assert isinstance(response.get_json(), list)
-    
+
 
 def test_fail_random_quiz(init_db, client):
     response = client.post("/login", data=dict(username='username', password='password'))
@@ -140,7 +175,6 @@ def test_quiz_results(init_db, client):
     q_id = answer['data'][4]['question_id']
     assert int(response.get_json()['data'][0][1]) == q_id
 
-
     q = Question.query.filter_by(id=q_id).first()
     q_type = q.q_type.value
     q_text = q.text
@@ -148,15 +182,29 @@ def test_quiz_results(init_db, client):
     assert response.get_json()['data'][0][2] == q_type
     assert response.get_json()['data'][0][3] == q_text
 
-
     q_answer = answer['data'][4]['answers']
     assert int(response.get_json()['data'][0][4]) == q_answer
 
     img_link = None
     assert response.get_json()['data'][0][5] == img_link
-    
+
     response_time = None
     assert response.get_json()['data'][0][6] == response_time
-    
+
     before_video = answer['data'][4]['before_video']
     assert response.get_json()['data'][0][7] == before_video
+
+
+def test_quiz_answers_wrong_validation(init_db, client):
+    login_response = client.post("/login", data=dict(username='username', password='password'))
+    assert login_response.status_code == 200
+    token = login_response.get_json()['access_token']
+
+    random_request_body = {
+        "data": "stuff",
+        "id": 1,
+        "version": "A"
+    }
+
+    response = client.post('/answers', json=random_request_body, headers={'Authorization': 'Bearer ' + token})
+    assert response.status_code == 400
