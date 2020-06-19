@@ -15,6 +15,9 @@ ANSWERS = {200: "200 OK",
            502: "502 Bad gateway"
            }
 
+COLUMNS_RESULTS = ["Participant Name", "Question ID", "Question Type", "Question Text",
+                   "Participant Answers", "Image", "Response Time", "Before Video"]
+
 BLOCK_START_TEXT = [
 
     {"text0": "Je gaat zo verschillende plaatjes zien die je naar links of naar rechts moet verplaatsen. Doe dit zo "

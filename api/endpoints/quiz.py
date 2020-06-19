@@ -11,7 +11,7 @@ from flask import current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 
-from api.endpoints.constants import ANSWERS
+from api.endpoints.constants import ANSWERS, COLUMNS_RESULTS
 from api.models import ParticipantAnswer, Question, ParticipantInformationType, QuestionType, \
     QuestionChoice, Participant, Version
 from api.models.helpers import commit_db_session
@@ -148,8 +148,7 @@ class QuizResults(Resource):
         :return: If the request is valid, a JSON object with the answers and code 200
         """
 
-        columns = ["Participant Name", "Question ID", "Question Type", "Question Text",
-                   "Participant Answers", "Image", "Response Time", "Before Video"]
+        columns = COLUMNS_RESULTS
         data = []
         for answer in ParticipantAnswer.query.all():
             array = []
