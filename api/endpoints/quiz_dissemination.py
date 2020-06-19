@@ -12,7 +12,7 @@ from scipy.stats import ttest_ind as ttest
 from api import mail
 from api.endpoints import validation as valid
 
-from api.endpoints.constants import ANSWERS, DISSEMINATION_NO_ASSOCIATION,\
+from api.endpoints.constants import ANSWERS, DISSEMINATION_NO_ASSOCIATION, \
     DISSEMINATION_RESULT_FEMALE, DISSEMINATION_RESULT_MALE
 from api.endpoints.quiz_factory import QuizFactory
 from api.models import Question
@@ -94,7 +94,7 @@ class CalculateResult(Resource):
             else:
                 response = DISSEMINATION_RESULT_FEMALE
 
-        if 'email' in data:
+        if 'email' in data and valid.validate_email(data['email']):
             self.send_email(res=response, email=data['email'])
 
         return response, 200

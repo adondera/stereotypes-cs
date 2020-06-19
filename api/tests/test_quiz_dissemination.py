@@ -85,9 +85,9 @@ def generate_answers(question_3, question_5, range_3, range_5, sample_size=32):
     block_3_times = random.choices(range_3, k=sample_size)
     block_5_times = random.choices(range_5, k=sample_size)
 
-    block_3 = list(map(lambda x: {"block_nr": 3, "response_time": x, "question_id": question_3.id},
+    block_3 = list(map(lambda x: {"block_nr": 2, "response_time": x, "question_id": question_3.id},
                        block_3_times))
-    block_5 = list(map(lambda x: {"block_nr": 5, "response_time": x, "question_id": question_5.id},
+    block_5 = list(map(lambda x: {"block_nr": 4, "response_time": x, "question_id": question_5.id},
                        block_5_times))
 
     block_3.extend(block_5)
