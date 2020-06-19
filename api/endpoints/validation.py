@@ -53,6 +53,28 @@ def validate_answer(value):
     return validate(value, validators)
 
 
+def validate_dissemination_answers(answers):
+    if not validate_list(answers):
+        return False
+
+    for answer in answers:
+        if not validate_dissemination_answer(answer):
+            print("Answer is not valid: {}".format(answer))
+            return False
+
+    return True
+
+
+def validate_dissemination_answer(value):
+    validators = {
+      "question_id": validate_int,
+      "block_nr": validate_int,
+      "response_time": validate_int
+    }
+
+    return validate(value, validators)
+
+
 def validate_person_data(value):
     validators = {
         'firstName': validate_string,

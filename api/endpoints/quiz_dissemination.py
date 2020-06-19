@@ -72,7 +72,7 @@ class CalculateResult(Resource):
         The result can be either that stereotypes were found, or that they weren't found.
         """
         validators = {
-            "data": valid.validate_accept,
+            "data": valid.validate_dissemination_answers,
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
