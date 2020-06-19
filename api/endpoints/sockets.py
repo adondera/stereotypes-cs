@@ -6,8 +6,9 @@ import json
 import redis
 from flask_jwt_extended import jwt_required
 from .. import socketio
+from api import app
 
-red = redis.from_url(os.environ["REDIS_URL"])
+red = redis.from_url(app.config["REDIS_URL"])
 
 
 @socketio.on('connect')
