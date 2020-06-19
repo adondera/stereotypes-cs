@@ -73,7 +73,6 @@ class CalculateResult(Resource):
         """
         validators = {
             "data": valid.validate_accept,
-            "email": valid.validate_accept
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
