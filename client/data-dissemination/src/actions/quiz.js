@@ -7,12 +7,11 @@ export const registerAnswer = (answer) => {
     }
 }
 
-export const sendQuiz = () => {
+export const sendQuiz = (email) => {
     return async (dispatch, getState) => {
     var answerData = {}
-    console.log(getState())
     answerData.data = [...getState().quizReducer.answers]
-        console.log(answerData);
+    if (email) answerData.data.email = email
     return sendData(answerData)
                         .then((response) => {response.statusText === 'OK' ? dispatch({type: 'FETCH_RESULT_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULT_FAILED'})})
                         .then(dispatch({type: 'FINISH_QUIZ'}))
