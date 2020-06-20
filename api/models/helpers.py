@@ -20,7 +20,6 @@ def add_to_db(obj):
     ------
     SQLException
         If failed to add a new user to the database. Transaction is rolled back.
-
     """
 
     try:
@@ -32,6 +31,15 @@ def add_to_db(obj):
 
 
 def commit_db_session():
+    """
+    Commits current SqlAlchemy session.
+
+    Raises
+    ------
+    SQLException
+        If failed to commit. Transaction is rolled back.
+    """
+
     try:
         db.session.commit()
     except:
@@ -39,23 +47,23 @@ def commit_db_session():
         raise
 
 
-def is_jsonable(x):
+def is_jsonable(obj):
     """
-    Checks if x is JSONable (can be converted to JSON object).
+    Checks if obj is JSONable (can be converted to JSON object).
 
     Parameters
     ----------
-    x : any
+    obj : any
         The object/data-type we want to know if it is JSONable.
 
     Returns
     -----
     boolean
-        True if x is JSONable, or False if it is not.
-
+        True if obj is JSONable, or False if it is not.
     """
+
     try:
-        json.dumps(x)
+        json.dumps(obj)
         return True
     except TypeError:
         return False
