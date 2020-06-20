@@ -49,6 +49,11 @@
     export APP_SETTINGS=config.YourConfigurationChoice
     ```
 
+    For example, run the following command for the testing configuration (TestingConfig):
+    ```
+    export APP_SETTINGS=config.TestingConfig
+    ```
+
 5. Start the flask application.
     ```
     flask run
