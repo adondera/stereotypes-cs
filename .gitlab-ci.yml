@@ -133,7 +133,11 @@ deploy_staging_collection:
     - apt-get install -y ruby-dev
     - gem install dpl
     - cd client/data-collection
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
     - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
   environment:
     name: deploy-staging
     url: https://collection-nemo.herokuapp.com/
@@ -150,7 +154,11 @@ deploy_staging_dissemination:
     - apt-get install -y ruby-dev
     - gem install dpl
     - cd client/data-dissemination
+    # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
     - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
   environment:
     name: deploy-staging
     url: https://dissemination-nemo.herokuapp.com/
