@@ -91,6 +91,7 @@ pytest:
 deploy_staging_backend:
   stage: deploy-staging
   script:
+    - apt install git
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
     - git checkout dev
@@ -99,7 +100,7 @@ deploy_staging_backend:
     - git push staging_backend dev:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
   when: manual
   only:
@@ -117,7 +118,7 @@ deploy_staging_consent:
     - git subtree push --prefix client/client-consent-app/ staging_consent master
     - echo "Deployed to Staging Server https://frontend-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://frontend-nemo.herokuapp.com/
   when: manual
   only:
@@ -135,7 +136,7 @@ deploy_staging_collection:
     - git subtree push --prefix client/data-collection/ staging_collection master
     - echo "Deployed to Staging Server https://collection-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://collection-nemo.herokuapp.com/
   when: manual
   only:
@@ -153,7 +154,7 @@ deploy_staging_dissemination:
     - git subtree push --prefix client/data-dissemination/ staging_dissemination master
     - echo "Deployed to Staging Server https://dissemination-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://dissemination-nemo.herokuapp.com/
   when: manual
   only:
@@ -171,7 +172,7 @@ deploy_production_backend:
     - git push pro master:master
     - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
   environment:
-    name: production
+    name: deploy-production
     url: https://nemo-live-science.herokuapp.com/
   when: manual
   only:
