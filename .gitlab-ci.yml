@@ -100,7 +100,7 @@ deploy_staging_backend:
     # - git push staging_backend dev:master
     # - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
     - apk update
-    - apk add ruby-dev
+    - apk add git ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
   environment:
