@@ -38,26 +38,38 @@ CSE2000 Software Project
 
 ## :book: Overview 
 
-The following repository contains the source code from the 2019-2020 CSE200 Software Project course at TU Delft.
+*The following repository contains the source code from the 2019-2020 CSE200 Software Project course at TU Delft.*
+
+In our project, we have developed software for the 'Stereotypes in Computer Science' research project, which is a collaboration between Leiden University,
+Delft University of Technology, NEMO Science Museum, and VHTO. The software developed will be used in order to study stereotypes that 
+children hold about computer scientists, and whether these stereotypes are affected by a virtual intervention with role models. 
+The software will also provide a way for people to learn about their own stereotypes.
+
+For this purpose, the project has been split in two parts: 
+a ***data collection*** application and a ***data dissemination*** application.
 
 ## :beginner: Features 
 
-* Parents can complete a digital consent form
-* Children can take an IAT test
-* Test results are stored in a database
-* etc
+* Parents can complete a digital consent form for their children
+* Children can take an IAT test 
+* Test answers are stored in a database
+* Test results can be send by email
+* The admin can see live statistics about the application
+* The admin can download the data in excel format
+
+TO DO!
 
 ## :camera: Screenshots 
 
 ![image](docs/screenshots/iat_gender.png) <!-- .element height="20%" width="20%" -->
 
 ## :checkered_flag: Getting started 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites :gear:
 A step by step series of examples that tell you how to get a development env running.
 
-#### Client-side
+#### *Client-side*
 
 Install npm and Nodejs
 
@@ -72,7 +84,7 @@ Install React
 $ sudo npm install react-scripts@3.4.1 -g 
 ```
 
-#### Server-side
+#### *Server-side*
 
 Install *Python*:
 ```
@@ -99,7 +111,7 @@ For more documentation, please consult the Dockerfiles present in each applicati
 ### Installation :electric_plug:
 A step by step series of examples that tell you how to get a development env running.
 
-### Starting the server :hot_pepper:
+#### *Starting the server* :hot_pepper:
 
 To start the server execute:
 
@@ -109,7 +121,7 @@ $ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0
 
 >***Detailed instructions on how to run the server can be found in the correspoding [README.md](api/README.md) file.***
 
-### Starting the client application :desktop_computer:
+#### *Starting the client application* :desktop_computer:
 
 To run the application execute:
 
@@ -170,7 +182,6 @@ How are the folders organised. Where to find stuff.
 │   ├── endpoints
 │   │   ├── auth.py
 │   │   ├── consent.py
-│   │   ├── constants.py
 │   │   ├── dashboard.py
 │   │   └── ...
 │   ├── models
@@ -184,7 +195,6 @@ How are the folders organised. Where to find stuff.
 │   │   ├── test_files
 │   │   ├── conftest.py
 │   │   ├── test_requests.py
-│   │   ├── test_sockets.py
 │   │   └── ...
 │   ├── __init__.py
 │   ├── README.md
@@ -208,7 +218,6 @@ How are the folders organised. Where to find stuff.
 │       └── ...
 ├── docs
 │   ├── client_meetings
-│   ├── screenshots
 │   ├── sprint_retrospectives
 │   ├── team_meetings
 │   └── ...
@@ -258,7 +267,7 @@ For the dissemination application the quiz can be started directly, without havi
 
 Explaining how to run the automated tests for this system.
 
-### Client-side
+### *Client-side*
 
 Navigate to each application directory and run:
 
@@ -266,7 +275,7 @@ Navigate to each application directory and run:
 $ npm test
 ```
 
-### Server-side
+### *Server-side*
 
 Make sure you have *pytest* installed:
 ```
@@ -300,7 +309,7 @@ $ coverage report
 
 Explaining how to run the static analysis tools for this system.
 
-### Client-side
+### *Client-side*
 
 For the client-side we used ***lintJS*** as a static analysis tool.
 
@@ -308,7 +317,7 @@ For the client-side we used ***lintJS*** as a static analysis tool.
 TO DO
 ```
 
-### Server-side
+### *Server-side*
 
 For the server-side we used ***pylint*** as a static analysis tool.
 
@@ -329,6 +338,10 @@ $ pylint --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api
 You should get a pylint message that looks like this: *"Your code has been rated at 8.32/10"*
 
 ## :rocket: Deployment 
+
+TO DO!
+
+How to deploy the project on a live system.
 
 Use Docker to deploy your application :whale: .
 
