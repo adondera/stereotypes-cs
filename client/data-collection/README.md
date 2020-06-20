@@ -52,7 +52,7 @@ google-chrome --kiosk http://example.com/
 ###### MacOS
 
 ```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=localhost:3000
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=http://localhost:3000
 ```
 
 Then open Google Chrome and go to [localhost:3000](http://localhost:3000).

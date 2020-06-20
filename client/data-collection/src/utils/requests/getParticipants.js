@@ -1,20 +1,16 @@
 import axios, { withToken } from "../API";
 
-export function getQuiz(accessToken, callback, errorcallback, version='A') {
+export function getParticipants(accessToken, callback, errorcallback) {
   /*
   Configure the connection to attach authorization header with the token
   */
   withToken(accessToken);
 
   /*
-  Send get request to retrieve quiz data from server
+  Send get request to retrieve all participants from the current day
   */
   axios
-    .get("/quiz", {
-      params: {
-        version: version
-      }
-    })
+    .get("/active-participants", {})
     .then((res) => {
       if (callback != null && res.status === 200) {
         callback(res);
@@ -27,11 +23,4 @@ export function getQuiz(accessToken, callback, errorcallback, version='A') {
         errorcallback(err);
       }
     });
-}
-
-export function getVersions(callback, errorcallback) {
-  /*
-  Send get different quiz versions.
-  */
-  return axios.get("/quiz-versions");
 }

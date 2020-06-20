@@ -10,7 +10,7 @@ CSE2000 Software Project
 
 [![coverage report](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/badges/dev/coverage.svg)](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/commits/dev)
 [![pipeline status](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/badges/dev/pipeline.svg)](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/commits/dev)
-![pylint](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/jobs/artifacts/server-side_setup/raw/public/badges/pylint.svg?job=pylint)
+[![pylint](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2019-2020-q4/cluster-8/stereotypes-in-cs/stereotypescs/-/jobs/artifacts/dev/raw/public/badges/pylint.svg?job=pylint)]()
 </td></tr></table>
 
 
@@ -144,15 +144,81 @@ Register a child via the consent app. Log-in with username **ADMIN** , password 
 
 How are the folders organised. Where to find stuff.
 
-| No | File/Folder Name | Details 
-|----|------------|-------|
-| 1  | api        |serve-side code|
-| 2  | client     |client-side code|
-| 3  | docs       |documentation, meeting notes|
-| 4  | migrations |migration files for database schema|
-| 5  | socketio   |socket communication|
-| 6  | config.py  |server configurations|
-| 7  | requirements.txt|packages used in the code|
+```
+.
+├── api
+│   ├── endpoints
+│   │   ├── auth.py
+│   │   ├── consent.py
+│   │   ├── constants.py
+│   │   ├── dashboard.py
+│   │   └── ...
+│   ├── models
+│   │   ├── category.py
+│   │   ├── question.py
+│   │   ├── participant.py
+│   │   └── ...
+│   ├── static
+│   │   └── IATs
+│   ├── tests
+│   │   ├── test_files
+│   │   ├── conftest.py
+│   │   ├── test_requests.py
+│   │   ├── test_sockets.py
+│   │   └── ...
+│   ├── __init__.py
+│   ├── README.md
+│   └── script.py
+├── client
+│   ├── client-consent-app
+│   │   ├── public
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   ├── data-collection
+│   │   ├── public
+│   │   ├── selenium_tests
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   └── data-dissemination
+│       ├── public
+│       ├── src
+│       ├── app.js
+│       └── ...
+├── docs
+│   ├── client_meetings
+│   ├── screenshots
+│   ├── sprint_retrospectives
+│   ├── team_meetings
+│   └── ...
+├── migrations
+│   ├── versions
+│   └── ...
+├── .gitignore
+├── .gitlab-ci.yml
+├── config.py
+├── LICENSE
+├── Procfile
+├── pylintrc
+├── README.md
+├── requirements.txt
+├── runtime.txt
+└── server.py
+
+```
+
+| File/Folder Name | Details 
+|------------|-------|
+| api        |server-side code|
+| client     |client-side code|
+| docs       |documentation, meeting notes|
+| migrations |migration files for database schema|
+| config.py  |server configurations|
+| requirements.txt|package dependencies|
+| runtime.txt | python version (for deployment)|
+| server.py | running the server application|
+
 
 ### Starting the server :hot_pepper:
 Reference to server README.md

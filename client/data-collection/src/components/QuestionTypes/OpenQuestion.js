@@ -1,9 +1,13 @@
-import Button from "@material-ui/core/Button";
 import React from "react";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core";
+import { connect } from 'react-redux';
+import { saveQuestionAction } from '../../actions/question';
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -25,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
   },
-  heroContent: {},
+  heroContent: {
+    padding: theme.spacing(8, 0, 6),
+  },
   cardHeader: {
     backgroundColor:
       theme.palette.type === "light"
@@ -50,42 +56,74 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Start = (props) => {
+const OpenQuestion = (props) => {
+  /*eslint-disable */
   const classes = useStyles();
+  const textRef = React.createRef()
+
+  const onClick = () => {
+    var answer = {}
+    answer.question_id = props.id
+    answer.open_answer = textRef.current.value
+    props.submitAnswer(answer)
+    props.onNext()
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
-          component="h1"
-          variant="h2"
+          variant="h4"
           align="center"
           color="textPrimary"
-          gutterBottom
-        >
-          Welkom bij Nemo
-        </Typography>
-        <Typography
-          variant="h5"
-          align="justify"
-          color="textSecondary"
           component="p"
         >
-          {/* TEXT TO BE ADDED */}
+          {props.text}
         </Typography>
       </Container>
-      <Button
-        style={{ marginTop: 20 }}
-        variant="contained"
-        onClick={props.onClick}
-        color="primary"
-        size="large"
-        disabled={!props.canStart}
-      >
-        BEGIN
-      </Button>
+      <Grid item xs={12} sm={12}>
+        <TextField
+          id="outlined-multiline-static"
+          label="Antwoord hier"
+          multiline
+          rows={4}
+          style={{width: '50%'}}
+          inputRef={textRef}
+          autoFocus
+          defaultValue=""
+          variant="outlined"
+        />
+      </Grid>
+      <Grid>
+        <Button
+          style={{ margin: "auto" }}
+          variant="contained"
+          style={{ marginTop: 20 }}
+          onClick={onClick}
+        >
+          VOLGENDE
+        </Button>
+      </Grid>
     </React.Fragment>
   );
 };
 
-export default Start;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitAnswer: (answer) => {
+      dispatch(saveQuestionAction(answer));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OpenQuestion);

@@ -15,16 +15,13 @@ export const withToken = (token) => {
 
 export const startSocket = () => {
   socket.on("free-laptops", () => {
-    console.log("LISTENS");
   });
 };
 
 export const switchListening = (dispatch, hasActiveChild) => {
   socket.off("free-laptops");
-  console.log(hasActiveChild);
   if (hasActiveChild) {
     socket.on("free-laptops", () => {
-      console.log("OCUPAT");
     });
   } else {
     socket.on("free-laptops", () => {

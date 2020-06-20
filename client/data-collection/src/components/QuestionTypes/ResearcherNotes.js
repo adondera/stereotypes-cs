@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
+import {saveQuestionAction} from '../../actions/question'
 import {
   clearQuestionsStore,
   sendQuestionsAnswers,
@@ -7,23 +8,72 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import {
   Typography,
-  Checkbox,
   TextField,
-  FormControlLabel,
   Grid,
   InputLabel
 } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import useStyles from "../../styles/Finish";
+import { makeStyles } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  "@global": {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: "none",
+    },
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: "wrap",
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+  },
+  heroContent: {
+    padding: theme.spacing(8, 0, 6),
+  },
+  cardHeader: {
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[200]
+        : theme.palette.grey[700],
+  },
+  cardPricing: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "baseline",
+    marginBottom: theme.spacing(2),
+  },
+  footer: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    marginTop: theme.spacing(8),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: theme.spacing(6),
+      paddingBottom: theme.spacing(6),
+    },
+  },
+}));
 
-const Finish = (props) => {
+const ResearcherNotes = (props) => {
   const classes = useStyles();
+  const notesRef = React.createRef()
+  //sequence of actions to be dispatched whne quiz ends
+  const onClickFinish = () => {
+    const notes = notesRef.current.value
+    props.submitNotes({question_id: props.id, open_answer: notes})
+    props.sendQuestionsAnswers(props.childId,notes);
+  };
 
-  const [finish, setfinish] = useState(true);
   const [sendRequested, setsendRequested] = useState(false)
-  const [researcherCode, setresearcherCode] = useState("");
   const [dataFailed, setdataFailed] = useState(false)
 
   useEffect(() => {
@@ -40,18 +90,6 @@ const Finish = (props) => {
     }
   }, [props])
 
-  const onCheck = (event) => {
-    setfinish(!event.target.checked);
-  };
-
-  //sequence of actions to be dispatched whne quiz ends
-  const onClickFinish = () => {
-    props.sendQuestionsAnswers(props.childId);
-  };
-
-  const onClickNext = () => {
-    props.onNext();
-  };
 
   return (
     <React.Fragment>
@@ -59,7 +97,7 @@ const Finish = (props) => {
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
           component="h1"
-          variant="h1"
+          variant="h2"
           align="center"
           color="textPrimary"
           gutterBottom
@@ -75,35 +113,24 @@ const Finish = (props) => {
           {props.text}
         </Typography>
       </Container>
-      <Grid item xs={6} style={{margin: 'auto'}}>
+      <Grid item xs={12} style={{margin: 'auto'}}>
         <TextField
+        inputRef={notesRef}
+            style={{width: '50%'}}
+        rows={10}
           autoFocus
-          type='password'
-          onChange={(event) => setresearcherCode(event.target.value)}
+          multiline
           variant="outlined"
-        />
-      </Grid>
-      <Grid item xs={6} style={{margin: 'auto'}}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={!finish}
-              onChange={onCheck}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Research notes"
         />
       </Grid>
       <Grid>
         <Button
           style={{ marginTop: 20 }}
           variant="contained"
-          onClick={finish ? () => {setsendRequested(true); onClickFinish()} : onClickNext}
-          disabled={researcherCode !== "NEMO" || dataFailed || sendRequested}
+          onClick={() => {setsendRequested(true); onClickFinish()}}
+          disabled={sendRequested}
         >
-          {finish ? <span>EINDE</span> : <span>VOLGENDE</span>}
+            AF HEBBEN
         </Button>
       </Grid>
       <Grid>
@@ -125,9 +152,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendQuestionsAnswers: (childId) => dispatch(sendQuestionsAnswers(childId, '', dispatch)),
+    submitNotes: (answer) => dispatch(saveQuestionAction(answer)),
+    sendQuestionsAnswers: (childId, notes) => dispatch(sendQuestionsAnswers(childId, notes, dispatch)),
     clearQuestionsStore: () => dispatch(clearQuestionsStore()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Finish);
+export default connect(mapStateToProps, mapDispatchToProps)(ResearcherNotes);

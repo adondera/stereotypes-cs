@@ -7,10 +7,10 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 #This declares the pipeline stages  
 stages:
+  - deploy-staging
   - lint
   - build
   - test
-  - deploy-staging
   - deploy-production
 cache:
   paths:
@@ -91,15 +91,19 @@ pytest:
 deploy_staging_backend:
   stage: deploy-staging
   script:
+    - apk add git
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
     - git checkout dev
-    - git remote remove staging_backend
     - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
     - git push staging_backend dev:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
+    # - apt-get update -qy
+    # - apt-get install -y ruby-dev
+    # - gem install dpl
+    # - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_STAGING_API_KEY
   environment:
-    name: staging
+    name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
   when: manual
   only:
@@ -117,7 +121,7 @@ deploy_staging_consent:
     - git subtree push --prefix client/client-consent-app/ staging_consent master
     - echo "Deployed to Staging Server https://frontend-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://frontend-nemo.herokuapp.com/
   when: manual
   only:
@@ -135,7 +139,7 @@ deploy_staging_collection:
     - git subtree push --prefix client/data-collection/ staging_collection master
     - echo "Deployed to Staging Server https://collection-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://collection-nemo.herokuapp.com/
   when: manual
   only:
@@ -153,7 +157,7 @@ deploy_staging_dissemination:
     - git subtree push --prefix client/data-dissemination/ staging_dissemination master
     - echo "Deployed to Staging Server https://dissemination-nemo.herokuapp.com"
   environment:
-    name: staging
+    name: deploy-staging
     url: https://dissemination-nemo.herokuapp.com/
   when: manual
   only:
@@ -171,7 +175,7 @@ deploy_production_backend:
     - git push pro master:master
     - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
   environment:
-    name: production
+    name: deploy-production
     url: https://nemo-live-science.herokuapp.com/
   when: manual
   only:
