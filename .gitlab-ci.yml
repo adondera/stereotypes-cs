@@ -112,7 +112,11 @@ deploy_staging_consent:
     - apt-get install -y ruby-dev
     - gem install dpl
     - cd client/client-consent-app
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
     - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
   environment:
     name: deploy-staging
     url: https://frontend-nemo.herokuapp.com/
