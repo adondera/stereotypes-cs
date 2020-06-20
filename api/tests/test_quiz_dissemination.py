@@ -1,3 +1,4 @@
+# pylint: disable=unused-argument
 """
 Tests for the data dissemination application
 """
@@ -116,29 +117,43 @@ def generate_answers(question_3, question_5, range_3, range_5, sample_size=32):
 
 
 def test_get_dissemination_quiz(client, init_db):
+    """
+    Tests that a request for a dissemination quiz returns
+    a list of questions
+    :param client: Testing client for requests
+    :param init_db: Initializes database
+    :return: Nothing
+    """
     populate()
 
-    response = client.post("/login", data=dict(username='admin', password='admin'))
-    assert response.status_code == 200
-    token = response.get_json()['access_token']
-
-    response = client.get('/iat', headers={'Authorization': 'Bearer ' + token})
+    response = client.get('/iat')
 
     assert response.status_code == 200
     assert isinstance(response.get_json(), list)
 
 
 def test_fail_dissemination_quiz(client, init_db):
-    response = client.post("/login", data=dict(username='username', password='password'))
-    assert response.status_code == 200
-    token = response.get_json()['access_token']
-
-    response = client.get('/iat', headers={'Authorization': 'Bearer ' + token})
+    """
+    Tests that a request for a quiz with nothing in the database
+    returns a Not found message
+    :param client: Testing client for requests
+    :param init_db: Initializes database
+    :return: Nothing
+    """
+    response = client.get('/iat')
 
     assert response.status_code == 404
 
 
 def test_invalid_results_object_none(client, init_db):
+    """
+    Tests that trying to calculate the results from a badly formatted request
+    (data is not a list)
+    returns a Bad request message
+    :param client: Testing client for requests
+    :param init_db: Initializes database
+    :return: Nothing
+    """
     data = {}
     data['data'] = 1
 
@@ -147,10 +162,16 @@ def test_invalid_results_object_none(client, init_db):
 
 
 def test_invalid_results_object(client, init_db):
+    """
+    Tests that trying to calculate the results for a badly formatted request
+    (data is list but contains wrong types)
+    returns a Bad request message
+    :param client: Testing client for requests
+    :param init_db: Initializes the database
+    :return:Nothing
+    """
     data = {}
     data['data'] = ["somestring"]
 
     response = client.post('/calculate', json=data)
     assert response.status_code == 400
-
-

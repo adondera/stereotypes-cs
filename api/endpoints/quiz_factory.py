@@ -1,3 +1,4 @@
+# pylint: disable=too-many-instance-attributes, no-self-use, too-few-public-methods
 """
 Module that contains the classes that create the different components for a quiz
 """
@@ -6,8 +7,9 @@ from sqlalchemy import or_
 
 from api.models import QuestionType, Question, Image, Question_to_category, Category
 from api.models.helpers import add_to_db
-from api.endpoints.constants import BLOCK_START_TEXT, BLOCK_END_TEXT, FINAL_BLOCK_TEXT, COLLECTION_QUIZ_END_TEXT, \
-    COLLECTION_QUIZ_BEGINNING_TEXT, INTERVENTION_VIDEO_TEXT, CONTROL_VIDEO_TEXT, DISSEMINATION_QUIZ_END_TEXT
+from api.endpoints.constants import BLOCK_START_TEXT, BLOCK_END_TEXT, FINAL_BLOCK_TEXT, \
+    COLLECTION_QUIZ_END_TEXT, COLLECTION_QUIZ_BEGINNING_TEXT, INTERVENTION_VIDEO_TEXT, \
+    CONTROL_VIDEO_TEXT, DISSEMINATION_QUIZ_END_TEXT
 
 
 class QuizFactory:
@@ -62,6 +64,14 @@ class QuizFactory:
         return self.response
 
     def create_ending(self, end_text):
+        """
+        Creates a type finish question to be shown at the end of the test
+
+        Parameters
+        ----------
+        end_text : string
+            text to be used for the question.
+        """
         self.response.append({
             "q_type": QuestionType.finish.value,
             "title": "Einde",
@@ -69,15 +79,31 @@ class QuizFactory:
         })
 
     def create_researcher_notes(self):
-        self.response.extend(Question.query.filter_by(q_type=QuestionType.notes).first().make_response())
+        """
+        Creates a type notes question for researcher notes
+        """
+        self.response.extend(Question.query.filter_by(q_type=QuestionType.notes)
+                             .first()
+                             .make_response())
 
     def create_information_beginning(self, beginning_text):
+        """
+        Creates a type information question to be shown at the start of the test
+
+        Parameters
+        ----------
+        beginning_text : string
+            text to be used for the question.
+        """
         self.response.append({
             "q_type": QuestionType.information.value,
             "text": beginning_text
         })
 
     def create_end_iat_text(self):
+        """
+        Creates a type information question for collection test
+        """
         end_text = FINAL_BLOCK_TEXT.copy()
         end_text['q_type'] = QuestionType.information.value
         self.response.append(end_text)
@@ -104,6 +130,10 @@ class VideoFactory:
         return video.make_response()
 
     def create_video_text(self):
+        """
+        Checks if video is at the start or at the end of the quiz.
+        :return: Returns the corresponding text for its posisiton
+        """
         if not self.data['before']:
             return INTERVENTION_VIDEO_TEXT
         return CONTROL_VIDEO_TEXT
@@ -129,7 +159,8 @@ class DemographicsFactory:
             "text": "Je bent er bijna, nog een paar vragen!"
         })
         for q_id in self.data:
-            self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
+            self.response.extend(Question.query.filter_by(
+                id=q_id).first().make_response())
         return self.response
 
 
@@ -149,7 +180,8 @@ class EATFactory:
         """
 
         for q_id in self.data:
-            self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
+            self.response.extend(Question.query.filter_by(
+                id=q_id).first().make_response())
         return self.response
 
 
@@ -188,7 +220,11 @@ class IATFactory:
         }, Question.query.filter_by(q_type=QuestionType.binary).all())))
 
         questions = list(
-            filter(lambda x: x['left'] == phase['left_categ'] and x['right'] == phase['right_categ'], questions))
+            filter(
+                lambda x: x['left'] == phase['left_categ'] and x['right'] == phase['right_categ'],
+                questions
+            )
+        )
 
         assert len(questions) <= 1, "Should have at most one result"
 
@@ -202,6 +238,11 @@ class IATFactory:
         self.append_response(question, block_nr)
 
     def append_response(self, question, block_nr):
+        """
+        Adds the block number to a question
+        :param question: The question to use
+        :param block_nr: The block number to append
+        """
         dictionary = question.as_dict()
         dictionary['block_nr'] = block_nr
         self.response.extend(question.make_response())
@@ -222,11 +263,13 @@ class IATFactory:
         add_to_db(question)
 
         for c_left in phase['left_categ']:
-            q_to_c = Question_to_category(q_id=question.id, c_id=c_left, is_left=True)
+            q_to_c = Question_to_category(
+                q_id=question.id, c_id=c_left, is_left=True)
             add_to_db(q_to_c)
 
         for c_right in phase['right_categ']:
-            q_to_c = Question_to_category(q_id=question.id, c_id=c_right, is_left=False)
+            q_to_c = Question_to_category(
+                q_id=question.id, c_id=c_right, is_left=False)
             add_to_db(q_to_c)
 
         return question
@@ -244,10 +287,14 @@ class IATFactory:
                           Category.query.filter(Category.id.in_(phase['left_categ'])).all()))
         c_right = list(map(lambda x: (x.name, x.id),
                            Category.query.filter(Category.id.in_(phase['right_categ'])).all()))
-        guide_text['text1'] = guide_text['text1'].format(c_left[0][0].lower(),
-                                                         c_left[1][0].lower() if len(c_left) >= 2 else None)
-        guide_text['text2'] = guide_text['text2'].format(c_right[0][0].lower(),
-                                                         c_right[1][0].lower() if len(c_right) >= 2 else None)
+        guide_text['text1'] = guide_text['text1'].format(
+            c_left[0][0].lower(),
+            c_left[1][0].lower() if len(c_left) >= 2 else None
+        )
+        guide_text['text2'] = guide_text['text2'].format(
+            c_right[0][0].lower(),
+            c_right[1][0].lower() if len(c_right) >= 2 else None
+        )
         guide_text['text3'] = BLOCK_END_TEXT
         images0 = list(map(lambda x: x.link,
                            Image.query.filter(Image.category_id.in_(phase['left_categ']))))
