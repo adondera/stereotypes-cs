@@ -66,7 +66,6 @@ describe("works", () => {
     const props = {};
     const wrapper = mountWithProvider(<Login {...props} />)();
     expect(wrapper.exists()).toBe(true);
-    console.log(wrapper.debug());
   });
 });
 
