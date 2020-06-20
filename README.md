@@ -101,11 +101,10 @@ Install *PostgreSql*:
 $ which psql
 ```
 
-Install *Redis*:
+Install *Redis*. For a more detailed explanation, you can follow the guide [here](https://redis.io/topics/quickstart)
 ```
 $ redis-server --version
 ```
-For a more detailed explanation, you can follow the guide [here](https://redis.io/topics/quickstart)
 
 
 Install all dependencies:
