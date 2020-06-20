@@ -100,7 +100,6 @@ For more documentation, please consult the Dockerfiles present in each applicati
 A step by step series of examples that tell you how to get a development env running.
 
 ### Starting the server :hot_pepper:
-Reference to server README.md
 
 To start the server execute:
 
@@ -108,8 +107,9 @@ To start the server execute:
 $ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
 ```
 
+>***Detailed instructions on how to run the server can be found in the correspoding [README.md](api/README.md) file.***
+
 ### Starting the client application :desktop_computer:
-Reference to client README.md
 
 To run the application execute:
 
@@ -117,6 +117,11 @@ To run the application execute:
 $ npm install
 $ npm run start
 ```
+
+>***Detailed instructions on how to run the client applications can be found in the correspoding README.md files:***
+>* [Data collection](client/data-collection/README.md)
+>* [Data dissemination](client/data-dissemination/README.md)
+>* [Consent form](client/client-consent-app/README.md)
 
 ### Run in Docker :whale:
 
@@ -141,13 +146,10 @@ OR
 $ sudo docker-compose up
 ```
 
-> The server in running on [http://localhost:8000/](http://localhost:8000/)
-
-> The consent form is on   [http://localhost:3001/](http://localhost:3001/)
-
-> The client-data-collection on  [http://localhost:3002/](http://localhost:3002/)
-
-> The client-data-dissemination on [http://localhost:3003/](http://localhost:3003/)
+>* The ***server*** in running on [http://localhost:8000/](http://localhost:8000/)
+>* The ***consent form*** is on [http://localhost:3001/](http://localhost:3001/)
+>* The ***client-data-collection*** is on [http://localhost:3002/](http://localhost:3002/)
+>* The ***client-data-dissemination*** is on [http://localhost:3003/](http://localhost:3003/)
 
 
 ## :zap: Usage 
@@ -239,6 +241,7 @@ How are the folders organised. Where to find stuff.
 
 ### Application workflow :repeat:
 
+1. Start the client collection application
 1. Log-in with username **admin** and password **admin** 
 1. Select a test version and press "Load Question" to enter the test
 1. Register a child via the consent app.
@@ -249,7 +252,7 @@ How are the folders organised. Where to find stuff.
 1. Use the **NEMO** code to submit the test 
 1. You should be redirected back to the start page
 
-For the dissemination application the test can be started directly, without having to login or to complete the consent form.
+For the dissemination application the quiz can be started directly, without having to login or to complete the consent form.
 
 ## :runner: Running the tests  
 
@@ -328,6 +331,10 @@ You should get a pylint message that looks like this: *"Your code has been rated
 ## :rocket: Deployment 
 
 Use Docker to deploy your application :whale: .
+
+>* The ***consent form*** can be found at [https://frontend-nemo.herokuapp.com/](https://frontend-nemo.herokuapp.com/)
+>* The ***collection application*** can be found at [https://collection-nemo.herokuapp.com/](https://collection-nemo.herokuapp.com/)
+>* The ***dissemination application*** can be found at [https://dissemination-nemo.herokuapp.com/](https://dissemination-nemo.herokuapp.com/)
 
 ## :raised_hands: Contributing
 
