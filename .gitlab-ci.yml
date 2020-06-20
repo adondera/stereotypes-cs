@@ -94,6 +94,7 @@ deploy_staging_backend:
     - apk add git
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
+    - git checkout dev
     - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
     - git push staging_backend dev:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
