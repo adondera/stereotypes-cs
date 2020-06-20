@@ -101,6 +101,13 @@ Install *PostgreSql*:
 $ which psql
 ```
 
+Install *Redis*:
+```
+$ redis-server --version
+```
+For a more detailed explanation, you can follow the guide [here](https://redis.io/topics/quickstart)
+
+
 Install all dependencies:
 ```
 $ pip3 install requirements.txt
@@ -291,6 +298,11 @@ To run all tests use:
 ```
 $ pytest api
 ```
+---
+**NOTE**: For tests to pass you need to have both your PostgreSQL database and the Redis server running.
+
+---
+
 
 You can also run individual tests with:
 ```
