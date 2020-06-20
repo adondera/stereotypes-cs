@@ -29,11 +29,11 @@
     
 4. Specify the desired running configuration. Chose one of the following configurations:
     
-        1. DevelopmentConfig
+        1. StagingConfig
         2. TestingConfig
         3. ProductionConfig
     
-    For DevelopmentConfig and ProductionConfig, the deployed database is used. No other setup is needed.
+    For StagingConfig and ProductionConfig, you need to add a DATABASE_URL to the environment variables. You can either add one of your own, or if you want access to the Staging or Production databases, contact one of the developers to grant you access on Heroku.
     
     For TestingConfig you must have a local PostgreSQL database created with the following credentials:
 
@@ -48,7 +48,6 @@
     ```
     export APP_SETTINGS=config.YourConfigurationChoice
     ```
-    We recommend to run ```export FLASK_ENV=config.DevelopmentConfig``` as the server database should work from the get-go
 
 5. Start the flask application.
     ```
