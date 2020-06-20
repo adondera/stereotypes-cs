@@ -126,36 +126,79 @@ How are the folders organised. Where to find stuff.
 
 ```
 .
-├── assets
-│   ├── css
-│   │   ├── index-ui.css
-│   │   └── rate-ui.css
-│   ├── images
-│   │   ├── icons
-│   │   │   ├── shrink-button.png
-│   │   │   └── umbrella.png
-│   │   ├── logo_144.png
-│   │   └── Untitled-1.psd
-│   └── javascript
-│       ├── index.js
-│       └── rate.js
-├── CNAME
+├── api
+│   ├── endpoints
+│   │   ├── auth.py
+│   │   ├── consent.py
+│   │   ├── constants.py
+│   │   ├── dashboard.py
+│   │   └── ...
+│   ├── models
+│   │   ├── category.py
+│   │   ├── question.py
+│   │   ├── participant.py
+│   │   └── ...
+│   ├── static
+│   │   └── IATs
+│   ├── tests
+│   │   ├── test_files
+│   │   ├── conftest.py
+│   │   ├── test_requests.py
+│   │   ├── test_sockets.py
+│   │   └── ...
+│   ├── __init__.py
+│   ├── README.md
+│   └── script.py
+├── client
+│   ├── client-consent-app
+│   │   ├── public
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   ├── data-collection
+│   │   ├── public
+│   │   ├── selenium_tests
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   └── data-dissemination
+│       ├── public
+│       ├── src
+│       ├── app.js
+│       └── ...
+├── docs
+│   ├── client_meetings
+│   ├── screenshots
+│   ├── sprint_retrospectives
+│   ├── team_meetings
+│   └── ...
+├── migrations
+│   ├── versions
+│   └── ...
+├── .gitignore
+├── .gitlab-ci.yml
 ├── config.py
-├── server.py
-└── README.md
+├── LICENSE
+├── Procfile
+├── pylintrc
+├── README.md
+├── requirements.txt
+├── runtime.txt
+└── server.py
 
-EXAMPLE
 ```
 
-| No | File/Folder Name | Details 
-|----|------------|-------|
-| 1  | api        |serve-side code|
-| 2  | client     |client-side code|
-| 3  | docs       |documentation, meeting notes|
-| 4  | migrations |migration files for database schema|
-| 5  | socketio   |socket communication|
-| 6  | config.py  |server configurations|
-| 7  | requirements.txt|packages used in the code|
+| File/Folder Name | Details 
+|------------|-------|
+| api        |server-side code|
+| client     |client-side code|
+| docs       |documentation, meeting notes|
+| migrations |migration files for database schema|
+| config.py  |server configurations|
+| requirements.txt|package dependencies|
+| runtime.txt | python version (for deployment)|
+| server.py | running the server application|
+
 
 ### Starting the server :hot_pepper:
 Reference to server README.md
