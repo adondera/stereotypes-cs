@@ -92,13 +92,6 @@ deploy_staging_backend:
   stage: deploy-staging
   image: ruby:latest
   script:
-    # - git config user.email "a.d.manolache@student.tudelft.nl"
-    # - git config user.name "amanolache"
-    # - git checkout dev
-    # - git remote remove staging_backend
-    # - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
-    # - git push staging_backend dev:master
-    # - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
@@ -113,14 +106,13 @@ deploy_staging_backend:
 
 deploy_staging_consent:
   stage: deploy-staging
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout dev
-    - git remote remove staging_consent
-    - git remote add staging_consent https://heroku:$HEROKU_API_KEY@git.heroku.com/frontend-nemo.git
-    - git subtree push --prefix client/client-consent-app/ staging_consent master
-    - echo "Deployed to Staging Server https://frontend-nemo.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/client-consent-app
+    - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
     url: https://frontend-nemo.herokuapp.com/
@@ -131,14 +123,12 @@ deploy_staging_consent:
 
 deploy_staging_collection:
   stage: deploy-staging
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout dev
-    - git remote remove staging_collection
-    - git remote add staging_collection https://heroku:$HEROKU_API_KEY@git.heroku.com/collection-nemo.git
-    - git subtree push --prefix client/data-collection/ staging_collection master
-    - echo "Deployed to Staging Server https://collection-nemo.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
     url: https://collection-nemo.herokuapp.com/
@@ -149,14 +139,12 @@ deploy_staging_collection:
 
 deploy_staging_dissemination:
   stage: deploy-staging
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout dev
-    - git remote remove staging_dissemination
-    - git remote add staging_dissemination https://heroku:$HEROKU_API_KEY@git.heroku.com/dissemination-nemo.git
-    - git subtree push --prefix client/data-dissemination/ staging_dissemination master
-    - echo "Deployed to Staging Server https://dissemination-nemo.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
     url: https://dissemination-nemo.herokuapp.com/
