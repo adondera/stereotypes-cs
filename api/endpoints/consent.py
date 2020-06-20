@@ -2,8 +2,6 @@
 """
 Module that deals with all logic related to consent forms
 """
-import os
-
 from flask import request, current_app
 from flask_restful import Resource
 from cloudinary.uploader import upload
