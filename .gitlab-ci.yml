@@ -102,7 +102,7 @@ deploy_staging_backend:
     - apk update
     - apk add ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_STAGING_API_KEY
+    - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
