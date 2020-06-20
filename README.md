@@ -14,7 +14,7 @@ CSE2000 Software Project
 </td></tr></table>
 
 
-## Table of Contents
+## :ledger: Table of Contents
 
 * [Overview](#book-overview)
 * [Features](#beginner-features)
@@ -25,10 +25,10 @@ CSE2000 Software Project
   * [Run in Docker](#run-in-docker-whale)
 * [Usage](#zap-usage)
 * [Deployment](#rocket-deployment)
-* [Contributing](#raised_hand-contributing)
+* [Contributing](#raised_hands-contributing)
 * [Issue Board](#pushpin-issue-board)
 * [Authors](#sunglasses-authors)
-* [License](#pencil-license)
+* [License](#lock-license)
 * [Acknowledgements](#star2-acknowledgements)
 
 
@@ -53,78 +53,70 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites :gear:
 A step by step series of examples that tell you how to get a development env running
 
-### Back-end
+#### Back-end
 Install Python
 
 ```
-foo@bar:~$ python3 --version
+$ python3 --version
 ```
 Install Pip
 
 ```
-foo@bar:~$ pip3 --version
+$ pip3 --version
 ```
 
 Install Postgresql
 
 ```
-foo@bar:~$ which psql
+$ which psql
 ```
 Install all dependencies
 
 ```
-foo@bar:~$ pip3 install requirements.txt
-```
-Start the server
-
-```
-foo@bar:~$ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
+$ pip3 install requirements.txt
 ```
 
-### Front-end
+#### Front-end
 
 Install npm and Nodejs
 
 ```
-foo@bar:~$ node --version
-foo@bar:~$ npm --version
+$ node --version
+$ npm --version
 ```
 
 Install React 
 
 ```
-foo@bar:~$ sudo npm install react-scripts@3.4.1 -g 
-```
-Run application 
-
-```
-foo@bar:~$ npm install
-foo@bar:~$ npm run start
+$ sudo npm install react-scripts@3.4.1 -g 
 ```
 
 For more documentation, please consult the Dockerfiles present in each application.
+
+### Installation :electric_plug:
+A step by step series of examples that tell you how to get a development env running
 
 ### Run in Docker :whale:
 
 Make sure you have [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on you machine.
 
 ```sh
-foo@bar:~$ docker --version
+$ docker --version
 Docker version 19.03.8
 ```
 
 ```sh
-foo@bar:~$ docker-compose --version
+$ docker-compose --version
 docker-compose version 1.25.0
 ```
 
 ```sh
-foo@bar:~$ sudo chmod +x start.sh
-foo@bar:~$ sudo ./script-name-here.sh
+$ sudo chmod +x start.sh
+$ sudo ./script-name-here.sh
 
 OR
 
-foo@bar:~$ sudo docker-compose up
+$ sudo docker-compose up
 ```
 
 > The server in running on [http://localhost:8000/](http://localhost:8000/)
@@ -223,9 +215,22 @@ How are the folders organised. Where to find stuff.
 ### Starting the server :hot_pepper:
 Reference to server README.md
 
+Start the server
+
+```
+$ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
+```
+
 
 ### Starting the application :desktop_computer:
 Reference to client README.md
+
+Run application 
+
+```
+$ npm install
+$ npm run start
+```
 
 ## :runner: Running the tests  
 
@@ -236,20 +241,48 @@ How to run the automated tests for this system
 Navigate to each application
 
 ```
-foo@bar:~$ npm test
+$ npm test
 ```
 
 ### Back-end
 
 ```
-foo@bar:~$ pytest api
+$ pytest api
+```
+
+## :mag: Coding style tests
+
+### Client-side
+
+For the client-side we used ***lintJS*** as a static analysis tool.
+
+```
+Give an example
+```
+
+### Server-side
+
+For the server-side we used ***pylint*** as a static analysis tool.
+
+You can get [pylint](https://plugins.jetbrains.com/plugin/11084-pylint) as a plugin and run it directly from your Pycharm IDE.
+
+You can also install and run pylint from your terminal.
+
+To instal pylint use:
+```
+$ pip3 install pylint
+```
+
+To run pylint use:
+```
+$ pylint --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api
 ```
 
 ## :rocket: Deployment 
 
 Use Docker to deploy your application :whale: .
 
-## :raised_hand: Contributing
+## :raised_hands: Contributing
 
 Any contributions you make are **greatly appreciated**.
 
@@ -291,6 +324,7 @@ Any contributions you make are **greatly appreciated**.
 * [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) - SQL toolkit and object-relational mapper.
 * [Redis](https://redis.io/) - In-memory data structure store
 * [Cloudinary](https://cloudinary.com/) - Cloud management service for media contents
+* [Sendgrid](https://sendgrid.com/) - Email delivery service
 * [PostgreSQL](https://www.postgresql.org/) - Relational database system
 
 ## :sunglasses: Authors 
@@ -309,6 +343,14 @@ Any contributions you make are **greatly appreciated**.
 **Client:**
 * Shirley de Wit
 
-## :pencil: License 
+## :lock: License 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## :star2: Acknowledgements 
+
+* VHTO
+* NEMO Science Museum
+* Leiden University
+* Delft University of Technology
+
