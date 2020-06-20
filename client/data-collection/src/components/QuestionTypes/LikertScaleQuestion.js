@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1.5),
   },
   heroContent: {
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(6, 0, 6),
   },
   cardHeader: {
     backgroundColor:
@@ -61,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+const giveMeString = function(index) {
+  if(index === '1')
+    return index + "   Helemaal oneens "
+  else if(index === '7')
+    return index + '   Helemaal eens';
+  return index.toString();
+}
+
 const LikertScaleQuestion = (props) => {
   const classes = useStyles();
   const [state, setQuestionAnswer] = useState({ answers: [] });
@@ -72,10 +81,10 @@ const LikertScaleQuestion = (props) => {
 
   const likertOptions = {
     responses: likertScaleText.map((scaleText, index) => {
-      return { value: index + 1, text: scaleText };
+      return { value: index + 1, text: giveMeString(scaleText) };
     }),
     picked: (val) => {
-      setQuestionAnswer({ answers: [parseInt(val)] });
+      setQuestionAnswer({ answers: parseInt(val), question_id: props.id });
     },
   };
 
@@ -84,8 +93,8 @@ const LikertScaleQuestion = (props) => {
       <CssBaseline />
       <Container maxWidth='sm' component='main' className={classes.heroContent}>
         <Typography
-          component='h1'
-          variant='h2'
+          component='p'
+          variant='h4'
           align='center'
           color='textPrimary'
           gutterBottom
@@ -98,8 +107,8 @@ const LikertScaleQuestion = (props) => {
           <Grid item xs={12} md={12} style={{ margin: 'auto' }}>
             <Card>
               <CardHeader
-                title='Select the one you consider most appropriate'
-                titleTypographyProps={{ align: 'center' }}
+                title='Ben jij het eens of oneens met deze zin?'
+                titleTypographyProps={{ align: 'center', variant: 'h6' }}
                 subheaderTypographyProps={{ align: 'center' }}
                 action={null}
                 className={classes.cardHeader}
@@ -119,7 +128,7 @@ const LikertScaleQuestion = (props) => {
               disabled={state.answers.length === 0}
               onClick={onClick}
             >
-              NEXT
+              VOLGENDE
             </Button>
           </Grid>
         </Grid>

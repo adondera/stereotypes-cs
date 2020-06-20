@@ -8,7 +8,9 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    boxShadow: 'none',
     borderRadius: 15,
+    backgroundColor: 'transparent',
   },
   image: {
     margin: "auto",
@@ -30,7 +32,12 @@ const TextCard = (props) => {
           className={props.isSelected ? classes.imageFocus : classes.image}
         >
           {props.categories.map((category,index) => (
-            <Typography variant="h5" key={index}> {category.name} </Typography>
+            <div key={index}>
+            {index === 1 ? (
+              <Typography variant="h6" style={{lineHeight: 0, marginBottom: '8px', marginTop: '4px'}}> of </Typography>
+            ) : (null)}
+            <Typography variant="h6" > {category.name} </Typography>
+            </div>
 
           ))}
         </CardContent>

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     margin: 'auto',
     height: '100%',
-    width: 270,
+    width: 300,
     transform: 'scale(1.05)',
   },
   imageFocus: {

@@ -95,7 +95,7 @@ const Video = (props) => {
                   videoRef.current.internalPlayer.playVideo();
                 }}
               >
-                Play
+                Afspelen
               </Button>
               )}
               </React.Fragment>
@@ -111,7 +111,7 @@ const Video = (props) => {
                   videoRef.current.internalPlayer.playVideo();
                 }}
               >
-                Replay
+                SPEEL OPNIEUW AF
               </Button>
             ) : null}
           </Card>
@@ -125,7 +125,7 @@ const Video = (props) => {
           disabled={!state.isPlayedOnce}
           hidden={!state.isPlayedOnce}
         >
-          Next
+          VOLGENDE
         </Button>
       ) : null}
     </div>

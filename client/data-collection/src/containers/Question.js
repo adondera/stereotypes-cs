@@ -6,14 +6,12 @@ const mapStateToProps = (state, ownProps) => {
     const questionIndex = state.mainAppReducer.questionIndex
     return {
         questionData: state.mainAppReducer.questions.questions[questionIndex-1],
-        questionIndex: ownProps.questionIndex,
-        quizStarted: ownProps.quizStarted,
-        onQuestionChange: ownProps.onQuestionChange,
+        ...ownProps
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    clearQuestions: () => dispatch(clearQuestionsStore())
+    clearQuestions: () => dispatch(clearQuestionsStore()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)
