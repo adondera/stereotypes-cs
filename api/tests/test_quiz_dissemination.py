@@ -154,11 +154,3 @@ def test_invalid_results_object(client, init_db):
     assert response.status_code == 400
 
 
-def test_invalid_results_object(client, init_db):
-    data = {}
-    data['data'] = ["somestring"]
-
-    response = client.post('/calculate', json=data)
-    assert response.status_code == 400
-
-

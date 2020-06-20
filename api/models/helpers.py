@@ -39,14 +39,6 @@ def commit_db_session():
         raise
 
 
-def add_to_session(obj):
-    try:
-        db.session.add(obj)
-    except:
-        db.session.rollback()
-        raise
-
-
 def is_jsonable(x):
     """
     Checks if x is JSONable (can be converted to JSON object).

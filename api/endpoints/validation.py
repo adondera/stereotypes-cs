@@ -6,6 +6,16 @@ email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 
 def validate_answers(answers):
+    """
+    Validate a JSON input for test answers.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for posting test answers
+    """
+
     if not validate_list(answers):
         return False
 
@@ -20,6 +30,16 @@ def validate_answers(answers):
 
 
 def validate_not_binary(value):
+    """
+    Validate a JSON input for non binary question type answer.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for non binary question answer
+    """
+
     validators = {
         "participant_id": validate_int,
         "question_id": validate_int,
@@ -31,6 +51,16 @@ def validate_not_binary(value):
 
 
 def validate_open_answer(value):
+    """
+    Validate a JSON input for open question answer type.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for open answers
+    """
+
     validators = {
         "participant_id": validate_int,
         "question_id": validate_int,
@@ -42,6 +72,16 @@ def validate_open_answer(value):
 
 
 def validate_answer(value):
+    """
+    Validate a JSON input for a single answer.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for an answer
+    """
+
     validators = {
         "participant_id": validate_int,
         "question_id": validate_int,
@@ -55,6 +95,16 @@ def validate_answer(value):
 
 
 def validate_dissemination_answers(answers):
+    """
+    Validate a JSON input for answers for dissemination app.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for posting answers
+    """
+
     if not validate_list(answers):
         return False
 
@@ -67,6 +117,16 @@ def validate_dissemination_answers(answers):
 
 
 def validate_dissemination_answer(value):
+    """
+    Validate a JSON input for a single answer for dissemination app.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for an answer
+    """
+
     validators = {
         "question_id": validate_int,
         "block_nr": validate_int,
@@ -77,6 +137,16 @@ def validate_dissemination_answer(value):
 
 
 def validate_person_data(value):
+    """
+    Validate a JSON input for person data.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for posting person data
+    """
+
     validators = {
         'firstName': validate_string,
         'lastName': validate_string,
@@ -86,6 +156,16 @@ def validate_person_data(value):
 
 
 def validate_children_data(value):
+    """
+    Validate a JSON input for children data.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for posting children data
+    """
+
     if not validate_list(value):
         return False
 
@@ -97,6 +177,16 @@ def validate_children_data(value):
 
 
 def validate_signature(value):
+    """
+    Validate a JSON input for signature.
+
+    Parameters:
+    value (any): Input value
+
+    Returns:
+    boolean: True if value has the format required for a signature
+    """
+
     try:
         return base64.b64encode(base64.b64decode(value.split(',')[1])) == \
                bytes(value.split(',')[1], encoding='ascii')
@@ -204,6 +294,7 @@ def validate(data, validators):
     :param validators: key value dict specifying data type of values
     :return: None if there was an error, else data.
     """
+
     not_required_keys = []
     if not data:
         return None
@@ -231,6 +322,7 @@ def read_form_data(request):
     list that form data expected to be sent as a file, does not appear as
     a form key-value pair.
     """
+
     data = {}
     if request.json:
         data.update(request.json)
