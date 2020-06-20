@@ -4,7 +4,7 @@ Test class that simulates the queue management
 and tests the socket connection
 """
 from api import app, socketio
-from .test_constants import consent_data
+from api.tests.test_constants import consent_data
 
 
 def test_connection(client, init_db):
@@ -14,6 +14,7 @@ def test_connection(client, init_db):
     :param init_db: Initialize database
     :return: Nothing
     """
+
     response = client.post("/login", data=dict(username='username', password='password'))
     token = response.get_json()['access_token']
     socket_io_test_client = socketio.test_client(app, headers={'Authorization': 'Bearer ' + token},
@@ -30,6 +31,7 @@ def test_inserting_consent_triggers_free_laptops(client, init_db):
     :param init_db: Initialize database
     :return: Nothing
     """
+
     # Login
     response = client.post("/login", data=dict(username='username', password='password'))
     token = response.get_json()['access_token']
@@ -58,6 +60,7 @@ def test_three_simultaneous_clients(client, init_db):
     :param init_db: Initialize database
     :return: Nothing
     """
+
     response = client.post("/login", data=dict(username='username', password='password'))
     token = response.get_json()['access_token']
 

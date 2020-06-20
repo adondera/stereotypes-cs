@@ -1,3 +1,5 @@
+"""This module contains constants that are used for testing"""
+
 consent_data = {
     "isSigned": True,
     "hasValidFields": 1,

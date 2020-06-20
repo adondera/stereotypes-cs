@@ -3,20 +3,16 @@ import api.endpoints.validation as valid
 
 
 def test_validate_none():
-    """
-    Test None type for both validators and data
-    :return:
-    """
+    """Test None type for both validators and data"""
+
     validators = None
     data = None
     assert valid.validate(data, validators) is None
 
 
 def test_validate_missingkey():
-    """
-    Test validate incoming data containing fewer keys than expected
-    :return:
-    """
+    """Test validate incoming data containing fewer keys than expected"""
+
     validators = {
         'username': valid.validate_string,
         'password': valid.validate_string
@@ -30,10 +26,8 @@ def test_validate_missingkey():
 
 
 def test_keynotinvalidators():
-    """
-    Test validate incoming data containing more keys than expected
-    :return:
-    """
+    """Test validate incoming data containing more keys than expected"""
+
     validators = {
         'year': valid.validate_int,
     }
@@ -46,10 +40,8 @@ def test_keynotinvalidators():
 
 
 def test_mismatch():
-    """
-    Test validate incoming data containing a different type of value than expected
-    :return:
-    """
+    """Test validate incoming data containing a different type of value than expected"""
+
     validators = {
         'year': valid.validate_int,
     }
@@ -61,10 +53,8 @@ def test_mismatch():
 
 
 def test_validators():
-    """
-    Test validate accept, boolean, float, email, list types
-    :return:
-    """
+    """Test validate accept, boolean, float, email, list types"""
+
     validators = {
         'accept': valid.validate_accept,
         'boolean': valid.validate_boolean,
@@ -84,9 +74,8 @@ def test_validators():
     assert res == data
 
 def test_wrong_mail():
-    """
-    Tests that an invalid email is rejected
-    """
+    """Tests that an invalid email is rejected"""
+
     validators = {
         'email': valid.validate_email
     }
@@ -97,9 +86,8 @@ def test_wrong_mail():
     assert res is None
 
 def test_empty_mail():
-    """
-    Tests that an empty email is accepted
-    """
+    """Tests that an empty email is accepted"""
+
     validators = {
         'email': valid.validate_email
     }
