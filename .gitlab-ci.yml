@@ -7,10 +7,10 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 #This declares the pipeline stages  
 stages:
+  - deploy-staging
   - lint
   - build
   - test
-  - deploy-staging
   - deploy-production
 cache:
   paths:
@@ -91,7 +91,7 @@ pytest:
 deploy_staging_backend:
   stage: deploy-staging
   script:
-    - apt install git
+    - apt-get install git
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
     - git checkout dev
@@ -99,6 +99,10 @@ deploy_staging_backend:
     - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
     - git push staging_backend dev:master
     - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
+    # - apt-get update -qy
+    # - apt-get install -y ruby-dev
+    # - gem install dpl
+    # - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_STAGING_API_KEY
   environment:
     name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
