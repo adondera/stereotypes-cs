@@ -4,7 +4,7 @@ Module that deals with all logic related to consent forms
 """
 import os
 
-from flask import request
+from flask import request, current_app
 from flask_restful import Resource
 from cloudinary.uploader import upload
 
@@ -38,8 +38,7 @@ class ConsentForm(Resource):
         parent = data['parent']
         signature = data['signature']
 
-        if os.environ['APP_SETTINGS'] != "config.TestingConfig" \
-                and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
+        if not current_app.config['TESTING']:
             upload_result = upload(signature, folder="signatures")
             signature = upload_result["secure_url"]
 

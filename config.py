@@ -1,10 +1,17 @@
+# pylint: disable=too-few-public-methods
+"""
+Module with different configuration options for the flask application
+"""
 import os
-import secrets
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+    """
+    Parent class for different configurations.
+    Defines default values for dependencies.
+    """
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
@@ -18,20 +25,24 @@ class Config(object):
 
 
 class ProductionConfig(Config):
+    """
+    Configuration for the production server
+    """
     DEBUG = False
 
 
 class StagingConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class DevelopmentConfig(Config):
+    """
+    Configuration for the development server
+    """
     DEVELOPMENT = True
     DEBUG = True
 
 
 class TestingConfig(Config):
+    """
+    Configuration for local testing
+    """
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://test:test@localhost:5432/test'
@@ -42,6 +53,8 @@ class TestingConfig(Config):
 
 
 class CITestingConfig(TestingConfig):
-    TESTING = True
+    """
+    Configuration used for CI pipeline testing
+    """
     SQLALCHEMY_DATABASE_URI = 'postgresql://test:test@postgres:5432/test'
     REDIS_URL = 'redis://:@redis:6379/0'
