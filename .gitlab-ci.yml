@@ -7,10 +7,10 @@ variables:
   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
 #This declares the pipeline stages  
 stages:
-  - deploy-staging
   - lint
   - build
   - test
+  - deploy-staging
   - deploy-production
 cache:
   paths:
