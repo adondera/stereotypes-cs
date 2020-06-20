@@ -91,7 +91,7 @@ pytest:
 deploy_staging_backend:
   stage: deploy-staging
   script:
-    - apk install git
+    - apk add git
     - git config user.email "a.d.manolache@student.tudelft.nl"
     - git config user.name "amanolache"
     - git checkout dev
