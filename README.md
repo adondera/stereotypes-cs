@@ -24,6 +24,10 @@ CSE2000 Software Project
   * [Installation](#installation-electric_plug)
   * [Run in Docker](#run-in-docker-whale)
 * [Usage](#zap-usage)
+  * [Folder Structure](#folder-structrue-file_folder)
+  * [Application workflow](#application-workflow-repeat)
+* [Running the tests](#runner-running-the-tests)
+* [Coding style](#mag-coding-style)
 * [Deployment](#rocket-deployment)
 * [Contributing](#raised_hands-contributing)
 * [Issue Board](#pushpin-issue-board)
@@ -51,32 +55,9 @@ The following repository contains the source code from the 2019-2020 CSE200 Soft
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites :gear:
-A step by step series of examples that tell you how to get a development env running
+A step by step series of examples that tell you how to get a development env running.
 
-#### Back-end
-Install Python
-
-```
-$ python3 --version
-```
-Install Pip
-
-```
-$ pip3 --version
-```
-
-Install Postgresql
-
-```
-$ which psql
-```
-Install all dependencies
-
-```
-$ pip3 install requirements.txt
-```
-
-#### Front-end
+#### Client-side
 
 Install npm and Nodejs
 
@@ -91,10 +72,51 @@ Install React
 $ sudo npm install react-scripts@3.4.1 -g 
 ```
 
+#### Server-side
+
+Install *Python*:
+```
+$ python3 --version
+```
+
+Install *Pip*:
+```
+$ pip3 --version
+```
+
+Install *PostgreSql*:
+```
+$ which psql
+```
+
+Install all dependencies:
+```
+$ pip3 install requirements.txt
+```
+
 For more documentation, please consult the Dockerfiles present in each application.
 
 ### Installation :electric_plug:
-A step by step series of examples that tell you how to get a development env running
+A step by step series of examples that tell you how to get a development env running.
+
+### Starting the server :hot_pepper:
+Reference to server README.md
+
+To start the server execute:
+
+```
+$ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
+```
+
+### Starting the client application :desktop_computer:
+Reference to client README.md
+
+To run the application execute:
+
+```
+$ npm install
+$ npm run start
+```
 
 ### Run in Docker :whale:
 
@@ -130,7 +152,11 @@ $ sudo docker-compose up
 
 ## :zap: Usage 
 
-Register a child via the consent app. Log-in with username **ADMIN** , password **ADMIN** and you can complete a quiz.
+***A comprehensive documentation can be found at: https://app.swaggerhub.com/apis-docs/adondera/StereotypesCS/1.0.0*** 
+
+There you have all the necessary information to make requests to the server that was used for this project.
+
+
 
 ### Folder structrue :file_folder:
 
@@ -211,53 +237,72 @@ How are the folders organised. Where to find stuff.
 | runtime.txt | python version (for deployment)|
 | server.py | running the server application|
 
+### Application workflow :repeat:
 
-### Starting the server :hot_pepper:
-Reference to server README.md
+1. Log-in with username **admin** and password **admin** 
+1. Select a test version and press "Load Question" to enter the test
+1. Register a child via the consent app.
+1. You should now see the child name on the starting page. 
+1. Press start to start the test
+1. Follow the instructions to complete the test
+1. At the end you can enter additional notes in the open box
+1. Use the **NEMO** code to submit the test 
+1. You should be redirected back to the start page
 
-Start the server
-
-```
-$ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
-```
-
-
-### Starting the application :desktop_computer:
-Reference to client README.md
-
-Run application 
-
-```
-$ npm install
-$ npm run start
-```
+For the dissemination application the test can be started directly, without having to login or to complete the consent form.
 
 ## :runner: Running the tests  
 
-How to run the automated tests for this system
+Explaining how to run the automated tests for this system.
 
-### Client
+### Client-side
 
-Navigate to each application
+Navigate to each application directory and run:
 
 ```
 $ npm test
 ```
 
-### Back-end
+### Server-side
 
+Make sure you have *pytest* installed:
+```
+$ pytest --version
+```
+
+Select the testing configuration:
+```
+$ export APP_SETTINGS=config.TestingConfig
+```
+
+To run all tests use:
 ```
 $ pytest api
 ```
 
-## :mag: Coding style tests
+You can also run individual tests with:
+```
+$ pytest api -k test_file.py
+```
+
+To run tests with coverage use:
+```
+$ coverage run --source api --branch -m pytest api
+$ coverage report
+```
+
+
+
+## :mag: Coding style
+
+Explaining how to run the static analysis tools for this system.
 
 ### Client-side
 
 For the client-side we used ***lintJS*** as a static analysis tool.
 
 ```
-Give an example
+TO DO
 ```
 
 ### Server-side
@@ -277,6 +322,8 @@ To run pylint use:
 ```
 $ pylint --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api
 ```
+
+You should get a pylint message that looks like this: *"Your code has been rated at 8.32/10"*
 
 ## :rocket: Deployment 
 
@@ -315,6 +362,8 @@ Any contributions you make are **greatly appreciated**.
 * [Material UI](https://material-ui.com/) - blabla
 * [React-Redux](https://react-redux.js.org/) - blabla
 * [React-Router](https://github.com/ReactTraining/react-router) - blabla
+
+TO DO!
 
 ### Server-side
 
