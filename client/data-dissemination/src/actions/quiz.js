@@ -11,7 +11,7 @@ export const sendQuiz = (email) => {
     return async (dispatch, getState) => {
     var answerData = {}
     answerData.data = [...getState().quizReducer.answers]
-    if (email) answerData.data.email = email
+    if (email !== false) answerData.email = email
     return sendData(answerData)
                         .then((response) => {response.statusText === 'OK' ? dispatch({type: 'FETCH_RESULT_SUCCESS', result: response.data}) : dispatch({type: 'FETCH_RESULT_FAILED'})})
                         .then(dispatch({type: 'FINISH_QUIZ'}))

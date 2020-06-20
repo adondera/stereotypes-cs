@@ -5,7 +5,7 @@ import Quiz from './containers/Quiz';
 import Home from './components/Home';
 import Results from './components/Results'
 import './App.css';
-import { incrementQuizIndex, finishQuiz, loadQuiz } from './actions/app';
+import { incrementQuizIndex, loadQuiz } from './actions/app';
 import { sendQuiz } from './actions/quiz';
 import { connect } from 'react-redux';
 
