@@ -2,24 +2,16 @@
 """
 Module that deals with all logic related to consent forms
 """
-import os
-
-from flask import request
-from flask_jwt_extended import jwt_required
+from flask import request, current_app
 from flask_restful import Resource
 from cloudinary.uploader import upload
 
 import api.endpoints.validation as valid
-from api.models import Consent, add_to_db, Participant
-from .constants import ANSWERS
-from .sockets import red
-from .. import socketio
-
-
-class ConsentResource(Resource):
-    @jwt_required
-    def post(self):
-        return request.get_json()
+from api.models import Consent, Participant
+from api.models.helpers import add_to_db
+from api.endpoints.constants import ANSWERS
+from api.endpoints.sockets import red
+from api import socketio
 
 
 class ConsentForm(Resource):
@@ -30,6 +22,7 @@ class ConsentForm(Resource):
         On a post request on the /form endpoint we add the consent form to the database
         :return: If the request is valid, a 200 status code, otherwise a 400 code
         """
+
         validators = {
             'parent': valid.validate_person_data,
             'children': valid.validate_children_data,
@@ -44,12 +37,12 @@ class ConsentForm(Resource):
         parent = data['parent']
         signature = data['signature']
 
-        if os.environ['APP_SETTINGS'] != "config.TestingConfig" \
-                and os.environ['APP_SETTINGS'] != "config.CITestingConfig":
+        if not current_app.config['TESTING']:
             upload_result = upload(signature, folder="signatures")
             signature = upload_result["secure_url"]
 
-        cons = Consent.create_consent(parent_first_name=parent['firstName'], parent_last_name=parent['lastName'],
+        cons = Consent.create_consent(parent_first_name=parent['firstName'],
+                                      parent_last_name=parent['lastName'],
                                       signature=signature, email=data['email'])
 
         for child in data['children']:

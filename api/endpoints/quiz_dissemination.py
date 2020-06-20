@@ -12,7 +12,8 @@ from scipy.stats import ttest_ind as ttest
 from api import mail
 from api.endpoints import validation as valid
 
-from api.endpoints.constants import ANSWERS
+from api.endpoints.constants import ANSWERS, DISSEMINATION_NO_ASSOCIATION, \
+    DISSEMINATION_RESULT_FEMALE, DISSEMINATION_RESULT_MALE
 from api.endpoints.quiz_factory import QuizFactory
 from api.models import Question
 
@@ -22,7 +23,8 @@ class DisseminationQuiz(Resource):
     Returns a quiz for the data dissemination application.
     """
 
-    def get(self):
+    @staticmethod
+    def get():
         """
         On a get request that uses this resource it returns
         a quiz for the data dissemination application.
@@ -31,7 +33,7 @@ class DisseminationQuiz(Resource):
         try:
             filename = os.path.join(current_app.static_folder,
                                     "IATs/{}.json".format("dissemination"))
-            return QuizFactory(filename).create_quiz(), 200
+            return QuizFactory(filename).create_dissemination_quiz(), 200
         except:
             return ANSWERS[404], 404
 
@@ -41,7 +43,8 @@ class CalculateResult(Resource):
     Defines the handlers for the /dummy route
     """
 
-    def get_block_information(self, block_nr, data):
+    @staticmethod
+    def get_block_information(block_nr, data):
         """
         Gets the specific information from a block in the IAT.
         :param block_nr: The number of the block (1 to 5)
@@ -54,7 +57,8 @@ class CalculateResult(Resource):
                                  filter(lambda x: x["block_nr"] == block_nr, data['data'])))
         return question, block_answers
 
-    def send_email(self, res, email=None):
+    @staticmethod
+    def send_email(res, email=None):
         """
         Sends the email with the results to the recipient
         :param res: The result of the IAT
@@ -71,8 +75,7 @@ class CalculateResult(Resource):
         The result can be either that stereotypes were found, or that they weren't found.
         """
         validators = {
-            "data": valid.validate_accept,
-            "email": valid.validate_email
+            "data": valid.validate_dissemination_answers,
         }
 
         data = valid.validate(valid.read_form_data(request), validators)
@@ -81,29 +84,20 @@ class CalculateResult(Resource):
 
         data = valid.read_form_data(request)
 
-        question3, block_3_answers = self.get_block_information(3, data)
-        question5, block_5_answers = self.get_block_information(5, data)
+        question3, block_3_answers = self.get_block_information(2, data)
+        question5, block_5_answers = self.get_block_information(4, data)
 
         t_statistic, p_value = ttest(block_3_answers, block_5_answers, equal_var=False)
 
-        response = "De resultaten laten zien dat je geen vooringenomenheid hebt."
+        response = DISSEMINATION_NO_ASSOCIATION
 
         if p_value <= 0.1:
             if t_statistic < 0:
-                response = self.get_bias_text(question3.as_dict())
+                response = DISSEMINATION_RESULT_MALE
             else:
-                response = self.get_bias_text(question5.as_dict())
+                response = DISSEMINATION_RESULT_FEMALE
 
-        if 'email' in data:
+        if 'email' in data and valid.validate_email(data['email']):
             self.send_email(res=response, email=data['email'])
 
         return response, 200
-
-    def get_bias_text(self, question_dict):
-        cat_left = question_dict["categories_left"]
-        cat_right = question_dict['categories_right']
-
-        return "De resultaten laten zien dat je een lichte neiging hebt om {} te associëren met {} en {} met {}"\
-        .format(cat_left[0]["name"].lower(), cat_left[1]["name"].lower(), 
-                cat_right[0]["name"].lower(), cat_right[1]["name"].lower())
-                                                                

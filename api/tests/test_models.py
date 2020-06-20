@@ -1,3 +1,5 @@
+# pylint: disable=unused-argument
+# init_db fixture is run automatically, therefore we need it
 """Tests for database models."""
 import unittest
 import pytest
@@ -17,15 +19,15 @@ class TestUserModel(unittest.TestCase):
 
 def test_constructor():
     """Test User class constructor."""
+
     user = User(username="test", password="test")
     assert user.username == 'test'
     assert user.password == 'test'
 
 
 def test_create_user(init_db):
-    # pylint: disable=unused-argument
-    # init_db fixture is run automatically, therefore we need it
     """Test creation of a new user instance in the database."""
+
     User.create_user(username='test', password='test')
     user = User.query.filter_by(username='test').first()
     assert user is not None
@@ -35,7 +37,11 @@ def test_create_user(init_db):
 
 
 def test_create_form_result(init_db):
-    # pylint: disable=unused-argument
-    Consent.create_consent(parent_first_name='alin', parent_last_name='bandera', signature='signature')
+    """Test creation of a new consent form in the database."""
+
+    Consent.create_consent(parent_first_name='alin',
+                           parent_last_name='bandera',
+                           signature='signature')
+
     result = Consent.query.filter_by(parent_first_name='alin').first()
     assert result.parent_first_name == 'alin'
