@@ -53,36 +53,56 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites :gear:
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+### Back-end
+Install Python
 
 ```
-Give the example
+foo@bar:~$ python3 --version
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-### Installation :electric_plug:
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Install Pip
 
 ```
-Give the example
+foo@bar:~$ pip3 --version
 ```
 
-And repeat
+Install Postgresql
 
 ```
-until finished
+foo@bar:~$ which psql
+```
+Install all dependencies
+
+```
+foo@bar:~$ pip3 install requirements.txt
+```
+Start the server
+
+```
+foo@bar:~$ gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:8000 server:app
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+### Front-end
+
+Install npm and Nodejs
+
+```
+foo@bar:~$ node --version
+foo@bar:~$ npm --version
+```
+
+Install React 
+
+```
+foo@bar:~$ sudo npm install react-scripts@3.4.1 -g 
+```
+Run application 
+
+```
+foo@bar:~$ npm install
+foo@bar:~$ npm run start
+```
+
+For more documentation, please consult the Dockerfiles present in each application.
 
 ### Run in Docker :whale:
 
@@ -118,7 +138,7 @@ foo@bar:~$ sudo docker-compose up
 
 ## :zap: Usage 
 
-Some intro here
+Register a child via the consent app. Log-in with username **ADMIN** , password **ADMIN** and you can complete a quiz.
 
 ### Folder structrue :file_folder:
 
@@ -209,27 +229,25 @@ Reference to client README.md
 
 ## :runner: Running the tests  
 
-Explain how to run the automated tests for this system
+How to run the automated tests for this system
 
-### Break down into end to end tests
+### Client
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
+Navigate to each application
 
 ```
-Give an example
+foo@bar:~$ npm test
+```
+
+### Back-end
+
+```
+foo@bar:~$ pytest api
 ```
 
 ## :rocket: Deployment 
 
-Add additional notes about how to deploy this on a live system
+Use Docker to deploy your application :whale: .
 
 ## :raised_hand: Contributing
 
@@ -294,10 +312,3 @@ Any contributions you make are **greatly appreciated**.
 ## :pencil: License 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
-## :star2: Acknowledgements 
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
