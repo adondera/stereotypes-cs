@@ -91,19 +91,12 @@ pytest:
 deploy_staging_backend:
   stage: deploy-staging
   script:
-    # - apk add git
-    # - git config user.email "a.d.manolache@student.tudelft.nl"
-    # - git config user.name "amanolache"
-    # - git checkout dev
-    # - git remote remove staging_backend
-    # - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
-    # - git push staging_backend dev:master
-    # - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
-    - apk update
-    - apk add git ruby-dev
-    - gem install dpl
-    # - dpl heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
-    - dpl heroku git --api_key $HEROKU_API_KEY --app nemo-live-science-dev
+    - apk add git
+    - git config user.email "a.d.manolache@student.tudelft.nl"
+    - git config user.name "amanolache"
+    - git remote remove staging_backend
+    - git remote add staging_backend https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
+    - git push staging_backend
   environment:
     name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
