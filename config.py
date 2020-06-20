@@ -60,5 +60,5 @@ class CITestingConfig(TestingConfig):
     REDIS_URL = 'redis://:@redis:6379/0'
 
 
-class DockerConfig(TestingConfig):
+class DockerConfig(CITestingConfig):
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@db:5432/testdb'
