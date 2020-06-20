@@ -128,6 +128,7 @@ deploy_staging_collection:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
+    - cd client/data-collection
     - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
@@ -144,6 +145,7 @@ deploy_staging_dissemination:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
+    - cd client/data-dissemination
     - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-staging
@@ -155,14 +157,12 @@ deploy_staging_dissemination:
 
 deploy_production_backend:
   stage: deploy-production
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout master
-    - git remote remove pro
-    - git remote add pro https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science.git
-    - git push pro master:master
-    - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=nemo-live-science --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-production
     url: https://nemo-live-science.herokuapp.com/
