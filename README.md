@@ -339,11 +339,17 @@ You should get a pylint message that looks like this: *"Your code has been rated
 
 ## :rocket: Deployment 
 
-TO DO!
+For deploying our applications, we have used Heroku. They can either be deployed manually from the GitLab CI, or you can deploy them from your own terminal using git.
 
-How to deploy the project on a live system.
+For deploying any of the client applications you can execute the following command:
 
-Use Docker to deploy your application :whale: .
+`git subtree push --prefix client/name_of_folder name_of_the_remote master`
+
+In our case, the name of the folder is either *client-consent-app*, *data-collection* or *data-dissemination*
+
+For deploying the Flask server you can directly run:
+
+`git push name_of_the_remote name_of_your_branch:master`
 
 >* The ***consent form*** can be found at [https://frontend-nemo.herokuapp.com/](https://frontend-nemo.herokuapp.com/)
 >* The ***collection application*** can be found at [https://collection-nemo.herokuapp.com/](https://collection-nemo.herokuapp.com/)
