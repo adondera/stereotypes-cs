@@ -16,6 +16,7 @@ class Login(Resource):
     Login resource that deals with the first authentication
     We get a access and refresh token here
     """
+
     def post(self):
         """Route for application login.
             Sends back a JSON with an access and a refresh token"""
@@ -49,6 +50,7 @@ class FreshLogin(Resource):
     Resource that deals with authenticating to get back an access token
     No refresh token is provided
     """
+
     @jwt_refresh_token_required
     def post(self):
         """Route to get a fresh access token by entering credentials again

@@ -4,8 +4,8 @@ Class that deals with socket communication for the queue management
 import json
 import redis
 from flask_jwt_extended import jwt_required
-from .. import socketio
 from api import app
+from api import socketio
 
 red = redis.from_url(app.config["REDIS_URL"])
 

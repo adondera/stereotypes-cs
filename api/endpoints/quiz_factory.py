@@ -31,6 +31,7 @@ class QuizFactory:
         Creates a quiz by combining the different components
         :return: The response to the collection application with all the questions
         """
+
         self.response = []
         self.create_information_beginning(COLLECTION_QUIZ_BEGINNING_TEXT)
         if self.video.data['before']:
@@ -52,6 +53,7 @@ class QuizFactory:
         Creates a quiz for the data dissemination application
         :return: The response to the dissemination application with the list of questions
         """
+
         self.response = []
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
@@ -95,6 +97,7 @@ class VideoFactory:
         The video is taken randomly, but it can also be taken from its id from data
         :return: Returns that question as a response
         """
+
         video = Question.query.filter_by(id=self.data['id']).first()
         video.text = self.create_video_text()
         print(video.images)
@@ -120,6 +123,7 @@ class DemographicsFactory:
         Creates a response object with all the demographics questions
         :return: The response with a list of questions
         """
+
         self.response.append({
             "q_type": QuestionType.information.value,
             "text": "Je bent er bijna, nog een paar vragen!"
@@ -143,6 +147,7 @@ class EATFactory:
         Create a response object with the likert scale questions
         :return: The response with a list of questions
         """
+
         for q_id in self.data:
             self.response.extend(Question.query.filter_by(id=q_id).first().make_response())
         return self.response
@@ -162,6 +167,7 @@ class IATFactory:
         Creates an IAT response object
         :return: A list with all the IAT questions
         """
+
         for block_nr, phase in enumerate(self.data, 5 - len(self.data)):
             self.create_guide_text(phase, block_nr)
             self.load_phase(phase, block_nr)
@@ -174,6 +180,7 @@ class IATFactory:
         :param phase: Object with the left and right categories
         :return: A list of questions for the phase
         """
+
         questions = list((map(lambda x: {
             "id": x.id,
             "left": list(map(lambda y: y['id'], x.as_dict()['categories_left'])),
@@ -206,6 +213,7 @@ class IATFactory:
         :param phase: The left and right categories in an object
         :return: A newly created question
         """
+
         images = Image.query.filter(
             or_(Image.category_id.in_(phase['left_categ']),
                 Image.category_id.in_((phase['right_categ'])))).all()
@@ -229,6 +237,7 @@ class IATFactory:
         :param phase: Object that contains the left and right categories in the phase
         :return: The text to be showed before the phase
         """
+
         guide_text = BLOCK_START_TEXT[block_nr].copy()
         guide_text['q_type'] = QuestionType.binary_information.value
         c_left = list(map(lambda x: (x.name, x.id),
