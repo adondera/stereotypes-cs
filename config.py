@@ -51,15 +51,8 @@ class TestingConfig(Config):
         'port': '5432',
     }
     
-class DockerConfig(Config):
-    TESTING = True
-    POSTGRES = {
-        'user': 'postgres',
-        'pw': 'password',
-        'db': 'testdb',
-        'host': 'db',
-        'port': '5432',
-    }
+class DockerConfig(TestingConfig):
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@db:5432/testdb'
 
 class CITestingConfig(Config):
     TESTING = True
