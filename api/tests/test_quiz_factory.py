@@ -1,10 +1,15 @@
+# pylint: disable=unused-argument
+# init_db fixture is run automatically, therefore we need it
+"""Tests for quiz factory module"""
 import os
-from api.endpoints.quiz_factory import QuizFactory, IATFactory
+from api.endpoints.quiz_factory import QuizFactory
 from api.script import populate
 from api.models import QuestionType, Question
 
 
 def test_quiz_factory_constructor(rootdir, init_db, client):
+    """Test that quiz factory creates the correct quiz objects"""
+
     test_file = os.path.join(rootdir, 'test_files/gender-profession.json')
     factory = QuizFactory(test_file)
     assert 'gender_profession' in factory.data
@@ -20,6 +25,7 @@ def test_quiz_factory_iat(rootdir, init_db, client):
     Populates the database and creates a gender IAT
     Tests that the response has the right format
     """
+
     populate()
     test_file = os.path.join(rootdir, 'test_files/gender-profession.json')
     factory = QuizFactory(test_file)

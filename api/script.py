@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long, too-many-locals, too-many-statements
 """Populates the database with data (categories, images, questions)"""
 from api.models import Category, Metacategory, Image, Question, \
     QuestionType, QuestionChoice, Ethnicity, Gender, User, ParticipantInformationType
@@ -6,21 +7,30 @@ from api import db
 
 
 def populate():
+    """Method that populates the databse with data"""
+
     db.session.close()
     db.drop_all()
     db.create_all()
 
     User.create_user("admin", "admin")
 
-    """Method that populates the databse with data"""
-    c_male = Category.create_category(name="Jongen", metacategory=Metacategory.gender)
-    c_female = Category.create_category(name="Meisje", metacategory=Metacategory.gender)
-    c_programmer = Category.create_category(name="Programmeur", metacategory=Metacategory.profession)
-    c_writer = Category.create_category(name="Schrijver", metacategory=Metacategory.profession)
-    c_alone = Category.create_category(name="Alleen", metacategory=Metacategory.social)
-    c_together = Category.create_category(name="Samen", metacategory=Metacategory.social)
-    c_gaming = Category.create_category(name="Gamen", metacategory=Metacategory.hobby)
-    c_tennis = Category.create_category(name="Tennis", metacategory=Metacategory.hobby)
+    c_male = Category.create_category(
+        name="Jongen", metacategory=Metacategory.gender)
+    c_female = Category.create_category(
+        name="Meisje", metacategory=Metacategory.gender)
+    c_programmer = Category.create_category(
+        name="Programmeur", metacategory=Metacategory.profession)
+    c_writer = Category.create_category(
+        name="Schrijver", metacategory=Metacategory.profession)
+    c_alone = Category.create_category(
+        name="Alleen", metacategory=Metacategory.social)
+    c_together = Category.create_category(
+        name="Samen", metacategory=Metacategory.social)
+    c_gaming = Category.create_category(
+        name="Gamen", metacategory=Metacategory.hobby)
+    c_tennis = Category.create_category(
+        name="Tennis", metacategory=Metacategory.hobby)
 
     male_images = [
         'https://res.cloudinary.com/hctr0xmqp/image/upload/v1591276420/Gender/gender_male_1_dh1pbq.png',
@@ -117,22 +127,25 @@ def populate():
     create_likert("Programmeurs zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Programmeurs houden ervan om de beste te zijn")
-    create_likert("Programmeurs zijn gek op computers en hebben weinig andere hobby’s")
+    create_likert(
+        "Programmeurs zijn gek op computers en hebben weinig andere hobby’s")
     create_likert("Programmeur zijn, dat is een beroep voor mannen")
     create_likert("Programmeur zijn, dat is een beroep voor vrouwen")
     create_likert("Schrijvers zijn sociaal. "
                   "Als je sociaal bent maak je makkelijk vrienden en werk je graag samen")
     create_likert("Schrijvers houden ervan om de beste te zijn")
-    create_likert("Schrijvers zijn gek op computers en hebben weinig andere hobby’s")
+    create_likert(
+        "Schrijvers zijn gek op computers en hebben weinig andere hobby’s")
     create_likert("Schrijver zijn, dat is een beroep voor mannen")
     create_likert("Schrijver zijn, dat is een beroep voor vrouwen")
 
-    Question.create_question(q_type=QuestionType.open_question, text="Wat doet een programmeur?")
+    Question.create_question(
+        q_type=QuestionType.open_question, text="Wat doet een programmeur?")
 
     video_female = Image.create_image(link="173d_-zTd1o", description='Role model intervention',
-                               attribute='Female')
+                                      attribute='Female')
     video_male = Image.create_image(link="hEMOMVZbSBE", description='Role model intervention',
-                               attribute='Male')
+                                    attribute='Male')
 
     # video_question
     Question.create_question(
@@ -143,20 +156,23 @@ def populate():
     mc_1 = Question.create_question(q_type=QuestionType.mc_single_answer, text="Hoe oud ben je?",
                                     information=ParticipantInformationType.age)
     for i in range(6, 19):
-        QuestionChoice.create_choice(choice_num=i - 5, q_id=mc_1.id, text=str(i))
+        QuestionChoice.create_choice(
+            choice_num=i - 5, q_id=mc_1.id, text=str(i))
     QuestionChoice.create_choice(choice_num=14, q_id=mc_1.id, text="Anders")
 
     mc_2 = Question.create_question(q_type=QuestionType.mc_multiple_answer,
                                     text="Wat is jouw achtergrond? Er zijn meerdere antwoorden mogelijk.",
                                     information=ParticipantInformationType.ethnicity)
     for i, ethnicity in enumerate(Ethnicity.__iter__(), 1):
-        QuestionChoice.create_choice(choice_num=i, q_id=mc_2.id, text=ethnicity.value)
+        QuestionChoice.create_choice(
+            choice_num=i, q_id=mc_2.id, text=ethnicity.value)
 
     mc_3 = Question.create_question(q_type=QuestionType.mc_single_answer,
                                     text="Ik voel me een ...",
                                     information=ParticipantInformationType.gender)
     for i, gender in enumerate(Gender.__iter__(), 1):
-        QuestionChoice.create_choice(choice_num=i, q_id=mc_3.id, text=gender.value)
+        QuestionChoice.create_choice(
+            choice_num=i, q_id=mc_3.id, text=gender.value)
 
     Question.create_question(q_type=QuestionType.notes, text="Researcher notes",
                              information=ParticipantInformationType.researcher_notes)
@@ -169,11 +185,29 @@ def populate():
 
 
 def create_images(link_array, c_id):
+    """
+    Inserts every image in the array with a category
+
+    Parameters
+    ----------
+    link_array : array
+        an array of links.
+    c_id : int
+        id of a category
+    """
     for link in link_array:
         Image.create_image(link=link[0], description='',
                            attribute=link[1], c_id=c_id)
 
 
 def create_likert(text):
+    """
+    Inserts a likert question with text
+
+    Parameters
+    ----------
+    text : string
+        text for the question.
+    """
     Question.create_question(q_type=QuestionType.likert,
                              text=text)
