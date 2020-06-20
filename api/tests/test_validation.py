@@ -73,6 +73,7 @@ def test_validators():
     res = valid.validate(data, validators)
     assert res == data
 
+
 def test_wrong_mail():
     """Tests that an invalid email is rejected"""
 
@@ -84,6 +85,7 @@ def test_wrong_mail():
     }
     res = valid.validate(data, validators)
     assert res is None
+
 
 def test_empty_mail():
     """Tests that an empty email is accepted"""
