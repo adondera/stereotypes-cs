@@ -7,7 +7,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+  baseURL: `https://nemo-live-science-dev.herokuapp.com`,
   responseType: "json",
 });
 

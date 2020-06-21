@@ -14,7 +14,6 @@ function App({ quizIndex, quizData, quizIsLoaded, quizResultAvailable, quizResul
   const [state, setstate] = useState(false)
   useEffect(() => {
     if(state === false) {
-      console.log('mounted')
       loadQuiz()
       setstate(true)
     }

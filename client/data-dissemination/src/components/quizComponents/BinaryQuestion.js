@@ -25,7 +25,7 @@ const BinaryQuestion = (props) => {
       answers: wrong,
       question_id: props.id,
       img_id: props.image.link,
-      block_nr: props.block_nr
+      block_nr: props.block_nr,
     };
     props.registerAnswer(answer);
     setTimeout(props.onNext, 200);
@@ -33,7 +33,11 @@ const BinaryQuestion = (props) => {
 
   // handle click on left pad
   const onClickLeft = () => {
-    if (props.categories_left.map(category => category.name).indexOf(props.image.category) > -1) {
+    if (
+      props.categories_left
+        .map((category) => category.name)
+        .indexOf(props.image.category) > -1
+    ) {
       sumbitAnswerToStore();
     } else {
       setwrong(wrong + 1);
@@ -42,7 +46,11 @@ const BinaryQuestion = (props) => {
 
   // handle click on right pad
   const onClickRight = () => {
-    if (props.categories_right.map(category => category.name).indexOf(props.image.category) > -1) {
+    if (
+      props.categories_right
+        .map((category) => category.name)
+        .indexOf(props.image.category) > -1
+    ) {
       sumbitAnswerToStore();
     } else {
       setwrong(wrong + 1);
@@ -54,8 +62,13 @@ const BinaryQuestion = (props) => {
       <Grid container spacing={0}>
         {/* left text */}
         <Grid className={classes.paper} item xs={4}>
-          {props.categories_left.map(category => (
-            <Typography variant="h6">{category.name}</Typography>
+          {props.categories_left.map((category, index) => (
+            <React.Fragment key={index}>
+              <Typography variant="h6">{category.name}</Typography>
+              {index < props.categories_left.length - 1 ? (
+                <Typography variant="h6">of</Typography>
+              ) : null}
+            </React.Fragment>
           ))}
         </Grid>
         {/* X */}
@@ -70,12 +83,17 @@ const BinaryQuestion = (props) => {
         </Grid>
         {/* right text */}
         <Grid className={classes.paper} item xs={4}>
-        {props.categories_right.map(category => (
-            <Typography variant="h6">{category.name}</Typography>
+          {props.categories_right.map((category, index) => (
+            <React.Fragment key={index}>
+              <Typography variant="h6">{category.name}</Typography>
+              {index < props.categories_right.length - 1 ? (
+                <Typography variant="h6">of</Typography>
+              ) : null}
+            </React.Fragment>
           ))}
         </Grid>
         {/* choice card left */}
-        <Grid xs={12} style={{ marginTop: "3em" }} />
+        <Grid item xs={12} style={{ marginTop: "3em" }} />
         <ChoiceCard onClick={onClickLeft} imageLoaded={imageLoaded} />
         <Grid item xs={4}>
           {/* image card */}

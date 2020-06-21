@@ -13,7 +13,6 @@ export const finishQuiz = () => {
 }
 
 export const quizLoaded = (quizData) => {
-    console.log(quizData)
     return {
         type: 'QUIZ_LOADED',
         quizData: [...quizData],
@@ -29,6 +28,6 @@ export const quizLoadFailed = () => {
 }
 export const loadQuiz = () => {
     return async function(dispatch) {
-        return getQuiz().then(res => {console.log(res); dispatch(quizLoaded(res.data))}).catch((err) => dispatch(quizLoadFailed()))
+        return getQuiz().then(res => {dispatch(quizLoaded(res.data))}).catch((err) => dispatch(quizLoadFailed()))
     }
 }
