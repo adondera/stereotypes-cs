@@ -14,6 +14,13 @@ The following repo contains the source code for the client data-collection appli
 
 ## How to run
 
+### Update .env
+
+Make sure the details of your application are correctly written in .env file:
+
+``cp .env_example .env``
+
+
 In the project directory, you can run:
 
 ### `npm start`
@@ -52,7 +59,7 @@ google-chrome --kiosk http://example.com/
 ###### MacOS
 
 ```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=localhost:3000
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=http://localhost:3000
 ```
 
 Then open Google Chrome and go to [localhost:3000](http://localhost:3000).

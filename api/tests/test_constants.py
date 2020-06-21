@@ -1,3 +1,5 @@
+"""This module contains constants that are used for testing"""
+
 consent_data = {
     "isSigned": True,
     "hasValidFields": 1,
@@ -48,6 +50,43 @@ answer = {
             "participant_id": 1,
             "question_id": 19,
             "answers": 1,
+            "before_video": True
+        },
+        {
+            "participant_id": 1,
+            "question_id": 20,
+            "open_answer": "This is a comment for participant_id=1",
+            "before_video": True
+        },
+        {
+            "participant_id": 1,
+            "question_id": 1,
+            "answers": 1,
+            "before_video": True
+        }
+    ],
+    "version": "A"
+}
+
+GENDER_ETHNICITY_NOANSWER = {
+    "id": 1,
+    "data": [
+        {
+            "participant_id": 1,
+            "question_id": 17,
+            "answers": 14,
+            "before_video": True
+        },
+        {
+            "participant_id": 1,
+            "question_id": 18,
+            "answers": [1],
+            "before_video": True
+        },
+        {
+            "participant_id": 1,
+            "question_id": 19,
+            "answers": 3,
             "before_video": True
         },
         {

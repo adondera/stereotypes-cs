@@ -1,9 +1,16 @@
 import { sendData } from '../utils/requests/postRequsts';
 const questionsReducer = (
-  state = { answers: [], before_video: true, participant_id: undefined },
+  state = { answers: [], before_video: true, participant_id: undefined, version: 'R' },
   action
 ) => {
   switch (action.type) {
+
+    case 'SET_VERSION':
+      return {
+        ...state,
+        version: action.version
+      }
+
     /*
     Save question answer in store
     */
@@ -24,13 +31,15 @@ const questionsReducer = (
     Clear question results from store
     */
     case 'CLEAR_QUESTIONS':
-      return { ...state, answers: [] };
+      return { ...state, before_video: true, participant_id: undefined, answers: [] };
 
     /*
     Send question results to server
     */
     case 'SEND_QUESTIONS_ANSWERS':
-      sendData(state.answers, action.childId);
+      const succes = () => action.dispatch({type: 'SEND_SUCCESS'})
+      const fail = () => action.dispatch({type: 'SEND_FAIL'})
+      sendData(state.answers, action.childInfo, state.version,succes, fail);
       return { ...state, answers: [] };
 
     case 'VIDEO_WAS_PLAYED':

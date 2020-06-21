@@ -29,36 +29,36 @@ class Form extends Component {
     this.setState({ isLoading: true });
     // save the data.
     postData(
-        submitData,
-        () => {
-          this.setState({ isSubmitted: true });
-          setTimeout(function () {
-            window.location.reload();
-          }, reload_threshold);
-        },
-        () => {
-          this.setState({ isLoading: false });
-          alert(alertMessage);
-        }
+      submitData,
+      () => {
+        this.setState({ isSubmitted: true });
+        setTimeout(function () {
+          window.location.reload();
+        }, reload_threshold);
+      },
+      () => {
+        this.setState({ isLoading: false });
+        alert(alertMessage);
+      }
     );
   };
 
   render() {
     return (
-        <div className="Form">
-          {this.state.isSubmitted ? (
-              <React.Fragment>
-                <h1>SUCCESS</h1>
-                <p>U kunt nu verdergaan met de vragenlijst.</p>
-              </React.Fragment>
-          ) : (
-                    <React.Fragment>
-                      <Header />
-                      <Body />
-                      <Footer isLoading={this.state.isLoading} onSubmit={this.onSubmit} />
-                    </React.Fragment>
-                )}
-        </div>
+      <div className="Form">
+        {this.state.isSubmitted ? (
+          <React.Fragment>
+            <h1>SUCCESS</h1>
+            <p>U kunt nu verdergaan met de vragenlijst.</p>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Header />
+            <Body />
+            <Footer isLoading={this.state.isLoading} onSubmit={this.onSubmit} />
+          </React.Fragment>
+        )}
+      </div>
     );
   }
 }

@@ -1,8 +1,7 @@
 const io = require("socket.io-client");
 let socket = undefined;
 export const withToken = (token) => {
-  console.log(token);
-  socket = io("wss://nemo-live-science-dev.herokuapp.com", {
+  socket = io(`${process.env.REACT_APP_SOCKETS_URL}`, {
     transportOptions: {
       polling: {
         extraHeaders: {
@@ -15,16 +14,13 @@ export const withToken = (token) => {
 
 export const startSocket = () => {
   socket.on("free-laptops", () => {
-    console.log("LISTENS");
   });
 };
 
 export const switchListening = (dispatch, hasActiveChild) => {
   socket.off("free-laptops");
-  console.log(hasActiveChild);
   if (hasActiveChild) {
     socket.on("free-laptops", () => {
-      console.log("OCUPAT");
     });
   } else {
     socket.on("free-laptops", () => {

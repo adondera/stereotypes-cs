@@ -9,9 +9,13 @@ import "../styles/Question.css";
 
 const QueueManagament = (props) => {
   useEffect(() => {
-    if (props.questionIndex === 0) {
+    if (props.questionIndex === 0 && props.shouldRemoveChild) {
       props.removeChild();
       props.getChild();
+    } else {
+      if(!props.hasActiveChild) {
+        props.getChild();
+      }
     }
     // eslint-disable-next-line
   }, [props.questionIndex]);
@@ -22,11 +26,13 @@ const QueueManagament = (props) => {
   }, [props.hasActiveChild]);
   return (
     <Fragment>
+      <div style={{paddingTop: 200}}>
       <Typography variant="h1">Hello,</Typography>
       <Typography className={"blink_me"} variant="h1" style={{ color: blue }}>
         {" " + props.activeChild.firstName + " "}
         {props.activeChild.lastName}
       </Typography>
+      </div>
     </Fragment>
   );
 };

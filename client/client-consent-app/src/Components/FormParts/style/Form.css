@@ -12,11 +12,10 @@
 }
 
 .Body {
-  padding-top: 60px;
+  padding-top: 40px;
 }
 
 .Footer {
-  padding-top: 10px;
   text-align: center;
   margin: auto;
   padding-bottom: 20px;
@@ -25,7 +24,7 @@
 .Signature {
   margin: auto;
   width: 70%;
-  height: 60px;
+  height: 200px;
   border-style: solid;
   border-width: 1px;
   overflow: hidden;

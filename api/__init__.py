@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_socketio import SocketIO
+from flask_mail import Mail
 
 # Flask setup
 app = Flask(__name__)
@@ -24,14 +25,21 @@ bcrypt = Bcrypt(app)
 
 # JSON Access Token setup
 jwt = JWTManager(app)
-app.config['JWT_ACCESS_TOKEN_EXPIRES']=datetime.timedelta(hours=12)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=12)
 
 # Database setup
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % app.config['POSTGRES']
+# Email setup
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
+
+mail = Mail(app)
 
 @app.route('/')
 @app.route('/index')
@@ -40,14 +48,11 @@ def index():
     return "Hello, World!"
 
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.close()
+
+
 from .endpoints import bp as endpoints_bp
 
 app.register_blueprint(endpoints_bp)
-
-
-# @app.before_request
-# def before_request():
-#     if not request.is_secure and 'DYNO' in os.environ and request.url.startswith('http://'):
-#         url = request.url.replace('http://', 'https://', 1)
-#         code = 308
-#         return redirect(url, code=code)

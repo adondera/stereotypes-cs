@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use
 """Module that is used for sending data that can be shown on the admin dashboard"""
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
@@ -32,7 +32,8 @@ def today_participants():
         The number of participants who took the test today.
     """
 
-    today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
+    now = datetime.now(timezone.utc)
+    today = datetime(now.year, now.month, now.day)
     return Participant.query.filter(and_(Participant.date >= today,
                                          Participant.quiz_version.isnot(None))).count()
 
@@ -47,9 +48,10 @@ def yesterday_participants():
         The number of participants who took the test yesterday.
     """
 
-    date = datetime.today() - timedelta(days=1)
+    date = datetime.now(timezone.utc) - timedelta(days=1)
     yesterday = datetime(date.year, date.month, date.day)
-    today = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
+    now = datetime.now(timezone.utc)
+    today = datetime(now.year, now.month, now.day)
     return Participant.query.filter(and_(Participant.date >= yesterday,
                                          Participant.date < today,
                                          Participant.quiz_version.isnot(None))).count()
@@ -65,7 +67,7 @@ def yesterday_by_this_time_participants():
         The number of participants who took the test yesterday by this time.
     """
 
-    yesterday_this_time = datetime.today() - timedelta(days=1)
+    yesterday_this_time = datetime.now(timezone.utc) - timedelta(days=1)
     yesterday_00 = datetime(yesterday_this_time.year,
                             yesterday_this_time.month,
                             yesterday_this_time.day)
@@ -85,7 +87,7 @@ def last_hour_participants():
         The number of participants who took the test in the last hour.
     """
 
-    last_hour = datetime.today() - timedelta(hours=1)
+    last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
     return Participant.query.filter(and_(Participant.date >= last_hour,
                                          Participant.quiz_version.isnot(None))).count()
 
@@ -235,8 +237,32 @@ class Stats(Resource):
             'ethnicity_distribution': ethnicity_distribution()
         }
 
-        gender_distribution()
         return data, 200
+
+
+class ActiveParticipants(Resource):
+    """Resource that deals with retrieving the names of active participants (last hour)"""
+
+    @jwt_required
+    def get(self):
+        """
+        On a get request on the /active-participants endpoint
+        we return the names of current participants
+        :return: If the request is valid, the JSON object and code 200
+        """
+
+        last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
+        result = Participant.query.filter(Participant.date >= last_hour).all()
+
+        active_participants = []
+        for res in result:
+            data = {
+                'name': res.first_name + " " + res.last_name,
+                'finished': res.quiz_version is not None
+            }
+            active_participants.append(data)
+
+        return active_participants, 200
 
 
 class Participants(Resource):
@@ -247,6 +273,7 @@ class Participants(Resource):
         """
         On a get request on the /participants endpoint we return
         all the participants stored (who completed the test).
+        This JSON structure is required for the Excel file.
         :return: If the request is valid, a JSON object with the participants and code 200
         """
 
