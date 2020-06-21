@@ -1,8 +1,7 @@
 const io = require("socket.io-client");
 let socket = undefined;
 export const withToken = (token) => {
-  console.log(token);
-  socket = io("ws://localhost:8000", {
+  socket = io(`${process.env.REACT_WEB_SOCKETS_URL}`, {
     transportOptions: {
       polling: {
         extraHeaders: {

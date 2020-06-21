@@ -14,6 +14,13 @@ The following repo contains the source code for the client data-collection appli
 
 ## How to run
 
+### Update .env
+
+Make sure the details of your application are correctly written in .env file:
+
+``cp .env_example .env``
+
+
 In the project directory, you can run:
 
 ### `npm start`
