@@ -23,7 +23,7 @@ const Finish = (props) => {
           <Grid item xs={12} sm={9}>
               {props.text}
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={9} style={{textAlign: 'center'}}>
             <TextField id="outlined-basic" style={{margin: 'auto'}} label="Email (optioneel)" variant="outlined" onChange={(event) => setemail(event.target.value)} />
           </Grid>
           {/*button*/}
