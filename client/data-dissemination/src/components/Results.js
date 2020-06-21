@@ -28,8 +28,8 @@ const Results = (props) => {
                     </Paper>
                 </Grid>
                 {/*other information*/}
-                <Grid item xs={9} sm={9} > 
-                        <Typography style={{ textAlign: "justify" }} variant="body1">
+                <Grid item xs={11} sm={11} > 
+                        <Typography style={{ textAlign: "center" }} variant="body1">
                                 Het idee dat STEM (Science, Technology, Engineering en
                                 Mathematics) niks voor meisjes is, is een boodschap die kinderen
                                 al vroeg meekrijgen. Soms expliciet, maar vaker impliciet
@@ -39,7 +39,7 @@ const Results = (props) => {
                                 te doorbreken zijn:
                           </Typography>
                 </Grid>
-                <Grid item xs={9} sm={9}>
+                <Grid item xs={10} sm={10}>
                 <ul>
                                 <li>
                                     Herken en erken je eigen genderstereotiepe beelden en bestrijd

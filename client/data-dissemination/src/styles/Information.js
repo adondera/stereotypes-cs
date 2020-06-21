@@ -2,7 +2,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
     root: {
-        width: '95%',
+        width: '100%',
         margin: 'auto',
         flexGrow: 1,
         marginTop: '20px',
