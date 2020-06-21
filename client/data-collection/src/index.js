@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import AppError from "./hoc/AppError";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -9,13 +10,15 @@ import rootReducer from "./reducers";
 import { devToolsEnhancer } from "redux-devtools-extension";
 // import { BrowserRouter } from "react-router-dom";
 
-const store = createStore(rootReducer, devToolsEnhancer());
+export const store = createStore(rootReducer, devToolsEnhancer());
 ReactDOM.render(
-  <Provider store={store}>
-    {/* <BrowserRouter> */}
-      <App/>
-    {/* </BrowserRouter> */}
-  </Provider>,
+  <AppError>
+    <Provider store={store}>
+      {/* <BrowserRouter> */}
+      <App />
+      {/* </BrowserRouter> */}
+    </Provider>
+  </AppError>,
   document.getElementById("root")
 );
 

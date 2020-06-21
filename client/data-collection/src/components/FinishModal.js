@@ -1,9 +1,7 @@
 import "../styles/Question.css";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Fade from "@material-ui/core/Fade";
-import { Button } from "@material-ui/core";
+import { Button, TextField, Modal, Fade } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -20,8 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
+const FinishModal = ({ show, handleCloseQuiz, handleCloseModal, onSkipQuiz }) => {
   const classes = useStyles();
+  const textRef = React.createRef()
+
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -34,23 +35,43 @@ const FinishModal = ({ show, handleCloseQuiz, handleCloseModal }) => {
       <Fade in={show}>
         <div className={classes.paper}>
           <h2 id="transition-modal-title">Please confirm closing quiz.</h2>
-          <h6 id="transition-modal-description">
-            If you finish the quiz now, all the answers so far will be removed.
-            Click Confirm if you want to close
-          </h6>
+          <h5 id="transition-modal-description">
+            Confirm by entering the code and clicking on one of the options (send: data is sent, remove: data is removed).
+          </h5>
+          <TextField inputRef={textRef} autoFocus={true}  inputProps={{style: {textAlign: "center"}}}/>
+          <br/>
           <Button
-            style={{ margin: "auto" }}
+            style={{ margin: "auto", marginTop: 10}}
+            variant='contained'
+            color='secondary'
             onClick={() => {
-              handleCloseModal();
-              handleCloseQuiz();
+              if(textRef.current.value === "NEMO"){
+                handleCloseModal();
+                handleCloseQuiz();
+              }
             }}
           >
-            Confirm
+            Remove
+          </Button>
+          <br/>
+          <Button
+            variant='contained'
+            color='primary'
+            style={{ margin: "auto", marginTop: 10 }}
+            onClick={() => {
+              if(textRef.current.value === "NEMO"){
+                handleCloseModal();
+                onSkipQuiz()
+              }
+            }}
+          >
+            Send
           </Button>
         </div>
       </Fade>
     </Modal>
   );
 };
+
 
 export default FinishModal;

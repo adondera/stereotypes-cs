@@ -8,13 +8,19 @@ from flask_jwt_extended import create_refresh_token, create_access_token, jwt_re
 from api import bcrypt
 from api.endpoints.constants import ANSWERS
 from api.models import User
-import api.endpoints.validation as valid
+from api.endpoints import validation as valid
 
 
 class Login(Resource):
+    """
+    Login resource that deals with the first authentication
+    We get a access and refresh token here
+    """
+
     def post(self):
         """Route for application login.
             Sends back a JSON with an access and a refresh token"""
+
         validators = {
             'username': valid.validate_string,
             'password': valid.validate_string
@@ -30,7 +36,8 @@ class Login(Resource):
         if not (user and bcrypt.check_password_hash(user.password, password)):
             return ANSWERS[403], 403
 
-        # Use create_access_token() and create_refresh_token() to create our access and refresh tokens
+        # Use create_access_token() and create_refresh_token()
+        # to create our access and refresh tokens
         ret = {
             'access_token': create_access_token(identity=username, fresh=True),
             'refresh_token': create_refresh_token(identity=username)
@@ -39,10 +46,16 @@ class Login(Resource):
 
 
 class FreshLogin(Resource):
+    """
+    Resource that deals with authenticating to get back an access token
+    No refresh token is provided
+    """
+
     @jwt_refresh_token_required
     def post(self):
         """Route to get a fresh access token by entering credentials again
             Returns a json with a fresh access token"""
+
         validators = {
             'username': valid.validate_string,
             'password': valid.validate_string

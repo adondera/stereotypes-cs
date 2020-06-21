@@ -30,7 +30,8 @@ export const onSubmit = (username, password, dispatch) => {
   };
   login(
     data,
-    (res) => dispatch(onLoggedIn(res.data.access_token)),
+    (res) => {
+      dispatch(onLoggedIn(res.data.access_token))},
     () => dispatch(onLoginFailed())
   );
   return {

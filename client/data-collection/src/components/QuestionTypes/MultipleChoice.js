@@ -1,102 +1,103 @@
 import React, { useState } from "react";
 import { saveQuestionAction } from "../../actions/question";
 import { connect } from "react-redux";
-import { Test, QuestionGroup, Option } from "react-multiple-choice";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Slide from "@material-ui/core/Slide";
-import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Question.css";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  card: {
-    maxWidth: 345,
-  },
-  nextButton: {
-    marginTop: 20,
-  },
-  choices: {
-    margin: "auto",
-  },
-}));
+import useStyles from "../../styles/MultipleChoice";
+import CardHeader from "@material-ui/core/CardHeader";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
 
 const MultipleChoice = (props) => {
   const classes = useStyles();
-  const [state, setQuestionAnswer] = useState({ answer: 0 });
+  const [state, setQuestionAnswer] = useState({ answers: [] });
   const onClick = () => {
-    setQuestionAnswer({ answer: 0 });
-    props.submitSelectedChoice(state.answer, props.type);
+    props.submitSelectedChoice(state);
     props.onNext();
+    setQuestionAnswer({ answers: [] });
   };
-  const onSelectedOption = (selectedOptions) => {
+  const onSelectedOption = (event) => {
     setQuestionAnswer({
-      answer: selectedOptions["selected-answer"],
+      answers: parseInt(event.target.value),
+      question_id: props.id,
     });
   };
-
   return (
     <React.Fragment>
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Slide
-              direction="down"
-              in={true}
-              key={props.questionIndex}
-              mountOnEnter
+      <CssBaseline />
+      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+        <Typography
+          component="p"
+          variant="h4"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          {props.text}
+        </Typography>
+      </Container>
+      <Container maxWidth="md" component="main">
+        <Grid container spacing={5} alignItems="flex-end">
+          <Grid item xs={12} md={6} style={{ margin: "auto" }}>
+            <Card>
+              <CardHeader
+                title="Select only one answer"
+                titleTypographyProps={{ align: "center" }}
+                subheaderTypographyProps={{ align: "center" }}
+                action={null}
+                className={classes.cardHeader}
+              />
+              <CardContent className="MultipleChoice">
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender1"
+                  value={state.answers}
+                  onChange={onSelectedOption}
+                >
+                  {props.choices.map((option, index) => {
+                    var isSelected = option.choice_num === state.answers;
+                    return (
+                      <div
+                        key={index}
+                        style={{
+                          textAlign: "center",
+                          padding: "0.5em",
+                          borderRadius: 8,
+                          backgroundColor: isSelected
+                            ? "rgba(63,81,181,0.1)"
+                            : null,
+                        }}
+                      >
+                        <FormControlLabel
+                          className="controlLabel"
+                          style={{ width: "100%", margin: "auto" }}
+                          value={option.choice_num}
+                          control={<Radio color="primary" />}
+                          label={option.text}
+                        />
+                      </div>
+                    );
+                  })}
+                </RadioGroup>
+              </CardContent>
+            </Card>
+            <Button
+              style={{ marginTop: "20px" }}
+              className={classes.nextButton}
+              variant="contained"
+              disabled={state.answers.length === 0}
+              onClick={onClick}
             >
-              <Card className={classes.root}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {props.text}
-                </Typography>
-                <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  ></Typography>
-                  <Test
-                    className={classes.choices}
-                    onOptionSelect={onSelectedOption}
-                  >
-                    <QuestionGroup
-                      key={props.questionIndex}
-                      questionNumber={"selected-answer"}
-                    >
-                      {props.options.map((option, index) => {
-                        return (
-                          <Option key={index} value={(index + 1).toString()}>
-                            {option}
-                          </Option>
-                        );
-                      })}
-                    </QuestionGroup>
-                  </Test>
-                </CardContent>
-              </Card>
-            </Slide>
+              VOLGENDE
+            </Button>
           </Grid>
         </Grid>
-        <Button
-          className={classes.nextButton}
-          variant="contained"
-          disabled={state.answer === 0}
-          onClick={onClick}
-        >
-          NEXT
-        </Button>
-      </div>
+      </Container>
     </React.Fragment>
   );
 };
@@ -109,9 +110,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitSelectedChoice: (answer, questionType) => {
-      const data = { answer: answer };
-      dispatch(saveQuestionAction(data, questionType));
+    submitSelectedChoice: (answer) => {
+      dispatch(saveQuestionAction(answer));
     },
   };
 };

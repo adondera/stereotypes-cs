@@ -10,7 +10,8 @@ stages:
   - lint
   - build
   - test
-  - deploy
+  - deploy-staging
+  - deploy-production
 cache:
   paths:
   - client/data-collection/node_modules/
@@ -74,6 +75,7 @@ pytest:
   image: python:3.8.2
   services:
   - postgres:alpine
+  - redis:latest
   variables:
     POSTGRES_DB: test
     POSTGRES_USER: test
@@ -86,35 +88,95 @@ pytest:
   - coverage report
 
 
-deploy_staging:
-  stage: deploy
+deploy_staging_backend:
+  stage: deploy-staging
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout dev
-    - git remote remove stage
-    - git remote add stage https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science-dev.git
-    - git push stage dev:master
-    - echo "Deployed to Staging Server https://nemo-live-science-dev.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
   environment:
-    name: staging
+    name: deploy-staging
     url: https://nemo-live-science-dev.herokuapp.com/
   when: manual
   only:
     - dev
 
-deploy_production:
-  stage: deploy
+
+deploy_staging_consent:
+  stage: deploy-staging
+  image: ruby:latest
   script:
-    - git config user.email "a.d.manolache@student.tudelft.nl"
-    - git config user.name "amanolache"
-    - git checkout master
-    - git remote remove pro
-    - git remote add pro https://heroku:$HEROKU_API_KEY@git.heroku.com/nemo-live-science.git
-    - git push pro master:master
-    - echo "Deployed to Production Server https://nemo-live-science.herokuapp.com"
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/client-consent-app
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
   environment:
-    name: production
+    name: deploy-staging
+    url: https://frontend-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+
+deploy_staging_collection:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/data-collection
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
+  environment:
+    name: deploy-staging
+    url: https://collection-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+
+deploy_staging_dissemination:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/data-dissemination
+    # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
+  environment:
+    name: deploy-staging
+    url: https://dissemination-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+    
+
+deploy_production_backend:
+  stage: deploy-production
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=nemo-live-science --api-key=$HEROKU_API_KEY
+  environment:
+    name: deploy-production
     url: https://nemo-live-science.herokuapp.com/
   when: manual
   only:

@@ -1,11 +1,13 @@
 .Form {
-  width: 50%;
+  width: 80%;
   margin: auto;
-  text-align: justify;
+  text-align: left;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .Header {
-  padding-top: 20px;
   text-align: center;
 }
 
@@ -14,15 +16,15 @@
 }
 
 .Footer {
-  padding-top: 30px;
   text-align: center;
   margin: auto;
+  padding-bottom: 20px;
 }
 
 .Signature {
   margin: auto;
   width: 70%;
-  height: 60px;
+  height: 200px;
   border-style: solid;
   border-width: 1px;
   overflow: hidden;
@@ -33,7 +35,7 @@
 }
 
 .Paragraph {
-  padding-bottom: 0px;
+  padding-bottom: 20px;
   font-size: 10px;
   color: dimgrey;
 }
@@ -50,11 +52,11 @@
 
 .Logo {
   margin: auto;
-  width: 50%;
+  width: 90%;
 }
 
 .PlusMinusButton {
-  padding-top: 20px;
+  padding-top: 30px;
   margin: auto;
   text-align: center;
 }

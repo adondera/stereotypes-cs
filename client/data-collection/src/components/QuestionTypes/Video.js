@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useState } from "react";
 import Spinner from "@material-ui/core/CircularProgress";
+import {videoWasPlayed} from '../../actions/question'
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +72,7 @@ const Video = (props) => {
                     ? classes.videoHide
                     : classes.video
                 }
-                videoId={props.videoId}
+                videoId={props.video}
                 onReady={onReady}
                 opts={opts}
                 onEnd={() => setstate({ ...state, isPlayedOnce: true })}
@@ -88,11 +90,12 @@ const Video = (props) => {
                 color="primary"
                 className={classes.playButton}
                 onClick={() => {
+                  props.videoWasPlayed()
                   setstate({ ...state, isPlayed: true });
                   videoRef.current.internalPlayer.playVideo();
                 }}
               >
-                Play
+                Afspelen
               </Button>
               )}
               </React.Fragment>
@@ -108,7 +111,7 @@ const Video = (props) => {
                   videoRef.current.internalPlayer.playVideo();
                 }}
               >
-                Replay
+                SPEEL OPNIEUW AF
               </Button>
             ) : null}
           </Card>
@@ -122,11 +125,23 @@ const Video = (props) => {
           disabled={!state.isPlayedOnce}
           hidden={!state.isPlayedOnce}
         >
-          Next
+          VOLGENDE
         </Button>
       ) : null}
     </div>
   );
 };
 
-export default Video;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    videoWasPlayed: () => dispatch(videoWasPlayed())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Video);

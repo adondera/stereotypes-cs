@@ -7,16 +7,22 @@ import Button from "@material-ui/core/Button";
 import "./style/Form.css";
 import Child from "./ChildField";
 import Parent from "./ParentField";
+import Email from "./EmailField";
 import Loader from "../../common/Loader";
-
+import InputLabel from "@material-ui/core/InputLabel";
+import validator from "validator";
+import Typography from "@material-ui/core/Typography";
 const max_no_children = process.env.REACT_APP_NO_CHILD;
 
 class Footer extends Component {
   constructor(props) {
     super(props);
     this.signatureDiv = { width: 300, height: 100 };
+    this.emailRef = React.createRef();
     this.props = props;
+
     this.state = {
+      isMailInvalid: false,
       isSigned: false,
       hasValidFields: false,
       isSubmittable: false,
@@ -24,9 +30,25 @@ class Footer extends Component {
       signature: null,
       children: [{ firstName: "", lastName: "", isValid: false }],
       parent: { firstName: "", lastName: "", isValid: false },
+      email: "",
     };
   }
 
+  onSubmit = () => {
+    if (
+      validator.isEmail(this.emailRef.current.value) ||
+      this.emailRef.current.value === ""
+    ) {
+      const dataToSend = { ...this.state, email: this.emailRef.current.value };
+      this.props.onSubmit(dataToSend)();
+    } else {
+      this.setState({ ...this.state, isMailInvalid: true });
+      setTimeout(
+        () => this.setState({ ...this.state, isMailInvalid: false }),
+        2000
+      );
+    }
+  };
   componentDidMount = () => {
     this.signatureRef.off();
     this.signatureRef.getCanvas().width = document
@@ -80,7 +102,7 @@ class Footer extends Component {
     if (this.state.isAgreed) {
       this.signatureRef.clear();
       this.signatureRef.off();
-      this.setState({ isSubmittable: false,isAgreed: false, isSigned: false });
+      this.setState({ isSubmittable: false, isAgreed: false, isSigned: false });
     } else {
       this.signatureRef.on();
       this.setState({ isAgreed: true });
@@ -91,12 +113,16 @@ class Footer extends Component {
     var parent = this.state.parent;
     return (
       <div className="Footer">
-        <Grid container spacing={3} className="TextFields">
-          <Parent
-            firstName={parent.firstName}
-            lastName={parent.lastName}
-            component={this}
-          />
+        <Grid container spacing={3} className="TextFields" justify="center">
+        <Typography
+            variant="body1"
+            component="div"
+            style={{ padding: 12, width: '100%' }}
+            className="Paragraph"
+            align="left"
+          >
+            heeft [voor- en achternaam kind(eren)] <br/>
+          </Typography>
           {this.state.children.map((child, index) => {
             return (
               <Child
@@ -108,40 +134,78 @@ class Footer extends Component {
               />
             );
           })}
+            <div className="PlusMinusButton">
+              {this.state.children.length > max_no_children ? null : (
+                <div className="Button">
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    onClick={this.onAddClick}
+                  >
+                    +
+                  </Button>
+                </div>
+              )}
+              {this.state.children.length === 1 ? null : (
+                <div className="Button">
+                  <Button
+                    className="Button"
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    onClick={this.onRemoveClick}
+                  >
+                    -
+                  </Button>
+                </div>
+              )}
+            </div>
+          <Typography
+            variant="body1"
+            component="div"
+            style={{ padding: 12, marginTop: 20 }}
+            className="Paragraph"
+            align="left"
+          >
+            deelgenomen aan op het bovenstaande vermelden en beschreven
+            onderzoek. Door ondertekening van dit formulier geef ik
+            uitdrukkelijk toestemming tot deelname aan het onderzoek binnen
+            NEMO’s Science Live programma.
+            <br />
+            <br />
+            Voor- en achternaam ouder/voogd:
+          </Typography>
+          <Parent
+            firstName={parent.firstName}
+            lastName={parent.lastName}
+            component={this}
+          />
+          <Email ref={this.emailRef} />
         </Grid>
-        <div className="PlusMinusButton">
-          {this.state.children.length > max_no_children ? null : (
-            <div className="Button">
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                disableElevation
-                onClick={this.onAddClick}
-              >
-                +
-              </Button>
-            </div>
-          )}
-          {this.state.children.length === 1 ? null : (
-            <div className="Button">
-              <Button
-                className="Button"
-                size="small"
-                variant="contained"
-                color="primary"
-                disableElevation
-                onClick={this.onRemoveClick}
-              >
-                -
-              </Button>
-            </div>
-          )}
-        </div>
-        <Grid item xs={12}>
+        <InputLabel
+          style={{
+            marginTop: 10,
+            visibility: this.state.isMailInvalid ? "visible" : "hidden",
+          }}
+          error={true}
+        >
+          {" "}
+          Ongeldig e-mail{" "}
+        </InputLabel>
+        <Grid item xs={12} style={{ marginTop: "20px" }}>
           <FormControlLabel
-            control={<Checkbox onClick={this.agreedChanged} color="secondary" name="agree" value="yes" />}
-            label="Agree to share data and sign"
+            control={
+              <Checkbox
+                onClick={this.agreedChanged}
+                color="secondary"
+                name="agree"
+                value="yes"
+              />
+            }
+            label="Ga akkoord om gegevens te delen en teken hieronder*"
           />
         </Grid>
         <Grid item xs={12}>
@@ -174,9 +238,9 @@ class Footer extends Component {
             size="large"
             disableElevation={true}
             disabled={!this.state.isSubmittable}
-            onClick={this.props.onSubmit(this.state)}
+            onClick={this.onSubmit}
           >
-            Submit
+            Verzenden
           </Button>
         )}
       </div>

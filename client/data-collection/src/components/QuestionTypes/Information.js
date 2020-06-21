@@ -1,30 +1,36 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import Slide from "@material-ui/core/Slide"
-import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import useStyles from '../../styles/Information'
+
 const Information = (props) => {
-    return (
-        <div>
-            <Slide direction="left" in={true} mountOnEnter>
-            <Card>
-                <CardContent>
-                    <Typography style={{marginTop: 20}} variant="h3">
-                        {props.header}
-                    </Typography>
-                    <Typography style={{marginTop: 20, textAlign: "justify"}} variant="h6">
-                        {props.body}
-                    </Typography>
-                </CardContent>
-            </Card>
-            </Slide>
-            {/*<button onClick={props.onNext}>NEXT</button>*/}
-            <Button variant="contained" style={{marginTop: 20}} onClick={props.onNext}>
-                NEXT
-            </Button>
-        </div>
-    );
+  /*eslint-disable */
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+        <Typography
+          variant="h4"
+          align="center"
+          color="textSecondary"
+          gutterBottom
+        >
+          {props.text}
+        </Typography>
+      </Container>
+      <Button
+        variant="contained"
+        style={{ marginTop: 20 }}
+        onClick={props.onNext}
+      >
+        VOLGENDE
+      </Button>
+    </React.Fragment>
+  );
 };
 
 export default Information;
