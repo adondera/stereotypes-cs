@@ -24,7 +24,7 @@ const Finish = (props) => {
               {props.text}
           </Grid>
           <Grid item xs={12} sm={9}>
-            <TextField id="outlined-basic" label="Email (optioneel)" variant="outlined" onChange={(event) => setemail(event.target.value)} />
+            <TextField id="outlined-basic" style={{margin: 'auto'}} label="Email (optioneel)" variant="outlined" onChange={(event) => setemail(event.target.value)} />
           </Grid>
           {/*button*/}
           <Grid item xs={12} sm={12}>
