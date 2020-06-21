@@ -3,7 +3,9 @@ let socket = undefined;
 export const withToken = (token) => {
   console.log("REACT_WEB_SOCKETS_URL=", process.env.REACT_WEB_SOCKETS_URL)
   console.log("REACT_APP_SERVER_URL=", process.env.REACT_APP_SERVER_URL)
-  socket = io(`${process.env.REACT_WEB_SOCKETS_URL}`, {
+  console.log("TEST=", process.env.TEST)
+  console.log("REACT_TEST=", process.env.REACT_TEST)
+  socket = io(`${process.env.TEST}`, {
     transportOptions: {
       polling: {
         extraHeaders: {
