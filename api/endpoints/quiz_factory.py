@@ -36,7 +36,7 @@ class QuizFactory:
 
         self.response = []
         self.create_information_beginning(COLLECTION_QUIZ_BEGINNING_TEXT)
-        if self.video.data['before']:
+        if 'before' in self.video.data and self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.response.extend(self.gender_profession.create_iat())
         self.response.extend(self.social_profession.create_iat())
@@ -44,7 +44,7 @@ class QuizFactory:
         self.create_end_iat_text()
         self.response.extend(self.eat.create_eat())
         self.response.extend(self.demographics.create_demographics())
-        if self.video.data['before']:
+        if 'before' in self.video.data and not self.video.data['before']:
             self.response.extend(self.video.create_video())
         self.create_ending(COLLECTION_QUIZ_END_TEXT)
         self.create_researcher_notes()

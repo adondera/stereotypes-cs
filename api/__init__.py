@@ -36,8 +36,8 @@ app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = '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'
-app.config['MAIL_DEFAULT_SENDER'] = 'nemolivescience@gmail.com' # os.environ.get('MAIL_DEFAULT_SENDER')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
 
 mail = Mail(app)
 
