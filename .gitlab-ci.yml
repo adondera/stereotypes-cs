@@ -31,7 +31,6 @@ pylint:
   image: python:3.8.2
   script:
     - export APP_SETTINGS=config.CITestingConfig
-    - export MAIL_DEFAULT_SENDER=test
     - apt-get update -qy
     - pip3 install -r requirements.txt
     - pip3 install pylint_gitlab
@@ -83,6 +82,7 @@ pytest:
     POSTGRES_PASSWORD: test
   script:
   - export APP_SETTINGS=config.CITestingConfig
+  - export MAIL_DEFAULT_SENDER=test
   - apt-get update -qy
   - pip3 install -r requirements.txt
   - coverage run --source api --branch -m pytest api
