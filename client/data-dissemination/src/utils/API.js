@@ -7,7 +7,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `${process.env.production.REACT_APP_SERVER_URL}`,
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   responseType: "json",
 });
 

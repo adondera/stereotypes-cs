@@ -4,6 +4,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+
+### Update .env
+
+Make sure the details of your application are correctly written in .env file:
+
+``cp .env_example .env``
+
+
 ### `npm start`
 
 Runs the app in the development mode.<br />
