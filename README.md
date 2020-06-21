@@ -57,8 +57,6 @@ a ***data collection*** application and a ***data dissemination*** application.
 * The admin can see live statistics about the application
 * The admin can download the data in excel format
 
-TO DO!
-
 ## :camera: Screenshots 
 
 ![image](docs/screenshots/iat_gender.png) <!-- .element height="20%" width="20%" -->
@@ -155,9 +153,16 @@ $ docker-compose --version
 docker-compose version 1.25.0
 ```
 
+
+```sh
+$ cp client/client-consent-app/.env_example client/client-consent-app/.env
+$ cp client/client/data-collection/.env_example client/client/data-collection/.env
+$ cp client/client/data-dissemination/.env_example client/client/data-dissemination/.env
+```
+
 ```sh
 $ sudo chmod +x start.sh
-$ sudo ./script-name-here.sh
+$ sudo ./start.sh
 
 OR
 
@@ -168,6 +173,29 @@ $ sudo docker-compose up
 >* The ***consent form*** is on [http://localhost:3001/](http://localhost:3001/)
 >* The ***client-data-collection*** is on [http://localhost:3002/](http://localhost:3002/)
 >* The ***client-data-dissemination*** is on [http://localhost:3003/](http://localhost:3003/)
+
+
+:warning: In order to also populate the database with dummy data you also need to do the following in a new terminal window:
+
+```sh
+$ docker ps
+```
+```
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+...
+5e760610e30a        stereotypescs_app   "gunicorn -k geventw…"   2 minutes ago       Up 2 minutes                            stoic_bell
+...
+```
+```sh
+$ docker exec -it <CONTAINER_ID> /bin/bash
+```
+**In this example, <CONTAINER_ID> should be replaced by 5e760610e30a.**
+```sh
+$ python3 -c 'from api.script import *; populate();'
+```
+
+
+
 
 
 ## :zap: Usage 
@@ -185,51 +213,51 @@ How are the folders organised. Where to find stuff.
 ```
 .
 ├── api
-│   ├── endpoints
-│   │   ├── auth.py
-│   │   ├── consent.py
-│   │   ├── dashboard.py
-│   │   └── ...
-│   ├── models
-│   │   ├── category.py
-│   │   ├── question.py
-│   │   ├── participant.py
-│   │   └── ...
-│   ├── static
-│   │   └── IATs
-│   ├── tests
-│   │   ├── test_files
-│   │   ├── conftest.py
-│   │   ├── test_requests.py
-│   │   └── ...
-│   ├── __init__.py
-│   ├── README.md
-│   └── script.py
+│   ├── endpoints
+│   │   ├── auth.py
+│   │   ├── consent.py
+│   │   ├── dashboard.py
+│   │   └── ...
+│   ├── models
+│   │   ├── category.py
+│   │   ├── question.py
+│   │   ├── participant.py
+│   │   └── ...
+│   ├── static
+│   │   └── IATs
+│   ├── tests
+│   │   ├── test_files
+│   │   ├── conftest.py
+│   │   ├── test_requests.py
+│   │   └── ...
+│   ├── __init__.py
+│   ├── README.md
+│   └── script.py
 ├── client
-│   ├── client-consent-app
-│   │   ├── public
-│   │   ├── src
-│   │   ├── app.js
-│   │   └── ...
-│   ├── data-collection
-│   │   ├── public
-│   │   ├── selenium_tests
-│   │   ├── src
-│   │   ├── app.js
-│   │   └── ...
-│   └── data-dissemination
-│       ├── public
-│       ├── src
-│       ├── app.js
-│       └── ...
+│   ├── client-consent-app
+│   │   ├── public
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   ├── data-collection
+│   │   ├── public
+│   │   ├── selenium_tests
+│   │   ├── src
+│   │   ├── app.js
+│   │   └── ...
+│   └── data-dissemination
+│       ├── public
+│       ├── src
+│       ├── app.js
+│       └── ...
 ├── docs
-│   ├── client_meetings
-│   ├── sprint_retrospectives
-│   ├── team_meetings
-│   └── ...
+│   ├── client_meetings
+│   ├── sprint_retrospectives
+│   ├── team_meetings
+│   └── ...
 ├── migrations
-│   ├── versions
-│   └── ...
+│   ├── versions
+│   └── ...
 ├── .gitignore
 ├── .gitlab-ci.yml
 ├── config.py
@@ -322,10 +350,10 @@ Explaining how to run the static analysis tools for this system.
 
 ### *Client-side*
 
-For the client-side we used ***lintJS*** as a static analysis tool.
+For the client-side we used ***eslint*** as a static analysis tool.
 
 ```
-TO DO
+$ npx eslint .
 ```
 
 ### *Server-side*
@@ -395,12 +423,10 @@ Any contributions you make are **greatly appreciated**.
 
 ### Client-side
 * [React](https://github.com/facebook/create-react-app) - The web framework used
-* [Axios](https://github.com/axios/axios) - blabla
-* [Material UI](https://material-ui.com/) - blabla
-* [React-Redux](https://react-redux.js.org/) - blabla
-* [React-Router](https://github.com/ReactTraining/react-router) - blabla
-
-TO DO!
+* [Axios](https://github.com/axios/axios) - Promise based HTTP client
+* [Material UI](https://material-ui.com/) -  A popular React UI framewor
+* [React-Redux](https://react-redux.js.org/) - A Predictable State Container for JS Apps
+* [React-Router](https://github.com/ReactTraining/react-router) - Declarative Routing for ReactJS
 
 ### Server-side
 
