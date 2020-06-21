@@ -1,0 +1,73 @@
+.Form {
+  width: 80%;
+  margin: auto;
+  text-align: left;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.Header {
+  text-align: center;
+}
+
+.Body {
+  padding-top: 40px;
+}
+
+.Footer {
+  text-align: center;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+.Signature {
+  margin: auto;
+  width: 70%;
+  height: 200px;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  display: inline-block;
+  border-color: grey;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.Paragraph {
+  padding-bottom: 20px;
+  font-size: 10px;
+  color: dimgrey;
+}
+
+.Information {
+  padding-top:  30px;
+  padding-bottom: 30px;
+}
+
+.Titles {
+  color: grey;
+  font-weight: bold;
+}
+
+.Logo {
+  margin: auto;
+  width: 90%;
+}
+
+.PlusMinusButton {
+  padding-top: 30px;
+  margin: auto;
+  text-align: center;
+}
+
+.Button {
+  padding:10px;
+  display: inline;
+}
+
+.Loading {
+  width: 100%;
+  margin-top: 30%;
+  text-align: center;
+}

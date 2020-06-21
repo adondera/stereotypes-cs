@@ -1,0 +1,51 @@
+{
+  "gender_profession": [
+    {
+      "left_categ": [3],
+      "right_categ": [4]
+    },
+    {
+      "left_categ": [1],
+      "right_categ": [2]
+    },
+    {
+      "left_categ": [3, 1],
+      "right_categ": [4, 2]
+    },
+    {
+      "left_categ": [2],
+      "right_categ": [1]
+    },
+    {
+      "left_categ": [3, 2],
+      "right_categ": [4, 1]
+    }
+  ],
+  "social_profession": [],
+  "hobby_profession": [
+    {
+      "left_categ": [7],
+      "right_categ": [8]
+    },
+    {
+      "left_categ": [3, 7],
+      "right_categ": [4, 8]
+    },
+    {
+      "left_categ": [8],
+      "right_categ": [7]
+    },
+    {
+      "left_categ": [3, 8],
+      "right_categ": [4, 7]
+    }
+  ],
+
+  "eat": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+
+  "video": {
+    "id": 16,
+    "before": false
+  },
+  "demographics": [17, 18, 19, 1, 2, 3, 4]
+}

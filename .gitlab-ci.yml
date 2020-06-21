@@ -1,5 +1,4 @@
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 #AWS access keys stored as secret variables 
@@ -11,11 +10,14 @@ stages:
   - lint
   - build
   - test
+  - deploy-staging
+  - deploy-production
 cache:
   paths:
   - client/data-collection/node_modules/
 
-lint:
+lintJS:
+  image: node:latest
   stage: lint
   script:
     - cd client/data-collection/
@@ -24,7 +26,31 @@ lint:
     - npm install
     - npx eslint .
 
-build:
+pylint:
+  stage: lint
+  image: python:3.8.2
+  script:
+    - export APP_SETTINGS=config.CITestingConfig
+    - apt-get update -qy
+    - pip3 install -r requirements.txt
+    - pip3 install pylint_gitlab
+    - mkdir -p public/badges public/lint
+    - echo undefined > public/badges/$CI_JOB_NAME.score
+    - pylint --exit-zero --output-format=text --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api | tee /tmp/pylint.txt
+    - sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > public/badges/$CI_JOB_NAME.score
+    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabCodeClimateReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > codeclimate.json
+    # - pylint --exit-zero --output-format=pylint_gitlab.GitlabPagesHtmlReporter --load-plugins "pylint_flask_sqlalchemy, pylint_flask" api > public/lint/index.html
+
+    - anybadge --overwrite --label $CI_JOB_NAME --value=$(cat public/badges/$CI_JOB_NAME.score) --file=public/badges/pylint.svg 4=red 6=orange 8=yellow 10=green
+    - |
+      echo "Your score is: $(cat public/badges/$CI_JOB_NAME.score)"
+  artifacts:
+    paths:
+      - public/badges/pylint.svg
+
+
+buildJS:
+  image: node:latest
   stage: build
   script:
     - cd client/data-collection
@@ -34,11 +60,125 @@ build:
       expire_in: 1 hour
       paths:
         - client/data-collection/build
-test:
+
+testJS:
+  image: node:latest
   stage: test
   script:
     - cd client/data-collection
     - npm install 
     - npm install JayDew/react-likert-scale
     - npm run test
+
+pytest:
+  stage: test
+  image: python:3.8.2
+  services:
+  - postgres:alpine
+  - redis:latest
+  variables:
+    POSTGRES_DB: test
+    POSTGRES_USER: test
+    POSTGRES_PASSWORD: test
+  script:
+  - export APP_SETTINGS=config.CITestingConfig
+  - apt-get update -qy
+  - pip3 install -r requirements.txt
+  - coverage run --source api --branch -m pytest api
+  - coverage report
+
+
+deploy_staging_backend:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
+  environment:
+    name: deploy-staging
+    url: https://nemo-live-science-dev.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+
+deploy_staging_consent:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/client-consent-app
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
+  environment:
+    name: deploy-staging
+    url: https://frontend-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+
+deploy_staging_collection:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/data-collection
+      # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
+  environment:
+    name: deploy-staging
+    url: https://collection-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+
+
+deploy_staging_dissemination:
+  stage: deploy-staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - cd client/data-dissemination
+    # change server URL
+    - cp .env .env.bak
+    - sed -i -e 's/http:\/\/localhost:8000/https:\/\/nemo-live-science-dev.herokuapp.com/g' .env
+    - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
+    - mv .env.bak .env
+  environment:
+    name: deploy-staging
+    url: https://dissemination-nemo.herokuapp.com/
+  when: manual
+  only:
+    - dev
+    
+
+deploy_production_backend:
+  stage: deploy-production
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=nemo-live-science --api-key=$HEROKU_API_KEY
+  environment:
+    name: deploy-production
+    url: https://nemo-live-science.herokuapp.com/
+  when: manual
+  only:
+    - master
 
