@@ -18,7 +18,6 @@ CSE2000 Software Project
 
 * [Overview](#book-overview)
 * [Features](#beginner-features)
-* [Screenshots](#camera-screenshots)
 * [Getting started](#checkered_flag-getting-started)
   * [Prerequisites](#prerequisites-gear) 
   * [Installation](#installation-electric_plug)
@@ -34,6 +33,7 @@ CSE2000 Software Project
 * [Authors](#sunglasses-authors)
 * [License](#lock-license)
 * [Acknowledgements](#star2-acknowledgements)
+* [Screenshots](#camera-screenshots)
 
 
 ## :book: Overview 
@@ -52,14 +52,22 @@ a ***data collection*** application and a ***data dissemination*** application.
 
 * Parents can complete a digital consent form for their children
 * Children can take an IAT test 
+* The IAT test contains:
+    * binary questions
+    * multiple choice questions
+    * likert questions
+    * open questions
+    * information text
+    * video intervention
 * Test answers are stored in a database
-* Test results can be send by email
-* The admin can see live statistics about the application
-* The admin can download the data in excel format
-
-## :camera: Screenshots 
-
-![image](docs/screenshots/iat_gender.png) <!-- .element height="20%" width="20%" -->
+* Test results are processed automatically
+* The results can be send by email
+* The admin can:
+    * see live statistics about the application
+    * see the name of participants that have taken the test in the last hour
+    * download the data in excel format
+    * select different quiz version
+    * send or remove the quiz data if the test is not finished
 
 ## :checkered_flag: Getting started 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
@@ -286,11 +294,12 @@ How are the folders organised. Where to find stuff.
 
 1. Start the client collection application
 1. Log-in with username **admin** and password **admin** 
-1. Select a test version and press "Load Question" to enter the test
+1. Select a test version and press "Load Questions" and then "Start Session" to enter the test
 1. Register a child via the consent app.
 1. You should now see the child name on the starting page. 
-1. Press start to start the test
+1. Press "Begin" to start the test
 1. Follow the instructions to complete the test
+2. If you want to skip to the end of the quiz, press "q" button
 1. At the end you can enter additional notes in the open box
 1. Use the **NEMO** code to submit the test 
 1. You should be redirected back to the start page
@@ -465,4 +474,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 * NEMO Science Museum
 * Leiden University
 * Delft University of Technology
+
+
+## :camera: Screenshots 
+
+![image](docs/screenshots/1.png)
+![image](docs/screenshots/3.png)
+![image](docs/screenshots/4.png)
+![image](docs/screenshots/5.png)
+![image](docs/screenshots/6.png)
+![image](docs/screenshots/7.png)
+![image](docs/screenshots/8.png)
+![image](docs/screenshots/9.png)
+![image](docs/screenshots/10.png)
 
