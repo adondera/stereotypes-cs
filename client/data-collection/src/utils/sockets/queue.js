@@ -1,7 +1,7 @@
 const io = require("socket.io-client");
 let socket = undefined;
 export const withToken = (token) => {
-  socket = io("wss://nemo-live-science-dev.herokuapp.com", {
+  socket = io(`${process.env.REACT_WEB_SOCKETS_URL}`, {
     transportOptions: {
       polling: {
         extraHeaders: {
