@@ -478,6 +478,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## :camera: Screenshots 
 
+![image](docs/screenshots/10.png)
+![image](docs/screenshots/9.png)
 ![image](docs/screenshots/1.png)
 ![image](docs/screenshots/3.png)
 ![image](docs/screenshots/4.png)
@@ -485,6 +487,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ![image](docs/screenshots/6.png)
 ![image](docs/screenshots/7.png)
 ![image](docs/screenshots/8.png)
-![image](docs/screenshots/9.png)
-![image](docs/screenshots/10.png)
+
 
