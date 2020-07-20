@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
         <ThemeProvider theme={theme}>
         <div className={classes.root}>
           <Grid container spacing={0}>
-            <Grid className={classes.paper} item xs={12}>
+            {/* <Grid className={classes.paper} item xs={12}>
             <Typography variant='h2'>{props.quizIndex}</Typography>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
             {props.children}

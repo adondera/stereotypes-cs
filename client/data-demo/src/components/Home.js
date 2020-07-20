@@ -26,7 +26,7 @@ const Home = (props) => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} style={{textAlign: 'center'}}>
-            <Typography variant='h3'>Stereotypes in CS</Typography>
+            <Typography variant='h3'>Demonstratie</Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
             <Typography style={{ textAlign: 'justify' }} variant='h6'>

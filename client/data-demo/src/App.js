@@ -34,8 +34,13 @@ function App({ quizIndex, quizData, quizIsLoaded, quizResultAvailable, quizResul
         />
       </Route>
       <Route exact path='/results'>
-        {quizResultLoading || quizResultAvailable ? null : (<Redirect to='/'/>)}
-        <Results resultsAvailable={quizResultAvailable} result={result}/>
+        <Quiz
+            quizIndex={quizIndex}
+            quizData={quizData}
+            quizIsLoaded={quizIsLoaded}
+            incrementQuizIndex={incrementQuizIndex}
+            finishQuiz={finishQuiz}
+          />
       </Route>
     </Switch>
   );

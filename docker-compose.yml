@@ -44,7 +44,14 @@
         context: ./client/data-dissemination
         dockerfile: Dockerfile
       ports:
-        - 3003:80                     
+        - 3003:80          
+    client4:
+      container_name: client4
+      build:
+        context: ./client/data-demo
+        dockerfile: Dockerfile
+      ports:
+        - 3004:80                     
   volumes:
     pgdata:
 
