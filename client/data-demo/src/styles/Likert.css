@@ -1,0 +1,23 @@
+.likertResponse>input:checked+.likertIndicator {
+    background-color: #3f51b5  !important;
+}
+.likertScale {
+    margin-top: 30px;
+    border-width: 0px !important;
+    
+}
+
+.likertResponse {
+    font-size: large;
+}
+.likertLine {
+    border-top: 0px;
+}
+.likertScale legend {
+    display: none;
+}
+
+.likertScale div label span.likertIndicator {
+    background-color: white;
+    border: solid #002984
+}
