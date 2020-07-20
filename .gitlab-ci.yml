@@ -89,72 +89,87 @@ pytest:
   - coverage report
 
 
-deploy_staging_backend:
-  stage: deploy-staging
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
-  environment:
-    name: deploy-staging
-    url: https://nemo-live-science-dev.herokuapp.com/
-  when: manual
-  only:
-    - dev
+# deploy_staging_backend:
+#   stage: deploy-staging
+#   image: ruby:latest
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - dpl --provider=heroku --app=nemo-live-science-dev --api-key=$HEROKU_API_KEY
+#   environment:
+#     name: deploy-staging
+#     url: https://nemo-live-science-dev.herokuapp.com/
+#   when: manual
+#   only:
+#     - dev
 
 
-deploy_staging_consent:
-  stage: deploy-staging
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - cd client/client-consent-app
-    - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
-  environment:
-    name: deploy-staging
-    url: https://frontend-nemo.herokuapp.com/
-  when: manual
-  only:
-    - dev
+# deploy_staging_consent:
+#   stage: deploy-staging
+#   image: ruby:latest
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - cd client/client-consent-app
+#     - dpl --provider=heroku --app=frontend-nemo --api-key=$HEROKU_API_KEY
+#   environment:
+#     name: deploy-staging
+#     url: https://frontend-nemo.herokuapp.com/
+#   when: manual
+#   only:
+#     - dev
 
 
-deploy_staging_collection:
-  stage: deploy-staging
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - cd client/data-collection
-    - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
-  environment:
-    name: deploy-staging
-    url: https://collection-nemo.herokuapp.com/
-  when: manual
-  only:
-    - dev
+# deploy_staging_collection:
+#   stage: deploy-staging
+#   image: ruby:latest
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - cd client/data-collection
+#     - dpl --provider=heroku --app=collection-nemo --api-key=$HEROKU_API_KEY
+#   environment:
+#     name: deploy-staging
+#     url: https://collection-nemo.herokuapp.com/
+#   when: manual
+#   only:
+#     - dev
 
 
-deploy_staging_dissemination:
-  stage: deploy-staging
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - cd client/data-dissemination
-    - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
-  environment:
-    name: deploy-staging
-    url: https://dissemination-nemo.herokuapp.com/
-  when: manual
-  only:
-    - dev
+# deploy_staging_dissemination:
+#   stage: deploy-staging
+#   image: ruby:latest
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - cd client/data-dissemination
+#     - dpl --provider=heroku --app=dissemination-nemo --api-key=$HEROKU_API_KEY
+#   environment:
+#     name: deploy-staging
+#     url: https://dissemination-nemo.herokuapp.com/
+#   when: manual
+#   only:
+#     - dev
     
+
+# deploy_production_backend:
+#   stage: deploy-production
+#   image: ruby:latest
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - dpl --provider=heroku --app=nemo-live-science --api-key=$HEROKU_API_KEY
+#   environment:
+#     name: deploy-production
+#     url: https://nemo-live-science.herokuapp.com/
+#   when: manual
+#   only:
+#     - master
 
 deploy_production_backend:
   stage: deploy-production
@@ -163,11 +178,10 @@ deploy_production_backend:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=nemo-live-science --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=onderzoek --api-key=$HEROKU_API_KEY
   environment:
     name: deploy-production
-    url: https://nemo-live-science.herokuapp.com/
+    url: https://onderzoek.herokuapp.com/
   when: manual
   only:
     - master
-
