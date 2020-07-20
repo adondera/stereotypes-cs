@@ -9,7 +9,7 @@ const ChoiceCard = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={4}>
+    <Grid item xs={3} style={{ height: "40px" }}>
     <Card className={classes.card}>
         <CardActionArea
           component='div'

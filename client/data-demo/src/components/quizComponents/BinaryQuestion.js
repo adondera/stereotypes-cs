@@ -71,6 +71,8 @@ const BinaryQuestion = (props) => {
             </React.Fragment>
           ))}
         </Grid>
+
+        
         {/* X */}
         <Grid item xs={4}>
           <Typography
@@ -92,10 +94,18 @@ const BinaryQuestion = (props) => {
             </React.Fragment>
           ))}
         </Grid>
+
         {/* choice card left */}
-        <Grid item xs={12} style={{ marginTop: "3em" }} />
         <ChoiceCard onClick={onClickLeft} imageLoaded={imageLoaded} />
-        <Grid item xs={4}>
+
+        <Grid item xs={6} />
+        {/* choice card right */}
+        <ChoiceCard onClick={onClickRight} imageLoaded={imageLoaded} />
+        
+        {/* <Grid item xs={12} style={{ marginTop: "3em" }} /> */}
+
+        <Grid item xs={3}/>
+        <Grid item xs={6}>
           {/* image card */}
           <ImageCard
             key={props.image.link}
@@ -107,8 +117,8 @@ const BinaryQuestion = (props) => {
             imageLoaded={imageLoaded}
           />
         </Grid>
-        {/* choice card right */}
-        <ChoiceCard onClick={onClickRight} imageLoaded={imageLoaded} />
+        <Grid item xs={3}/>
+        
       </Grid>
     </div>
   );
